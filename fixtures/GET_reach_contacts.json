@@ -20,7 +20,7 @@
       "paused_until": null,
       "consent": {
         "charter_version": "2026-11-07.1",
-        "consented_at": "2026-11-07T19:49:41+00:00",
+        "consented_at": "2026-11-07T20:27:00+00:00",
         "stopped_at": null
       },
       "has_address_on_file": true
@@ -44,7 +44,7 @@
       "paused_until": null,
       "consent": {
         "charter_version": "2026-11-07.1",
-        "consented_at": "2026-11-07T19:49:41+00:00",
+        "consented_at": "2026-11-07T20:27:00+00:00",
         "stopped_at": null
       },
       "has_address_on_file": true
@@ -68,7 +68,7 @@
       "paused_until": null,
       "consent": {
         "charter_version": "2026-11-07.1",
-        "consented_at": "2026-11-07T19:49:41+00:00",
+        "consented_at": "2026-11-07T20:27:00+00:00",
         "stopped_at": null
       },
       "has_address_on_file": true
@@ -91,7 +91,7 @@
       "paused_until": null,
       "consent": {
         "charter_version": "2026-11-07.1",
-        "consented_at": "2026-11-07T19:49:41+00:00",
+        "consented_at": "2026-11-07T20:27:00+00:00",
         "stopped_at": null
       },
       "has_address_on_file": true
@@ -115,7 +115,7 @@
       "paused_until": null,
       "consent": {
         "charter_version": "2026-11-07.1",
-        "consented_at": "2026-11-07T19:49:41+00:00",
+        "consented_at": "2026-11-07T20:27:00+00:00",
         "stopped_at": null
       },
       "has_address_on_file": true
@@ -140,7 +140,7 @@
       "paused_until": null,
       "consent": {
         "charter_version": "2026-11-07.1",
-        "consented_at": "2026-11-07T19:49:41+00:00",
+        "consented_at": "2026-11-07T20:27:00+00:00",
         "stopped_at": null
       },
       "has_address_on_file": true
@@ -161,10 +161,10 @@
       "hour_pref": 8,
       "tz": "Africa/Ndjamena",
       "status": "paused",
-      "paused_until": "2026-12-07T19:49:41+00:00",
+      "paused_until": "2026-12-07T20:27:00+00:00",
       "consent": {
         "charter_version": "2026-11-07.1",
-        "consented_at": "2026-11-07T19:49:41+00:00",
+        "consented_at": "2026-11-07T20:27:00+00:00",
         "stopped_at": null
       },
       "has_address_on_file": true
@@ -188,8 +188,8 @@
       "paused_until": null,
       "consent": {
         "charter_version": "2026-11-07.1",
-        "consented_at": "2026-11-07T19:49:41+00:00",
-        "stopped_at": "2026-11-07T19:49:41+00:00"
+        "consented_at": "2026-11-07T20:27:00+00:00",
+        "stopped_at": "2026-11-07T20:27:00+00:00"
       },
       "has_address_on_file": true
     }
@@ -205,5 +205,5 @@
   "reachable": 6,
   "note": "Display names and addresses stay in the restricted registry; this list carries neither, so a screenshot of the desk cannot carry them either.",
   "served_from": "live",
-  "generated_at": "2026-11-07T19:49:45+00:00"
+  "generated_at": "2026-11-07T20:27:04+00:00"
 }

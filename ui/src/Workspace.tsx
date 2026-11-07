@@ -1,4 +1,10 @@
+import { ResponseProgress } from "./ResponseProgress";
+import { scrollToDeskSection } from "./desk-navigation";
+import { ArrivalForecast } from "./ArrivalForecast";
+import { DeskContext, ContextSection } from "./DeskContext";
 import { EvidenceLine } from "./Evidence";
+import { useArrivalReplay } from "./useArrivalReplay";
+import { PanelVisuals, AnalysisWalkthrough } from "./PanelVisuals";
 import { Journey, DecisionSnapshot } from "./Journey";
 import { LedgerRecord, LedgerColumns } from "./LedgerRecord";
 import { sampleDataEnabled, sampleRisks } from "./demo-data";
@@ -12,7 +18,9 @@ import {
 import { PortalHeader } from "./PortalHeader";
 import { VerificationTrail } from "./VerificationTrail";
 import { HistoricalLedger } from "./HistoricalLedger";
-import { DraftNarrative } from "./Grounding";
+import { bandRate, asPercent } from "./base-rates";
+import { MethodChain, CoverageAdvice, spreadNote } from "./Method";
+import { DraftNarrative, DraftRecommendation } from "./Grounding";
 import { HonestyBox, IntegrityPanel, PanelMatch } from "./V2Panels";
 import { GroupChart, Verification } from "./LiveWorkspace";
 import { useEffect, useState, type ReactNode } from "react";
@@ -124,6 +132,9 @@ function Regions() {
             <strong>{percent(region.mean!)}</strong>
           </div>
         ))}
+        {spreadNote(result) && (
+          <p className="region-note">{spreadNote(result)}</p>
+        )}
         <p className="panel-caption">
           Other regions withheld below three answers. Map is a schematic
           locator, not a boundary dataset.
@@ -137,9 +148,10 @@ function Desk() {
     import("./service").QuestionContract | null
   >(null);
   const [decision, setDecision] = useState(readDecision);
-  const [answers, setAnswers] = useState(decision ? result.n : 0);
-  const [revealed, setRevealed] = useState(!!decision);
-  const [hasDraft, setHasDraft] = useState(!!decision);
+  // Saved decisions remain in the ledger; each desk visit starts a fresh arrival run.
+  const [answers, setAnswers] = useState(0);
+  const [revealed, setRevealed] = useState(false);
+  const [hasDraft, setHasDraft] = useState(false);
   const [decisionUse, setDecisionUse] = useState(emptyDecisionUse);
   const [note, setNote] = useState("");
   const [edit, setEdit] = useState(false);
@@ -147,6 +159,9 @@ function Desk() {
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
   const [announcement, setAnnouncement] = useState("");
+  const replay = useArrivalReplay(result.n);
+  const shownAnswers = replay.active ? replay.count : answers;
+  const shownRevealed = replay.active ? replay.revealed : revealed;
   async function simulate(label: string, action: () => void) {
     setBusy(label);
     setError("");
@@ -203,6 +218,7 @@ function Desk() {
           onClick={() => {
             try {
               sessionStorage.removeItem(storageKey);
+              replay.stop();
               setDecision(null);
               setAnswers(0);
               setRevealed(false);
@@ -221,7 +237,7 @@ function Desk() {
       <Journey active={2} />
       <DecisionSnapshot
         rating={risk.probability_acaps}
-        result={revealed ? result : null}
+        result={shownRevealed ? result : null}
       />
       <div className="risk-strip">
         <div>
@@ -234,290 +250,377 @@ function Desk() {
           <small>Pulse {pulse.id}</small>
         </span>
       </div>
-      <div className="desk-grid">
+      <div className={`desk-grid ${replay.active ? "replaying" : ""}`}>
         <div className="desk-main">
+          {replay.active && (
+            <ArrivalForecast
+              count={replay.count}
+              reference={risk.probability_acaps}
+            />
+          )}
           <Panel
-            title="Sealed envelope tray"
-            detail={`Round 1 · ${answers} of ${result.n} answers`}
+            className="response-panel"
+            title={
+              shownRevealed ? "Revealed responses" : "Sealed envelope tray"
+            }
+            detail={`${replay.active ? "Arrival replay" : "Round 1"} · ${shownAnswers} of ${result.n} answers`}
           >
-            <div
-              className="envelope-tray"
-              aria-label={`${answers} sealed synthetic answers`}
-            >
-              {Array.from({ length: result.n }, (_, i) => (
-                <span
-                  key={i}
-                  className={i < answers ? "envelope filled" : "envelope"}
-                >
-                  {i < answers ? (
-                    <LockKeyhole size={22} />
-                  ) : (
-                    <Inbox size={22} />
-                  )}
-                </span>
-              ))}
-            </div>
+            <ResponseProgress
+              total={result.n}
+              count={shownAnswers}
+              revealed={shownRevealed}
+            />
             <div className="panel-actions">
-              <button
-                disabled={!!busy || answers === result.n}
-                onClick={() =>
-                  void simulate("Loading answers", () => {
-                    setAnswers(result.n);
-                    setAnnouncement(
-                      "Eight synthetic answers loaded. Ready to reveal.",
-                    );
-                  })
-                }
-              >
-                Load answers
-              </button>
+              {!replay.active ? (
+                <button
+                  disabled={!!busy}
+                  onClick={() => {
+                    replay.start();
+                    scrollToDeskSection("arrival-forecast");
+                  }}
+                >
+                  Simulate arrivals
+                </button>
+              ) : (
+                <>
+                  {replay.count < result.n && (
+                    <button onClick={replay.pause}>
+                      {replay.playing ? "Pause arrivals" : "Resume arrivals"}
+                    </button>
+                  )}
+                  <button className="text-button" onClick={replay.stop}>
+                    Close simulation
+                  </button>
+                </>
+              )}
               <button
                 className="primary"
-                disabled={!!busy || answers < 5 || revealed}
-                onClick={() =>
-                  void simulate("Revealing", () => {
-                    setRevealed(true);
-                    setAnnouncement(
-                      "Round one revealed. Eight answers in the group view.",
-                    );
-                  })
+                disabled={
+                  !!busy ||
+                  (!shownRevealed &&
+                    (replay.active ? replay.count < result.n : answers < 5))
                 }
+                onClick={() => {
+                  if (shownRevealed)
+                    scrollToDeskSection(
+                      replay.active ? "analysis-walkthrough" : "current-draft",
+                    );
+                  else if (replay.active) {
+                    replay.reveal();
+                    scrollToDeskSection("analysis-walkthrough");
+                  } else
+                    void simulate("Revealing", () => {
+                      setRevealed(true);
+                      setAnnouncement(
+                        "Round one revealed. Eight answers in the group view.",
+                      );
+                      scrollToDeskSection("current-draft");
+                    });
+                }}
               >
-                Reveal round 1
+                {shownRevealed
+                  ? replay.active
+                    ? "Analyse responses"
+                    : "Review assessment"
+                  : "Reveal round 1"}
               </button>
-              <a href="/e/demo">
-                Open expert card <ArrowRight size={14} />
-              </a>
             </div>
-            <p className="panel-caption">
-              Answers stay sealed until the round is revealed. At least five are
-              required.
-            </p>
-          </Panel>
-          <Panel
-            title="Panel distribution"
-            detail={revealed ? `n = ${result.n}` : "Sealed"}
-          >
-            {revealed && result.n >= 5 ? (
-              <ProbabilityChart />
-            ) : (
-              <div className="empty-panel">
-                <LockKeyhole size={24} />
-                <h3>Peer views stay hidden before reveal</h3>
-                <p>Reveal the round to see the group distribution.</p>
-              </div>
-            )}
-          </Panel>
-          <Panel
-            title="Draft update"
-            detail={
-              decision
-                ? `${decision.action === "accept" ? "Accepted" : decision.action === "edit" ? "Edited" : "Rejected"}`
-                : "Analyst approval required"
-            }
-          >
-            {!hasDraft ? (
-              <div className="empty-panel">
-                <FileCheck2 size={24} />
-                <p>
-                  Build a cited draft from the revealed panel and indicator
-                  evidence.
-                </p>
+            {!replay.active && (
+              <details className="round-tools">
+                <summary>Round tools</summary>{" "}
                 <button
-                  disabled={!!busy || !revealed}
+                  disabled={!!busy || replay.active || answers === result.n}
                   onClick={() =>
-                    void simulate("Preparing draft", () => {
-                      setHasDraft(true);
-                      setAnnouncement("Draft ready for analyst review.");
+                    void simulate("Loading answers", () => {
+                      setAnswers(result.n);
+                      setAnnouncement(
+                        "Eight synthetic answers loaded. Ready to reveal.",
+                      );
                     })
                   }
                 >
-                  Prepare draft
+                  Load answers
                 </button>
-              </div>
-            ) : (
-              <>
-                <div className="draft-rating">
-                  <span className="rating">
-                    Proposed probability:{" "}
-                    {decision?.probability || draft.proposed_probability}
-                  </span>
-                  <span>Risk level: {draft.proposed_level}</span>
-                </div>
-                <DraftNarrative
-                  draft={draft}
-                  themes={result.missing_themes}
-                  result={result}
+              </details>
+            )}
+            {replay.active && (
+              <div className="arrival-progress" role="status">
+                <span>
+                  {replay.count === result.n
+                    ? "All eight answers received"
+                    : replay.playing
+                      ? `Answer ${replay.count} of ${result.n} received · waiting for the next expert`
+                      : "Arrivals paused"}
+                </span>
+                <progress
+                  aria-label="Expert answers received"
+                  value={replay.count}
+                  max={result.n}
                 />
-                <div className="citations">
-                  {draft.citations.map((c) => (
-                    <a
-                      key={c.url}
-                      href={c.url}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {c.text} <ArrowRight size={13} />
-                    </a>
-                  ))}
+              </div>
+            )}
+            <p className="panel-caption">
+              {shownRevealed
+                ? "Responses opened together. Continue to compare the forecasts and review the evidence."
+                : "Answers stay sealed until reveal. At least five are required."}
+            </p>
+          </Panel>
+          <Panel title="Panel coverage" className="coverage-panel">
+            {" "}
+            <PanelVisuals
+              riskId={risk.risk_id}
+              arrived={
+                replay.active
+                  ? replay.count
+                  : answers || (revealed ? undefined : 0)
+              }
+            />
+          </Panel>
+          {replay.active && shownRevealed && (
+            <AnalysisWalkthrough
+              result={result}
+              draft={draft}
+              pulse={pulse}
+              reference={risk.probability_acaps}
+              hasDecision={!!decision}
+              onContinue={() => {
+                replay.stop();
+                setAnswers(result.n);
+                setRevealed(true);
+                setHasDraft(true);
+                scrollToDeskSection("current-draft");
+              }}
+            />
+          )}
+          {(!replay.active || !shownRevealed) && (
+            <Panel
+              title="Expert forecast versus ACAPS"
+              className="forecast-panel"
+              detail={shownRevealed ? `n = ${result.n}` : "Sealed"}
+            >
+              {shownRevealed && result.n >= 5 ? (
+                <ProbabilityChart />
+              ) : (
+                <div className="empty-panel">
+                  <LockKeyhole size={24} />
+                  <h3>Peer views stay hidden before reveal</h3>
+                  <p>Reveal the round to see the group distribution.</p>
                 </div>
-                <Verification draft={draft} />
-                {decision ? (
-                  <div className="decision-log">
-                    <h3>Decision log</h3>
+              )}
+            </Panel>
+          )}
+          {!replay.active && (
+            <div id="current-draft">
+              <Panel
+                title="Draft update"
+                detail={
+                  decision
+                    ? `${decision.action === "accept" ? "Accepted" : decision.action === "edit" ? "Edited" : "Rejected"}`
+                    : "Analyst approval required"
+                }
+              >
+                {!hasDraft ? (
+                  <div className="empty-panel">
+                    <FileCheck2 size={24} />
                     <p>
-                      {decision.action === "reject"
-                        ? "Rejected · no ledger entry added."
-                        : "Approved for the demo ledger."}
+                      Build a cited draft from the revealed panel and indicator
+                      evidence.
                     </p>
-                    <p>{decision.note}</p>
-                    <time>{date(decision.at)}</time>
-                    {decision.action !== "reject" && (
-                      <a href="/ledger">
-                        View public ledger <ArrowRight size={14} />
-                      </a>
-                    )}
+                    <button
+                      disabled={!!busy || !revealed}
+                      onClick={() =>
+                        void simulate("Preparing draft", () => {
+                          setHasDraft(true);
+                          setAnnouncement("Draft ready for analyst review.");
+                        })
+                      }
+                    >
+                      Prepare draft
+                    </button>
                   </div>
                 ) : (
-                  <div className="decision-form">
-                    <DecisionUseFields
-                      value={decisionUse}
-                      onChange={setDecisionUse}
+                  <>
+                    <DraftRecommendation
+                      draft={draft}
+                      current={risk.probability_acaps}
+                      proposed={
+                        decision?.probability || draft.proposed_probability
+                      }
                     />
-                    <label htmlFor="decision-note">Decision note</label>
-                    <textarea
-                      id="decision-note"
-                      maxLength={500}
-                      value={note}
-                      onChange={(e) => {
-                        setNote(e.target.value);
-                        setError("");
-                      }}
-                      placeholder="Explain your decision for the audit trail."
+                    <DraftNarrative
+                      showFacts={false}
+                      draft={draft}
+                      themes={result.missing_themes}
+                      result={result}
+                      evidence={pulse.evidence}
                     />
-                    {edit && (
-                      <div className="edit-row">
-                        <label htmlFor="edited-probability">
-                          Edited probability
-                        </label>
-                        <select
-                          id="edited-probability"
-                          value={probability}
-                          onChange={(e) => setProbability(e.target.value)}
+                    <div className="citations">
+                      {draft.citations.map((c) => (
+                        <a
+                          key={c.url}
+                          href={c.url}
+                          target="_blank"
+                          rel="noreferrer"
                         >
-                          {[
-                            "Very Low",
-                            "Low",
-                            "Medium",
-                            "High",
-                            "Very High",
-                          ].map((v) => (
-                            <option key={v}>{v}</option>
-                          ))}
-                        </select>
-                        <p className="panel-caption">
-                          Risk level remains {draft.proposed_level}; the current
-                          contract only allows editing probability.
+                          {c.text} <ArrowRight size={13} />
+                        </a>
+                      ))}
+                    </div>
+                    <Verification draft={draft} />
+                    {decision ? (
+                      <div className="decision-log">
+                        <h3>Decision log</h3>
+                        <p>
+                          {decision.action === "reject"
+                            ? "Rejected · no ledger entry added."
+                            : "Approved for the ledger."}
                         </p>
+                        <p>{decision.note}</p>
+                        <time>{date(decision.at)}</time>
+                        {decision.action !== "reject" && (
+                          <a href="/ledger">
+                            View public ledger <ArrowRight size={14} />
+                          </a>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="decision-form">
+                        <DecisionUseFields
+                          value={decisionUse}
+                          onChange={setDecisionUse}
+                        />
+                        <label htmlFor="decision-note">Decision note</label>
+                        <textarea
+                          id="decision-note"
+                          maxLength={500}
+                          value={note}
+                          onChange={(e) => {
+                            setNote(e.target.value);
+                            setError("");
+                          }}
+                          placeholder="Explain your decision for the audit trail."
+                        />
+                        {edit && (
+                          <div className="edit-row">
+                            <label htmlFor="edited-probability">
+                              Edited probability
+                            </label>
+                            <select
+                              id="edited-probability"
+                              value={probability}
+                              onChange={(e) => setProbability(e.target.value)}
+                            >
+                              {[
+                                "Very Low",
+                                "Low",
+                                "Medium",
+                                "High",
+                                "Very High",
+                              ].map((v) => (
+                                <option key={v}>{v}</option>
+                              ))}
+                            </select>
+                            <p className="panel-caption">
+                              Risk level remains {draft.proposed_level}; the
+                              current contract only allows editing probability.
+                            </p>
+                          </div>
+                        )}
+                        <div className="panel-actions">
+                          {edit ? (
+                            <>
+                              <button
+                                className="primary"
+                                disabled={!!busy}
+                                onClick={() => decide("edit")}
+                              >
+                                Save edited decision
+                              </button>
+                              <button onClick={() => setEdit(false)}>
+                                Cancel edit
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                className="primary"
+                                disabled={!!busy}
+                                onClick={() => decide("accept")}
+                              >
+                                Accept draft
+                              </button>
+                              <button
+                                disabled={!!busy}
+                                onClick={() => setEdit(true)}
+                              >
+                                Edit probability
+                              </button>
+                              <button
+                                disabled={!!busy}
+                                onClick={() => decide("reject")}
+                              >
+                                Reject draft
+                              </button>
+                            </>
+                          )}
+                        </div>
                       </div>
                     )}
-                    <div className="panel-actions">
-                      {edit ? (
-                        <>
-                          <button
-                            className="primary"
-                            disabled={!!busy}
-                            onClick={() => decide("edit")}
-                          >
-                            Save edited decision
-                          </button>
-                          <button onClick={() => setEdit(false)}>
-                            Cancel edit
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <button
-                            className="primary"
-                            disabled={!!busy}
-                            onClick={() => decide("accept")}
-                          >
-                            Accept draft
-                          </button>
-                          <button
-                            disabled={!!busy}
-                            onClick={() => setEdit(true)}
-                          >
-                            Edit probability
-                          </button>
-                          <button
-                            disabled={!!busy}
-                            onClick={() => decide("reject")}
-                          >
-                            Reject draft
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </div>
+                  </>
                 )}
-              </>
-            )}
-          </Panel>
+              </Panel>
+            </div>
+          )}
         </div>
         <aside className="desk-side">
-          <Panel title="ACAPS edition evidence">
-            {pulse.evidence.map((e, i) => (
-              <EvidenceLine key={i} value={e} />
-            ))}
-          </Panel>
-          <details className="desk-support">
-            <summary>Question, panel and supporting details</summary>
-            <div>
+          <DeskContext>
+            <ContextSection label="Question">
               <QuestionContractPanel
                 riskId={risk.risk_id}
                 onFrozen={setFrozenContract}
               />
+            </ContextSection>
+            <ContextSection label="Panel details">
               <PanelMatch riskId={risk.risk_id} />
-              {revealed && <IntegrityPanel pulseId={pulse.id} />}
-
-              <Panel
-                title="Agreement by region"
-                detail={revealed ? "Regional minimum n = 3" : "Sealed"}
-              >
-                {revealed ? (
+            </ContextSection>
+            <ContextSection label="Review notes">
+              <Panel title="Published evidence" className="evidence-panel">
+                {pulse.evidence.map((e, i) => (
+                  <EvidenceLine key={i} value={e} />
+                ))}
+              </Panel>
+              {shownRevealed && <IntegrityPanel pulseId={pulse.id} />}
+              <Panel title="Agreement by region">
+                {shownRevealed ? (
                   <Regions />
                 ) : (
-                  <p className="empty-copy">
-                    Regional views open with the round.
-                  </p>
+                  <p>Regional views open after reveal.</p>
                 )}
               </Panel>
-              <Panel
-                title="What the panel is missing"
-                detail={revealed ? "Panel themes" : "Sealed"}
-              >
-                {revealed ? (
-                  <ul className="theme-list">
-                    {result.missing_themes.map((theme) => (
-                      <li key={theme.theme}>
-                        <span>
-                          {theme.theme}
-                          <small className="theme-provenance">
-                            Origin: {theme.origin} · {theme.corroboration}
-                          </small>
-                        </span>
-                        <strong>{theme.count}</strong>
-                      </li>
-                    ))}
-                  </ul>
+              <Panel title="What this panel could not see">
+                {shownRevealed ? (
+                  <CoverageAdvice result={result} />
                 ) : (
-                  <p className="empty-copy">Themes appear after reveal.</p>
+                  <p>Coverage observations open after reveal.</p>
                 )}
               </Panel>
+            </ContextSection>
+            <ContextSection label="Method">
+              <Panel title="How this number was reached">
+                {shownRevealed ? (
+                  <MethodChain
+                    result={result}
+                    reference={risk.probability_acaps}
+                  />
+                ) : (
+                  <p>The method opens after reveal.</p>
+                )}
+              </Panel>
+            </ContextSection>
+            <ContextSection label="Outcome">
               <OutcomeReportPanel pulseId={pulse.id} />
-            </div>
-          </details>
+            </ContextSection>
+          </DeskContext>
         </aside>
       </div>
       {error && (
@@ -580,7 +683,11 @@ function Ledger() {
       </div>
       <LedgerColumns />
       {matches ? (
-        <LedgerRecord entry={entry} country={risk.country} checked={verified}>
+        <LedgerRecord
+          entry={entry}
+          country={risk.country}
+          checked={verified || undefined}
+        >
           <Panel
             title={`${risk.country} / ${entry.risk_id}`}
             detail="Analyst approved"
@@ -605,6 +712,15 @@ function Ledger() {
                 <span>ACAPS probability</span>
                 <strong>{decision.probability}</strong>
                 <small>Risk level: {entry.acaps_level}</small>
+                {/* The band's own record, so a reader can judge the rating
+                    against what that band has done before. */}
+                {bandRate(decision.probability) && (
+                  <small>
+                    {asPercent(bandRate(decision.probability)!.rate)} of{" "}
+                    {bandRate(decision.probability)!.n} past{" "}
+                    {decision.probability} risks materialised
+                  </small>
+                )}
               </div>
               <div>
                 <span>Outcome</span>

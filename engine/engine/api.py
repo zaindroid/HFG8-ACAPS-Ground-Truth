@@ -770,6 +770,16 @@ def _panel_size(pulse_id: str) -> int:
     return sum(1 for pid, _ in STORE.tokens.values() if pid == pulse_id)
 
 
+def _expert_profile(expert_id: str) -> dict:
+    """What the probe bank is allowed to read about an expert: their tags and their region, and
+    nothing another expert set. The card is fully determined once the link is issued."""
+    expert = STORE.experts.get(expert_id)
+    if not expert:
+        return {"id": expert_id, "theme_tags": [], "geo_tags": [], "region": ""}
+    return {"id": expert.id, "theme_tags": expert.theme_tags,
+            "geo_tags": expert.geo_tags, "region": expert.region}
+
+
 def _mask_options() -> list[dict]:
     return [
         {"id": "known", "label": "named to ACAPS"},
@@ -851,8 +861,8 @@ def card(token: str):
         # step-1 answers. They travel with the card so no partial answer leaves the phone before
         # the confirmation, and the conditions only ever read the four numbers this expert just
         # entered -- nothing a peer set is readable here, so the card cannot herd.
-        "probe_flow": probe_lib.build(risk, expert_id),
-        "probe_note": probe_lib.AGGREGATION_NOTE,
+        "probe_flow": probe_lib.card_flow(risk, _expert_profile(expert_id)),
+        "probe_note": "These follow the scored question and are never aggregated into it.",
         "evidence_shown": show_evidence,
         "acaps_band_shown": False,
         "commit_note": ("Submitting opens a confirmation screen. Nothing is recorded until you "
@@ -933,11 +943,21 @@ def answer(token: str, body: dict = Body(default_factory=dict)):
     nothing: it validates the answer, prices a word into the band midpoint, and returns the one
     line the confirmation screen repeats back with a token to confirm it."""
     pulse_id, expert_id, pulse = _open_round(token, int(body.get("round", 1)))
+    risk = data.get_risk(pulse["risk_id"]) or {}
     if STORE.answered(pulse_id, expert_id):
         raise HTTPException(409, "an answer from this link is already committed; use "
                                  "PUT /api/e/{token}/answer to change it before the deadline")
     if store.past(pulse.get("expires_at") or ""):
         raise HTTPException(409, f"this round closed at {pulse.get('expires_at')}")
+    submitted = body.get("probe_answers") or {}
+    if not isinstance(submitted, dict):
+        raise HTTPException(422, "probe_answers must be an object keyed by probe id")
+    if submitted:
+        # Only answers to probes this card actually asked are kept, so a crafted request cannot
+        # write arbitrary keys into an Answer and out through the themes.
+        allowed = probe_lib.accepted_ids(risk, _expert_profile(expert_id))
+        body = {**body, "probe_answers": {key: value for key, value in submitted.items()
+                                          if key in allowed}}
     try:
         drafted = STORE.draft(pulse_id, expert_id, body)
     except ValueError as exc:

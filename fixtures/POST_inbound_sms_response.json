@@ -19,15 +19,15 @@
     "needs_analyst": false,
     "original": "soixante-dix pour cent, assez sur, les sites sont pleins"
   },
-  "committed_at": "2026-11-07T19:49:45+00:00",
-  "commitment": "136037ecb0cda7d07bba830f6b187ff3c7636f749a89fe5d2365e3c37fd862cc",
+  "committed_at": "2026-11-07T20:27:04+00:00",
+  "commitment": "6c2b67b7fe6f19dac5592d32b23124d2f48bfd954514b23fc37ce681832f7e7a",
   "version": 1,
   "mask": "pseudonym",
   "counts": true,
-  "correction_allowed_until": "2026-11-08T19:49:45+00:00",
+  "correction_allowed_until": "2026-11-08T20:27:04+00:00",
   "read_back": null,
   "transcript_source": null,
   "message": "Thanks. You'll hear how the panel saw it after the deadline.",
   "served_from": "live",
-  "generated_at": "2026-11-07T19:49:45+00:00"
+  "generated_at": "2026-11-07T20:27:04+00:00"
 }

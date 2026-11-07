@@ -118,14 +118,21 @@ test("sample reset opens a fresh analyst round without losing history", async ({
   await expect(
     page.getByRole("button", { name: "Reveal round 1" }),
   ).toBeDisabled();
+  await page.getByText("Round tools", { exact: true }).click();
   await page.getByRole("button", { name: "Load answers" }).click();
   await page.getByRole("button", { name: "Reveal round 1" }).click();
   await page.getByRole("button", { name: "Prepare draft" }).click();
-  await expect(
-    page
-      .locator(".draft-text")
-      .getByText(`The equal-weight panel mean is ${meanTwoDp}`, { exact: false }),
-  ).toBeVisible();
+  await page.getByText("Read the drafted wording", { exact: true }).click();
+  // The drafted wording restates the panel claim in plain language for a general audience; the
+  // method is named beside it, in the decision summary. So this asserts the number the draft
+  // puts in front of the analyst, derived from the round rather than typed in.
+  await expect(page.locator(".draft-text")).toContainText(
+    `The average expert estimate is ${meanPercent}`,
+  );
+  // And every claim is its own claim: the sample used to overwrite all of them with one
+  // hard-coded sentence, which rendered as eight identical paragraphs.
+  const paragraphs = await page.locator(".draft-text p").allInnerTexts();
+  expect(new Set(paragraphs).size).toBe(paragraphs.length);
   await page.getByLabel("Decision note").fill("Synthetic review completed.");
   await page
     .getByLabel("Decision to inform", { exact: true })

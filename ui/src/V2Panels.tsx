@@ -214,7 +214,10 @@ export function PanelMatch({ riskId }: { riskId: string }) {
     <Section title="Panel matching">
       <p>
         Approved experts matched by geography and theme. Affiliation cap: three
-        of eight.
+        of eight. Mean Brier is the squared error of their past forecasts
+        against what actually happened, so lower is better and 0.25 is chance.
+        "Correct when band missed" counts the times they were on the correct
+        side of even odds while the ACAPS band for that risk was not.
       </p>
       <button disabled={loading || !riskId} onClick={() => void load()}>
         {loading ? "Matching experts…" : "Preview matched panel"}
@@ -240,19 +243,55 @@ export function PanelMatch({ riskId }: { riskId: string }) {
                 <tr>
                   <th>Synthetic pseudonym</th>
                   <th>Match</th>
-                  <th>Geography</th>
-                  <th>Themes</th>
+                  <th>Based in</th>
+                  <th>Expertise</th>
+                  <th>Years</th>
+                  <th>Resolved</th>
+                  <th>Mean Brier</th>
+                  <th>Right side</th>
+                  <th>Correct when band missed</th>
                 </tr>
               </thead>
               <tbody>
-                {value.experts.map((e) => (
-                  <tr key={e.pseudonym}>
-                    <td>{e.pseudonym}</td>
-                    <td>{percent(e.match)}</td>
-                    <td>{e.geo_tags.join(", ")}</td>
-                    <td>{e.theme_tags.join(", ")}</td>
-                  </tr>
-                ))}
+                {value.experts.map((e) => {
+                  const record = e.track_record;
+                  const scored = record?.reported ? record : null;
+                  return (
+                    <tr key={e.pseudonym}>
+                      <td>{e.pseudonym}</td>
+                      <td>{percent(e.match)}</td>
+                      <td>
+                        {e.region || e.geo_tags.join(", ")}
+                        {e.languages?.length ? (
+                          <small>{e.languages.join(", ")}</small>
+                        ) : null}
+                      </td>
+                      <td>
+                        {e.theme_tags.join(", ")}
+                        {e.affiliation_tag ? (
+                          <small>{e.affiliation_tag}</small>
+                        ) : null}
+                      </td>
+                      <td>{e.years_experience ?? "—"}</td>
+                      {scored ? (
+                        <>
+                          <td>{scored.n_resolved}</td>
+                          <td>{scored.mean_brier?.toFixed(2)}</td>
+                          <td>
+                            {scored.hit_rate == null
+                              ? "—"
+                              : percent(scored.hit_rate)}
+                          </td>
+                          <td>{scored.moved_before_acaps ?? 0}</td>
+                        </>
+                      ) : (
+                        <td colSpan={4} className="no-record">
+                          {record?.note || "No track record yet"}
+                        </td>
+                      )}
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

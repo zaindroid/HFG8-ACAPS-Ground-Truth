@@ -1,4 +1,5 @@
 import { safeUrl } from "./service";
+import { SeverityVisual } from "./SeverityVisual";
 export type EvidenceRecord = {
   source: string;
   url: string;
@@ -18,6 +19,7 @@ export type EvidenceRecord = {
   // the engine says so rather than writing a zero that renders as "40 versus 0 baseline".
   baseline?: number | null;
   z?: number | null;
+  note?: string;
 };
 export function evidenceSummary(e: EvidenceRecord) {
   if (typeof e.before === "number" && typeof e.after === "number")
@@ -27,13 +29,62 @@ export function evidenceSummary(e: EvidenceRecord) {
   return e.source;
 }
 export function EvidenceLine({ value: e }: { value: EvidenceRecord }) {
+  const severity =
+    e.metric === "index" &&
+    typeof e.before === "number" &&
+    typeof e.after === "number";
   return (
     <div className="edition-evidence">
-      <a href={safeUrl(e.url)} target="_blank" rel="noreferrer">
-        {e.source}
-      </a>
-      <p>{evidenceSummary(e).slice(e.source.length + 2)}</p>
-      {e.month_from && e.month_to && (
+      {severity ? (
+        <>
+          <h3>
+            Recorded crisis severity{" "}
+            {e.after! > e.before!
+              ? "rose"
+              : e.after! < e.before!
+                ? "fell"
+                : "was unchanged"}
+          </h3>
+          <SeverityVisual
+            before={e.before!}
+            after={e.after!}
+            from={e.month_from}
+            to={e.month_to}
+          />
+          <p>
+            {e.after !== e.before
+              ? "This change prompted the expert review. "
+              : "Published context for the expert review. "}
+            These monthly readings stay fixed as replies arrive.
+          </p>
+          <small>
+            Severity describes crisis conditions, on a scale of 0–10. Expert
+            forecasts open after reveal.
+          </small>
+        </>
+      ) : (
+        <>
+          <a href={safeUrl(e.url)} target="_blank" rel="noreferrer">
+            {e.source}
+          </a>
+          <p>{evidenceSummary(e).slice(e.source.length + 2)}</p>
+        </>
+      )}
+      {severity && (
+        <details className="evidence-source">
+          <summary>Source and comparison</summary>
+          <a href={safeUrl(e.url)} target="_blank" rel="noreferrer">
+            {e.source}
+          </a>
+          {typeof e.rank_this_month === "number" && (
+            <p>
+              Change ranked {e.rank_this_month} among {e.n_crises_this_month}{" "}
+              crises in this comparison.
+            </p>
+          )}
+        </details>
+      )}
+      {!severity && e.month_from && e.month_to && (
         <small>
           {e.month_from} → {e.month_to}
           {e.metric === "index"
@@ -41,9 +92,12 @@ export function EvidenceLine({ value: e }: { value: EvidenceRecord }) {
             : ""}
         </small>
       )}
-      {typeof e.rank_this_month === "number" && (
+      {!severity && typeof e.rank_this_month === "number" && (
         <small>
-          Change rank {e.rank_this_month} of {e.n_crises_this_month} crises
+          {e.rank_this_month === 1
+            ? "Largest recorded change"
+            : `Change ranked ${e.rank_this_month}`}{" "}
+          among {e.n_crises_this_month} crises in this comparison
         </small>
       )}
     </div>

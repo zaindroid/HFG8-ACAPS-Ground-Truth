@@ -1,10 +1,10 @@
 {
-  "expert_id": "X-ece7af13",
+  "expert_id": "X-611381eb",
   "status": "applied",
   "approvals_required": 2,
   "identity_stored": true,
   "identity_note": "Identity map encrypted with ML-KEM-768 + X25519 hybrid, AES-256-GCM, key held by the committee.",
   "note": "Approval needs two admins before this expert can be matched to a panel.",
   "served_from": "live",
-  "generated_at": "2026-11-07T19:49:42+00:00"
+  "generated_at": "2026-11-07T20:27:01+00:00"
 }

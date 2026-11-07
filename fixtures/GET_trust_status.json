@@ -97,7 +97,7 @@
   "credentials": {
     "scheme": "rsa-blind-rfc9474",
     "issuer": {
-      "key_id": "e4b0216d3865908d",
+      "key_id": "5849a8d79c939f2c",
       "bits": 2048,
       "hash": "sha384",
       "salt_length": 0,
@@ -123,8 +123,8 @@
     "groups": [
       {
         "panel_id": "PAN-TCD",
-        "root": "e5c996bdb839e5fe279ca5a8c1355188d8022de0a1dd7ee072171398680de8ce",
-        "size": 12
+        "root": "4d14a4ea40f3dd1831f3a85b0c5ea60f655878ef46930ffd2e4b41e7dd5d484f",
+        "size": 88
       }
     ],
     "n_nullifiers_used": 0,
@@ -142,5 +142,5 @@
     "means": "Counts only. A report belongs to the expert, and reaches the committee only if that expert says yes a second time."
   },
   "served_from": "live",
-  "generated_at": "2026-11-07T19:49:43+00:00"
+  "generated_at": "2026-11-07T20:27:02+00:00"
 }

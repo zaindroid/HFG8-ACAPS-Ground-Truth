@@ -123,6 +123,9 @@ class Expert:
     status: str = "applied"
     region: str = ""
     weight: float = 1.0
+    # Lane B's panel view shows how long each synthetic expert has worked on this kind of crisis.
+    # It is a display field only: nothing weights an answer by it, and nothing scores it.
+    years_experience: int = 0
     synthetic: bool = True
 
 

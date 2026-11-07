@@ -4,6 +4,7 @@ import "@fontsource/inter/400.css";
 import "@fontsource/inter/500.css";
 import "@fontsource/inter/600.css";
 import { mock } from "./api";
+import { hydrateInsights } from "./base-rates";
 import { ExpertCard } from "./ExpertCard";
 import { LiveWorkspace, Frame } from "./LiveWorkspace";
 import { PublicHome, LoginRequired, WorkspaceHome } from "./Entry";
@@ -33,6 +34,11 @@ import "./v3.css";
 import "./verification-trail.css";
 import "./ledger-list.css";
 import "./journey.css";
+import "./risk-insights.css";
+import "./draft-summary.css";
+import "./panel-visuals.css";
+import "./desk-flow.css";
+import "./desk-layout.css";
 
 const MockWorkspace = lazy(() =>
   import("./Workspace").then((m) => ({ default: m.Workspace })),
@@ -133,6 +139,8 @@ function WorkspaceRedirect() {
     </main>
   );
 }
+void hydrateInsights();
+
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Boundary>

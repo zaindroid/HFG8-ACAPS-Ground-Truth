@@ -108,6 +108,8 @@ export function PublicHome() {
       <a className="skip-link" href="#public-content">
         Skip to content
       </a>
+      {/* A landmark, not a bare paragraph: role="note" is not one, so the banner
+          sat outside every landmark and tripped the page's own axe check. */}
       <aside className="prototype-banner" aria-label="Prototype notice">
         Prototype for the ACAPS Ground Truth challenge. Not an ACAPS service.
         Expert panels and their answers are synthetic.

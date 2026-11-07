@@ -2,12 +2,12 @@
   "risk_id": "R1043",
   "pulse_id": "P-0001",
   "n": 8,
-  "panel_mean": 0.6583,
+  "panel_mean": 0.6517,
   "acaps_probability": "High",
   "acaps_assumed_number": null,
   "proposed": "High",
   "decision": "accepted",
-  "verify_hash": "6aabf8c95a03e07456c7a69995ecf002943c0a8a8b640d1431feea6750ef598f",
+  "verify_hash": "6571719da2f0b3630f862806393ce90ae4eff25888774695fb62cfd07999c945",
   "verify_valid": true,
   "integrity_notes": 1,
   "alert_replay": {
@@ -20,7 +20,20 @@
     "delta": 0.8
   },
   "scores_written": 5,
-  "seconds": 1.39,
+  "reach": {
+    "messages_composed": 6,
+    "channels": [
+      "call",
+      "email",
+      "signal",
+      "sms",
+      "whatsapp"
+    ],
+    "refused_by_a_cadence_or_consent_rule": 6,
+    "loop_closed_to": 8,
+    "transport": "recorded -- no provider is configured in this build"
+  },
+  "seconds": 2.78,
   "offline": true,
   "synthetic_panel": true,
   "assumptions": [
@@ -30,5 +43,5 @@
     "A single round is a sensitivity test, not proof that the method works."
   ],
   "served_from": "live",
-  "generated_at": "2026-11-07T19:49:43+00:00"
+  "generated_at": "2026-11-07T20:27:02+00:00"
 }

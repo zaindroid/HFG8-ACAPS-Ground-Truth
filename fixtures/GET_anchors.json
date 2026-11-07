@@ -2,7 +2,7 @@
   "roots": [
     {
       "day": "2026-11-07",
-      "merkle_root": "9d0b78e28369a11158c540ccee20e92a7df1ea553b0a1c7e732f3c65eb608ba3",
+      "merkle_root": "b0137d08f5e6bad28d15ca7d3c67aff334b707d221960aa53326abb7047d726e",
       "n_commitments": 58,
       "submitted_at": null,
       "status": "pending",
@@ -23,5 +23,5 @@
   "guarantees": "Independent proof the commitments existed by that time, once the status reads anchored",
   "does_not": "Anything else; no tokens, no chain logic, no cost. A pending root proves nothing yet",
   "served_from": "live",
-  "generated_at": "2026-11-07T19:49:43+00:00"
+  "generated_at": "2026-11-07T20:27:03+00:00"
 }

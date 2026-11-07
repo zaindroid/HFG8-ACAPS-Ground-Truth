@@ -43,5 +43,5 @@
   "reminders": 0,
   "transport_note": "No message left this machine. Every channel composes the real body and records it in the outbox; `transport: recorded` says so on each one. Replace Reach.deliver with a provider to send for real.",
   "served_from": "live",
-  "generated_at": "2026-11-07T19:49:45+00:00"
+  "generated_at": "2026-11-07T20:27:04+00:00"
 }

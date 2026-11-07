@@ -1,0 +1,440 @@
+/* Risk List performance panels. Sequential teal ramp derived from --accent; lightness is
+   monotonic and near-black ink clears WCAG AA on every step (13.4:1 down to 5.2:1), so cell
+   values never switch colour. Fills sit below 3:1 against white by design, which is why every
+   cell carries a visible number and a table view is offered. */
+.insights {
+  --seq-1: #edf4f2;
+  --seq-2: #d6e7e2;
+  --seq-3: #b4d3cb;
+  --seq-4: #8ebdb2;
+  --seq-5: #68a498;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.insights-lede {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Calibration */
+.chart-scroll {
+  overflow-x: auto;
+  margin: 16px 0 0;
+}
+.calibration-chart {
+  width: 100%;
+  min-width: 470px;
+  display: block;
+  overflow: visible;
+}
+.calibration-chart text {
+  font-size: 11px;
+  fill: var(--muted);
+}
+.calibration-chart .band-name {
+  font-size: 12px;
+  fill: #202927;
+}
+.calibration-chart .observed-value {
+  font-size: 13px;
+  font-weight: 600;
+  fill: #202927;
+}
+.insights .gap-line {
+  stroke: #a9b7b1;
+  stroke-width: 2;
+}
+.insights .observed-dot {
+  fill: var(--accent);
+  stroke: #fff;
+  stroke-width: 2;
+}
+.insights .expected-dot {
+  fill: #fff;
+  stroke: var(--warning);
+  stroke-width: 2;
+}
+.calibration-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+}
+.calibration-legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.calibration-legend svg {
+  flex: none;
+}
+
+/* Probability x impact matrix */
+.matrix {
+  display: grid;
+  grid-template-columns: auto repeat(5, minmax(0, 1fr));
+  gap: 2px;
+  margin: 16px 0 0;
+}
+.matrix-head,
+.matrix-side {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 4px 8px;
+}
+.matrix-head {
+  justify-content: center;
+}
+.matrix-side {
+  justify-content: flex-end;
+  text-align: right;
+}
+.matrix-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 62px;
+  padding: 6px 4px;
+  border-radius: 4px;
+  background: var(--seq-1);
+}
+.matrix-cell strong {
+  font-size: 15px;
+  line-height: 1;
+}
+/* Ink, not --muted: muted grey drops under 4.5:1 on the darker steps. Hierarchy
+   against the count comes from size and weight instead of colour. */
+.matrix-cell span {
+  font-size: 11px;
+  color: #202927;
+}
+.matrix-cell.empty {
+  background: #fff;
+  border: 1px dashed var(--border);
+  color: var(--muted);
+}
+.matrix-cell.r1 {
+  background: var(--seq-1);
+}
+.matrix-cell.r2 {
+  background: var(--seq-2);
+}
+.matrix-cell.r3 {
+  background: var(--seq-3);
+}
+.matrix-cell.r4 {
+  background: var(--seq-4);
+}
+.matrix-cell.r5 {
+  background: var(--seq-5);
+}
+.matrix-scale {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+/* Label, swatch strip and end values stack in a column, so no cross-axis
+   alignment is involved and the strip cannot drift off its labels. */
+.matrix-scale .steps {
+  display: grid;
+  grid-template-columns: repeat(5, 30px);
+  gap: 2px;
+}
+.matrix-scale .steps span {
+  height: 12px;
+  border-radius: 2px;
+}
+.matrix-scale .scale-ends {
+  display: flex;
+  justify-content: space-between;
+  width: 158px;
+  font-size: 11px;
+}
+.insights-table summary {
+  cursor: pointer;
+  font-size: 13px;
+}
+.insights-table table {
+  margin: 12px 0 0;
+}
+@media (max-width: 700px) {
+  .matrix-cell {
+    min-height: 56px;
+    padding: 4px 2px;
+  }
+  .matrix-cell strong {
+    font-size: 14px;
+  }
+  .matrix-cell span {
+    font-size: 10px;
+  }
+  .matrix-head .head-word {
+    display: none;
+  }
+  .matrix-side {
+    padding: 4px;
+    font-size: 11px;
+  }
+}
+
+/* Risk List history for a crisis, on the alert detail heading. */
+.crisis-record {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.crisis-record .crisis-precedent {
+  max-width: 60ch;
+}
+
+/* Aggregation method chain */
+.method-chain {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.method-chain li {
+  border-left: 2px solid var(--border);
+  padding: 10px 0 10px 16px;
+}
+.method-chain li.headline {
+  border-left-color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 0 4px 4px 0;
+}
+.method-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.method-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.method-head strong {
+  font-size: 15px;
+}
+.method-chain p {
+  margin: 4px 0 0;
+  max-width: 68ch;
+  font-size: 12px;
+  color: var(--muted);
+}
+.method-tag {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+.method-tag.published {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Theme routing and second opinion */
+.theme-routing {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.theme-routing li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.theme-text {
+  max-width: 48ch;
+  font-size: 13px;
+}
+.theme-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.theme-tag {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: 11px;
+}
+.second-opinion,
+.coverage-gaps {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.second-opinion h3,
+.coverage-gaps h3 {
+  margin: 0 0 6px;
+  font-size: 13px;
+}
+.second-opinion p,
+.coverage-gaps p {
+  margin: 0 0 6px;
+  max-width: 68ch;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Regional spread */
+.region-bar {
+  flex: 1;
+  min-width: 60px;
+  max-width: 220px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  overflow: hidden;
+}
+.region-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+.region-note {
+  margin: 10px 0 0;
+  max-width: 68ch;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.held-notes {
+  margin: 6px 0 0;
+  padding: 0 0 0 18px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.held-notes li {
+  margin: 2px 0;
+}
+
+/* Expert-card probes */
+.probes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--border);
+}
+.probe-intro,
+.probe-skipped,
+.probe-note {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 12px;
+  color: var(--muted);
+}
+.probe-count {
+  font-size: 11px;
+  color: var(--muted);
+}
+.probe-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 0;
+}
+.probe-options button {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  padding: 7px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.probe-options button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.probe-dk {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+  padding-left: 12px;
+  border-left: 1px solid var(--border);
+}
+.probe-reveal {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.probe-follow-up {
+  margin: 10px 0 0;
+  padding: 10px 0 0 12px;
+  border-left: 2px solid var(--accent-soft);
+}
+.probe-rank {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: rank;
+}
+.probe-rank li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  margin: 0 0 4px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+}
+.probe-rank li > span:nth-of-type(1) {
+  flex: 1;
+}
+.probe-rank-controls {
+  display: flex;
+  gap: 4px;
+}
+.probe-rank-controls button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+}
+.probe-rank-controls button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

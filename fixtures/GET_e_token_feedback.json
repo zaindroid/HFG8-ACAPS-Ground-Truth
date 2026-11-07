@@ -1,8 +1,8 @@
 {
   "pulse_id": "P-0001",
   "reveal_status": "revealed",
-  "revealed_at": "2026-11-07T19:49:43+00:00",
-  "n_text": "most of the panel answered",
+  "revealed_at": "2026-11-07T20:27:02+00:00",
+  "n_text": "about half the panel answered",
   "n": 8,
   "group_mean": 0.6517,
   "spread": {
@@ -44,5 +44,5 @@
   "outcome_report_pending": true,
   "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering.",
   "served_from": "live",
-  "generated_at": "2026-11-07T19:49:43+00:00"
+  "generated_at": "2026-11-07T20:27:02+00:00"
 }

@@ -1,4 +1,11 @@
 import { useEffect, useState } from "react";
+import {
+  MapPin,
+  CalendarDays,
+  ShieldCheck,
+  Target,
+  LockKeyhole,
+} from "lucide-react";
 import { mock } from "./api";
 import { sampleDataEnabled, sampleResult, sampleBoard } from "./demo-data";
 import {
@@ -84,77 +91,127 @@ export function QuestionContractPanel({
     onFrozen(null);
   }, [riskId, onFrozen]);
   return (
-    <Section title="Question contract">
-      <p className="panel-caption">
-        Freeze the event, location, horizon and resolution rule before scoring.
-        R1043 starts from the example for analyst confirmation. Changing a
-        frozen question requires a new version; earlier forecasts keep their
-        original contract.
+    <Section title="Question being forecast">
+      <div className={`question-status ${frozen ? "confirmed" : ""}`}>
+        <LockKeyhole size={15} aria-hidden="true" />
+        {frozen ? "Confirmed" : "Awaiting analyst confirmation"}
+      </div>
+      <div className="question-at-glance">
+        <div className="forecast-event">
+          <h3>
+            <Target size={20} aria-hidden="true" /> Will this happen?
+          </h3>
+          <p>{value.event || "Define the event this panel will forecast."}</p>
+        </div>
+        <dl>
+          <div>
+            <dt>
+              <MapPin size={19} aria-hidden="true" /> Where
+            </dt>
+            <dd>{value.location || "Not defined"}</dd>
+          </div>
+          <div>
+            <dt>
+              <CalendarDays size={19} aria-hidden="true" /> By when
+            </dt>
+            <dd>
+              {/^\d{4}-\d{2}-\d{2}$/.test(value.horizon_deadline) &&
+              Number.isFinite(Date.parse(value.horizon_deadline)) ? (
+                <time dateTime={value.horizon_deadline}>
+                  {new Intl.DateTimeFormat("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                    timeZone: "UTC",
+                  }).format(new Date(value.horizon_deadline))}
+                </time>
+              ) : (
+                value.horizon_deadline || "Not defined"
+              )}
+            </dd>
+          </div>
+          <div>
+            <dt>
+              <ShieldCheck size={19} aria-hidden="true" /> How we check it
+            </dt>
+            <dd>{value.resolution_source || "Not defined"}</dd>
+          </div>
+        </dl>
+      </div>
+      <p className="question-next">
+        {frozen
+          ? "Forecasts will be checked against this confirmed question."
+          : "Confirm these rules before scoring the forecasts."}
       </p>
-      <form
-        className="contract-form"
-        onSubmit={async (e) => {
-          e.preventDefault();
-          setBusy(true);
-          setError("");
-          try {
-            const saved = mock
-              ? { ...value, frozen_at: new Date().toISOString() }
-              : await endpoint.contract(riskId, value);
-            if (
-              saved.risk_id !== riskId ||
-              !saved.frozen_at ||
-              !Number.isFinite(Date.parse(saved.frozen_at)) ||
-              (
-                [
-                  "event",
-                  "location",
-                  "horizon_deadline",
-                  "resolution_source",
-                  "adjudication_rule",
-                ] as const
-              ).some((key) => saved[key] !== value[key])
-            )
-              throw new Error(
-                "The API did not confirm this frozen contract. Scoring remains disabled; Lane A must return the versioned contract and frozen_at.",
-              );
-            setFrozen(true);
-            onFrozen(saved);
-          } catch (e) {
-            setError((e as Error).message);
-            onFrozen(null);
-          } finally {
-            setBusy(false);
-          }
-        }}
-      >
-        <fieldset disabled={frozen || busy}>
-          {(
-            [
-              ["event", "Event definition"],
-              ["location", "Location"],
-              ["horizon_deadline", "Horizon deadline"],
-              ["resolution_source", "Resolution source"],
-              ["adjudication_rule", "Adjudication rule"],
-            ] as const
-          ).map(([key, label]) => (
-            <div key={key}>
-              <label htmlFor={`contract-${key}`}>{label}</label>
-              <input
-                id={`contract-${key}`}
-                required
-                type={key === "horizon_deadline" ? "date" : "text"}
-                value={value[key]}
-                maxLength={700}
-                onChange={(e) => setValue({ ...value, [key]: e.target.value })}
-              />
-            </div>
-          ))}
-          <button type="submit">
-            {busy ? "Freezing contract…" : "Freeze question contract"}
-          </button>
-        </fieldset>
-      </form>
+      <details className="question-editor">
+        <summary>Edit question and resolution rules</summary>
+        <form
+          className="contract-form"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            setBusy(true);
+            setError("");
+            try {
+              const saved = mock
+                ? { ...value, frozen_at: new Date().toISOString() }
+                : await endpoint.contract(riskId, value);
+              if (
+                saved.risk_id !== riskId ||
+                !saved.frozen_at ||
+                !Number.isFinite(Date.parse(saved.frozen_at)) ||
+                (
+                  [
+                    "event",
+                    "location",
+                    "horizon_deadline",
+                    "resolution_source",
+                    "adjudication_rule",
+                  ] as const
+                ).some((key) => saved[key] !== value[key])
+              )
+                throw new Error(
+                  "The API did not confirm this frozen contract. Scoring remains disabled; Lane A must return the versioned contract and frozen_at.",
+                );
+              setFrozen(true);
+              onFrozen(saved);
+            } catch (e) {
+              setError((e as Error).message);
+              onFrozen(null);
+            } finally {
+              setBusy(false);
+            }
+          }}
+        >
+          <fieldset disabled={frozen || busy}>
+            {(
+              [
+                ["event", "Event definition"],
+                ["location", "Location"],
+                ["horizon_deadline", "Horizon deadline"],
+                ["resolution_source", "Resolution source"],
+                ["adjudication_rule", "Adjudication rule"],
+              ] as const
+            ).map(([key, label]) => (
+              <div key={key}>
+                <label htmlFor={`contract-${key}`}>{label}</label>
+                <input
+                  id={`contract-${key}`}
+                  required
+                  type={key === "horizon_deadline" ? "date" : "text"}
+                  value={value[key]}
+                  maxLength={700}
+                  onChange={(e) =>
+                    setValue({ ...value, [key]: e.target.value })
+                  }
+                />
+              </div>
+            ))}
+            <button type="submit">
+              {busy ? "Freezing contract…" : "Freeze question contract"}
+            </button>
+          </fieldset>
+        </form>
+      </details>
       {error && <p role="alert">{error}</p>}
       {frozen && (
         <p role="status">

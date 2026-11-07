@@ -87,5 +87,5 @@
   "band_assumption": "The ACAPS band is mapped to a number by this build, not by ACAPS: {'Very Low': 0.05, 'Low': 0.25, 'Medium': 0.5, 'High': 0.75, 'Very High': 0.95}.",
   "empty_note": "A panel with no resolved risk has no Brier score. Empty is the honest state early on.",
   "served_from": "live",
-  "generated_at": "2026-11-07T19:49:43+00:00"
+  "generated_at": "2026-11-07T20:27:02+00:00"
 }

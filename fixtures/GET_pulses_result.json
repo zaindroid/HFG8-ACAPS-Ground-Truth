@@ -8,7 +8,7 @@
     "max": 0.85,
     "iqr": 0.28
   },
-  "weighted_mean": 0.6654,
+  "weighted_mean": 0.6622,
   "sp_experiment": {
     "answer": "yes",
     "method": "Prelec 2017 / Palley & Soll peer-prediction weighting",
@@ -41,19 +41,14 @@
   ],
   "agreement_by_region": [
     {
-      "region": "Ouaddai",
-      "n": 2,
-      "mean": 0.815
-    },
-    {
-      "region": "Sila",
-      "n": 2,
-      "mean": 0.4
+      "region": "Ouaddaï",
+      "n": 3,
+      "mean": 0.71
     },
     {
       "region": "Wadi Fira",
-      "n": 1,
-      "mean": null
+      "n": 2,
+      "mean": 0.54
     },
     {
       "region": "unattributed",
@@ -155,12 +150,12 @@
   "number_note": "3 estimates were exact percentages and 3 were one of the five words; for those the mean uses the band midpoint, which is an assumption.",
   "relayed_share": 0.125,
   "corrections": 1,
-  "revealed_at": "2026-11-07T19:49:43+00:00",
-  "verify_hash": "1c5bdabfb0c871785bcbc5c7efe45016e08e3284588317f408d8eeca59c1b890",
+  "revealed_at": "2026-11-07T20:27:02+00:00",
+  "verify_hash": "b6de00bf70bfde5821510432bd68c8ce7bfbe13ad2eed01ffe53f60d7e780b83",
   "reveal_status": "revealed",
   "revealed_reason": "analyst_before_deadline",
   "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering.",
   "verification_queue_count": 5,
   "served_from": "live",
-  "generated_at": "2026-11-07T19:49:43+00:00"
+  "generated_at": "2026-11-07T20:27:02+00:00"
 }

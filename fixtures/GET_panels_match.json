@@ -14,13 +14,13 @@
         "TCD"
       ],
       "affiliation_tag": "un",
-      "region": "Sila",
+      "region": "Wadi Fira",
       "match": 1.0,
       "synthetic": true
     },
     {
-      "expert_id": "X-ece7af13",
-      "pseudonym": "tall-harmattan",
+      "expert_id": "X-611381eb",
+      "pseudonym": "far-wadi",
       "theme_tags": [
         "displacement",
         "access"
@@ -30,48 +30,6 @@
       ],
       "affiliation_tag": "ngo",
       "region": "Ouaddai",
-      "match": 0.6667,
-      "synthetic": true
-    },
-    {
-      "expert_id": "X-guest-01",
-      "pseudonym": "wide-harmattan",
-      "theme_tags": [
-        "conflict"
-      ],
-      "geo_tags": [
-        "TCD"
-      ],
-      "affiliation_tag": "guest",
-      "region": "stage",
-      "match": 0.6667,
-      "synthetic": true
-    },
-    {
-      "expert_id": "X-guest-02",
-      "pseudonym": "wide-heron",
-      "theme_tags": [
-        "conflict"
-      ],
-      "geo_tags": [
-        "TCD"
-      ],
-      "affiliation_tag": "guest",
-      "region": "stage",
-      "match": 0.6667,
-      "synthetic": true
-    },
-    {
-      "expert_id": "X-guest-03",
-      "pseudonym": "dry-baobab",
-      "theme_tags": [
-        "conflict"
-      ],
-      "geo_tags": [
-        "TCD"
-      ],
-      "affiliation_tag": "guest",
-      "region": "stage",
       "match": 0.6667,
       "synthetic": true
     },
@@ -86,7 +44,7 @@
         "TCD"
       ],
       "affiliation_tag": "ngo",
-      "region": "Ouaddai",
+      "region": "Ouaddaï",
       "match": 0.6667,
       "synthetic": true
     },
@@ -101,7 +59,7 @@
         "TCD"
       ],
       "affiliation_tag": "un",
-      "region": "Ouaddai",
+      "region": "Ouaddaï",
       "match": 0.6667,
       "synthetic": true
     },
@@ -119,14 +77,57 @@
       "region": "Wadi Fira",
       "match": 0.6667,
       "synthetic": true
+    },
+    {
+      "expert_id": "X-syn-04",
+      "pseudonym": "low-wadi",
+      "theme_tags": [
+        "conflict"
+      ],
+      "geo_tags": [
+        "TCD"
+      ],
+      "affiliation_tag": "research",
+      "region": "Wadi Fira",
+      "match": 0.6667,
+      "synthetic": true
+    },
+    {
+      "expert_id": "X-syn-08",
+      "pseudonym": "wide-dune",
+      "theme_tags": [
+        "conflict",
+        "access"
+      ],
+      "geo_tags": [
+        "TCD"
+      ],
+      "affiliation_tag": "research",
+      "region": "Ennedi-Est",
+      "match": 0.6667,
+      "synthetic": true
+    },
+    {
+      "expert_id": "X-afg-02",
+      "pseudonym": "far-wadi",
+      "theme_tags": [
+        "displacement"
+      ],
+      "geo_tags": [
+        "AFG"
+      ],
+      "affiliation_tag": "un",
+      "region": "Afghanistan",
+      "match": 0.3333,
+      "synthetic": true
     }
   ],
   "composition": {
     "max_per_affiliation": 3,
     "per_affiliation": {
-      "un": 2,
+      "un": 3,
       "ngo": 3,
-      "guest": 3
+      "research": 2
     },
     "theme_cover": [
       "conflict",
@@ -139,14 +140,15 @@
     "themes_uncovered": [],
     "gaps": [],
     "geo_spread": [
+      "Afghanistan",
+      "Ennedi-Est",
       "Ouaddai",
-      "Sila",
-      "Wadi Fira",
-      "stage"
+      "Ouaddaï",
+      "Wadi Fira"
     ],
     "ok": true
   },
-  "n_approved_available": 13,
+  "n_approved_available": 89,
   "served_from": "live",
-  "generated_at": "2026-11-07T19:49:42+00:00"
+  "generated_at": "2026-11-07T20:27:02+00:00"
 }

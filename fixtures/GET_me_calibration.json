@@ -1,9 +1,9 @@
 {
   "pseudonym": "long-ibis",
-  "n_resolved": 8,
-  "mean_brier": 0.1747,
-  "reliability_weight": 1.415,
+  "n_resolved": 23,
+  "mean_brier": 0.1272,
+  "reliability_weight": 2.0,
   "note": "Private and opt-in. Nobody else sees this.",
   "served_from": "live",
-  "generated_at": "2026-11-07T19:49:43+00:00"
+  "generated_at": "2026-11-07T20:27:02+00:00"
 }

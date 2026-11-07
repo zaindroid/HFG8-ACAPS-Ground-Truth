@@ -1,5 +1,5 @@
 {
-  "expert_id": "X-ece7af13",
+  "expert_id": "X-611381eb",
   "identity": {
     "email": "applicant@example.invalid",
     "name": "Applicant (synthetic)",
@@ -8,10 +8,10 @@
   "logged": {
     "who": "committee-admin",
     "why": "duplicate application check before approval",
-    "expert_id": "X-ece7af13",
-    "at": "2026-11-07T19:49:43+00:00"
+    "expert_id": "X-611381eb",
+    "at": "2026-11-07T20:27:03+00:00"
   },
   "note": "This read is now in the committee access log, permanently.",
   "served_from": "live",
-  "generated_at": "2026-11-07T19:49:43+00:00"
+  "generated_at": "2026-11-07T20:27:03+00:00"
 }

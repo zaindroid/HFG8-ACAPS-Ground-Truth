@@ -45,12 +45,11 @@ const claims = draft.claims
           evidence_ref: `${result.pulse_id}:mean`,
           numbers: [result.mean, result.n],
         }
-      : {
-          ...c,
-          text: "ACAPS INFORM Severity increased from 6.1 in March 2026 to 6.9 in April 2026 for displacement from Sudan to Chad, a change of 0.8 points.",
-          evidence_ref: "inform-severity-index:TCD005:Mar2026:Apr2026",
-          numbers: [6.1, 6.9, 0.8],
-        },
+      // Every other claim keeps the text, reference and numbers the engine wrote. They used to
+      // all be overwritten with one hard-coded INFORM sentence, which was survivable while the
+      // seeded round carried three evidence lines and became eight identical paragraphs when it
+      // carried six.
+      : c,
   );
 export const sampleDraft = {
   ...draft,

@@ -1,7 +1,9 @@
 import { expect } from "@playwright/test";
+import { reachSubmit } from "./expert-flow";
 import { test } from "./workspace-session";
 import AxeBuilder from "@axe-core/playwright";
 import calibration from "../../fixtures/GET_me_calibration.json" with { type: "json" };
+import { submitCard } from "./card-flow";
 test("jury QR, private calibration, reduced motion and keyboard access", async ({
   page,
 }, info) => {
@@ -55,6 +57,7 @@ test("jury QR, private calibration, reduced motion and keyboard access", async (
 });
 test("expert card accessibility and text scaling", async ({ page }) => {
   await page.goto("/e/demo");
+  await reachSubmit(page);
   await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
   expect(
     (
@@ -72,11 +75,8 @@ test("expert card accessibility and text scaling", async ({ page }) => {
   await page
     .getByRole("button", { name: "Pseudonym Nickname to peers" })
     .click();
-  await page.getByRole("button", { name: "Submit" }).click();
-  // v3.4: Submit opens a confirmation screen and commits nothing. A link click, a mail scanner
-  // or a link preview can reach the draft; only Confirm records an answer.
-  await expect(page.getByRole("heading", { name: "Is this right?" })).toBeVisible();
-  await page.getByRole("button", { name: "Confirm", exact: true }).click();
+  await reachSubmit(page);
+  await submitCard(page);
   // The receipt no longer offers a calibration link. v3.4 made calibration a separate,
   // consent-gated programme with its own screen, so an invitation to it does not belong on the
   // back of an answer somebody has just given.
