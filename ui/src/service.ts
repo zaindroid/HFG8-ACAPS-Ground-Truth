@@ -351,8 +351,15 @@ export const endpoint = {
     ),
   result: (id: string) =>
     api<Result>(`/pulses/${encodeURIComponent(id)}/result`),
-  reveal: (id: string) =>
-    api<Result>(`/pulses/${encodeURIComponent(id)}/reveal`, {}),
+  /** `force` is the recorded analyst override for a reveal before the deadline. The engine
+   *  refuses a plain reveal until `pulse.expires_at` has passed, and the result it returns says
+   *  `revealed_reason: "analyst_before_deadline"` when this was used -- so no screen can show a
+   *  deadline reveal that was not one. */
+  reveal: (id: string, force = false) =>
+    api<Result>(
+      `/pulses/${encodeURIComponent(id)}/reveal`,
+      force ? { force: true } : {},
+    ),
   draft: (id: string) =>
     api<Draft>(`/pulses/${encodeURIComponent(id)}/draft`, {}),
   decision: (

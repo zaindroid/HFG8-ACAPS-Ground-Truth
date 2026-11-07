@@ -401,6 +401,15 @@ function LiveDesk() {
   const [pulse, setPulse] = useState<Pulse | null>(null),
     [group, setGroup] = useState<Result | null>(null),
     [draft, setDraft] = useState<Draft | null>(null);
+  // The round opens at pulse.expires_at, fixed when the pulse was sent. The desk says which side
+  // of it we are on, because the engine refuses a plain reveal before it and the analyst needs to
+  // know that the button is an override rather than the deadline firing.
+  const deadline = pulse?.expires_at ? new Date(pulse.expires_at) : null;
+  const deadlinePassed = !!deadline && deadline.getTime() <= Date.now();
+  const deadlineLabel = deadline
+    ? deadline.toLocaleString("en-GB", { timeZone: "UTC", hour12: false }) +
+      " UTC"
+    : "the deadline on the card";
   const [error, setError] = useState(""),
     [busy, setBusy] = useState("Loading risks"),
     [message, setMessage] = useState(""),
@@ -669,6 +678,11 @@ function LiveDesk() {
                       {pulse.id} · Round {pulse.round} · {pulse.n_answers}{" "}
                       sealed answers
                     </p>
+                    <p className="panel-caption">
+                      {deadlinePassed
+                        ? `The deadline passed at ${deadlineLabel}. Answers open together.`
+                        : `Answers open together at ${deadlineLabel}. Revealing before then is recorded as an analyst override.`}
+                    </p>
                     {group && validResult(group) ? (
                       <ResponseProgress
                         total={group.n}
@@ -686,9 +700,20 @@ function LiveDesk() {
                       <button
                         className="primary"
                         disabled={!!busy || pulse.n_answers < 5 || !!group}
+                        title={
+                          deadlinePassed
+                            ? "The deadline has passed."
+                            : "Before the deadline. The reveal is recorded as an analyst override."
+                        }
                         onClick={() =>
                           void run("Revealing round", async () => {
-                            const value = await endpoint.reveal(pulse.id);
+                            // The engine fixes the reveal at pulse.expires_at and refuses a
+                            // plain reveal before it. An analyst can still open a round early;
+                            // it goes through as an override and the result says it was one.
+                            const value = await endpoint.reveal(
+                              pulse.id,
+                              !deadlinePassed,
+                            );
                             if (value.pulse_id !== pulse.id)
                               throw new Error(
                                 "The API returned a result for a different pulse. Refresh the selected pulse.",
@@ -701,7 +726,9 @@ function LiveDesk() {
                           })
                         }
                       >
-                        Reveal round
+                        {deadlinePassed
+                          ? "Reveal (deadline passed)"
+                          : "Reveal now (before the deadline)"}
                       </button>
                       <button
                         disabled={!!busy}

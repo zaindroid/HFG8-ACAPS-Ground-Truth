@@ -179,10 +179,20 @@ test("alert API failures retain the proposed alert and confirmed pulse opens the
   );
   await page.getByRole("button", { name: "Open pulse", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: "Reveal round", exact: true }),
+    revealButton(page),
   ).toBeEnabled();
   expect(writes[1]).toEqual({ path: "/alerts/S-0001/pulse", body: {} });
 });
+
+/** The reveal button, whichever label the deadline put on it.
+ *
+ * The round opens at pulse.expires_at and the engine refuses a plain reveal before then, so the
+ * desk offers "Reveal (deadline passed)" or "Reveal now (before the deadline)" and sends the
+ * recorded override only in the second case. A test matching one fixed label would pass or fail
+ * on what time the fixture was generated. */
+function revealButton(page: Page) {
+  return page.getByRole("button", { name: /^Reveal (\(deadline passed\)|now \(before the deadline\))$/ });
+}
 
 async function contractApi(page: Page) {
   const writes: { path: string; body: any }[] = [];
@@ -323,7 +333,13 @@ test("API pulse, SSE, reveal, checked draft, decision and resolution", async ({
   await expect(
     page.getByText("P-0001 · Round 1 · 8 sealed answers", { exact: true }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Reveal round", exact: true }).click();
+  await revealButton(page).click();
+  // The engine fixes the reveal at pulse.expires_at and refuses a plain reveal before it. The
+  // seeded round's deadline is a day out, so the desk has to send the recorded override or the
+  // button 409s -- which is exactly what it did until this assertion existed.
+  const revealWrite = writes.find((w) => w.path.endsWith("/reveal"));
+  expect(revealWrite).toBeTruthy();
+  expect(revealWrite!.body).toEqual({ force: true });
   await expect(
     page.getByText(meanPercent, { exact: true }).first(),
   ).toBeVisible();
@@ -518,9 +534,9 @@ test("uncorroborated API claims remain to verify and block publication", async (
   await page.goto("/desk");
   await page.getByRole("button", { name: "Ask panel" }).click();
   await expect(
-    page.getByRole("button", { name: "Reveal round", exact: true }),
+    revealButton(page),
   ).toBeEnabled();
-  await page.getByRole("button", { name: "Reveal round", exact: true }).click();
+  await revealButton(page).click();
   await page.getByRole("button", { name: "Prepare draft" }).click();
   await expect(
     page.getByRole("heading", { name: "To verify before inclusion" }),
@@ -545,7 +561,7 @@ test("a result for another pulse is not revealed on the selected desk", async ({
   );
   await page.goto("/desk");
   await page.getByRole("button", { name: "Ask panel" }).click();
-  await page.getByRole("button", { name: "Reveal round", exact: true }).click();
+  await revealButton(page).click();
   await expect(page.getByRole("alert")).toContainText("different pulse");
   await expect(
     page.getByRole("button", { name: "Prepare draft" }),
@@ -693,7 +709,7 @@ test("v3 aggregate stays primary and mismatched outcome reports are withheld", a
   );
   await page.goto("/desk");
   await page.getByRole("button", { name: "Ask panel", exact: true }).click();
-  await page.getByRole("button", { name: "Reveal round", exact: true }).click();
+  await revealButton(page).click();
   await expect(
     page
       .getByText("Equal-weight mean", { exact: true })
@@ -759,7 +775,7 @@ test("a successful status without a frozen contract cannot unlock scoring", asyn
   await expect(page.getByRole("alert")).toContainText(
     "did not confirm this frozen contract",
   );
-  await page.getByRole("button", { name: "Reveal round", exact: true }).click();
+  await revealButton(page).click();
   await page.getByRole("button", { name: "Prepare draft" }).click();
   await page.getByLabel("Decision note").fill("Keep High for the demo.");
   await page

@@ -253,6 +253,7 @@ ui/src/verification-trail.css
 ui/src/workspace-session.ts
 ui/src/workspace.css
 ui/tests/arrival-replay.spec.ts
+ui/tests/card-flow.ts
 ui/tests/data-context.spec.ts
 ui/tests/entry.spec.ts
 ui/tests/expert-flow.ts
