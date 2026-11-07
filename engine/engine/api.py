@@ -433,6 +433,95 @@ def approve_expert(expert_id: str, body: dict = Body(default_factory=dict)):
     })
 
 
+
+def _track_record(expert_id: str) -> dict:
+    """An expert's record on risks the Risk List has already resolved.
+
+    Reported only above five resolved forecasts, the same floor the board and the private
+    calibration report use: fewer than that is noise wearing a number. `moved_before_acaps`
+    counts the times the expert was on the correct side of 0.5 while the ACAPS band for that
+    risk was not -- the cases where asking would have changed the picture.
+    """
+    mine = [s for s in STORE.scores if s["expert_internal_id"] == expert_id]
+    if len(mine) < 5:
+        return {"n_resolved": len(mine), "reported": False,
+                "note": "A track record opens after five resolved forecasts."}
+    briers = [s["brier"] for s in mine]
+    scored = [s for s in mine if s.get("probability") is not None and s.get("outcome")]
+    right = sum(1 for s in scored
+                if (s["probability"] >= 0.5) == (s["outcome"].lower() == "materialised"))
+    earlier = 0
+    for s in scored:
+        band = data.band_to_number(s.get("acaps_band"))
+        if band is None:
+            continue
+        truth = s["outcome"].lower() == "materialised"
+        if ((s["probability"] >= 0.5) == truth) and ((band >= 0.5) != truth):
+            earlier += 1
+    expert = STORE.experts.get(expert_id)
+    return {
+        "reported": True,
+        "n_resolved": len(mine),
+        "mean_brier": round(sum(briers) / len(briers), 4),
+        "hit_rate": round(right / len(scored), 4) if scored else None,
+        "moved_before_acaps": earlier,
+        "reliability_weight": round(expert.weight, 4) if expert else 1.0,
+        "on_theme_share": round(
+            sum(1 for s in mine if s.get("on_theme")) / len(mine), 4),
+    }
+
+
+
+@api.get("/insights", tags=["radar"])
+def insights():
+    """How the Risk List has actually performed, computed from the export the engine loaded.
+
+    The UI shipped these as a build-time file; served here they follow whatever data the
+    engine is reading, so the charts cannot quietly describe a different dataset from the
+    one answering /risks. Resolved risks only: active ones have no outcome to count.
+    """
+    rows = data.all_risks()
+    resolved = [r for r in rows if r["status"].lower() in ("materialised", "not materialised")]
+
+    def tally(key: str, order: list[str]):
+        out = []
+        for value in order:
+            group = [r for r in resolved if (r.get(key) or "") == value]
+            if not group:
+                continue
+            hit = sum(1 for r in group if r["status"].lower() == "materialised")
+            row = {"label": value, "n": len(group), "materialised": hit,
+                   "rate": round(hit / len(group), 4)}
+            if key == "probability_acaps":
+                row["expected"] = data.band_to_number(value)
+            out.append(row)
+        return out
+
+    bands = ["Very Low", "Low", "Medium", "High", "Very High"]
+    matrix = []
+    for band in bands:
+        for impact in range(1, 6):
+            cell = [r for r in resolved
+                    if (r.get("probability_acaps") or "") == band and r.get("impact_acaps") == impact]
+            hit = sum(1 for r in cell if r["status"].lower() == "materialised")
+            matrix.append({"probability": band, "impact": impact, "n": len(cell),
+                           "materialised": hit,
+                           "rate": round(hit / len(cell), 4) if cell else None})
+    return envelope({
+        "source": "ACAPS Risk List as loaded by this engine",
+        "totals": {
+            "risks": len(rows),
+            "resolved": len(resolved),
+            "active": sum(1 for r in rows if r["status"].lower().startswith("active")),
+            "materialised": sum(1 for r in resolved if r["status"].lower() == "materialised"),
+            "countries": len({c.strip() for r in rows for c in r["country"].split(",") if c.strip()}),
+        },
+        "calibration": tally("probability_acaps", bands),
+        "by_level": tally("level", ["Low", "Medium", "High"]),
+        "matrix": matrix,
+    })
+
+
 @api.get("/panels/match", tags=["panel"])
 def panels_match(risk_id: str = "R1043"):
     """The best-matched approved experts, plus the composition check. Caps matter more than scores:
@@ -443,7 +532,10 @@ def panels_match(risk_id: str = "R1043"):
     risk_themes = {theme for trigger in found["triggers"]
                    for theme in [_theme(trigger)] if theme}
     iso = {code.strip() for code in found["country_iso"].split(",")}
-    approved = [e for e in STORE.experts.values() if e.status == "approved"]
+    # Stage guests hold open links for the QR step; they are not vetted expertise and must
+    # not be matched onto a panel ahead of someone who is.
+    approved = [e for e in STORE.experts.values()
+                if e.status == "approved" and e.affiliation_tag != "guest"]
 
     def score(expert: Expert) -> tuple[int, int]:
         return (len(set(expert.theme_tags) & risk_themes), len(set(expert.geo_tags) & iso))
@@ -469,6 +561,9 @@ def panels_match(risk_id: str = "R1043"):
                      # How well this expert fits: themes matched plus country matched, over what
                      # the risk asks for. Shown so a panel can be argued with, not just accepted.
                      "match": round(sum(score(e)) / max(1, len(risk_themes) + 1), 4),
+                     "languages": e.languages,
+                     "years_experience": e.years_experience,
+                     "track_record": _track_record(e.id),
                      "synthetic": e.synthetic} for e in chosen],
         "composition": {
             "max_per_affiliation": 3,

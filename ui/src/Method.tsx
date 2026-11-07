@@ -2,6 +2,7 @@ import type { Result } from "./service";
 import { bandRate } from "./base-rates";
 
 type IntegrityNote = { kind: string; text: string; evidence: string };
+type UnmatchedNote = { text: string; reason: string };
 
 const pct = (value: number) => `${Math.round(value * 100)}%`;
 
@@ -149,15 +150,25 @@ export function MethodChain({
  * Themes the panel raised, routed to the expertise each one calls for, so the
  * analyst can see which second opinion would close the gap.
  */
+function unmatchedCount(result: Result): number {
+  return (
+    (result as Result & { unmatched_notes?: UnmatchedNote[] }).unmatched_notes
+      ?.length || 0
+  );
+}
+
 export function CoverageAdvice({ result }: { result: Result }) {
   const themes = result.missing_themes || [];
   // integrity_notes ships in the round fixture but is not on the shared Result
   // contract, so it is narrowed here rather than by editing the contract.
-  const notes =
-    (result as Result & { integrity_notes?: IntegrityNote[] })
-      .integrity_notes || [];
+  const extra = result as Result & {
+    integrity_notes?: IntegrityNote[];
+    unmatched_notes?: UnmatchedNote[];
+  };
+  const notes = extra.integrity_notes || [];
+  const unmatched = extra.unmatched_notes || [];
   const gaps = notes.filter((note) => note.kind === "coverage_gap");
-  if (!themes.length && !gaps.length) return null;
+  if (!themes.length && !gaps.length && !unmatchedCount(result)) return null;
 
   const routed = themes.map((theme) => ({
     ...theme,
@@ -221,6 +232,24 @@ export function CoverageAdvice({ result }: { result: Result }) {
               by hand.
             </p>
           )}
+        </div>
+      )}
+      {unmatched.length > 0 && (
+        <div className="coverage-gaps">
+          <h3>Held back from the group view</h3>
+          <p>
+            {unmatched.length} contribution
+            {unmatched.length === 1 ? "" : "s"} shared no vocabulary with this
+            risk, so {unmatched.length === 1 ? "it is" : "they are"} not
+            counted in the themes above or carried into the draft. Kept here
+            rather than deleted: the test is whether a line bears on this
+            risk, not whether the person is right.
+          </p>
+          <ul className="held-notes">
+            {unmatched.slice(0, 6).map((note) => (
+              <li key={note.text}>{note.text}</li>
+            ))}
+          </ul>
         </div>
       )}
       {gaps.length > 0 && (

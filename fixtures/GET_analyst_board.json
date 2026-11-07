@@ -1,36 +1,56 @@
 {
   "super_estimators": [
     {
-      "pseudonym": "quiet-heron",
-      "n": 5,
-      "mean_brier": 0.12,
-      "weight": 1.6
+      "pseudonym": "far-wadi-83",
+      "n": 13,
+      "mean_brier": 0.0712,
+      "weight": 2.0
     },
     {
-      "pseudonym": "tall-acacia",
-      "n": 4,
-      "mean_brier": 0.18,
-      "weight": 1.2
+      "pseudonym": "still-kite-c1",
+      "n": 10,
+      "mean_brier": 0.0784,
+      "weight": 1.9618
     },
     {
-      "pseudonym": "dry-wadi",
-      "n": 5,
-      "mean_brier": 0.31,
-      "weight": 0.7
+      "pseudonym": "far-ibis-bb",
+      "n": 12,
+      "mean_brier": 0.0794,
+      "weight": 1.9509
+    },
+    {
+      "pseudonym": "early-baobab-23",
+      "n": 10,
+      "mean_brier": 0.0837,
+      "weight": 1.9056
+    },
+    {
+      "pseudonym": "wide-heron-de",
+      "n": 9,
+      "mean_brier": 0.0899,
+      "weight": 1.8429
+    },
+    {
+      "pseudonym": "far-heron-33",
+      "n": 10,
+      "mean_brier": 0.0953,
+      "weight": 1.7917
+    },
+    {
+      "pseudonym": "long-ibis-a9",
+      "n": 13,
+      "mean_brier": 0.0954,
+      "weight": 1.7911
+    },
+    {
+      "pseudonym": "low-reed-eb",
+      "n": 12,
+      "mean_brier": 0.0963,
+      "weight": 1.7828
     }
   ],
-  "divergence": [
-    {
-      "risk_id": "R1043",
-      "panel": 0.78,
-      "acaps": 0.7
-    },
-    {
-      "risk_id": "R1050",
-      "panel": 0.35,
-      "acaps": 0.5
-    }
-  ],
+  "divergence": [],
+  "note": "A board entry needs 5 resolved risks. Empty is the honest state early on.",
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T14:55:42+00:00"
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Section } from "./LiveWorkspace";
-import insights from "./data/risk-insights.json";
+import { useInsights } from "./base-rates";
 
 type Band = {
   label: string;
@@ -17,9 +17,6 @@ type Cell = {
   rate: number | null;
 };
 
-const bands = insights.calibration as Band[];
-const matrix = insights.matrix as Cell[];
-const totals = insights.totals;
 const impacts = [1, 2, 3, 4, 5];
 const probabilities = ["Very High", "High", "Medium", "Low", "Very Low"];
 const pct = (value: number) => `${Math.round(value * 100)}%`;
@@ -30,11 +27,13 @@ const H = 250;
 const TOP = 28;
 const FLOOR = 176;
 const LEFT = 44;
-const STEP = (W - LEFT - 24) / bands.length;
-const x = (index: number) => LEFT + STEP * (index + 0.5);
+const step = (count: number) => (W - LEFT - 24) / Math.max(1, count);
+const x = (index: number, count: number) =>
+  LEFT + step(count) * (index + 0.5);
 const y = (rate: number) => FLOOR - rate * (FLOOR - TOP);
 
 function Calibration() {
+  const { calibration: bands, totals } = useInsights();
   return (
     <Section title="Has the rating matched what happened?">
       <p className="insights-lede">
@@ -83,7 +82,9 @@ function Calibration() {
           <polyline
             className="acaps-line"
             fill="none"
-            points={bands.map((b, i) => `${x(i)},${y(b.expected)}`).join(" ")}
+            points={bands
+              .map((b, i) => `${x(i, bands.length)},${y(b.expected)}`)
+              .join(" ")}
           />
 
           {bands.map((band, index) => (
@@ -94,20 +95,20 @@ function Calibration() {
                 {pct(band.expected)}.
               </title>
               <line
-                x1={x(index)}
-                x2={x(index)}
+                x1={x(index, bands.length)}
+                x2={x(index, bands.length)}
                 y1={y(band.expected)}
                 y2={y(band.rate)}
                 className="gap-line"
               />
               <circle
-                cx={x(index)}
+                cx={x(index, bands.length)}
                 cy={y(band.expected)}
                 r="5"
                 className="expected-dot"
               />
               <circle
-                cx={x(index)}
+                cx={x(index, bands.length)}
                 cy={y(band.rate)}
                 r="7"
                 className="observed-dot"
@@ -115,7 +116,7 @@ function Calibration() {
               {/* Keep the value clear of the reference line: below the dot when the
                   band over-stated the risk, above it when it under-stated. */}
               <text
-                x={x(index)}
+                x={x(index, bands.length)}
                 y={
                   band.rate >= band.expected
                     ? y(band.rate) - 14
@@ -127,14 +128,14 @@ function Calibration() {
                 {pct(band.rate)}
               </text>
               <text
-                x={x(index)}
+                x={x(index, bands.length)}
                 y={FLOOR + 20}
                 textAnchor="middle"
                 className="band-name"
               >
                 {band.label}
               </text>
-              <text x={x(index)} y={FLOOR + 36} textAnchor="middle">
+              <text x={x(index, bands.length)} y={FLOOR + 36} textAnchor="middle">
                 {band.n} risks
               </text>
             </g>
@@ -169,6 +170,7 @@ function Calibration() {
 }
 
 function Matrix() {
+  const { matrix } = useInsights();
   const populated = matrix.filter((cell) => cell.n > 0);
   const step = (rate: number | null) =>
     rate === null ? "empty" : `r${Math.min(5, Math.floor(rate * 5) + 1)}`;
@@ -188,7 +190,12 @@ function Matrix() {
           </span>
         ))}
         {probabilities.map((probability) => (
-          <Row key={probability} probability={probability} step={step} />
+          <Row
+            key={probability}
+            probability={probability}
+            step={step}
+            matrix={matrix}
+          />
         ))}
       </div>
       <div className="matrix-scale">
@@ -218,9 +225,11 @@ function Matrix() {
 function Row({
   probability,
   step,
+  matrix,
 }: {
   probability: string;
   step: (rate: number | null) => string;
+  matrix: Cell[];
 }) {
   return (
     <>
@@ -257,6 +266,7 @@ function Row({
 
 export function RiskInsights() {
   const [tableOpen, setTableOpen] = useState(false);
+  const { calibration: bands, totals, source, live } = useInsights();
   return (
     <div className="insights">
       <div className="stat-row">
@@ -313,9 +323,12 @@ export function RiskInsights() {
         )}
       </details>
       <p className="panel-caption">
-        Source: {insights.source}, fetched into{" "}
-        <code>data/acaps-risk-list.csv</code>. Figures cover resolved risks
-        only; {totals.active} are still active and are not counted.
+        Source: {source}{" "}
+        {live
+          ? "(served live by the engine)"
+          : "(bundled export; the engine did not answer)"}
+        . Figures cover resolved risks only; {totals.active} are still active
+        and are not counted.
       </p>
     </div>
   );

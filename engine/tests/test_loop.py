@@ -237,10 +237,23 @@ def test_resolving_without_a_frozen_question_contract_is_refused(seeded):
     assert "question contract" in refused.json()["detail"]
 
 
-def test_board_is_empty_until_five_resolutions(seeded):
+def test_board_needs_five_resolutions_per_expert(seeded):
+    """The seeded roster carries real history, so the board is no longer empty. The rule it
+    protects is unchanged: an expert appears only above five resolved forecasts."""
+    from engine.api import STORE
+
     client, pulse_id = seeded
     board = client.get("/api/analyst/board").json()
-    assert board["super_estimators"] == []
+    counts = {}
+    for score in STORE.scores:
+        counts[score["expert_internal_id"]] = counts.get(score["expert_internal_id"], 0) + 1
+
+    assert board["super_estimators"], "seeded experts should have a track record"
+    assert all(row["n"] >= 5 for row in board["super_estimators"])
+    # Every expert below the floor is absent, and the guests have no history at all.
+    listed = {row["n"] for row in board["super_estimators"]}
+    assert min(listed) >= 5
+    assert len(board["super_estimators"]) == sum(1 for n in counts.values() if n >= 5)
 
 
 # -- the risk export -----------------------------------------------------------
@@ -379,3 +392,48 @@ def test_round_two_shows_the_rating_that_round_one_hides(seeded):
     assert second["blind"] is False
     assert second["risk"]["probability_acaps"] == "High"
     assert second["group_view_if_round2"]["n"] == 8
+
+
+# -- what a guest writes -------------------------------------------------------
+def test_offtopic_guest_lines_are_held_not_counted(seeded):
+    """At the demo the panel fills with people in a conference hall, not in Ouaddai.
+
+    A line that bears on the risk joins the group view; one that does not is held and
+    shown to the analyst instead. Nothing is deleted, and the test is relevance to the
+    risk, never whether the contributor is right.
+    """
+    from engine.api import STORE, SETTINGS
+
+    client, pulse_id = seeded
+    guests = [e for e in STORE.experts.values() if e.affiliation_tag == "guest"]
+    assert len(guests) >= 2, "the QR step needs open guest links"
+    assert all(e.geo_tags == ["NLD"] and e.region == "The Hague" for e in guests), (
+        "guests are tagged for where they are, not given borrowed field credentials"
+    )
+
+    on_topic = "Camp capacity around Adre is already past the planned site figures."
+    off_topic = "I like stroopwafels and this demo is cool"
+    for expert, text in zip(guests[:2], (on_topic, off_topic)):
+        STORE.seal(pulse_id, expert.id, {
+            "stance": "estimate", "round": 1, "probability": 0.6,
+            "panel_share_yes": 0.6, "confidence": 3, "mask": "pseudonym",
+            "source_tag": "heard", "missing": text,
+        }, SETTINGS.commitment_salt, SETTINGS.pseudonym_key)
+
+    result = client.post(f"/api/pulses/{pulse_id}/reveal").json()
+    themes = " ".join(t["theme"] for t in result["missing_themes"])
+    held = [n["text"] for n in result["unmatched_notes"]]
+
+    assert "Adre" in themes, "a relevant guest line should reach the group view"
+    assert off_topic in held, "an off-topic line should be held, not counted"
+    assert off_topic not in themes
+    # Held, not discarded.
+    assert all(n["reason"] for n in result["unmatched_notes"])
+
+
+def test_guests_are_not_matched_onto_a_panel(seeded):
+    """Open demo links are not vetted expertise and must not outrank someone who is."""
+    client, _ = seeded
+    match = client.get("/api/panels/match?risk_id=R1043").json()
+    assert match["experts"], "a panel should still be selected"
+    assert all(e["affiliation_tag"] != "guest" for e in match["experts"])

@@ -61,7 +61,10 @@ def pseudonym_for(expert_id: str, key: str) -> str:
     nouns = ("heron", "acacia", "wadi", "dune", "kite", "baobab", "oryx", "harmattan", "reed", "ibis")
     first = adjectives[int(digest[:4], 16) % len(adjectives)]
     second = nouns[int(digest[4:8], 16) % len(nouns)]
-    return f"{first}-{second}"
+    # Two words give 100 names, and a roster in the dozens collides long before that --
+    # two experts reading as one person on the board. The suffix widens it to 25,600
+    # while staying pronounceable, deterministic and no more reversible than before.
+    return f"{first}-{second}-{digest[8:10]}"
 
 
 def bucket_of(probability: float) -> str:
@@ -79,6 +82,7 @@ class Expert:
     status: str = "applied"
     region: str = ""
     weight: float = 1.0
+    years_experience: int = 0
     synthetic: bool = True
 
 
@@ -291,7 +295,8 @@ class Store:
             "dissent_index": round(_iqr(probabilities), 4) if probabilities else None,
             "distribution": distribution,
             "agreement_by_region": self._agreement_by_region(estimates),
-            "missing_themes": _missing_themes(answers),
+            "missing_themes": _missing_themes(answers, risk),
+            "unmatched_notes": _unmatched_notes(answers, risk),
             "abstentions": [
                 {"stance": stance, "count": sum(1 for a in answers if a.stance == stance)}
                 for stance in ("outside_my_expertise", "not_enough_evidence")
@@ -421,13 +426,65 @@ def _sp_experiment(estimates: list[Answer]) -> dict:
     }
 
 
-def _missing_themes(answers: list[Answer]) -> list[dict]:
+# Words that make a line about this risk rather than about anything at all. Built from the
+# risk's own record -- its title, its triggers, its country and regions -- plus the standing
+# humanitarian vocabulary, so the test is "does this bear on the risk in front of you".
+STANDING_VOCABULARY = {
+    "conflict", "armed", "attack", "raid", "militia", "shelling", "drone", "incursion",
+    "clash", "violence", "insecurity", "fighting", "displace", "displacement", "refugee",
+    "returnee", "influx", "camp", "idp", "shelter", "food", "hunger", "famine", "harvest",
+    "nutrition", "market", "price", "water", "sanitation", "cholera", "health", "clinic",
+    "disease", "outbreak", "access", "road", "convoy", "crossing", "border", "blockade",
+    "supply", "fuel", "protection", "abuse", "trafficking", "detention", "flood", "drought",
+    "rains", "season", "seasonal", "funding", "donor", "evacuation", "curfew", "checkpoint",
+}
+MIN_RELEVANT_WORDS = 4
+
+
+def risk_vocabulary(risk: dict | None) -> set[str]:
+    if not risk:
+        return set(STANDING_VOCABULARY)
+    text = " ".join([
+        risk.get("title", ""), risk.get("country", ""), risk.get("risk_type", "") or "",
+        " ".join(t.get("title", "") + " " + t.get("description", "") for t in risk.get("triggers", [])),
+    ]).lower()
+    words = {w.strip(".,;:()[]\"'") for w in text.split() if len(w) > 4}
+    return STANDING_VOCABULARY | words
+
+
+def line_is_relevant(text: str, vocabulary: set[str]) -> bool:
+    """Does this line bear on the risk at hand?
+
+    A guest at a demo can write anything, and a panel view that absorbs anything is not a
+    panel view. This asks only whether the words overlap the risk's own vocabulary -- it is
+    not a judgement of whether the contributor is right, and unmatched lines are kept and
+    shown to the analyst separately rather than thrown away.
+    """
+    if len(text.split()) < MIN_RELEVANT_WORDS:
+        return False
+    words = {w.strip(".,;:()[]\"'").lower() for w in text.split()}
+    return bool(words & vocabulary)
+
+
+def _unmatched_notes(answers: list[Answer], risk: dict | None = None) -> list[dict]:
+    """Lines that did not match the risk's vocabulary. Held, not deleted: the analyst sees
+    them, they simply do not enter the group view or the draft."""
+    vocabulary = risk_vocabulary(risk)
+    return [
+        {"text": a.missing.strip(), "reason": "no overlap with this risk's vocabulary"}
+        for a in answers
+        if a.missing.strip() and not line_is_relevant(a.missing.strip(), vocabulary)
+    ]
+
+
+def _missing_themes(answers: list[Answer], risk: dict | None = None) -> list[dict]:
     """Cluster the free-text 'what are we missing' lines. Corroboration stays 'not checked' until
     something actually checks it -- the word is a status, not a compliment."""
+    vocabulary = risk_vocabulary(risk)
     clusters: list[dict] = []
     for answer in answers:
         text = answer.missing.strip()
-        if not text:
+        if not text or not line_is_relevant(text, vocabulary):
             continue
         for cluster in clusters:
             if SequenceMatcher(None, cluster["theme"].lower(), text.lower()).ratio() >= 0.6:

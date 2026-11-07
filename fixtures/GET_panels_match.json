@@ -1,101 +1,266 @@
 {
   "risk_id": "R1043",
+  "panel_id": "PAN-TCD",
+  "k_min": 5,
   "experts": [
     {
-      "pseudonym": "synthetic-0",
-      "match": 0.95,
+      "expert_id": "X-syn-06",
+      "pseudonym": "low-wadi-3b",
+      "theme_tags": [
+        "conflict",
+        "displacement"
+      ],
       "geo_tags": [
         "TCD"
       ],
-      "theme_tags": [
-        "displacement"
-      ]
+      "affiliation_tag": "un",
+      "region": "Sila",
+      "match": 1.0,
+      "languages": [
+        "fr",
+        "en"
+      ],
+      "years_experience": 15,
+      "track_record": {
+        "reported": true,
+        "n_resolved": 12,
+        "mean_brier": 0.135,
+        "hit_rate": 0.9167,
+        "moved_before_acaps": 4,
+        "reliability_weight": 1.4893,
+        "on_theme_share": 0.5833
+      },
+      "synthetic": true
     },
     {
-      "pseudonym": "synthetic-1",
-      "match": 0.88,
+      "expert_id": "X-syn-01",
+      "pseudonym": "quiet-ibis-8f",
+      "theme_tags": [
+        "conflict",
+        "access"
+      ],
       "geo_tags": [
         "TCD"
       ],
+      "affiliation_tag": "ngo",
+      "region": "Ouaddai",
+      "match": 0.6667,
+      "languages": [
+        "fr",
+        "ar",
+        "en"
+      ],
+      "years_experience": 11,
+      "track_record": {
+        "reported": true,
+        "n_resolved": 15,
+        "mean_brier": 0.1019,
+        "hit_rate": 0.9333,
+        "moved_before_acaps": 7,
+        "reliability_weight": 1.7331,
+        "on_theme_share": 0.6
+      },
+      "synthetic": true
+    },
+    {
+      "expert_id": "X-syn-02",
+      "pseudonym": "low-heron-52",
+      "theme_tags": [
+        "conflict",
+        "political"
+      ],
+      "geo_tags": [
+        "TCD"
+      ],
+      "affiliation_tag": "un",
+      "region": "Ouaddai",
+      "match": 0.6667,
+      "languages": [
+        "fr",
+        "en"
+      ],
+      "years_experience": 7,
+      "track_record": {
+        "reported": true,
+        "n_resolved": 15,
+        "mean_brier": 0.2047,
+        "hit_rate": 0.7333,
+        "moved_before_acaps": 7,
+        "reliability_weight": 1.1487,
+        "on_theme_share": 0.6
+      },
+      "synthetic": true
+    },
+    {
+      "expert_id": "X-syn-03",
+      "pseudonym": "wide-harmattan-48",
+      "theme_tags": [
+        "displacement",
+        "food"
+      ],
+      "geo_tags": [
+        "TCD"
+      ],
+      "affiliation_tag": "ngo",
+      "region": "Wadi Fira",
+      "match": 0.6667,
+      "languages": [
+        "fr",
+        "ar"
+      ],
+      "years_experience": 9,
+      "track_record": {
+        "reported": true,
+        "n_resolved": 13,
+        "mean_brier": 0.1831,
+        "hit_rate": 0.6923,
+        "moved_before_acaps": 2,
+        "reliability_weight": 1.2363,
+        "on_theme_share": 0.7692
+      },
+      "synthetic": true
+    },
+    {
+      "expert_id": "X-syn-04",
+      "pseudonym": "open-harmattan-cc",
       "theme_tags": [
         "conflict"
-      ]
-    },
-    {
-      "pseudonym": "synthetic-2",
-      "match": 0.81,
+      ],
       "geo_tags": [
         "TCD"
       ],
+      "affiliation_tag": "research",
+      "region": "Wadi Fira",
+      "match": 0.6667,
+      "languages": [
+        "en"
+      ],
+      "years_experience": 4,
+      "track_record": {
+        "reported": true,
+        "n_resolved": 10,
+        "mean_brier": 0.1959,
+        "hit_rate": 0.7,
+        "moved_before_acaps": 1,
+        "reliability_weight": 1.1829,
+        "on_theme_share": 0.6
+      },
+      "synthetic": true
+    },
+    {
+      "expert_id": "X-syn-08",
+      "pseudonym": "long-oryx-1d",
+      "theme_tags": [
+        "conflict",
+        "access"
+      ],
+      "geo_tags": [
+        "TCD"
+      ],
+      "affiliation_tag": "research",
+      "region": "Ennedi-Est",
+      "match": 0.6667,
+      "languages": [
+        "fr",
+        "en"
+      ],
+      "years_experience": 8,
+      "track_record": {
+        "reported": true,
+        "n_resolved": 14,
+        "mean_brier": 0.1335,
+        "hit_rate": 0.8571,
+        "moved_before_acaps": 3,
+        "reliability_weight": 1.4989,
+        "on_theme_share": 0.7143
+      },
+      "synthetic": true
+    },
+    {
+      "expert_id": "X-afg-01",
+      "pseudonym": "long-kite-3e",
+      "theme_tags": [
+        "conflict",
+        "food"
+      ],
+      "geo_tags": [
+        "AFG"
+      ],
+      "affiliation_tag": "ngo",
+      "region": "Afghanistan",
+      "match": 0.3333,
+      "languages": [
+        "ps",
+        "fa"
+      ],
+      "years_experience": 17,
+      "track_record": {
+        "reported": true,
+        "n_resolved": 9,
+        "mean_brier": 0.2781,
+        "hit_rate": 0.5556,
+        "moved_before_acaps": 2,
+        "reliability_weight": 0.9257,
+        "on_theme_share": 0.5556
+      },
+      "synthetic": true
+    },
+    {
+      "expert_id": "X-afg-02",
+      "pseudonym": "tall-wadi-75",
       "theme_tags": [
         "displacement"
-      ]
-    },
-    {
-      "pseudonym": "synthetic-3",
-      "match": 0.74,
-      "geo_tags": [
-        "TCD"
       ],
-      "theme_tags": [
-        "conflict"
-      ]
-    },
-    {
-      "pseudonym": "synthetic-4",
-      "match": 0.67,
       "geo_tags": [
-        "TCD"
+        "AFG"
       ],
-      "theme_tags": [
-        "displacement"
-      ]
-    },
-    {
-      "pseudonym": "synthetic-5",
-      "match": 0.6,
-      "geo_tags": [
-        "TCD"
+      "affiliation_tag": "un",
+      "region": "Afghanistan",
+      "match": 0.3333,
+      "languages": [
+        "ps",
+        "fa"
       ],
-      "theme_tags": [
-        "conflict"
-      ]
-    },
-    {
-      "pseudonym": "synthetic-6",
-      "match": 0.53,
-      "geo_tags": [
-        "TCD"
-      ],
-      "theme_tags": [
-        "displacement"
-      ]
-    },
-    {
-      "pseudonym": "synthetic-7",
-      "match": 0.46,
-      "geo_tags": [
-        "TCD"
-      ],
-      "theme_tags": [
-        "conflict"
-      ]
+      "years_experience": 4,
+      "track_record": {
+        "reported": true,
+        "n_resolved": 14,
+        "mean_brier": 0.1647,
+        "hit_rate": 0.7857,
+        "moved_before_acaps": 5,
+        "reliability_weight": 1.3222,
+        "on_theme_share": 0.5
+      },
+      "synthetic": true
     }
   ],
   "composition": {
     "max_per_affiliation": 3,
-    "ok": true,
-    "geo_spread": [
-      "TCD",
-      "SDN",
-      "FRA"
-    ],
+    "per_affiliation": {
+      "un": 3,
+      "ngo": 3,
+      "research": 2
+    },
     "theme_cover": [
       "conflict",
       "displacement"
     ],
-    "gaps": []
+    "themes_wanted": [
+      "conflict",
+      "displacement"
+    ],
+    "themes_uncovered": [],
+    "gaps": [],
+    "geo_spread": [
+      "Afghanistan",
+      "Ennedi-Est",
+      "Ouaddai",
+      "Sila",
+      "Wadi Fira"
+    ],
+    "ok": true
   },
+  "n_approved_available": 80,
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T14:55:42+00:00"
 }
