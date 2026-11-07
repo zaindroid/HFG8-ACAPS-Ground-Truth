@@ -1,6 +1,6 @@
 # Integrity layer and honesty
 
-Lane C. Revised for master prompt v3 (7 Nov). Maps each design element in master prompt sections 6 and 6a to its research source, says what the source does and does not support, and records the mentor's words on honesty.
+Lane C. Revised for master prompt v3.2 (7 Nov). Maps each design element in master prompt sections 6 and 6a to its research source, says what the source does and does not support, and records the mentor's words on honesty.
 
 v3 principle: the integrity layer **describes, it does not diagnose**. No automatic penalty, no automatic switch of the number, no verdict colours. The analyst reads the notes and decides.
 
@@ -78,6 +78,12 @@ Our answer in one line: we cannot remove bias, so we describe it to the analyst,
 ### 3.8 Availability
 - Tversky, A. and Kahneman, D. (1973). Availability: A heuristic for judging frequency and probability. *Cognitive Psychology* 5(2): 207-232. DOI 10.1016/0010-0285(73)90033-9.
 - Supports: people judge likelihood by how easily examples come to mind. News volume is a proxy for that. The note says "the panel moved with news volume while hard indicators were flat". It does not say the panel was biased.
+
+### 3.9 Per-expert response-pattern reports (master prompt 6d)
+- Content: per pseudonym, after 3 or more pulses: calibration and overconfidence, extremity, agreement with ACAPS after reveal, round-2 shift, source-tag mix, abstention, answer latency, co-movement partners. Descriptive sentences, committee-side, opt-in for the expert.
+- Basis: the scoring and calibration literature in 3.3 supports reporting calibration and overconfidence back to forecasters as feedback. Round-2 shift connects to 3.1 and 3.7. We found no source that validates the other measures (extremity, latency, co-movement) as indicators of anything about a person. They are descriptions of behaviour, not findings.
+- Cautions (details in `privacy-engineering.md` section 4): a pseudonym is not anonymity, so a "per pseudonym" report is personal data; counts after 3 pulses are noise; latency is a time-based metric close to what the brief says not to optimise; co-movement named per pair reads as an accusation; the report must say what happened, not why. `anonymous` answers carry no pseudonym and must be excluded.
+- Wording: "Your round-2 answers moved toward the ACAPS band on 4 of 5 pulses. Five pulses is too few to call this a pattern."
 
 ## 4. The honesty box (public, on every ledger entry)
 

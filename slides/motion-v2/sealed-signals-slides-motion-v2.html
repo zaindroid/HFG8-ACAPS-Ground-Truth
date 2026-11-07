@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sealed Signals - Pitch Deck (motion v2)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f6fafb;--ink:#0e1b20;--muted:#4f626b;--deep:#0b3b49;--teal:#0f5c6e;--bright:#1b8aa0;--mist:#e6f0f2;--sky:#9eccd6;--amber:#b45309;--ease:cubic-bezier(.22,.8,.2,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0a1114;overflow:hidden;font-family:Poppins,"Helvetica Neue",Arial,sans-serif;color:var(--ink)}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.slide{position:absolute;inset:0;background:var(--paper);overflow:hidden;visibility:hidden}
+.slide.dark{background:var(--deep);color:#fff}
+.slide.cur{visibility:visible}
+.abs{position:absolute}
+.tag{position:absolute;height:52px;padding:0 30px;border:3px solid var(--teal);border-radius:26px;font-weight:600;font-size:26px;line-height:46px;color:var(--teal);white-space:nowrap}
+.dark .tag{border-color:#fff;color:#fff}
+h2{position:absolute;font-weight:700;font-size:68px;line-height:1.12;letter-spacing:-.5px}
+.pn{position:absolute;right:80px;bottom:56px;font-size:24px;color:var(--muted)}
+.dark .pn{color:var(--sky)}
+.circ{position:absolute;border-radius:50%}
+.ring{position:absolute;border-radius:50%;border:3px solid rgba(255,255,255,.22)}
+.pill{position:absolute;height:60px;padding:0 34px;border-radius:30px;background:var(--teal);color:#fff;font-weight:600;font-size:26px;line-height:60px;white-space:nowrap}
+.pill.amber{background:var(--amber)}
+.t{position:absolute;font-size:30px;line-height:1.35}
+.card{position:absolute;background:var(--mist);border-radius:44px}
+/* motion primitives */
+[data-s]{opacity:0;transform:translateY(26px);transition:opacity .6s var(--ease) var(--d,0s),transform .7s var(--ease) var(--d,0s),clip-path .9s var(--ease) var(--d,0s)}
+[data-s].on{opacity:1;transform:none}
+[data-s].wipe{transform:none;clip-path:inset(0 100% 0 0)}[data-s].wipe.on{clip-path:inset(0 0 0 0)}
+[data-s].wipev{transform:none;clip-path:inset(0 0 100% 0)}[data-s].wipev.on{clip-path:inset(0 0 0 0)}
+[data-s].pop{transform:scale(.7)}[data-s].pop.on{transform:none}
+[data-s].growx{transform:scaleX(0);transform-origin:left center;opacity:1;transition:transform 1.1s var(--ease) var(--d,0s)}[data-s].growx.on{transform:scaleX(1)}
+[data-s].up{transform:translateY(160px)}[data-s].up.on{transform:none}
+[data-s].fromL{transform:translateX(-120px)}[data-s].fromR{transform:translateX(120px)}[data-s].fromL.on,[data-s].fromR.on{transform:none}
+svg [data-s]{transform-box:fill-box;transform-origin:center}
+svg .draw{stroke-dasharray:1;stroke-dashoffset:1;opacity:1;transition:stroke-dashoffset 1.3s var(--ease) var(--d,0s)}
+svg .draw.on{stroke-dashoffset:0}
+svg [data-s].draw{transform:none}
+.big{position:absolute;font-weight:700;letter-spacing:-6px;line-height:1}
+/* coin flip */
+.coin{position:absolute;perspective:600px}
+.coin i{display:block;width:130px;height:130px;border-radius:50%;background:var(--sky);border:6px solid #fff;box-shadow:0 0 0 4px var(--sky)}
+.coin.on i{animation:flip 1.6s var(--ease) both}
+@keyframes flip{0%{transform:rotateY(0)}100%{transform:rotateY(1260deg)}}
+/* qr scan */
+.scan{position:absolute;left:0;top:0;width:100%;height:10px;background:linear-gradient(90deg,transparent,var(--bright),transparent);box-shadow:0 0 30px 8px rgba(27,138,160,.5);opacity:0}
+.scan.go{animation:sweep 1.6s ease-in-out 1 both}
+@keyframes sweep{0%{top:0;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:100%;opacity:0}}
+.hud{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);color:#8fa;font:12px/1 Poppins,Arial;background:#000a;padding:8px 14px;border-radius:14px;transition:opacity 1s;z-index:9}
+
+/* interludes: motion-only screens */
+.inter .pn{display:none}
+.pulse{position:absolute;border-radius:50%;border:3px solid rgba(158,204,214,.5);left:50%;top:50%;width:300px;height:300px;margin:-150px 0 0 -150px;opacity:0}
+.cur .pulse{animation:ripple 5s cubic-bezier(.2,.6,.3,1) infinite}
+@keyframes ripple{0%{transform:scale(.4);opacity:.9}100%{transform:scale(5.2);opacity:0}}
+.sweep{position:absolute;left:50%;top:50%;width:900px;height:900px;margin:-450px 0 0 -450px;border-radius:50%;background:conic-gradient(from 0deg,rgba(158,204,214,0) 0deg,rgba(158,204,214,0) 270deg,rgba(158,204,214,.55) 360deg)}
+.cur .sweep{animation:spin 3.2s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.conv{transform:translate(var(--x),var(--y)) scale(.5);transition:transform 1.4s cubic-bezier(.5,0,.2,1) var(--d,0s),opacity .5s var(--d,0s)!important}
+[data-s].conv.on{transform:none}
+.wm{position:absolute;left:0;width:1920px;text-align:center;font-weight:700;letter-spacing:-2px;color:#fff;white-space:nowrap}
+.wm span{display:inline-block}
+.blip{position:absolute;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 0 0 10px rgba(255,255,255,.25)}
+@media (prefers-reduced-motion:reduce){[data-s],.coin i,.scan{transition:none!important;animation:none!important}}
+</style></head><body>
+<div id="stage">
+
+<!-- I0 OPENING -->
+<section class="slide dark inter" id="i0">
+ <div class="pulse"></div><div class="pulse" style="animation-delay:1.25s"></div><div class="pulse" style="animation-delay:2.5s"></div><div class="pulse" style="animation-delay:3.75s"></div>
+ <div class="circ pop" data-s="0" style="left:830px;top:260px;width:260px;height:260px;background:var(--teal)"></div>
+ <svg class="abs" style="left:870px;top:310px" width="180" height="160" viewBox="0 0 60 60"><g fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"><path class="draw" data-s="0" pathLength="1" style="--d:.5s" d="M12 34 A26 26 0 0 1 48 34"/><path class="draw" data-s="0" pathLength="1" style="--d:.8s" d="M2 22 A40 40 0 0 1 58 22"/></g><circle data-s="0" class="pop" style="--d:.3s" cx="30" cy="46" r="6" fill="#fff"/></svg>
+ <div class="wm" id="wm0" style="top:600px;font-size:120px"></div>
+ <div class="t" data-s="0" style="--d:1.8s;left:0;width:1920px;text-align:center;top:780px;font-size:30px;color:var(--sky);letter-spacing:1px">ACAPS Ground Truth &nbsp;|&nbsp; Hackathon for Good #8</div>
+</section>
+
+<!-- 1 PROBLEM -->
+<section class="slide" id="s1">
+ <div class="circ" style="left:860px;top:-80px;width:1240px;height:1240px;background:var(--teal)" data-s="0" ></div>
+ <div class="ring" style="left:1000px;top:60px;width:960px;height:960px"></div><div class="ring" style="left:1140px;top:200px;width:680px;height:680px"></div>
+ <div class="tag" style="left:120px;top:100px" data-s="0">Why this matters</div>
+ <div class="big" style="left:110px;top:200px;font-size:340px;color:var(--teal)" data-s="0"><span data-count="47">47</span> %</div>
+ <div class="t" style="left:120px;top:590px;width:820px;font-size:46px;font-weight:600;line-height:1.25" data-s="0" style="--d:.2s">of Medium-rated ACAPS risks materialised. A coin flip.</div>
+ <div class="t" style="left:120px;top:800px;width:720px;font-size:26px;color:var(--muted)" data-s="1">27 of 58 resolved Medium risks. High-rated: 32 of 38 (84 %). Source: ACAPS Risk Radar export.</div>
+ <svg class="abs" style="left:700px;top:20px" width="330" height="200" viewBox="0 0 330 200"><path class="draw" data-s="1" pathLength="1" d="M 20 190 C 40 60 180 10 290 70" fill="none" stroke="#0f5c6e" stroke-width="5" stroke-linecap="round" stroke-dasharray=".02 .03" style="stroke-dasharray:1"/></svg>
+ <div class="coin" style="left:920px;top:35px" data-s="1"><i></i></div>
+ <div class="t" style="left:1180px;top:240px;font-size:30px;font-weight:600;color:#fff" data-s="2">Materialised, by rating</div>
+ <div class="t" style="left:1180px;top:340px;font-size:28px;color:#cfe6ec" data-s="3">High</div>
+ <div class="abs" style="left:1180px;top:390px;width:403px;height:60px;border-radius:30px;background:#fff" data-s="3"></div>
+ <div class="t" style="left:1610px;top:388px;font-size:44px;font-weight:700;color:#fff" data-s="3" style="--d:.8s"><span data-count="84">84</span> %</div>
+ <div class="t" style="left:1180px;top:510px;font-size:28px;color:#cfe6ec" data-s="4">Medium</div>
+ <div class="abs" style="left:1180px;top:560px;width:226px;height:60px;border-radius:30px;background:#fff" data-s="4"></div>
+ <div class="t" style="left:1432px;top:558px;font-size:44px;font-weight:700;color:#fff" data-s="4"><span data-count="47">47</span> %</div>
+ <div class="abs" style="left:1418px;top:370px;width:3px;height:300px;background:var(--sky)" data-s="5"></div>
+ <div class="t" style="left:1390px;top:680px;font-size:26px;color:var(--sky)" data-s="5">50 %</div>
+ <div class="pn">1 / 9</div>
+</section>
+
+<!-- 2 WHAT ACAPS TOLD US -->
+<section class="slide" id="s2">
+ <div class="circ" style="left:-320px;top:-50px;width:1180px;height:1180px;background:var(--deep)" data-s="0"></div>
+ <div class="abs" style="left:110px;top:120px;font-size:420px;line-height:1;font-weight:700;color:var(--bright);opacity:.9" data-s="0">&ldquo;</div>
+ <div class="t" style="left:150px;top:470px;width:540px;font-size:44px;font-weight:600;line-height:1.3;color:#fff" data-s="0">We will get things wrong, like a prediction market; the point is honesty about it.</div>
+ <div class="t" style="left:150px;top:830px;width:560px;font-size:24px;color:var(--sky)" data-s="0">ACAPS mentor, interview notes, 2026-11-06</div>
+ <div class="tag" style="left:980px;top:100px" data-s="0">The challenge</div>
+ <h2 style="left:980px;top:190px;width:840px;font-size:42px;line-height:1.16" data-s="0">How can ACAPS turn scattered expert knowledge into sharper risk analysis, without costing experts their time or their anonymity?</h2>
+ <div class="card" style="left:980px;top:440px;width:820px;height:130px" data-s="1"></div>
+ <div class="abs" style="left:980px;top:440px;width:12px;height:130px;background:var(--teal);border-radius:6px" data-s="1"></div>
+ <svg class="abs" style="left:1030px;top:468px" width="70" height="70" viewBox="0 0 70 70" data-s="1"><ellipse cx="35" cy="14" rx="26" ry="9" fill="none" stroke="#0f5c6e" stroke-width="5"/><path d="M9 14 V54 C9 66 61 66 61 54 V14 M9 34 C9 46 61 46 61 34" fill="none" stroke="#0f5c6e" stroke-width="5"/></svg>
+ <div class="t" style="left:1130px;top:462px;width:640px;font-size:28px;font-weight:500" data-s="1">Expert knowledge stays in informal chats and disappears. No platform captures it.</div>
+ <div class="card" style="left:980px;top:600px;width:820px;height:130px" data-s="2"></div>
+ <div class="abs" style="left:980px;top:600px;width:12px;height:130px;background:var(--teal);border-radius:6px" data-s="2"></div>
+ <svg class="abs" style="left:1030px;top:628px" width="70" height="70" viewBox="0 0 70 70" data-s="2"><circle cx="35" cy="22" r="14" fill="none" stroke="#0f5c6e" stroke-width="5"/><path d="M8 66 C8 44 62 44 62 66" fill="none" stroke="#0f5c6e" stroke-width="5" stroke-linecap="round"/></svg>
+ <div class="t" style="left:1130px;top:622px;width:640px;font-size:28px;font-weight:500" data-s="2">The constraints: minutes, not hours. Anonymity under the expert&rsquo;s control.</div>
+ <div class="card" style="left:980px;top:760px;width:820px;height:130px;background:#f6e7d6" data-s="3"></div>
+ <div class="abs" style="left:980px;top:760px;width:12px;height:130px;background:var(--amber);border-radius:6px" data-s="3"></div>
+ <svg class="abs" style="left:1030px;top:788px" width="70" height="70" viewBox="0 0 70 70" data-s="3"><path d="M35 6 L66 62 H4 Z" fill="none" stroke="#b45309" stroke-width="5" stroke-linejoin="round"/><path d="M35 26 V42 M35 50 V52" stroke="#b45309" stroke-width="6" stroke-linecap="round"/></svg>
+ <div class="t" style="left:1130px;top:782px;width:640px;font-size:28px;font-weight:500" data-s="3">The open problem: a panel can anchor, follow the crowd or be steered.</div>
+ <div class="t" style="left:980px;top:940px;width:820px;font-size:30px;font-weight:700;color:var(--teal)" data-s="4">Two directions, one loop: react and forecast.</div>
+ <div class="pn">2 / 9</div>
+</section>
+
+<!-- 3 SOLUTION -->
+<section class="slide" id="sSol">
+ <div class="circ" style="left:1500px;top:-320px;width:760px;height:760px;background:var(--mist)" data-s="0"></div>
+ <div class="circ" style="left:1690px;top:-150px;width:360px;height:360px;background:var(--sky);opacity:.6"></div>
+ <div class="tag" style="left:120px;top:100px" data-s="0">Our solution</div>
+ <h2 style="left:120px;top:190px;width:1500px;font-size:62px" data-s="0">A platform that collects expert judgement with the bias designed out.</h2>
+ <div class="card pop" data-s="1" style="left:120px;top:430px;width:520px;height:380px"></div>
+ <div class="circ" data-s="1" style="left:156px;top:466px;width:84px;height:84px;background:var(--teal)"></div>
+ <svg class="abs" data-s="1" style="left:168px;top:478px" width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="26" fill="none" stroke="#fff" stroke-width="5"/><path d="M20 30 H40 M32 21 L41 30 L32 39" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ <div class="t" data-s="1" style="left:270px;top:480px;font-size:44px;font-weight:700;color:var(--teal)">Collect</div>
+ <div class="t" data-s="1" style="left:156px;top:590px;width:450px;font-size:28px;line-height:1.38">No sign-up. One screen by email, WhatsApp or SMS. A forecast and what is missing, in a minute, rating hidden.</div>
+ <svg class="abs" style="left:646px;top:600px" width="48" height="40" viewBox="0 0 48 40"><path class="draw" data-s="2" pathLength="1" style="--d:-.1s" d="M4 20 H38 M26 7 L40 20 L26 33" fill="none" stroke="#0f5c6e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ <div class="card pop" data-s="2" style="left:700px;top:430px;width:520px;height:380px"></div>
+ <div class="circ" data-s="2" style="left:736px;top:466px;width:84px;height:84px;background:var(--teal)"></div>
+ <svg class="abs" data-s="2" style="left:748px;top:478px" width="60" height="60" viewBox="0 0 60 60"><path d="M8 50 V30 M24 50 V14 M40 50 V24 M56 50 V6" stroke="#fff" stroke-width="9" stroke-linecap="round"/></svg>
+ <div class="t" data-s="2" style="left:850px;top:480px;font-size:44px;font-weight:700;color:var(--teal)">Aggregate</div>
+ <div class="t" data-s="2" style="left:736px;top:590px;width:450px;font-size:28px;line-height:1.38">Committed answers open together. The panel view shows the mean, the spread and the minority reasons.</div>
+ <svg class="abs" style="left:1226px;top:600px" width="48" height="40" viewBox="0 0 48 40"><path class="draw" data-s="3" pathLength="1" style="--d:-.1s" d="M4 20 H38 M26 7 L40 20 L26 33" fill="none" stroke="#0f5c6e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ <div class="card pop" data-s="3" style="left:1280px;top:430px;width:520px;height:380px"></div>
+ <div class="circ" data-s="3" style="left:1316px;top:466px;width:84px;height:84px;background:var(--teal)"></div>
+ <svg class="abs" data-s="3" style="left:1328px;top:478px" width="60" height="60" viewBox="0 0 60 60"><path d="M6 48 C16 46 22 34 30 28 S46 14 56 8 M44 8 H56 V20" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ <div class="t" data-s="3" style="left:1430px;top:480px;font-size:44px;font-weight:700;color:var(--teal)">Improve</div>
+ <div class="t" data-s="3" style="left:1316px;top:590px;width:450px;font-size:28px;line-height:1.38">Resolved risks are scored. Calibration feedback and reliability weights sharpen the panel over time.</div>
+ <div class="abs up" data-s="4" style="left:120px;top:860px;width:1680px;height:120px;border-radius:60px;background:var(--teal);color:#fff;font-weight:600;font-size:34px;line-height:120px;text-align:center">The result: better-grounded local information, with its limits stated.</div>
+ <div class="pn" style="bottom:20px">3 / 9</div>
+</section>
+
+<!-- 4 PSYCHOLOGY -->
+<section class="slide" id="sPsy">
+ <div class="tag" style="left:120px;top:100px" data-s="0">Why it reduces bias</div>
+ <h2 style="left:120px;top:190px;width:1600px;font-size:56px" data-s="0">Each known bias gets its own countermeasure.</h2>
+ <div class="pill" style="left:120px;top:300px;width:340px;text-align:center" data-s="1">Anchoring</div>
+ <svg class="abs" style="left:480px;top:314px" width="50" height="32" viewBox="0 0 50 32"><path class="draw" data-s="1" pathLength="1" style="--d:.15s" d="M4 16 H42 M31 5 L44 16 L31 27" fill="none" stroke="#0f5c6e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ <div class="t" style="left:550px;top:310px;width:1260px;font-size:26px;font-weight:500" data-s="1">ACAPS&rsquo;s rating stays hidden until the expert has submitted their own estimate.</div>
+ <div class="pill" style="left:120px;top:386px;width:340px;text-align:center" data-s="2">Herding</div>
+ <svg class="abs" style="left:480px;top:400px" width="50" height="32" viewBox="0 0 50 32"><path class="draw" data-s="2" pathLength="1" style="--d:.15s" d="M4 16 H42 M31 5 L44 16 L31 27" fill="none" stroke="#0f5c6e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ <div class="t" style="left:550px;top:396px;width:1260px;font-size:26px;font-weight:500" data-s="2">Answers are committed with a timestamp and opened together.</div>
+ <div class="pill" style="left:120px;top:472px;width:340px;text-align:center" data-s="3">Social pressure</div>
+ <svg class="abs" style="left:480px;top:486px" width="50" height="32" viewBox="0 0 50 32"><path class="draw" data-s="3" pathLength="1" style="--d:.15s" d="M4 16 H42 M31 5 L44 16 L31 27" fill="none" stroke="#0f5c6e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ <div class="t" style="left:550px;top:482px;width:1260px;font-size:26px;font-weight:500" data-s="3">Each expert picks a mask: known, pseudonym or anonymous. Admins see the masked view.</div>
+ <div class="pill" style="left:120px;top:558px;width:340px;text-align:center" data-s="4">Overconfidence</div>
+ <svg class="abs" style="left:480px;top:572px" width="50" height="32" viewBox="0 0 50 32"><path class="draw" data-s="4" pathLength="1" style="--d:.15s" d="M4 16 H42 M31 5 L44 16 L31 27" fill="none" stroke="#0f5c6e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ <div class="t" style="left:550px;top:568px;width:1260px;font-size:26px;font-weight:500" data-s="4">Confidence is asked for. Calibration feedback stays private, never a public score.</div>
+ <div class="pill" style="left:120px;top:644px;width:340px;text-align:center" data-s="5">Knowledge gap</div>
+ <svg class="abs" style="left:480px;top:658px" width="50" height="32" viewBox="0 0 50 32"><path class="draw" data-s="5" pathLength="1" style="--d:.15s" d="M4 16 H42 M31 5 L44 16 L31 27" fill="none" stroke="#0f5c6e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ <div class="t" style="left:550px;top:654px;width:1260px;font-size:26px;font-weight:500" data-s="5">Occasional seed questions show the gap between confidence and knowledge.</div>
+ <div class="pill" style="left:120px;top:730px;width:340px;text-align:center" data-s="6">Echo chamber</div>
+ <svg class="abs" style="left:480px;top:744px" width="50" height="32" viewBox="0 0 50 32"><path class="draw" data-s="6" pathLength="1" style="--d:.15s" d="M4 16 H42 M31 5 L44 16 L31 27" fill="none" stroke="#0f5c6e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ <div class="t" style="left:550px;top:740px;width:1260px;font-size:26px;font-weight:500" data-s="6">The panel is matched on place and theme, with at most 3 of 8 from one affiliation.</div>
+ <div class="pill" style="left:120px;top:816px;width:340px;text-align:center" data-s="7">Rumour</div>
+ <svg class="abs" style="left:480px;top:830px" width="50" height="32" viewBox="0 0 50 32"><path class="draw" data-s="7" pathLength="1" style="--d:.15s" d="M4 16 H42 M31 5 L44 16 L31 27" fill="none" stroke="#0f5c6e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ <div class="t" style="left:550px;top:826px;width:1260px;font-size:26px;font-weight:500" data-s="7">A saw, read or heard tag. Claims with a shared origin count once.</div>
+ <div class="t" style="left:120px;top:925px;width:1680px;font-size:26px;font-weight:600;color:var(--teal)" data-s="8">Designed to reduce bias, not to prove its absence. The December pilot is the first test with real experts.</div>
+ <div class="t" style="left:120px;top:975px;width:1560px;font-size:21px;color:var(--muted)" data-s="8">Grounding: Tversky and Kahneman, Delphi method, Pennycook and Rand, Tetlock, Cooke (seed questions).</div>
+ <div class="pn" style="bottom:20px">4 / 9</div>
+</section>
+
+
+<!-- 3 LOOP -->
+<section class="slide" id="s3">
+ <div class="circ" style="left:1480px;top:-300px;width:700px;height:700px;background:var(--mist)" data-s="0"></div>
+ <div class="circ" style="left:1650px;top:-160px;width:380px;height:380px;background:var(--sky);opacity:.6"></div>
+ <div class="tag" style="left:120px;top:100px" data-s="0">How it works</div>
+ <h2 style="left:120px;top:190px;width:1500px;font-size:54px" data-s="0">The machine rings the doorbell, the panel answers, the analyst decides, the ledger remembers.</h2>
+ <div id="loop"></div>
+ <div class="abs" style="left:120px;top:962px;width:12px;height:12px;border-radius:50%;background:var(--teal)" data-s="9"></div>
+ <div class="t" style="left:160px;top:940px;width:1560px;font-size:26px;color:var(--muted)" data-s="9">Alerts are arithmetic on ACAPS monthly data, no model. Nothing changes an ACAPS product unless the analyst accepts.</div>
+ <div class="pn">5 / 9</div>
+</section>
+
+<!-- 6 AGGREGATE AND LEARN -->
+<section class="slide" id="sAgg">
+<div class="tag" style="left:120px;top:100px" data-s="0">From answers to accuracy</div>
+ <h2 style="left:120px;top:190px;width:1600px;font-size:56px" data-s="0">Aggregation sharpens the picture. Every resolved risk sharpens the panel.</h2>
+ <div class="card pop" data-s="1" style="left:120px;top:410px;width:390px;height:400px"></div>
+ <div class="circ" data-s="1" style="left:150px;top:440px;width:64px;height:64px;background:var(--teal);color:#fff;font-weight:700;font-size:30px;text-align:center;line-height:64px">1</div>
+ <div class="t" data-s="1" style="left:150px;top:530px;width:330px;font-size:34px;font-weight:700;color:var(--teal)">Panel view</div>
+ <div class="t" data-s="1" style="left:150px;top:600px;width:335px;font-size:25px;line-height:1.38">The equal-weight mean is the headline, with the spread and the minority reasons next to it.</div>
+ <div class="card pop" data-s="2" style="left:550px;top:410px;width:390px;height:400px"></div>
+ <div class="circ" data-s="2" style="left:580px;top:440px;width:64px;height:64px;background:var(--teal);color:#fff;font-weight:700;font-size:30px;text-align:center;line-height:64px">2</div>
+ <div class="t" data-s="2" style="left:580px;top:530px;width:330px;font-size:34px;font-weight:700;color:var(--teal)">Analyst decides</div>
+ <div class="t" data-s="2" style="left:580px;top:600px;width:335px;font-size:25px;line-height:1.38">A cited draft. Accept, edit or reject. Only the analyst changes a rating.</div>
+ <div class="card pop" data-s="3" style="left:980px;top:410px;width:390px;height:400px"></div>
+ <div class="circ" data-s="3" style="left:1010px;top:440px;width:64px;height:64px;background:var(--teal);color:#fff;font-weight:700;font-size:30px;text-align:center;line-height:64px">3</div>
+ <div class="t" data-s="3" style="left:1010px;top:530px;width:330px;font-size:34px;font-weight:700;color:var(--teal)">Score</div>
+ <div class="t" data-s="3" style="left:1010px;top:600px;width:335px;font-size:25px;line-height:1.38">When the risk resolves, each forecast is scored against the outcome (Brier), committee-side.</div>
+ <div class="card pop" data-s="4" style="left:1410px;top:410px;width:390px;height:400px"></div>
+ <div class="circ" data-s="4" style="left:1440px;top:440px;width:64px;height:64px;background:var(--teal);color:#fff;font-weight:700;font-size:30px;text-align:center;line-height:64px">4</div>
+ <div class="t" data-s="4" style="left:1440px;top:530px;width:330px;font-size:34px;font-weight:700;color:var(--teal)">Learn</div>
+ <div class="t" data-s="4" style="left:1440px;top:600px;width:335px;font-size:25px;line-height:1.38">Weights start equal and are capped. Experts hear the group result within a day.</div>
+ <div class="pill" style="left:120px;top:870px;background:none;border:3px solid var(--teal);color:var(--teal)" data-s="5">Public honesty box: what fed in, the limits, the misses.</div>
+ <div class="pill" style="left:960px;top:870px;background:none;border:3px solid var(--amber);color:var(--amber)" data-s="6">Surprisingly-popular method: experimental, labelled.</div>
+ <div class="pn" style="bottom:20px">6 / 9</div>
+</section>
+
+<!-- I1 BEFORE DEMO -->
+<section class="slide dark inter" id="i1">
+ <div class="circ" style="left:510px;top:90px;width:900px;height:900px;border:3px solid rgba(158,204,214,.35)" data-s="0"></div>
+ <div class="circ" style="left:660px;top:240px;width:600px;height:600px;border:3px solid rgba(158,204,214,.35)" data-s="0"></div>
+ <div class="circ" style="left:810px;top:390px;width:300px;height:300px;border:3px solid rgba(158,204,214,.35)" data-s="0"></div>
+ <div class="sweep"></div>
+ <div class="blip pop" data-s="0" style="--d:.8s;left:1130px;top:330px"></div><div class="blip pop" data-s="0" style="--d:1.6s;left:760px;top:420px"></div><div class="blip pop" data-s="0" style="--d:2.4s;left:900px;top:700px"></div><div class="blip pop" data-s="0" style="--d:3.2s;left:1050px;top:620px"></div>
+ <div class="wm" id="wm1" style="top:470px;font-size:150px;text-shadow:0 0 40px rgba(11,59,73,.9)"></div>
+ <div class="t" data-s="0" style="--d:1s;left:0;width:1920px;text-align:center;top:960px;font-size:28px;color:var(--sky);letter-spacing:6px">LIVE DEMO</div>
+</section>
+
+<!-- 4 DEMO -->
+<section class="slide dark" id="s4">
+ <div class="ring" style="left:-340px;top:-100px;width:1560px;height:1560px;border-color:rgba(158,204,214,.18)" data-s="0"></div>
+ <div class="circ" style="left:-80px;top:160px;width:1040px;height:1040px;background:var(--teal);opacity:.55" data-s="0"></div>
+ <div class="abs" id="qr" style="left:180px;top:280px;width:520px;height:520px;background:#fff;border-radius:60px;overflow:hidden" data-s="0">
+  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:60px;color:var(--muted);font-size:26px">QR code to the live expert card goes here</div>
+  <div class="scan" id="scanline"></div>
+ </div>
+ <svg class="abs" style="left:150px;top:250px" width="580" height="580" viewBox="0 0 580 580"><g fill="none" stroke="#9eccd6" stroke-width="8" stroke-linecap="round"><path class="draw" data-s="0" pathLength="1" d="M0 70 V0 H70"/><path class="draw" data-s="0" pathLength="1" d="M510 0 H580 V70"/><path class="draw" data-s="0" pathLength="1" d="M0 510 V580 H70"/><path class="draw" data-s="0" pathLength="1" d="M510 580 H580 V510"/></g></svg>
+ <div class="t" style="left:180px;top:90px;width:700px;font-size:24px;line-height:1.3;color:#fff" data-s="0">Alert: ACAPS&rsquo;s severity index for the Sudan-to-Chad displacement crisis rose from 6.1 to 6.9 in April, the largest rise of 123 crises.</div>
+ <div class="tag" style="left:960px;top:120px" data-s="0">Demo</div>
+ <h2 style="left:960px;top:210px;width:700px;color:#fff" data-s="0">Scan. You are the Chad panel.</h2>
+ <div class="abs" style="left:960px;top:460px;height:90px;border-radius:45px;background:#fff;color:var(--teal);font-weight:600;font-size:30px;line-height:90px;padding:0 50px" data-s="2">About a minute. No login.</div>
+ <div class="t" style="left:960px;top:590px;width:560px;font-size:26px;color:var(--sky)" data-s="3">Risk R1043, eastern Chad. Synthetic experts are labelled.</div>
+ <!-- phone -->
+ <div class="abs up" id="phone" style="left:1610px;top:420px;width:240px;height:440px;border:5px solid #fff;border-radius:44px;background:var(--deep);--d:.2s" data-s="1">
+  <div class="abs" style="left:90px;top:14px;width:50px;height:8px;border-radius:4px;background:#fff"></div>
+  <div class="abs" style="left:24px;top:56px;width:184px;height:56px;border-radius:20px;background:var(--teal)" data-s="1"></div>
+  <div class="abs" style="left:24px;top:136px;width:184px;height:16px;border-radius:8px;background:var(--sky)"></div>
+  <div class="abs" style="left:24px;top:170px;width:140px;height:16px;border-radius:8px;background:var(--sky);opacity:.6"></div>
+  <div class="abs" style="left:24px;top:230px;width:20px;height:20px;border:3px solid #fff;border-radius:50%"></div><div class="abs" style="left:56px;top:234px;width:110px;height:12px;border-radius:6px;background:#fff;opacity:.55"></div>
+  <div class="abs" style="left:24px;top:276px;width:20px;height:20px;border:3px solid #fff;border-radius:50%"></div><div class="abs" style="left:56px;top:280px;width:110px;height:12px;border-radius:6px;background:#fff;opacity:.55"></div>
+  <div class="abs" style="left:24px;top:322px;width:20px;height:20px;border:3px solid #fff;border-radius:50%"></div><div class="abs" style="left:56px;top:326px;width:110px;height:12px;border-radius:6px;background:#fff;opacity:.55"></div>
+  <div class="abs" style="left:24px;top:372px;width:184px;height:34px;border-radius:17px;background:#fff"></div>
+ </div>
+ <svg class="abs" style="left:700px;top:720px" width="900" height="200" viewBox="0 0 900 200"><path class="draw" data-s="1" pathLength="1" style="--d:.9s" d="M 900 10 C 760 190 300 190 0 20" fill="none" stroke="#9eccd6" stroke-width="6" stroke-linecap="round"/></svg>
+ <div class="abs" style="left:640px;top:760px;width:140px;height:140px" data-s="2" id="okmark"><svg width="140" height="140" viewBox="0 0 140 140"><circle cx="70" cy="70" r="62" fill="#1b8aa0"/><path d="M40 72 L62 94 L102 46" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+ <div class="pn">7 / 9</div>
+</section>
+
+<!-- 4V DEMO VIDEO -->
+<section class="slide dark" id="s4v">
+ <video id="demovid" src="sealed-signals-demo.mp4" muted playsinline preload="auto" style="position:absolute;left:0;top:0;width:1920px;height:1080px;background:#fff"></video>
+</section>
+
+<!-- I2 AFTER DEMO -->
+<section class="slide inter" id="i2">
+ <div id="dots"></div>
+ <div class="circ pop" data-s="0" style="--d:1.5s;left:810px;top:290px;width:300px;height:300px;background:var(--teal)"></div>
+ <svg class="abs" style="left:850px;top:330px" width="220" height="220" viewBox="0 0 60 60"><path class="draw" data-s="0" pathLength="1" style="--d:2s" d="M14 31 L26 43 L47 18" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ <div class="wm" id="wm2" style="top:660px;font-size:96px;color:var(--teal)"></div>
+ <div class="t" data-s="0" style="--d:2.6s;left:0;width:1920px;text-align:center;top:820px;font-size:30px;color:var(--muted)">The panel has answered. The analyst decides.</div>
+</section>
+
+<!-- 5 PROOF -->
+<section class="slide" id="s5">
+ <div class="circ" style="left:-260px;top:620px;width:760px;height:760px;background:var(--mist)" data-s="0"></div>
+ <div class="tag" style="left:120px;top:100px" data-s="0">Sensitivity test (backup slide)</div>
+ <h2 style="left:120px;top:190px;width:900px;font-size:56px" data-s="0">A sensitivity test on all <span data-count="104">104</span> resolved ACAPS risks, with synthetic panels.</h2>
+ <div class="pill" style="left:120px;top:560px;background:none;border:3px solid var(--teal);color:var(--teal)" data-s="1">Tests the software.</div>
+ <div class="pill" style="left:120px;top:660px;background:none;border:3px solid var(--teal);color:var(--teal)" data-s="2">Says nothing about real experts.</div>
+ <div class="pill" style="left:120px;top:760px;background:none;border:3px solid var(--teal);color:var(--teal)" data-s="3">No claim about timing versus ACAPS.</div>
+ <div class="abs" style="left:1080px;top:200px;width:720px;height:700px;border:4px dashed var(--teal);border-radius:48px" data-s="0">
+  <svg width="720" height="700" viewBox="0 0 720 700">
+   <path d="M90 600 H650 M90 600 V120" stroke="#9eccd6" stroke-width="6" fill="none" stroke-linecap="round"/>
+   <path class="draw" data-s="1" pathLength="1" d="M110 520 C220 500 260 380 360 340 S560 210 640 160" fill="none" stroke="#0f5c6e" stroke-width="10" stroke-linecap="round"/>
+   <path class="draw" data-s="2" pathLength="1" d="M110 540 C240 510 330 470 420 400 S560 320 640 280" fill="none" stroke="#9eccd6" stroke-width="8" stroke-linecap="round" style="stroke-dasharray:1"/>
+  </svg>
+  <div class="t" style="left:0;top:620px;width:720px;text-align:center;font-size:24px;color:var(--muted)">reports/proof.png goes here (Lane A, Sat 20:00)</div>
+ </div>
+ <div class="pn">8 / 9</div>
+</section>
+
+
+<!-- 7 IMPACT -->
+<section class="slide" id="s7">
+ <div class="circ" style="left:-260px;top:700px;width:560px;height:560px;background:var(--mist)" data-s="0"></div>
+ <div class="abs" style="left:900px;top:70px;width:900px;height:900px;background:var(--mist);border-radius:100px" data-s="0"></div>
+ <div class="tag" style="left:120px;top:100px" data-s="0">Impact and stakeholders</div>
+ <h2 style="left:120px;top:210px;width:700px;font-size:76px" data-s="0">A better-grounded probability.</h2>
+ <svg class="abs" style="left:110px;top:560px" width="700" height="360" viewBox="0 0 700 360">
+  <path d="M30 330 H680 M30 330 V20" stroke="#9eccd6" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path class="draw" data-s="1" pathLength="1" style="stroke-dasharray:.02 .03;stroke-dashoffset:0;" d="M60 250 C200 235 340 215 560 200" fill="none" stroke="#9eccd6" stroke-width="7" stroke-linecap="round"/>
+  <path class="draw" data-s="1" pathLength="1" style="--d:.5s" d="M60 290 C140 250 200 180 300 120 S470 50 560 40" fill="none" stroke="#0f5c6e" stroke-width="10" stroke-linecap="round"/>
+  <g data-s="1" class="pop" style="--d:1.6s"><circle cx="560" cy="40" r="16" fill="#0f5c6e"/><circle cx="560" cy="40" r="30" fill="none" stroke="#0f5c6e" stroke-width="4" opacity=".35"/></g>
+  </svg>
+ <div class="t" style="left:120px;top:940px;width:700px;font-size:22px;color:var(--muted)" data-s="6">Anticipatory-action evidence is strongest for floods and drought. Conflict is the open test.</div>
+ <div class="pill" style="left:960px;top:150px;width:200px;text-align:center" data-s="2">Analysts</div><div class="t" style="left:1190px;top:140px;width:560px;font-size:28px" data-s="2">A cited draft instead of a blank page</div>
+ <div class="pill" style="left:960px;top:310px;width:200px;text-align:center" data-s="3">Experts</div><div class="t" style="left:1190px;top:300px;width:560px;font-size:28px" data-s="3">The outcome, for a minute of their time</div>
+ <div class="pill" style="left:960px;top:470px;width:200px;text-align:center" data-s="4">Readers</div><div class="t" style="left:1190px;top:460px;width:560px;font-size:28px" data-s="4">The basis, limits and misses behind each rating</div>
+ <div class="pill" style="left:960px;top:630px;width:200px;text-align:center" data-s="5">Committee</div><div class="t" style="left:1190px;top:620px;width:560px;font-size:28px" data-s="5">An audit trail for who joined</div>
+ <div class="pill amber" style="left:960px;top:790px;width:270px;text-align:center" data-s="6">Affected people</div><div class="t" style="left:1260px;top:775px;width:500px;font-size:28px" data-s="6">Possible earlier preparation. Not yet shown.</div>
+ <div class="pn">9 / 9</div>
+</section>
+
+<!-- I3 CLOSING -->
+<section class="slide dark inter" id="i3">
+ <div class="pulse"></div><div class="pulse" style="animation-delay:1.25s"></div><div class="pulse" style="animation-delay:2.5s"></div><div class="pulse" style="animation-delay:3.75s"></div>
+ <div class="wm" id="wm3" style="top:380px;font-size:150px"></div>
+ <div class="t" data-s="0" style="--d:1.6s;left:0;width:1920px;text-align:center;top:620px;font-size:40px;font-weight:600;color:var(--sky)">Sealed Signals: a better-grounded probability.</div>
+ <div class="t" data-s="0" style="--d:2.2s;left:0;width:1920px;text-align:center;top:900px;font-size:24px;color:var(--sky)">Zain Ul Haq | Saleeta Qadir | Sho Izuno &nbsp;&middot;&nbsp; Hackathon for Good #8, ACAPS Ground Truth</div>
+</section>
+</div>
+<div class="hud" id="hud">Right / Space / click: next build &nbsp; Left: back &nbsp; F: fullscreen &nbsp; 1-9: jump to slide &nbsp; 0: opening</div>
+<script>
+// generated parts
+(function(){
+ var L=[["Alert engine","M0 40 A44 44 0 0 1 88 40 M14 40 A30 30 0 0 1 74 40 M44 52 L44 52"],["Matched panel"],["Committed answers"],["Integrity notes"],["Cited draft"],["Analyst decision"],["Ledger and honesty box"],["Scoring"]];
+ var icons=[
+  '<circle cx="30" cy="48" r="6" fill="C"/><path d="M12 34 A26 26 0 0 1 48 34 M2 22 A40 40 0 0 1 58 22" fill="none" stroke="C" stroke-width="5" stroke-linecap="round"/>',
+  '<circle cx="14" cy="22" r="9" fill="C"/><circle cx="46" cy="22" r="9" fill="C"/><circle cx="30" cy="16" r="11" fill="C"/><path d="M2 50 C2 36 26 36 30 42 C34 36 58 36 58 50Z" fill="C"/>',
+  '<rect x="8" y="26" width="44" height="32" rx="8" fill="C"/><path d="M16 26 V18 A14 14 0 0 1 44 18 V26" fill="none" stroke="C" stroke-width="6"/>',
+  '<circle cx="24" cy="24" r="16" fill="none" stroke="C" stroke-width="6"/><path d="M36 36 L54 54" stroke="C" stroke-width="8" stroke-linecap="round"/>',
+  '<rect x="10" y="4" width="40" height="52" rx="8" fill="none" stroke="C" stroke-width="5"/><path d="M20 20 H40 M20 32 H40 M20 44 H32" stroke="C" stroke-width="5" stroke-linecap="round"/>',
+  '<circle cx="30" cy="30" r="26" fill="none" stroke="C" stroke-width="5"/><path d="M16 32 L26 42 L44 20" fill="none" stroke="C" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>',
+  '<rect x="8" y="4" width="44" height="52" rx="8" fill="none" stroke="C" stroke-width="5"/><path d="M22 4 V56 M30 20 H44 M30 32 H44" stroke="C" stroke-width="5" stroke-linecap="round"/>',
+  '<circle cx="30" cy="30" r="26" fill="none" stroke="C" stroke-width="5"/><circle cx="30" cy="30" r="14" fill="none" stroke="C" stroke-width="5"/><circle cx="30" cy="30" r="4" fill="C"/>'];
+ var h='';
+ L.forEach(function(s,i){var r=Math.floor(i/4),c=i%4,x=120+c*432,y=410+r*250,hot=i==5,col=hot?'#fff':'#0f5c6e',st=i+1;
+  h+='<div class="card pop" data-s="'+st+'" style="left:'+x+'px;top:'+y+'px;width:380px;height:220px;'+(hot?'background:var(--teal)':'')+'"></div>';
+  h+='<div class="abs" data-s="'+st+'" style="left:'+(x+28)+'px;top:'+(y+26)+'px;width:60px;height:60px;border-radius:50%;background:'+(hot?'#fff':'var(--teal)')+';color:'+(hot?'var(--teal)':'#fff')+';font-weight:700;font-size:30px;text-align:center;line-height:60px">'+st+'</div>';
+  h+='<svg class="abs" data-s="'+st+'" style="left:'+(x+270)+'px;top:'+(y+24)+'px" width="80" height="80" viewBox="-10 -10 80 80">'+icons[i].replace(/C/g,col)+'</svg>';
+  h+='<div class="abs" data-s="'+st+'" style="left:'+(x+28)+'px;top:'+(y+120)+'px;width:320px;font-weight:600;font-size:28px;line-height:1.25;color:'+(hot?'#fff':'var(--ink)')+'">'+s[0]+'</div>';
+  if(c<3) h+='<svg class="abs" style="left:'+(x+384)+'px;top:'+(y+96)+'px" width="48" height="28" viewBox="0 0 48 28"><path class="draw" data-s="'+(st+1)+'" pathLength="1" style="--d:-.1s" d="M4 14 H40 M30 4 L42 14 L30 24" fill="none" stroke="#0f5c6e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+ });
+ document.getElementById('loop').innerHTML=h;
+ var s='',nums=[["2","months"],["1","committee"],["8","experts"],["1","country"]];
+ nums.forEach(function(n,i){var x=120+i*400;
+  s+='<div class="circ" data-s="1" style="--d:'+(i*.12)+'s;left:'+x+'px;top:340px;width:320px;height:320px;background:'+(i%2?'var(--bright)':'var(--teal)')+'"></div>';
+  s+='<div class="big" data-s="1" style="--d:'+(i*.12)+'s;left:'+x+'px;top:410px;width:320px;text-align:center;font-size:150px;letter-spacing:-3px"><span data-count="'+n[0]+'">'+n[0]+'</span></div>';
+  s+='<div class="t" data-s="1" style="--d:'+(i*.12+.1)+'s;left:'+x+'px;top:575px;width:320px;text-align:center;font-weight:600;font-size:32px">'+n[1]+'</div>';});
+ var st_=document.getElementById('stats');if(st_)st_.innerHTML=s;
+})();
+// engine
+(function(){
+ function letters(id,txt){var el=document.getElementById(id),s='';txt.split('').forEach(function(c,k){s+='<span data-s="0" style="--d:'+(0.3+k*0.06)+'s">'+(c==' '?'&nbsp;':c)+'</span>'});el.innerHTML=s}
+ letters('wm0','Sealed Signals');letters('wm1','Scan.');letters('wm2','Committed.');letters('wm3','Thank you.');
+ var d='',a=[[-900,-400],[900,-380],[-1000,200],[1000,260],[-500,500],[600,520],[-300,-600],[300,-640],[-760,40],[780,-60]];
+ a.forEach(function(p,k){d+='<div class="circ conv" data-s="0" style="--x:'+p[0]+'px;--y:'+p[1]+'px;--d:'+(k*.08)+'s;left:'+(947)+'px;top:'+(427)+'px;width:26px;height:26px;background:var(--teal)"></div>'});
+ document.getElementById('dots').innerHTML=d;
+})();
+(function(){
+ var stage=document.getElementById('stage'),S=[].slice.call(document.querySelectorAll('.slide'));
+ var i=0,step=0,max=S.map(function(sl){return Math.max.apply(null,[].map.call(sl.querySelectorAll('[data-s]'),function(e){return +e.dataset.s}))});
+ function fit(){var k=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform='scale('+k+')';stage.style.left=(innerWidth-1920*k)/2+'px';stage.style.top=(innerHeight-1080*k)/2+'px'}
+ addEventListener('resize',fit);fit();
+ function count(el){var to=+el.dataset.count,t0=performance.now(),d=1100;if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent=to;return}
+  (function f(t){var p=Math.min(1,(t-t0)/d);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}
+ function apply(){S.forEach(function(sl,k){sl.classList.toggle('cur',k==i)});
+  var v=document.getElementById('demovid');if(v){if(S[i].id==='s4v'){try{v.currentTime=0;var pr=v.play();if(pr&&pr.catch)pr.catch(function(){})}catch(x){}}else{try{v.pause()}catch(x){}}}
+  var sl=S[i];[].forEach.call(sl.querySelectorAll('[data-s]'),function(e){var on=+e.dataset.s<=step;
+   if(on&&!e._on){e._on=1;e.classList.add('on');[].forEach.call(e.querySelectorAll('[data-count]'),count);if(e.dataset.count)count(e);
+    if(e.id==='okmark'||e.classList.contains('coin')){}
+    if(sl.id==='s4'&&e.id==='phone'){var sc=document.getElementById('scanline');sc.classList.remove('go');void sc.offsetWidth;setTimeout(function(){sc.classList.add('go')},900)}}
+   if(!on&&e._on){e._on=0;e.classList.remove('on')}});
+  // counts also for elements inside always-on parents
+  [].forEach.call(sl.querySelectorAll('[data-count]'),function(e){var p=e.closest('[data-s]');if(p&&!p._cnt&&p._on){p._cnt=1}});
+ }
+ function reset(k){[].forEach.call(S[k].querySelectorAll('[data-s]'),function(e){e._on=0;e.classList.remove('on')})}
+ function go(n,s){if(n!==i){reset(i);reset(n)}i=n;step=s;apply()}
+ function next(){if(step<max[i])go(i,step+1);else if(i<S.length-1){go(i+1,0)}}
+ function prev(){if(step>0){var s=step-1;reset(i);go(i,0);setTimeout(function(){go(i,s)},10)}else if(i>0){go(i-1,max[i-1])}}
+ addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'||e.key==='PageDown'){e.preventDefault();next()}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){prev()}else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
+  else if(/^[1-9]$/.test(e.key)){var C=S.filter(function(x){return !/inter/.test(x.className)&&x.id!=='s4v'});if(C[+e.key-1])go(S.indexOf(C[+e.key-1]),0)}else if(e.key==='0'){go(0,0)}});
+ addEventListener('click',next);
+ setTimeout(function(){document.getElementById('hud').style.opacity=0},6000);
+ go(0,0);
+})();
+</script></body></html>

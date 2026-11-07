@@ -1,0 +1,4122 @@
+[
+ {
+  "crisis_id": "AFG001",
+  "crisis_name": "Complex crisis in Afghanistan",
+  "drivers": [
+   "Conflict/ Violence",
+   "Political/economic crisis",
+   "Floods",
+   "Drought/drier conditions",
+   "Earthquake"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "AFG"
+  ],
+  "country": [
+   "Afghanistan"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 2.0,
+  "I5": 3.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 3,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 5,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "BDI004",
+  "crisis_name": "Displacement from Eastern DRC",
+  "drivers": [
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "BDI"
+  ],
+  "country": [
+   "Burundi"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 1.0,
+  "I4": 2.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 2,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "BEN002",
+  "crisis_name": "Conflict in northern region of Benin",
+  "drivers": [
+   "Conflict/ Violence"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "BEN"
+  ],
+  "country": [
+   "Benin"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 1.0,
+  "I8": 1,
+  "I9": 1.0,
+  "P1": 0,
+  "P2": 0,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "BFA002",
+  "crisis_name": "Conflict and Climatic Shocks in Burkina Faso",
+  "drivers": [
+   "Conflict/ Violence",
+   "Drought/drier conditions",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "BFA"
+  ],
+  "country": [
+   "Burkina Faso"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 2.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 4,
+  "P2": 3,
+  "P3": 5,
+  "ACCESS": 4.0,
+  "Infogap": 0.1333
+ },
+ {
+  "crisis_id": "BGD001",
+  "crisis_name": "Multiple crises in Bangladesh",
+  "drivers": [
+   "International Displacement",
+   "Floods",
+   "Cyclone",
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "BGD"
+  ],
+  "country": [
+   "Bangladesh"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 1.0,
+  "I8": 1,
+  "I9": 2.0,
+  "P1": 2,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "BGD002",
+  "crisis_name": "Displacement of Rohingyas to Bangladesh",
+  "drivers": [
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "BGD"
+  ],
+  "country": [
+   "Bangladesh"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 1.0,
+  "I8": 1,
+  "I9": 1.0,
+  "P1": 2,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "BGD012",
+  "crisis_name": "Climatic shocks and political/economic crisis in Bangladesh",
+  "drivers": [
+   "Cyclone",
+   "Floods",
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "BGD"
+  ],
+  "country": [
+   "Bangladesh"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 1,
+  "I9": 2.0,
+  "P1": 0,
+  "P2": 1,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "BRA002",
+  "crisis_name": "Displacement from Venezuela to Brazil",
+  "drivers": [
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "BRA"
+  ],
+  "country": [
+   "Brazil"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 0,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.1111
+ },
+ {
+  "crisis_id": "CAF001",
+  "crisis_name": "Conflict and Climatic Shocks in CAR",
+  "drivers": [
+   "Conflict/ Violence",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "CAF"
+  ],
+  "country": [
+   "Central African Republic"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 0.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 1.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 2,
+  "P2": 3,
+  "P3": 5,
+  "ACCESS": 3.0,
+  "Infogap": 0.1333
+ },
+ {
+  "crisis_id": "CHL002",
+  "crisis_name": "Displacement from Venezuela to Chile",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "CHL"
+  ],
+  "country": [
+   "Chile"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 1.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 2,
+  "I9": 0.0,
+  "P1": 1,
+  "P2": 1,
+  "P3": 2,
+  "ACCESS": 1.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "CIV002",
+  "crisis_name": "Displacement from Burkina Faso to northern Côte d’Ivoire",
+  "drivers": [
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "CIV"
+  ],
+  "country": [
+   "Ivory Coast"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 0,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "CMR005",
+  "crisis_name": "Complex crisis in Cameroon",
+  "drivers": [
+   "International Displacement",
+   "Conflict/ Violence",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "CMR"
+  ],
+  "country": [
+   "Cameroon"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 2.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 2.0,
+  "P1": 4,
+  "P2": 3,
+  "P3": 4,
+  "ACCESS": 4.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "COD001",
+  "crisis_name": "Complex crisis in DRC",
+  "drivers": [
+   "Conflict/ Violence",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "COD"
+  ],
+  "country": [
+   "Democratic Republic of the Congo"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 5,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0389
+ },
+ {
+  "crisis_id": "COL001",
+  "crisis_name": "Conflict and Climatic Shocks in Colombia",
+  "drivers": [
+   "Conflict/ Violence",
+   "Drought/drier conditions",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "COL"
+  ],
+  "country": [
+   "Colombia"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 2.0,
+  "I2": 2.0,
+  "I3": 0.0,
+  "I4": 3.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 4,
+  "P2": 2,
+  "P3": 5,
+  "ACCESS": 4.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "COL002",
+  "crisis_name": "Displacement from Venezuela to Colombia",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "COL"
+  ],
+  "country": [
+   "Colombia"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 2.0,
+  "I2": 1.0,
+  "I3": 0.0,
+  "I4": 3.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 3,
+  "P2": 2,
+  "P3": 5,
+  "ACCESS": 3.0,
+  "Infogap": 0.0333
+ },
+ {
+  "crisis_id": "COL004",
+  "crisis_name": "Multiple Crises in Colombia",
+  "drivers": [
+   "Conflict/ Violence",
+   "Drought/drier conditions",
+   "International Displacement",
+   "Floods",
+   "Earthquake"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "COL"
+  ],
+  "country": [
+   "Colombia"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 2.0,
+  "I2": 0.0,
+  "I3": 0.0,
+  "I4": 3.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 3,
+  "I9": 3.0,
+  "P1": 2,
+  "P2": 2,
+  "P3": 5,
+  "ACCESS": 3.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "COL005",
+  "crisis_name": "2026 Earthquake in Colombia",
+  "drivers": [
+   "Earthquake"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "COL"
+  ],
+  "country": [
+   "Colombia"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 2.0,
+  "I2": 0.0,
+  "I3": 0.0,
+  "I4": 2.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 2,
+  "P2": 2,
+  "P3": 5,
+  "ACCESS": 3.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "CRI001",
+  "crisis_name": "Multiple Crises in Costa Rica",
+  "drivers": [
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "CRI"
+  ],
+  "country": [
+   "Costa Rica"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 1.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 1.0,
+  "P1": 1,
+  "P2": 0,
+  "P3": 1,
+  "ACCESS": 1.0,
+  "Infogap": 0.1944
+ },
+ {
+  "crisis_id": "CRI002",
+  "crisis_name": "Displacement from Nicaragua to Costa Rica",
+  "drivers": [
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "CRI"
+  ],
+  "country": [
+   "Costa Rica"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 1.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 1.0,
+  "P1": 1,
+  "P2": 0,
+  "P3": 1,
+  "ACCESS": 1.0,
+  "Infogap": 0.1944
+ },
+ {
+  "crisis_id": "CRI003",
+  "crisis_name": "Displacement from Venezuela to Costa Rica",
+  "drivers": [
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "CRI"
+  ],
+  "country": [
+   "Costa Rica"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 1.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 1.0,
+  "P1": 1,
+  "P2": 0,
+  "P3": 1,
+  "ACCESS": 1.0,
+  "Infogap": 0.1944
+ },
+ {
+  "crisis_id": "CUB004",
+  "crisis_name": "Complex Crisis in Cuba",
+  "drivers": [
+   "Cyclone",
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "CUB"
+  ],
+  "country": [
+   "Cuba"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 1.0,
+  "I4": 1.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.2667
+ },
+ {
+  "crisis_id": "DJI001",
+  "crisis_name": "Multiple crises in Djibouti",
+  "drivers": [
+   "Displacement",
+   "Drought"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "DJI"
+  ],
+  "country": [
+   "Djibouti"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 0.0,
+  "I4": 1.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 2.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 2,
+  "ACCESS": 3.0,
+  "Infogap": 0.1778
+ },
+ {
+  "crisis_id": "DJI002",
+  "crisis_name": "International Displacement to Djibouti",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "DJI"
+  ],
+  "country": [
+   "Djibouti"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 0.0,
+  "I4": 1.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 2.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 2,
+  "ACCESS": 3.0,
+  "Infogap": 0.1778
+ },
+ {
+  "crisis_id": "DJI003",
+  "crisis_name": "Drought in Djibouti",
+  "drivers": [
+   "Drought"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "DJI"
+  ],
+  "country": [
+   "Djibouti"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 2.0,
+  "P1": 0,
+  "P2": 0,
+  "P3": 2,
+  "ACCESS": 1.0,
+  "Infogap": 0.2111
+ },
+ {
+  "crisis_id": "DOM002",
+  "crisis_name": "Displacement from Venezuela to Dominican Republic",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "DOM"
+  ],
+  "country": [
+   "Dominican Republic"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 1.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 2.0,
+  "P1": 1,
+  "P2": 0,
+  "P3": 2,
+  "ACCESS": 1.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "DZA002",
+  "crisis_name": "International displacement to Algeria",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "DZA"
+  ],
+  "country": [
+   "Algeria"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 1.0,
+  "I2": 1.0,
+  "I3": 2.0,
+  "I4": 0.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 1,
+  "I9": 1.0,
+  "P1": 2,
+  "P2": 2,
+  "P3": 2,
+  "ACCESS": 2.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "DZA003",
+  "crisis_name": "Displacement of Sahrawi refugees to Tindouf",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "DZA"
+  ],
+  "country": [
+   "Algeria"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 2.0,
+  "I4": 1.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 2,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "DZA004",
+  "crisis_name": "Multiple crises in Algeria",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "DZA"
+  ],
+  "country": [
+   "Algeria"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 1.0,
+  "I2": 2.0,
+  "I3": 2.0,
+  "I4": 1.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 3,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "ECU001",
+  "crisis_name": "Multiple crises in Ecuador",
+  "drivers": [
+   "International Displacement",
+   "Conflict/ Violence",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "ECU"
+  ],
+  "country": [
+   "Ecuador"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 0.0,
+  "I4": 1.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 2,
+  "P2": 1,
+  "P3": 4,
+  "ACCESS": 2.0,
+  "Infogap": 0.0333
+ },
+ {
+  "crisis_id": "ECU002",
+  "crisis_name": "Displacement from Venezuela to Ecuador",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "ECU"
+  ],
+  "country": [
+   "Ecuador"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 0.0,
+  "I4": 1.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 2,
+  "P2": 1,
+  "P3": 4,
+  "ACCESS": 2.0,
+  "Infogap": 0.0333
+ },
+ {
+  "crisis_id": "ECU005",
+  "crisis_name": "Conflict, violence and Climatic Shocks in Ecuador",
+  "drivers": [
+   "Conflict/ Violence",
+   "Floods",
+   "Drought/drier conditions"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "ECU"
+  ],
+  "country": [
+   "Ecuador"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 0.0,
+  "I4": 1.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 2,
+  "P2": 1,
+  "P3": 4,
+  "ACCESS": 2.0,
+  "Infogap": 0.0333
+ },
+ {
+  "crisis_id": "EGY004",
+  "crisis_name": "International displacement to Egypt",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "EGY"
+  ],
+  "country": [
+   "Egypt"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 3,
+  "I9": 0.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.0389
+ },
+ {
+  "crisis_id": "ERI001",
+  "crisis_name": "Complex crisis in Eritrea",
+  "drivers": [
+   "International Displacement",
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "ERI"
+  ],
+  "country": [
+   "Eritrea"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 1.0,
+  "I2": 2.0,
+  "I3": 1.0,
+  "I4": 1.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 2,
+  "I9": 1.0,
+  "P1": 3,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.4389
+ },
+ {
+  "crisis_id": "ESP002",
+  "crisis_name": "International displacement to Spain",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "ESP"
+  ],
+  "country": [
+   "Spain"
+  ],
+  "regions": [
+   "Europe"
+  ],
+  "I1": 2.0,
+  "I2": 1.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 1.0,
+  "P1": 3,
+  "P2": 1,
+  "P3": 1,
+  "ACCESS": 2.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "ETH001",
+  "crisis_name": "Multiple crises in Ethiopia",
+  "drivers": [
+   "International Displacement",
+   "Conflict/ Violence",
+   "Drought/drier conditions",
+   "Floods",
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "ETH"
+  ],
+  "country": [
+   "Ethiopia"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 3.0,
+  "I2": 2.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 5,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0111
+ },
+ {
+  "crisis_id": "ETH003",
+  "crisis_name": "International Displacement to Ethiopia",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "ETH"
+  ],
+  "country": [
+   "Ethiopia"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 2.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 4,
+  "P2": 5,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0444
+ },
+ {
+  "crisis_id": "ETH006",
+  "crisis_name": "Conflict, Climatic and Economic shocks in Ethiopia",
+  "drivers": [
+   "Conflict/ Violence",
+   "Floods",
+   "Drought/drier conditions",
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "ETH"
+  ],
+  "country": [
+   "Ethiopia"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 3.0,
+  "I2": 2.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 5,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0111
+ },
+ {
+  "crisis_id": "GRC002",
+  "crisis_name": "International Displacement to Greece",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "GRC"
+  ],
+  "country": [
+   "Greece"
+  ],
+  "regions": [
+   "Europe"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 1.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 1.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 1,
+  "ACCESS": 3.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "GTM001",
+  "crisis_name": "Climatic Shocks and Violence in Guatemala",
+  "drivers": [
+   "Conflict/ Violence",
+   "Drought/drier conditions"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "GTM"
+  ],
+  "country": [
+   "Guatemala"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 1.0,
+  "I3": 2.0,
+  "I4": 1.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 1.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 1,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "HND001",
+  "crisis_name": "Climatic Shocks and Conflict and Violence in Honduras",
+  "drivers": [
+   "Drought/drier conditions",
+   "Conflict/ Violence"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "HND"
+  ],
+  "country": [
+   "Honduras"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 1.0,
+  "I3": 0.0,
+  "I4": 1.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 1.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 1,
+  "P2": 1,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0111
+ },
+ {
+  "crisis_id": "HTI001",
+  "crisis_name": "Complex crisis in Haiti",
+  "drivers": [
+   "Conflict/ Violence",
+   "Political/economic crisis",
+   "Floods",
+   "Drought/drier conditions",
+   "Cyclone"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "HTI"
+  ],
+  "country": [
+   "Haiti"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 3,
+  "P3": 4,
+  "ACCESS": 4.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "IDN002",
+  "crisis_name": "Conflict in Papua",
+  "drivers": [
+   "Conflict/ Violence"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "IDN"
+  ],
+  "country": [
+   "Indonesia"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 2.0,
+  "I2": 2.0,
+  "I3": 0.0,
+  "I4": 2.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 4,
+  "P2": 2,
+  "P3": 4,
+  "ACCESS": 3.0,
+  "Infogap": 0.1833
+ },
+ {
+  "crisis_id": "IDN007",
+  "crisis_name": "Multiple crises in Indonesia",
+  "drivers": [
+   "Conflict/ Violence",
+   "Floods",
+   "Cyclone"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "IDN"
+  ],
+  "country": [
+   "Indonesia"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 2.0,
+  "I2": 2.0,
+  "I3": 0.0,
+  "I4": 2.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 4,
+  "P2": 2,
+  "P3": 4,
+  "ACCESS": 3.0,
+  "Infogap": 0.1833
+ },
+ {
+  "crisis_id": "IDN010",
+  "crisis_name": "Earthquake East Nusa Tenggara",
+  "drivers": [
+   "Earthquake"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "IDN"
+  ],
+  "country": [
+   "Indonesia"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 0,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.0722
+ },
+ {
+  "crisis_id": "IRN001",
+  "crisis_name": "Multiple crises in Iran",
+  "drivers": [
+   "Conflict/ Violence",
+   "International Displacement",
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "IRN"
+  ],
+  "country": [
+   "Iran"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 3.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 2.0,
+  "I5": 2.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 4,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "IRN004",
+  "crisis_name": "Displacement from Afghanistan to Iran",
+  "drivers": [
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "IRN"
+  ],
+  "country": [
+   "Iran"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 2.0,
+  "I5": 2.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 4,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "IRN005",
+  "crisis_name": "Conflict in Iran",
+  "drivers": [
+   "Conflict/ Violence",
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "IRN"
+  ],
+  "country": [
+   "Iran"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 3.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 2.0,
+  "I5": 2.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 4,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "IRQ002",
+  "crisis_name": "Internal displacement in Iraq",
+  "drivers": [
+   "Conflict/ Violence",
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "IRQ"
+  ],
+  "country": [
+   "Iraq"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 3.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 3,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 3,
+  "P3": 5,
+  "ACCESS": 4.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "ITA002",
+  "crisis_name": "International Displacement to Italy",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "ITA"
+  ],
+  "country": [
+   "Italy"
+  ],
+  "regions": [
+   "Europe"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 0.0,
+  "I4": 2.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 1.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 1,
+  "ACCESS": 3.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "JOR002",
+  "crisis_name": "International displacement from Syria to Jordan",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "JOR"
+  ],
+  "country": [
+   "Jordan"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 0.0,
+  "I2": 1.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 2,
+  "I9": 1.0,
+  "P1": 1,
+  "P2": 1,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "KEN001",
+  "crisis_name": "Multiple crises in Kenya",
+  "drivers": [
+   "Drought/drier conditions",
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "KEN"
+  ],
+  "country": [
+   "Kenya"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 1.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 1.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 3,
+  "P2": 0,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "KEN002",
+  "crisis_name": "International displacement to Kenya",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "KEN"
+  ],
+  "country": [
+   "Kenya"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 1.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 3,
+  "P2": 0,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "KEN003",
+  "crisis_name": "Drought in ASAL areas of Kenya",
+  "drivers": [
+   "Drought"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "KEN"
+  ],
+  "country": [
+   "Kenya"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 1.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 1,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "LBN002",
+  "crisis_name": "International displacement from Syria to Lebanon",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "LBN"
+  ],
+  "country": [
+   "Lebanon"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 1.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 3,
+  "I9": 1.0,
+  "P1": 5,
+  "P2": 4,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "LBN006",
+  "crisis_name": "Complex crisis in Lebanon",
+  "drivers": [
+   "Conflict/ Violence",
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "LBN"
+  ],
+  "country": [
+   "Lebanon"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 1.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 3,
+  "I9": 1.0,
+  "P1": 5,
+  "P2": 4,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "LBY002",
+  "crisis_name": "International displacement to Libya",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "LBY"
+  ],
+  "country": [
+   "Libya"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 1,
+  "I9": 1.0,
+  "P1": 5,
+  "P2": 3,
+  "P3": 2,
+  "ACCESS": 3.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "LBY004",
+  "crisis_name": "Displacement from Sudan to Libya",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "LBY"
+  ],
+  "country": [
+   "Libya"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 1,
+  "I9": 1.0,
+  "P1": 5,
+  "P2": 3,
+  "P3": 2,
+  "ACCESS": 3.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "LBY005",
+  "crisis_name": "Multiple crises in Libya",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "LBY"
+  ],
+  "country": [
+   "Libya"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 1,
+  "I9": 1.0,
+  "P1": 5,
+  "P2": 3,
+  "P3": 2,
+  "ACCESS": 3.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "LSO004",
+  "crisis_name": "Drought in Lesotho",
+  "drivers": [
+   "Drought/drier conditions"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "LSO"
+  ],
+  "country": [
+   "Lesotho"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 0,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.0278
+ },
+ {
+  "crisis_id": "MAR002",
+  "crisis_name": "International displacement to Morocco",
+  "drivers": [
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "MAR"
+  ],
+  "country": [
+   "Morocco"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.1111
+ },
+ {
+  "crisis_id": "MDG002",
+  "crisis_name": "Drought in Southern Madagascar",
+  "drivers": [
+   "Drought/drier conditions"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "MDG"
+  ],
+  "country": [
+   "Madagascar"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 2.0,
+  "P1": 0,
+  "P2": 1,
+  "P3": 2,
+  "ACCESS": 1.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "MEX003",
+  "crisis_name": "International Displacement to Mexico",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "MEX"
+  ],
+  "country": [
+   "Mexico"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 2.0,
+  "I2": 2.0,
+  "I3": 0.0,
+  "I4": 2.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 1.0,
+  "I8": 1,
+  "I9": 2.0,
+  "P1": 4,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.0333
+ },
+ {
+  "crisis_id": "MLI001",
+  "crisis_name": "Complex crisis in Mali",
+  "drivers": [
+   "Conflict/ Violence",
+   "Drought/drier conditions",
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "MLI"
+  ],
+  "country": [
+   "Mali"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 4,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.1333
+ },
+ {
+  "crisis_id": "MMR008",
+  "crisis_name": "Complex crisis in Myanmar",
+  "drivers": [
+   "Conflict/ Violence",
+   "Earthquake",
+   "International Displacement",
+   "Cyclone",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "MMR"
+  ],
+  "country": [
+   "Myanmar"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 3.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 2,
+  "I9": 2.0,
+  "P1": 5,
+  "P2": 5,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "MOZ004",
+  "crisis_name": "Conflict in northern Mozambique",
+  "drivers": [
+   "Conflict/ Violence"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "MOZ"
+  ],
+  "country": [
+   "Mozambique"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 2,
+  "P2": 4,
+  "P3": 5,
+  "ACCESS": 4.0,
+  "Infogap": 0.0444
+ },
+ {
+  "crisis_id": "MRT002",
+  "crisis_name": "Displacement from Mali to Mauritania",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "MRT"
+  ],
+  "country": [
+   "Mauritania"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 2,
+  "I9": 2.0,
+  "P1": 2,
+  "P2": 0,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "MRT003",
+  "crisis_name": "Climatic shocks in Mauritania",
+  "drivers": [
+   "Drought/drier conditions",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "MRT"
+  ],
+  "country": [
+   "Mauritania"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 2,
+  "I9": 1.0,
+  "P1": 0,
+  "P2": 0,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "MRT004",
+  "crisis_name": "Multiple crises in Mauritania",
+  "drivers": [
+   "Drought/drier conditions",
+   "Floods",
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "MRT"
+  ],
+  "country": [
+   "Mauritania"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 2,
+  "I9": 2.0,
+  "P1": 2,
+  "P2": 0,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "MWI002",
+  "crisis_name": "Climatic shocks in Malawi",
+  "drivers": [
+   "Drought/drier conditions",
+   "Cyclone",
+   "Floods",
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "MWI"
+  ],
+  "country": [
+   "Malawi"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 1,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "MYS001",
+  "crisis_name": "International Displacement to Malaysia",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "MYS"
+  ],
+  "country": [
+   "Malaysia"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 2.0,
+  "I2": 1.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 3,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.0222
+ },
+ {
+  "crisis_id": "NAM002",
+  "crisis_name": "Drought in Namibia",
+  "drivers": [
+   "Drought"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "NAM"
+  ],
+  "country": [
+   "Namibia"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 0,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "NER006",
+  "crisis_name": "Complex crisis in Niger",
+  "drivers": [
+   "Conflict/ Violence",
+   "Drought/drier conditions",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "NER"
+  ],
+  "country": [
+   "Niger"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 3,
+  "P3": 5,
+  "ACCESS": 4.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "NGA004",
+  "crisis_name": "Conflict in the BAY states",
+  "drivers": [
+   "Conflict/ Violence"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "NGA"
+  ],
+  "country": [
+   "Nigeria"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 3,
+  "P3": 5,
+  "ACCESS": 4.0,
+  "Infogap": 0.0444
+ },
+ {
+  "crisis_id": "NGA007",
+  "crisis_name": "Conflict in North West Nigeria",
+  "drivers": [
+   "Conflict/ Violence"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "NGA"
+  ],
+  "country": [
+   "Nigeria"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 2.0,
+  "I4": 2.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 2.0,
+  "I8": 1,
+  "I9": 2.0,
+  "P1": 2,
+  "P2": 2,
+  "P3": 4,
+  "ACCESS": 3.0,
+  "Infogap": 0.1111
+ },
+ {
+  "crisis_id": "NGA008",
+  "crisis_name": "International displacement from Cameroon to Nigeria",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "NGA"
+  ],
+  "country": [
+   "Nigeria"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 2.0,
+  "P1": 2,
+  "P2": 3,
+  "P3": 4,
+  "ACCESS": 3.0,
+  "Infogap": 0.0444
+ },
+ {
+  "crisis_id": "NGA009",
+  "crisis_name": "Multiple Crises in Nigeria",
+  "drivers": [
+   "Conflict/ Violence",
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "NGA"
+  ],
+  "country": [
+   "Nigeria"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 3,
+  "P3": 5,
+  "ACCESS": 4.0,
+  "Infogap": 0.0722
+ },
+ {
+  "crisis_id": "NGA010",
+  "crisis_name": "Conflict in North Central Nigeria",
+  "drivers": [
+   "Conflict/ Violence"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "NGA"
+  ],
+  "country": [
+   "Nigeria"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 2.0,
+  "I4": 1.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 2.0,
+  "I8": 1,
+  "I9": 2.0,
+  "P1": 2,
+  "P2": 2,
+  "P3": 4,
+  "ACCESS": 3.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "NPL002",
+  "crisis_name": "Floods in Nepal",
+  "drivers": null,
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "NPL"
+  ],
+  "country": [
+   "Nepal"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 1,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "PAK006",
+  "crisis_name": "Climatic Shocks in Pakistan",
+  "drivers": [
+   "Floods",
+   "Conflict/ Violence",
+   "Drought/drier conditions"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "PAK"
+  ],
+  "country": [
+   "Pakistan"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 0.0,
+  "I2": 1.0,
+  "I3": 1.0,
+  "I4": 2.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 1,
+  "P2": 2,
+  "P3": 5,
+  "ACCESS": 3.0,
+  "Infogap": 0.1111
+ },
+ {
+  "crisis_id": "PAK007",
+  "crisis_name": "Displacement from Afghanistan to Pakistan",
+  "drivers": [
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "PAK"
+  ],
+  "country": [
+   "Pakistan"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 2.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 5,
+  "ACCESS": 4.0,
+  "Infogap": 0.1333
+ },
+ {
+  "crisis_id": "PAK008",
+  "crisis_name": "Multiple crises in Pakistan",
+  "drivers": [
+   "Floods",
+   "International Displacement",
+   "Political/economic crisis",
+   "Conflict/ Violence"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "PAK"
+  ],
+  "country": [
+   "Pakistan"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 2.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 5,
+  "ACCESS": 4.0,
+  "Infogap": 0.1111
+ },
+ {
+  "crisis_id": "PAN002",
+  "crisis_name": "Displacement from Venezuela to Panama",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "PAN"
+  ],
+  "country": [
+   "Panama"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 1.0,
+  "I4": 2.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 1.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.1111
+ },
+ {
+  "crisis_id": "PER002",
+  "crisis_name": "Displacement from Venezuela to Peru",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "PER"
+  ],
+  "country": [
+   "Peru"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 1.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 1,
+  "I9": 2.0,
+  "P1": 1,
+  "P2": 1,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "PHL001",
+  "crisis_name": "Multiple crises in the Philippines",
+  "drivers": [
+   "Conflict/ Violence",
+   "Cyclone",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "PHL"
+  ],
+  "country": [
+   "Philippines"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 1,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.1389
+ },
+ {
+  "crisis_id": "PHL003",
+  "crisis_name": "Conflict in Mindanao",
+  "drivers": [
+   "Conflict/ Violence"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "PHL"
+  ],
+  "country": [
+   "Philippines"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 1.0,
+  "I4": 1.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 2.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 2,
+  "P2": 2,
+  "P3": 4,
+  "ACCESS": 3.0,
+  "Infogap": 0.3167
+ },
+ {
+  "crisis_id": "PHL020",
+  "crisis_name": "2026 Sarangani Earthquake",
+  "drivers": [
+   "Earthquake"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "PHL"
+  ],
+  "country": [
+   "Philippines"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 1,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.2222
+ },
+ {
+  "crisis_id": "PHL021",
+  "crisis_name": "Southwest Monsoon, Floods and Tropical Cyclones",
+  "drivers": [
+   "Cyclone",
+   "Floods",
+   "Monsoon"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "PHL"
+  ],
+  "country": [
+   "Philippines"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 1,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.1389
+ },
+ {
+  "crisis_id": "PSE002",
+  "crisis_name": "Multiple crises in Palestine",
+  "drivers": [
+   "Conflict"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "PSE"
+  ],
+  "country": [
+   "Palestine"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 3.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 5,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0889
+ },
+ {
+  "crisis_id": "PSE003",
+  "crisis_name": "Conflict in the West Bank",
+  "drivers": [
+   "Conflict"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "PSE"
+  ],
+  "country": [
+   "Palestine"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 0.0,
+  "P1": 5,
+  "P2": 4,
+  "P3": 3,
+  "ACCESS": 4.0,
+  "Infogap": 0.1
+ },
+ {
+  "crisis_id": "PSE004",
+  "crisis_name": "Conflict in Gaza",
+  "drivers": [
+   "Conflict"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "PSE"
+  ],
+  "country": [
+   "Palestine"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 3.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 5,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0889
+ },
+ {
+  "crisis_id": "SDN001",
+  "crisis_name": "Complex crisis in Sudan",
+  "drivers": [
+   "International Displacement",
+   "Conflict/ Violence",
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "SDN"
+  ],
+  "country": [
+   "Sudan"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 2,
+  "I9": 1.0,
+  "P1": 5,
+  "P2": 5,
+  "P3": 4,
+  "ACCESS": 5.0,
+  "Infogap": 0.0333
+ },
+ {
+  "crisis_id": "SLV001",
+  "crisis_name": "Political and Economic crisis in El Salvador",
+  "drivers": [
+   "Political/economic crisis"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "SLV"
+  ],
+  "country": [
+   "El Salvador"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 0.0,
+  "P1": 0,
+  "P2": 0,
+  "P3": 0,
+  "ACCESS": 0.0,
+  "Infogap": 0.1889
+ },
+ {
+  "crisis_id": "SOM001",
+  "crisis_name": "Complex crisis in Somalia",
+  "drivers": [
+   "Conflict",
+   "Displacement",
+   "Floods",
+   "Drought"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "SOM"
+  ],
+  "country": [
+   "Somalia"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 3,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 3,
+  "P3": 5,
+  "ACCESS": 4.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "SOM002",
+  "crisis_name": "International displacement to Somalia",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "SOM"
+  ],
+  "country": [
+   "Somalia"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 1.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 3,
+  "I9": 3.0,
+  "P1": 1,
+  "P2": 3,
+  "P3": 5,
+  "ACCESS": 3.0,
+  "Infogap": 0.0333
+ },
+ {
+  "crisis_id": "SSD001",
+  "crisis_name": "Complex crisis in South Sudan",
+  "drivers": [
+   "Conflict/ Violence",
+   "Floods",
+   "Political/economic crisis",
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "SSD"
+  ],
+  "country": [
+   "South Sudan"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 5,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "SSD004",
+  "crisis_name": "Displacement from Sudan to South Sudan",
+  "drivers": [
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "SSD"
+  ],
+  "country": [
+   "South Sudan"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 5,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "SWZ001",
+  "crisis_name": "Drought in Eswatini",
+  "drivers": [
+   "Drought"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "SWZ"
+  ],
+  "country": [
+   "Eswatini"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 2.0,
+  "P1": 0,
+  "P2": 1,
+  "P3": 2,
+  "ACCESS": 1.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "SYR003",
+  "crisis_name": "Complex crisis in Syria",
+  "drivers": [
+   "Conflict/ Violence",
+   "Political/economic crisis",
+   "Drought/drier conditions"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "SYR"
+  ],
+  "country": [
+   "Syria"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 1.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 2.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 4,
+  "P2": 3,
+  "P3": 5,
+  "ACCESS": 4.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "TCD001",
+  "crisis_name": "Complex crisis in Chad",
+  "drivers": [
+   "Conflict/ Violence",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "TCD"
+  ],
+  "country": [
+   "Chad"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 0.0,
+  "I4": 2.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 3,
+  "I9": 2.0,
+  "P1": 2,
+  "P2": 2,
+  "P3": 5,
+  "ACCESS": 3.0,
+  "Infogap": 0.0889
+ },
+ {
+  "crisis_id": "TCD005",
+  "crisis_name": "Displacement from Sudan to Chad",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "TCD"
+  ],
+  "country": [
+   "Chad"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 0.0,
+  "I4": 2.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 3.0,
+  "I8": 3,
+  "I9": 2.0,
+  "P1": 2,
+  "P2": 2,
+  "P3": 5,
+  "ACCESS": 3.0,
+  "Infogap": 0.0889
+ },
+ {
+  "crisis_id": "TGO002",
+  "crisis_name": "Conflict in Savanes region",
+  "drivers": [
+   "Conflict/ Violence"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "TGO"
+  ],
+  "country": [
+   "Togo"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 2.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 1.0,
+  "I8": 1,
+  "I9": 2.0,
+  "P1": 2,
+  "P2": 1,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.1667
+ },
+ {
+  "crisis_id": "THA001",
+  "crisis_name": "Multiple crises in Thailand",
+  "drivers": [
+   "International Displacement",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "THA"
+  ],
+  "country": [
+   "Thailand"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 1.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 4,
+  "ACCESS": 4.0,
+  "Infogap": 0.0444
+ },
+ {
+  "crisis_id": "THA003",
+  "crisis_name": "Displacement from Myanmar to Thailand",
+  "drivers": [
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "THA"
+  ],
+  "country": [
+   "Thailand"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 1.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 2,
+  "I9": 2.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.0444
+ },
+ {
+  "crisis_id": "THA004",
+  "crisis_name": "Monsoon Floods in Thailand",
+  "drivers": [
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "THA"
+  ],
+  "country": [
+   "Thailand"
+  ],
+  "regions": [
+   "Asia"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 2,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 1,
+  "P3": 4,
+  "ACCESS": 2.0,
+  "Infogap": 0.0444
+ },
+ {
+  "crisis_id": "TTO002",
+  "crisis_name": "Displacement from Venezuela to Trinidad and Tobago",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "TTO"
+  ],
+  "country": [
+   "Trinidad and Tobago"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 2.0,
+  "I2": 0.0,
+  "I3": 0.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 0.0,
+  "P1": 2,
+  "P2": 0,
+  "P3": 0,
+  "ACCESS": 1.0,
+  "Infogap": 0.1111
+ },
+ {
+  "crisis_id": "TUN002",
+  "crisis_name": "International displacement to Tunisia",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "TUN"
+  ],
+  "country": [
+   "Tunisia"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 1.0,
+  "I5": 2.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.0778
+ },
+ {
+  "crisis_id": "TUR001",
+  "crisis_name": "Multiple Crises in Türkiye",
+  "drivers": [
+   "International Displacement",
+   "Earthquake"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "TUR"
+  ],
+  "country": [
+   "Turkey"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 3,
+  "I9": 0.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "TUR002",
+  "crisis_name": "Displacement from Syria to Türkiye",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "TUR"
+  ],
+  "country": [
+   "Turkey"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 3,
+  "I9": 0.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "TUR003",
+  "crisis_name": "International Displacement to Türkiye",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "TUR"
+  ],
+  "country": [
+   "Turkey"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 3,
+  "I9": 0.0,
+  "P1": 5,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "TZA001",
+  "crisis_name": "Multiple Crises in Tanzania",
+  "drivers": [
+   "International Displacement",
+   "Drought/drier conditions",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "TZA"
+  ],
+  "country": [
+   "Tanzania"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 3,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.0333
+ },
+ {
+  "crisis_id": "TZA002",
+  "crisis_name": "International Displacement to Tanzania",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "TZA"
+  ],
+  "country": [
+   "Tanzania"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 2.0,
+  "P1": 3,
+  "P2": 2,
+  "P3": 2,
+  "ACCESS": 2.0,
+  "Infogap": 0.1444
+ },
+ {
+  "crisis_id": "TZA003",
+  "crisis_name": "Drought and floods in Tanzania",
+  "drivers": [
+   "Drought/drier conditions",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "TZA"
+  ],
+  "country": [
+   "Tanzania"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 2.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0333
+ },
+ {
+  "crisis_id": "UGA001",
+  "crisis_name": "Multiple crises in Uganda",
+  "drivers": [
+   "International Displacement",
+   "Drought/drier conditions"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "UGA"
+  ],
+  "country": [
+   "Uganda"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 1.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 3,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "UGA005",
+  "crisis_name": "International Displacement to Uganda",
+  "drivers": [
+   "International Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "UGA"
+  ],
+  "country": [
+   "Uganda"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 2.0,
+  "I2": 1.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 3,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "UGA007",
+  "crisis_name": "Food Security Crisis in Uganda ",
+  "drivers": [
+   "Drought/drier conditions"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "UGA"
+  ],
+  "country": [
+   "Uganda"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 0.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 0,
+  "P2": 1,
+  "P3": 3,
+  "ACCESS": 1.0,
+  "Infogap": 0.0
+ },
+ {
+  "crisis_id": "UKR002",
+  "crisis_name": "Conflict in Ukraine",
+  "drivers": [
+   "Conflict/ Violence"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "UKR"
+  ],
+  "country": [
+   "Ukraine"
+  ],
+  "regions": [
+   "Europe"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 1.0,
+  "I4": 3.0,
+  "I5": 2.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 3,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 4,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.0833
+ },
+ {
+  "crisis_id": "VEN001",
+  "crisis_name": "Political and Economic crisis in Venezuela",
+  "drivers": [
+   "Political/economic crisis",
+   "Conflict/ Violence"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "VEN"
+  ],
+  "country": [
+   "Venezuela"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 2.0,
+  "I2": 2.0,
+  "I3": 1.0,
+  "I4": 2.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 1.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 4,
+  "P2": 2,
+  "P3": 4,
+  "ACCESS": 3.0,
+  "Infogap": 0.1722
+ },
+ {
+  "crisis_id": "VEN002",
+  "crisis_name": "2026 Earthquake in Venezuela",
+  "drivers": [
+   "Earthquake"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "VEN"
+  ],
+  "country": [
+   "Venezuela"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 1.0,
+  "I2": 2.0,
+  "I3": 1.0,
+  "I4": 1.0,
+  "I5": 0.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 3,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 3.0,
+  "Infogap": 0.2111
+ },
+ {
+  "crisis_id": "VEN003",
+  "crisis_name": "Multiple Crises in Venezuela",
+  "drivers": [
+   "Earthquake",
+   "Political/economic crisis",
+   "Conflict/ Violence"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Aggregated",
+  "iso3": [
+   "VEN"
+  ],
+  "country": [
+   "Venezuela"
+  ],
+  "regions": [
+   "Americas"
+  ],
+  "I1": 2.0,
+  "I2": 2.0,
+  "I3": 1.0,
+  "I4": 2.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 1.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 4,
+  "P2": 2,
+  "P3": 4,
+  "ACCESS": 3.0,
+  "Infogap": 0.1722
+ },
+ {
+  "crisis_id": "YEM001",
+  "crisis_name": "Complex crisis in Yemen",
+  "drivers": [
+   "Conflict/ Violence",
+   "Drought/drier conditions",
+   "Political/economic crisis",
+   "Floods"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "YEM"
+  ],
+  "country": [
+   "Yemen"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 3.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 5,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.1222
+ },
+ {
+  "crisis_id": "YEM002",
+  "crisis_name": "International Displacement to Yemen",
+  "drivers": [
+   "Displacement"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "No",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "YEM"
+  ],
+  "country": [
+   "Yemen"
+  ],
+  "regions": [
+   "Middle east"
+  ],
+  "I1": 2.0,
+  "I2": 3.0,
+  "I3": 2.0,
+  "I4": 3.0,
+  "I5": 3.0,
+  "I6": 3.0,
+  "I7": 3.0,
+  "I8": 1,
+  "I9": 3.0,
+  "P1": 5,
+  "P2": 5,
+  "P3": 5,
+  "ACCESS": 5.0,
+  "Infogap": 0.1222
+ },
+ {
+  "crisis_id": "ZMB002",
+  "crisis_name": "Drought in Zambia",
+  "drivers": [
+   "Drought/drier conditions"
+  ],
+  "regional_or_country": "Country",
+  "country_level": "Yes",
+  "individual_aggregated": "Individual",
+  "iso3": [
+   "ZMB"
+  ],
+  "country": [
+   "Zambia"
+  ],
+  "regions": [
+   "Africa"
+  ],
+  "I1": 0.0,
+  "I2": 1.0,
+  "I3": 1.0,
+  "I4": 0.0,
+  "I5": 1.0,
+  "I6": 0.0,
+  "I7": 0.0,
+  "I8": 0,
+  "I9": 3.0,
+  "P1": 1,
+  "P2": 2,
+  "P3": 3,
+  "ACCESS": 2.0,
+  "Infogap": 0.0
+ }
+]

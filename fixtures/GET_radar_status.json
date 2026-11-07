@@ -1,8 +1,26 @@
 {
-  "source": "csv",
-  "fetched_at": "2026-11-07T09:00:00Z",
-  "n_risks": 139,
-  "live_available": false,
+  "risk_list": {
+    "source": "csv",
+    "fetched_at": "2026-11-07T12:00:00Z",
+    "n": 139,
+    "api_n": 214,
+    "api_last_update": "2025-07-11"
+  },
+  "editions": [
+    {
+      "dataset": "inform-severity-index",
+      "month": "Nov2026",
+      "source": "cache",
+      "fetched_at": "2026-11-07T12:00:00Z"
+    },
+    {
+      "dataset": "humanitarian-access",
+      "month": "Nov2026",
+      "source": "cache",
+      "fetched_at": "2026-11-07T12:00:00Z"
+    }
+  ],
+  "token_present": false,
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T12:00:00Z"
 }

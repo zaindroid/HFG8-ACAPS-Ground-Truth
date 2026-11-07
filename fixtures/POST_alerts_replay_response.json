@@ -1,0 +1,84 @@
+{
+  "month_from": "Mar2026",
+  "month_to": "Apr2026",
+  "n_crises": 123,
+  "events": [
+    {
+      "id": "S-0001",
+      "crisis_id": "TCD005",
+      "crisis_name": "Displacement from Sudan to Chad",
+      "risk_id": "R1043",
+      "month_from": "Mar2026",
+      "month_to": "Apr2026",
+      "metric": "index",
+      "before": 6.1,
+      "after": 6.9,
+      "delta": 0.8,
+      "rank_this_month": 1,
+      "n_crises_this_month": 123,
+      "components": {
+        "human_impact": [
+          6.04,
+          7.57
+        ],
+        "people_in_need": [
+          7.04,
+          7.11
+        ],
+        "conditions": [
+          6.52,
+          7.55
+        ]
+      },
+      "reliability": "Very High",
+      "rule_hit": "index delta >= 0.5",
+      "adm1": [
+        "Ennedi Est",
+        "Wadi Fira",
+        "Ouaddaï",
+        "Sila"
+      ],
+      "connected_crises": [
+        "SDN001"
+      ],
+      "pulse_id": null,
+      "status": "proposed"
+    },
+    {
+      "id": "S-0002",
+      "crisis_id": "TZA003",
+      "crisis_name": "(from crises.json)",
+      "risk_id": null,
+      "month_from": "Mar2026",
+      "month_to": "Apr2026",
+      "metric": "index",
+      "before": null,
+      "after": null,
+      "delta": 0.6,
+      "rank_this_month": 2,
+      "n_crises_this_month": 123,
+      "rule_hit": "index delta >= 0.5",
+      "pulse_id": null,
+      "status": "proposed"
+    },
+    {
+      "id": "S-0003",
+      "crisis_id": "PAK007",
+      "crisis_name": "(from crises.json)",
+      "risk_id": null,
+      "month_from": "Mar2026",
+      "month_to": "Apr2026",
+      "metric": "index",
+      "before": null,
+      "after": null,
+      "delta": -0.9,
+      "rank_this_month": 1,
+      "n_crises_this_month": 123,
+      "rule_hit": "index delta <= -0.5 (improvement)",
+      "pulse_id": null,
+      "status": "proposed"
+    }
+  ],
+  "served_from": "live",
+  "generated_at": "2026-11-07T12:00:00Z"
+}

@@ -110,3 +110,24 @@ def freeze_contract(risk_id: str, body: dict):
 @app.get("/pulses/{pulse_id}/outcome-report")
 def outcome_report(pulse_id: str):
     return fixture("GET_pulses_outcome_report.json")
+
+
+@app.post("/alerts/run")
+def alerts_run(body: dict | None = None):
+    return fixture("POST_alerts_run_response.json")
+
+@app.post("/alerts/replay")
+def alerts_replay(body: dict | None = None):
+    return fixture("POST_alerts_replay_response.json")
+
+@app.get("/alerts")
+def alerts():
+    return fixture("GET_alerts.json")
+
+@app.post("/alerts/{alert_id}/pulse", status_code=201)
+def alerts_pulse(alert_id: str):
+    return fixture("POST_alerts_pulse_response.json")
+
+@app.get("/crises/{crisis_id}")
+def crisis(crisis_id: str):
+    return fixture("GET_crises_TCD005.json")

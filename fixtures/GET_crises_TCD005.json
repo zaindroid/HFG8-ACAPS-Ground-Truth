@@ -1,0 +1,96 @@
+{
+  "crisis_id": "TCD005",
+  "crisis_name": "Displacement from Sudan to Chad",
+  "iso3": [
+    "TCD"
+  ],
+  "drivers": [
+    "International Displacement"
+  ],
+  "adm1_name": [
+    "Ennedi Est",
+    "Wadi Fira",
+    "Ouaddaï",
+    "Sila"
+  ],
+  "connected_crises": [
+    "SDN001"
+  ],
+  "active": true,
+  "linked_risks": [
+    "R1043"
+  ],
+  "series": [
+    {
+      "month": "Aug2025",
+      "index": 6.2
+    },
+    {
+      "month": "Sep2025",
+      "index": 6.2
+    },
+    {
+      "month": "Oct2025",
+      "index": 6.2
+    },
+    {
+      "month": "Nov2025",
+      "index": 6.2
+    },
+    {
+      "month": "Dec2025",
+      "index": 6.2
+    },
+    {
+      "month": "Jan2026",
+      "index": 6.2
+    },
+    {
+      "month": "Feb2026",
+      "index": 6.1
+    },
+    {
+      "month": "Mar2026",
+      "index": 6.1
+    },
+    {
+      "month": "Apr2026",
+      "index": 6.9
+    },
+    {
+      "month": "May2026",
+      "index": 6.9
+    },
+    {
+      "month": "Jun2026",
+      "index": 7.0
+    },
+    {
+      "month": "Jul2026",
+      "index": 7.1
+    },
+    {
+      "month": "Aug2026",
+      "index": 7.1
+    },
+    {
+      "month": "Sep2026",
+      "index": 7.1
+    },
+    {
+      "month": "Oct2026",
+      "index": 7.1
+    },
+    {
+      "month": "Nov2026",
+      "index": 7.1
+    }
+  ],
+  "access": {
+    "Mar2026": 2.0,
+    "Jul2026": 3.0,
+    "Nov2026": 3.0
+  },
+  "served_from": "live",
+  "generated_at": "2026-11-07T12:00:00Z"
+}

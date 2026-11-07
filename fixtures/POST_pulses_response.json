@@ -3,27 +3,25 @@
   "risk_id": "R1043",
   "panel_id": "PAN-TCD",
   "fired_at": "2026-11-07T09:00:00Z",
-  "reason": "doorbell",
+  "reason": "alert",
   "round": 1,
   "evidence": [
     {
-      "source": "ACLED",
-      "indicator": "acled_events",
-      "value": 21,
-      "baseline": 6.4,
-      "z": 2.9,
-      "url": "https://acleddata.com"
-    },
-    {
-      "source": "UNHCR",
-      "indicator": "unhcr_arrivals",
-      "value": 4800,
-      "baseline": 2100,
-      "z": 2.2,
-      "url": "https://data.unhcr.org/en/situations/sudansituation"
+      "source": "ACAPS INFORM Severity Index",
+      "dataset": "inform-severity-index",
+      "crisis_id": "TCD005",
+      "month_from": "Mar2026",
+      "month_to": "Apr2026",
+      "metric": "index",
+      "before": 6.1,
+      "after": 6.9,
+      "delta": 0.8,
+      "rank_this_month": 1,
+      "n_crises_this_month": 123,
+      "url": "https://api.acaps.org/api/v1/inform-severity-index/Apr2026/"
     }
   ],
-  "question": "ACAPS rates this High. Do you still agree? What are we missing?",
+  "question": "ACAPS's severity index for 'Displacement from Sudan to Chad' rose 6.1 to 6.9 in April, the largest move of 123 crises. Give your probability that R1043 materialises within six months. What are we missing?",
   "expires_at": "2026-11-08T09:00:00Z",
   "n_answers": 0,
   "served_from": "live",
