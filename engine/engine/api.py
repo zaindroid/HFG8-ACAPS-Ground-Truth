@@ -532,6 +532,56 @@ def approve_expert(expert_id: str, body: dict = Body(default_factory=dict)):
     })
 
 
+@api.get("/insights", tags=["radar"])
+def insights():
+    """How the Risk List has actually performed, computed from the export the engine loaded.
+
+    The UI shipped these as a build-time file; served here they follow whatever data the
+    engine is reading, so the charts cannot quietly describe a different dataset from the
+    one answering /risks. Resolved risks only: active ones have no outcome to count.
+    """
+    rows = data.all_risks()
+    resolved = [r for r in rows if r["status"].lower() in ("materialised", "not materialised")]
+
+    def tally(key: str, order: list[str]):
+        out = []
+        for value in order:
+            group = [r for r in resolved if (r.get(key) or "") == value]
+            if not group:
+                continue
+            hit = sum(1 for r in group if r["status"].lower() == "materialised")
+            row = {"label": value, "n": len(group), "materialised": hit,
+                   "rate": round(hit / len(group), 4)}
+            if key == "probability_acaps":
+                row["expected"] = data.band_to_number(value)
+            out.append(row)
+        return out
+
+    bands = ["Very Low", "Low", "Medium", "High", "Very High"]
+    matrix = []
+    for band in bands:
+        for impact in range(1, 6):
+            cell = [r for r in resolved
+                    if (r.get("probability_acaps") or "") == band and r.get("impact_acaps") == impact]
+            hit = sum(1 for r in cell if r["status"].lower() == "materialised")
+            matrix.append({"probability": band, "impact": impact, "n": len(cell),
+                           "materialised": hit,
+                           "rate": round(hit / len(cell), 4) if cell else None})
+    return envelope({
+        "source": "ACAPS Risk List as loaded by this engine",
+        "totals": {
+            "risks": len(rows),
+            "resolved": len(resolved),
+            "active": sum(1 for r in rows if r["status"].lower().startswith("active")),
+            "materialised": sum(1 for r in resolved if r["status"].lower() == "materialised"),
+            "countries": len({c.strip() for r in rows for c in r["country"].split(",") if c.strip()}),
+        },
+        "calibration": tally("probability_acaps", bands),
+        "by_level": tally("level", ["Low", "Medium", "High"]),
+        "matrix": matrix,
+    })
+
+
 @api.get("/panels/match", tags=["panel"])
 def panels_match(risk_id: str = "R1043"):
     """The best-matched approved experts, plus the composition check. Caps matter more than scores:

@@ -58,6 +58,8 @@ export function MethodChain({
   reference: string;
 }) {
   const past = bandRate(reference);
+  // Dropped from the round in v3.4; the step says so rather than guessing a value.
+  const dissent = (result as Result & { dissent_index?: number }).dissent_index;
   const weightShift = Math.abs(result.weighted_mean - result.mean);
   const steps = [
     {
@@ -90,11 +92,11 @@ export function MethodChain({
     },
     {
       name: "Dissent index",
-      value: result.dissent_index?.toFixed(2) ?? "Not supplied",
+      value: dissent?.toFixed(2) ?? "Not supplied",
       note:
-        result.dissent_index === undefined
+        dissent === undefined
           ? "Not returned for this round."
-          : result.dissent_index >= 0.3
+          : dissent >= 0.3
             ? "The panel is meaningfully divided. A single number hides that, which is why the spread and the minority reason travel with it."
             : "The panel broadly agrees.",
     },

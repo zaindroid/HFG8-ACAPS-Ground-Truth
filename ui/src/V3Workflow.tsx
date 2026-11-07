@@ -343,30 +343,33 @@ export function CommitteeScoring() {
         <div className="table-wrap">
           <table>
             <thead>
+              {/* Panels, not people: v3.4 scores the forecast, and a per-expert
+                  leaderboard is the thing it deliberately removed. */}
               <tr>
                 <th>Panel</th>
-                <th>Resolved rounds</th>
-                <th>Panel Brier score</th>
-                <th>ACAPS band Brier score</th>
+                <th>Risk</th>
+                <th>Resolved</th>
+                <th>Panel Brier</th>
+                <th>ACAPS band Brier</th>
               </tr>
             </thead>
             <tbody>
-              {/* Panel-level since v3.4. The table that used to be here ranked pseudonyms by
-                  Brier score, which is a leaderboard of people built from answers that never
-                  said they were being ranked. */}
-              {value.panels.map((item) => (
-                <tr key={item.panel_id}>
-                  <td>{item.panel_id}</td>
-                  <td>{item.n_resolved}</td>
+              {value.panels.map((panel) => (
+                <tr key={panel.panel_id}>
+                  <td>{panel.panel_id}</td>
+                  {/* A panel can be asked about more than one risk, so the engine reports the
+                      list. One row per panel, with the risks it was asked about. */}
+                  <td>{panel.risk_ids.join(", ")}</td>
+                  <td>{panel.n_resolved}</td>
                   <td>
-                    {item.panel_brier === null
-                      ? "no resolved round yet"
-                      : item.panel_brier.toFixed(2)}
+                    {panel.panel_brier === null
+                      ? panel.status
+                      : panel.panel_brier.toFixed(2)}
                   </td>
                   <td>
-                    {item.acaps_band_brier === null
+                    {panel.acaps_band_brier === null
                       ? "—"
-                      : item.acaps_band_brier.toFixed(2)}
+                      : panel.acaps_band_brier.toFixed(2)}
                   </td>
                 </tr>
               ))}

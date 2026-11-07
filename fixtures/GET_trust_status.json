@@ -97,7 +97,7 @@
   "credentials": {
     "scheme": "rsa-blind-rfc9474",
     "issuer": {
-      "key_id": "5849a8d79c939f2c",
+      "key_id": "ee75ac891ca72d89",
       "bits": 2048,
       "hash": "sha384",
       "salt_length": 0,
@@ -142,5 +142,5 @@
     "means": "Counts only. A report belongs to the expert, and reaches the committee only if that expert says yes a second time."
   },
   "served_from": "live",
-  "generated_at": "2026-11-07T20:27:02+00:00"
+  "generated_at": "2026-11-07T22:14:24+00:00"
 }

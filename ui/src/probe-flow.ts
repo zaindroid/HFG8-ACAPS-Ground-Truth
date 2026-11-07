@@ -6,6 +6,7 @@
 
 export type Probe = {
   id: string;
+  role?: string;
   kind: "choice" | "text" | "rank";
   question: string;
   help?: string;
@@ -16,7 +17,10 @@ export type Probe = {
 };
 export type Rule = {
   step: number;
-  probe: string;
+  /** Rules name a role, never a question: a reviewed set has its own ids, and routing on
+      those ids matched nothing, so the card skipped straight to submit. */
+  role?: string;
+  roles?: string[];
   after?: string;
   otherwise?: boolean;
   why?: string;
@@ -32,6 +36,7 @@ export type ProbeFlow = {
   max_steps: number;
   bank: Record<string, Probe>;
   rules: Rule[];
+  debiasing_roles?: string[];
   note?: string;
 };
 export type ProbeAnswers = Record<string, string | string[]>;
@@ -86,15 +91,18 @@ export function probeForStep(
   // one-minute card turns into a survey.
   if (core.stance !== "estimate") return null;
   const previousId = chain[chain.length - 1];
+  const unseen = Object.values(flow.bank).filter((p) => !chain.includes(p.id));
   for (const rule of flow.rules) {
     if (rule.step !== step) continue;
     if (rule.after && rule.after !== previousId) continue;
-    if (chain.includes(rule.probe)) continue;
     if (!matches(rule, core, previousId ? answers[previousId] : undefined)) continue;
-    const probe = flow.bank[rule.probe];
+    const wanted = rule.roles ?? (rule.role ? [rule.role] : []);
+    const probe = unseen.find((p) => wanted.includes(p.role || ""));
     if (probe) return probe;
   }
-  return null;
+  // A bank that carries none of the asked-for roles still owes the expert a question,
+  // so the first unseen one answers rather than the card ending early.
+  return step === 2 ? (unseen[0] ?? null) : (unseen[0] ?? null);
 }
 
 /** How many steps this card will actually run, so progress can be honest about it. */

@@ -13,5 +13,5 @@
   "guarantees": "Double-answer prevention by nullifier, enforced server-side",
   "does_not": "Membership without identity -- that needs the proof verifier this build does not have; reputation portability; not required for the pilot design",
   "served_from": "live",
-  "generated_at": "2026-11-07T20:27:04+00:00"
+  "generated_at": "2026-11-07T22:14:26+00:00"
 }

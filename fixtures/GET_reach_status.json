@@ -105,5 +105,5 @@
   "guarantees": "One pulse per expert per seven days across every panel. STOP honoured immediately and logged. No message body carries the ACAPS rating, a severity number or a place name finer than the crisis title. A reminder never carries a count of who has answered.",
   "does_not": "Send anything. No gateway or mailbox is configured in this build, so every message is composed in full and recorded in the outbox.",
   "served_from": "live",
-  "generated_at": "2026-11-07T20:27:04+00:00"
+  "generated_at": "2026-11-07T22:14:26+00:00"
 }

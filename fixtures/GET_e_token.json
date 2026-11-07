@@ -3,7 +3,7 @@
     "id": "P-0001",
     "risk_id": "R1043",
     "panel_id": "PAN-TCD",
-    "fired_at": "2026-11-07T20:27:00+00:00",
+    "fired_at": "2026-11-07T22:14:21+00:00",
     "reason": "alert",
     "round": 1,
     "question": {
@@ -13,11 +13,11 @@
       "deadline": "2027-03-31",
       "text": "Will more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027?",
       "source": "question_contract",
-      "frozen_at": "2026-11-07T20:27:00+00:00",
+      "frozen_at": "2026-11-07T22:14:21+00:00",
       "resolution_source": "UNHCR registration figures for eastern Chad, as reported to ACAPS"
     },
     "asked_by": "Alex, ACAPS Risk Radar",
-    "expires_at": "2026-11-08T20:27:00+00:00",
+    "expires_at": "2026-11-08T22:14:21+00:00",
     "reveal_status": "open",
     "n_answers": 8
   },
@@ -143,7 +143,7 @@
     "deadline": "2027-03-31",
     "text": "Will more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027?",
     "source": "question_contract",
-    "frozen_at": "2026-11-07T20:27:00+00:00",
+    "frozen_at": "2026-11-07T22:14:21+00:00",
     "resolution_source": "UNHCR registration figures for eastern Chad, as reported to ACAPS"
   },
   "asked_by": "Alex, ACAPS Risk Radar",
@@ -246,16 +246,17 @@
     ],
     "panel_share_prompt": "What share of this panel will say likely or very likely?"
   },
-  "expires_at": "2026-11-08T20:27:00+00:00",
-  "correction_allowed_until": "2026-11-08T20:27:00+00:00",
+  "expires_at": "2026-11-08T22:14:21+00:00",
+  "correction_allowed_until": "2026-11-08T22:14:21+00:00",
   "probe_flow": {
     "max_steps": 3,
     "bank": {
-      "trigger_rank": {
-        "id": "trigger_rank",
-        "kind": "rank",
-        "question": "Which of these would move the situation most?",
-        "help": "Order them. The one you put first is the one you would watch.",
+      "weakest_link": {
+        "id": "weakest_link",
+        "role": "decomposition",
+        "kind": "choice",
+        "question": "Several things must line up for this by 09 May 2027. Which is least likely?",
+        "help": "The one you would bet against.",
         "options": [
           {
             "value": "T1",
@@ -268,115 +269,88 @@
           {
             "value": "T3",
             "label": "Renewed proxy mobilisation and cross-border armed group activity"
+          },
+          {
+            "value": "all_plausible",
+            "label": "All are plausible",
+            "dk": true
           }
         ]
       },
-      "trigger_hinge": {
-        "id": "trigger_hinge",
+      "conditional": {
+        "id": "conditional",
+        "role": "conditional",
         "kind": "choice",
-        "question": "Which of these matters most for what happens next?",
+        "question": "If \"Expansion of cross-border attacks and insecurity\" happens, where does your estimate go?",
+        "help": "Assume it happens within two months.",
         "options": [
           {
-            "value": "T1",
-            "label": "Expansion of cross-border attacks and insecurity"
+            "value": "much_higher",
+            "label": "Much higher"
           },
           {
-            "value": "T2",
-            "label": "Attacks on strategic infrastructure in Chad"
+            "value": "higher",
+            "label": "Higher"
           },
           {
-            "value": "T3",
-            "label": "Renewed proxy mobilisation and cross-border armed group activity"
+            "value": "unchanged",
+            "label": "Unchanged, already priced in"
           },
           {
-            "value": "something_else",
-            "label": "Something not listed",
-            "dk": true
+            "value": "lower",
+            "label": "Lower"
           }
-        ],
-        "follow_up": {
-          "when": "something_else",
-          "id": "trigger_hinge_other",
-          "kind": "text",
-          "question": "What is it?",
-          "limit": 240
-        }
+        ]
       },
-      "minority_why": {
-        "id": "minority_why",
+      "base_rate_challenge": {
+        "id": "base_rate_challenge",
+        "role": "base_rate",
         "kind": "text",
-        "question": "You expect to land apart from this panel. What do you know that they may not?",
-        "help": "The gap between your own estimate and your guess at theirs is the reason this is being asked.",
+        "question": "Of 30 resolved risks in this probability band, 83% happened. What makes this one different?",
+        "help": "If nothing does, say so. That is an answer.",
         "limit": 240
       },
-      "what_would_move": {
-        "id": "what_would_move",
+      "premortem": {
+        "id": "premortem",
+        "role": "premortem",
         "kind": "text",
-        "question": "What would move you, either way?",
-        "help": "One thing you would need to see.",
+        "question": "It is 09 May 2027 and this did not happen. What stopped it?",
+        "help": "One line, written as though you already knew.",
         "limit": 240
       },
-      "evidence_seen": {
-        "id": "evidence_seen",
+      "surprise": {
+        "id": "surprise",
+        "role": "premortem",
         "kind": "text",
-        "question": "What are you seeing that supports that?",
-        "help": "In the last 30 days, and only what you would stand behind.",
+        "question": "What would genuinely surprise you by 09 May 2027?",
+        "help": "Not the worst case. The thing you would not have predicted.",
         "limit": 240
       },
-      "holding_back": {
-        "id": "holding_back",
+      "observable_7d": {
+        "id": "observable_7d",
+        "role": "observable",
         "kind": "text",
-        "question": "What is holding this back?",
-        "help": "The reason it has not happened already.",
+        "question": "Name one thing checkable within seven days that would move your estimate.",
+        "help": "Something an analyst could go and look at.",
         "limit": 240
       },
-      "watch_indicator": {
-        "id": "watch_indicator",
-        "kind": "text",
-        "question": "What would you watch to know it had started?",
-        "help": "One observable thing, as early as you can make it.",
-        "limit": 240
-      },
-      "counterfactual": {
-        "id": "counterfactual",
-        "kind": "text",
-        "question": "What would have to be true for this not to happen?",
-        "help": "The strongest reason it does not, in one line.",
-        "limit": 240
-      },
-      "alternative_driver": {
-        "id": "alternative_driver",
+      "reporting_or_real": {
+        "id": "reporting_or_real",
+        "role": "provenance",
         "kind": "choice",
-        "question": "What is driving this most, as you see it?",
-        "help": "ACAPS frames it as: Escalating cross-border insecurity linked to the Sudan conflict increases protection risks and humanitarian ne",
+        "question": "Recorded incidents here have risen. Escalation, or better reporting?",
         "options": [
           {
-            "value": "Displacement",
-            "label": "Displacement"
+            "value": "escalation",
+            "label": "Real escalation"
           },
           {
-            "value": "as_titled",
-            "label": "As framed above"
+            "value": "reporting",
+            "label": "Mostly better reporting"
           },
           {
-            "value": "Protection",
-            "label": "Protection"
-          },
-          {
-            "value": "Food security",
-            "label": "Food security"
-          },
-          {
-            "value": "Health",
-            "label": "Health"
-          },
-          {
-            "value": "WASH",
-            "label": "WASH"
-          },
-          {
-            "value": "Shelter",
-            "label": "Shelter"
+            "value": "both",
+            "label": "Both, about equally"
           },
           {
             "value": "cannot_say",
@@ -387,6 +361,7 @@
       },
       "rationale_rebuttal": {
         "id": "rationale_rebuttal",
+        "role": "context",
         "kind": "choice",
         "question": "ACAPS writes this. Does it match what you see?",
         "help": "Since early 2026, the conflict in Sudan has evolved from a humanitarian crisis affecting Chad into a direct security threat to eastern border areas.",
@@ -417,6 +392,7 @@
       },
       "vulnerability_check": {
         "id": "vulnerability_check",
+        "role": "context",
         "kind": "choice",
         "question": "Is this still true where you work, over the last 30 days?",
         "help": "Before the Sudan conflict escalated, eastern Chad already faced high levels of poverty, food insecurity, weak infrastructure, and limited access to basic services.",
@@ -439,6 +415,14 @@
             "dk": true
           }
         ]
+      },
+      "minority_why": {
+        "id": "minority_why",
+        "role": "minority",
+        "kind": "text",
+        "question": "You expect to land apart from this panel. What do they not know?",
+        "help": "The gap between your estimate and your guess at theirs is why this is asked.",
+        "limit": 240
       }
     },
     "rules": [
@@ -447,7 +431,7 @@
         "when": {
           "gap_at_least": 0.25
         },
-        "probe": "minority_why",
+        "role": "minority",
         "why": "They expect to sit apart from the panel, which is the view worth hearing."
       },
       {
@@ -455,59 +439,45 @@
         "when": {
           "confidence_at_most": 2
         },
-        "probe": "what_would_move",
-        "why": "Low confidence: what would change it is more useful than what it is."
+        "role": "conditional",
+        "why": "Low confidence: what would change it is worth more than what it is."
       },
       {
         "step": 2,
         "when": {
           "probability_at_least": 0.75
         },
-        "probe": "evidence_seen",
-        "why": "High conviction: ask what they are seeing that supports it."
+        "role": "decomposition",
+        "why": "High conviction: ask which link of their own chain is weakest."
       },
       {
         "step": 2,
         "when": {
           "probability_at_most": 0.25
         },
-        "probe": "holding_back",
-        "why": "Low estimate with conviction: ask what is holding it back."
+        "role": "decomposition",
+        "why": "Low estimate held firmly: the same question, from the other side."
       },
       {
         "step": 2,
         "otherwise": true,
-        "probe": "trigger_hinge"
+        "role": "decomposition"
       },
       {
         "step": 3,
-        "after": "trigger_hinge",
-        "when": {
-          "answered": true
-        },
-        "probe": "watch_indicator",
-        "why": "They named the hinge; ask what would show it starting."
-      },
-      {
-        "step": 3,
-        "after": "minority_why",
-        "probe": "alternative_driver"
-      },
-      {
-        "step": 3,
-        "after": "what_would_move",
-        "probe": "vulnerability_check"
-      },
-      {
-        "step": 3,
-        "after": "holding_back",
-        "probe": "alternative_driver"
-      },
-      {
-        "step": 3,
+        "roles": [
+          "premortem",
+          "base_rate",
+          "minority"
+        ],
         "otherwise": true,
-        "probe": "counterfactual"
+        "why": "Devil's advocacy, the record, or the minority view: every card gets one."
       }
+    ],
+    "debiasing_roles": [
+      "premortem",
+      "base_rate",
+      "minority"
     ],
     "note": "Steps 2 and 3 are chosen on your device from your own answers. Nothing is sent until you seal."
   },
@@ -517,5 +487,5 @@
   "commit_note": "Submitting opens a confirmation screen. Nothing is recorded until you confirm, so a link click or a mail scanner cannot answer for you.",
   "after_confirm_line": "Thanks. You'll hear how the panel saw it after the deadline.",
   "served_from": "live",
-  "generated_at": "2026-11-07T20:27:02+00:00"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }

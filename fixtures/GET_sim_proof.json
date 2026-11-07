@@ -7,7 +7,7 @@
   "acaps_assumed_number": null,
   "proposed": "High",
   "decision": "accepted",
-  "verify_hash": "6571719da2f0b3630f862806393ce90ae4eff25888774695fb62cfd07999c945",
+  "verify_hash": "9844210850d3b9d58a4e50caefc60bf337c70445aca3e843e28cda0d15278090",
   "verify_valid": true,
   "integrity_notes": 1,
   "alert_replay": {
@@ -29,11 +29,11 @@
       "sms",
       "whatsapp"
     ],
-    "refused_by_a_cadence_or_consent_rule": 6,
+    "refused_by_a_cadence_or_consent_rule": 10,
     "loop_closed_to": 8,
     "transport": "recorded -- no provider is configured in this build"
   },
-  "seconds": 2.78,
+  "seconds": 2.73,
   "offline": true,
   "synthetic_panel": true,
   "assumptions": [
@@ -43,5 +43,5 @@
     "A single round is a sensitivity test, not proof that the method works."
   ],
   "served_from": "live",
-  "generated_at": "2026-11-07T20:27:02+00:00"
+  "generated_at": "2026-11-07T22:14:24+00:00"
 }

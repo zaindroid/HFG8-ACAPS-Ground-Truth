@@ -259,44 +259,13 @@ export function GroupChart({
           {percent(result.spread.max)} · IQR {percent(result.spread.iqr)}.
           Secondary weighted mean: {percent(result.weighted_mean)}.
         </p>
-        <h3>Disagreement</h3>
-        {/* Unattributed, and written from themes rather than quoted. In a panel of eight a
-            quoted line identifies its author to the colleagues who sat on it, so the sentences
-            themselves live in the access-logged verification queue. */}
-        {result.disagreement?.length ? (
-          result.disagreement.map((item, i) => (
-            <p key={i}>
-              <strong>
-                {item.n} {item.position === "lower" ? "below" : "above"} the
-                mean:
-              </strong>{" "}
-              {item.summary}
-            </p>
+        <h3>Minority reasons</h3>
+        {result.disagreement.length ? (
+          result.disagreement.map((reason: { summary?: string } | string, i: number) => (
+            <p key={i}>{typeof reason === "string" ? reason : reason.summary}</p>
           ))
         ) : (
-          <p>No answer sat far enough from the mean to count as disagreement.</p>
-        )}
-        <h3>Missing evidence</h3>
-        {result.missing_evidence?.length ? (
-          <ul>
-            {result.missing_evidence.map((item, i) => (
-              <li key={i}>
-                {item.theme} <span className="panel-caption">({item.n})</span>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>Nobody named missing evidence on this round.</p>
-        )}
-        {typeof result.verification_queue_count === "number" && (
-          <p className="panel-caption">
-            {result.verification_queue_count} distinctive lines are in the
-            verification queue, which is read with a who and a why and logs
-            every read.
-          </p>
-        )}
-        {result.number_note && (
-          <p className="panel-caption">{result.number_note}</p>
+          <p>No minority reasons supplied.</p>
         )}
         <details>
           <summary>Experimental comparison</summary>
@@ -401,9 +370,9 @@ function LiveDesk() {
   const [pulse, setPulse] = useState<Pulse | null>(null),
     [group, setGroup] = useState<Result | null>(null),
     [draft, setDraft] = useState<Draft | null>(null);
-  // The round opens at pulse.expires_at, fixed when the pulse was sent. The desk says which side
-  // of it we are on, because the engine refuses a plain reveal before it and the analyst needs to
-  // know that the button is an override rather than the deadline firing.
+  // The round opens at pulse.expires_at, fixed when the pulse was sent. The desk says which
+  // side of it we are on, because the engine refuses a plain reveal before it and an analyst
+  // needs to know the button is an override rather than the deadline firing.
   const deadline = pulse?.expires_at ? new Date(pulse.expires_at) : null;
   const deadlinePassed = !!deadline && deadline.getTime() <= Date.now();
   const deadlineLabel = deadline
@@ -708,8 +677,9 @@ function LiveDesk() {
                         onClick={() =>
                           void run("Revealing round", async () => {
                             // The engine fixes the reveal at pulse.expires_at and refuses a
-                            // plain reveal before it. An analyst can still open a round early;
-                            // it goes through as an override and the result says it was one.
+                            // plain reveal before it, so a desk that sent no override simply
+                            // returned 409 and the demo stopped at the reveal. An analyst can
+                            // still open a round early; it goes through as a recorded override.
                             const value = await endpoint.reveal(
                               pulse.id,
                               !deadlinePassed,

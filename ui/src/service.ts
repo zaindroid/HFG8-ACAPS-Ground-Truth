@@ -7,74 +7,67 @@ import type {
   Approval,
 } from "./v2-types";
 import type fullRisk from "../../fixtures/GET_risks_R1043.json";
-import type { Card, Answer, AnswerDraft, Mask } from "./api";
 import type resultFixture from "../../fixtures/GET_pulses_result.json";
+import type {
+  Card,
+  Answer,
+  AnswerDraft,
+  SealReceipt,
+  Mask,
+} from "./api";
 import type feedbackFixture from "../../fixtures/GET_e_token_feedback.json";
-import type scoringFixture from "../../fixtures/GET_committee_scoring.json";
-import type panelPatternFixture from "../../fixtures/GET_committee_patterns_panel.json";
-import type queueFixture from "../../fixtures/GET_verification_queue.json";
-import type reachStatusFixture from "../../fixtures/GET_reach_status.json";
-import type reachContactsFixture from "../../fixtures/GET_reach_contacts.json";
-import type reachDeliveryFixture from "../../fixtures/GET_reach_delivery.json";
-import type reachOutboxFixture from "../../fixtures/GET_reach_outbox.json";
-// One fixture row cannot express a nullable column: R1043 happens to have a risk type and a
-// trend and no materialisation, so `typeof` alone would make all three mandatory and reject the
-// rows of the export that leave them blank. These four really are optional in the ACAPS CSV.
 export type Risk = Omit<
   typeof fullRisk,
   | "risk_type"
   | "trend"
   | "materialised"
   | "probability_assumed_number"
-  // served_from and generated_at belong to the envelope around a single risk, not to a risk. A
-  // row inside /risks carries neither, so a type that demanded them could not describe the list.
+  | "rationale"
+  | "vulnerability"
+  | "expected_exposure"
+  | "expected_impact"
+  | "rationale_update"
+  | "triggers"
   | "served_from"
   | "generated_at"
-  | "triggers"
 > & {
+  // One fixture row cannot express a nullable column: R1043 fills all of these and most rows of
+  // the export leave at least one blank. served_from and generated_at belong to the envelope
+  // around a single risk, not to a risk inside a list.
   risk_type: string | null;
   trend: string | null;
   materialised: string | null;
   probability_assumed_number: number | null;
-  triggers: Trigger[];
-  // ACAPS's narrative columns. R1043 fills all of them, so `typeof` alone would make them
-  // mandatory and reject the many export rows that leave one blank. The expert card's follow-up
-  // questions are built from these (engine/probes.py) and simply skip the ones a risk lacks.
   rationale: string | null;
   vulnerability: string | null;
   expected_exposure: string | null;
   expected_impact: string | null;
-  priority_needs: string[];
   rationale_update: string | null;
+  triggers: Trigger[];
+  served_from?: string;
+  generated_at?: string;
 };
-/** A trigger with no published completion rate reports null, not zero -- see the engine's
- *  _trigger_evidence, which refuses to write a baseline nobody measured. */
+/** A trigger with no published completion rate reports null, not zero: the engine refuses to
+ *  write a baseline nobody measured. R1043 has one on every trigger, so deriving the type from
+ *  that row alone made the field mandatory and rejected most of the export. */
 export type Trigger = Omit<
   (typeof fullRisk.triggers)[number],
-  "completion_rate"
-> & { completion_rate: number | null };
+  "completion_rate" | "sources"
+> & {
+  completion_rate: number | null;
+  sources: { text: string; url: string }[];
+};
 export type Pulse = Card["pulse"];
 /** The whole RoundResult, which is what the desk reads. The round-2 card sees only the small
- *  group view (api.ts `GroupView`). Moderator-only keys are not in here because the public
- *  result does not carry them. */
+ *  group view (api.ts `GroupView`). Moderator-only keys are absent because the public result
+ *  does not carry them. */
 export type Result = Omit<
   typeof resultFixture,
   "integrity_notes" | "probe_summary"
 > & {
+  integrity_notes?: { kind: string; text: string; evidence: string }[];
   confidence_interval?: { lower: number; upper: number };
 };
-/** The message after the reveal, and the only place an expert sees ACAPS's band. */
-export type Feedback = typeof feedbackFixture;
-export type PanelScoring = typeof scoringFixture;
-export type PanelPattern = typeof panelPatternFixture;
-export type VerificationQueue = typeof queueFixture;
-/** Reach (MASTER_PROMPT 6e). `transport` is `recorded` on every row in this build: the message
- *  bodies are real and composed, and nothing is sent, because no provider account exists here.
- *  Whatever the desk shows must say that, so the wording travels in the payload. */
-export type ReachStatus = typeof reachStatusFixture;
-export type ReachContacts = typeof reachContactsFixture;
-export type ReachDelivery = typeof reachDeliveryFixture;
-export type ReachOutbox = typeof reachOutboxFixture;
 export type Draft = {
   id: string;
   risk_id: string;
@@ -102,27 +95,22 @@ export type Draft = {
   note: string | null;
   decided_at: string | null;
 };
-export type PanelRow = {
-  panel_id: string;
-  risk_ids: string[];
-  n_pulses: number;
-  n_answers: number;
-  n_resolved: number;
-  panel_brier: number | null;
-  acaps_band_brier: number | null;
-  status: string;
-};
-/** v3.4 replaced the per-expert board with panel-level scoring. There is no list of pseudonyms
- *  ranked by Brier score any more, on any screen: the only per-person numbers live inside the
- *  consent-gated calibration programme. */
 export type Board = {
-  panels: PanelRow[];
+  // v3.4 scores panels, not people: /analyst/board became /committee/scoring and the
+  // per-expert rows went with it, deliberately -- "scores are for forecasts, not people".
+  panels: {
+    panel_id: string;
+    // A panel can be asked about more than one risk, so the engine reports the list rather than
+    // one id, and counts the rounds and answers behind the score.
+    risk_ids: string[];
+    n_pulses: number;
+    n_answers: number;
+    n_resolved: number;
+    panel_brier: number | null;
+    acaps_band_brier: number | null;
+    status: string;
+  }[];
   divergence: { risk_id: string; panel: number; acaps: number }[];
-  note: string;
-  band_assumption?: string;
-  empty_note?: string;
-  served_from?: string;
-  generated_at?: string;
 };
 export type LedgerEntry = {
   risk_id: string;
@@ -165,17 +153,6 @@ export type OutcomeReport = {
   analyst_decision_summary: string;
   n?: number;
 };
-export type Mechanism = {
-  number: number;
-  id: string;
-  name: string;
-  flag: string | null;
-  enabled: boolean;
-  build: string;
-  where_it_shows: string;
-  guarantees: string;
-  does_not: string;
-};
 export type TrustStatus = {
   flags: Record<string, boolean>;
   mechanisms: Mechanism[];
@@ -203,18 +180,17 @@ export type TrustStatus = {
     does_not: string;
   };
 };
-export type CredentialStatus = {
-  scheme: string;
-  n_batches: number;
-  n_issued: number;
-  n_spent: number;
-  n_unlinkable_issued: number;
-  linked: boolean;
-  linkage_note: string;
-  guarantees?: string;
-  does_not?: string;
+export type Mechanism = {
+  number: number;
+  id: string;
+  name: string;
+  flag: string | null;
+  enabled: boolean;
+  build: string;
+  where_it_shows: string;
+  guarantees: string;
+  does_not: string;
 };
-export type AccessEntry = { who: string; why: string; expert_id: string; at: string };
 export type AnchorRoot = {
   day: string;
   merkle_root: string;
@@ -251,37 +227,19 @@ export type PatternReport = {
   never: string;
   note: string;
 };
-/** What the engine returns for a *confirmed* answer. `credential` and `zk` arrived with the v3.2
- *  hardening stack; `anchor` is the daily commitment root this answer landed in, pending until a
- *  calendar confirms it. There is no ACAPS band in here: v3.4 moved it to the feedback message
- *  after the reveal, and the receipt says so in `band_note`. */
-export type SealReceipt = {
-  committed_at: string;
-  commitment: string;
-  version: number;
-  mask: string;
-  pseudonym: string | null;
-  correction_allowed_until: string | null;
-  edit_key: string | null;
-  edit_key_note: string;
-  message: string;
-  sealing_note: string;
-  acaps_band_shown: boolean;
-  band_note: string;
-  credential: { spent: boolean; unlinkable?: boolean; scheme?: string; line: string } | null;
-  zk: Record<string, unknown> | null;
-  anchor: AnchorRoot | null;
-  served_from: string;
-  generated_at: string;
+export type AccessEntry = { who: string; why: string; expert_id: string; at: string };
+export type CredentialStatus = {
+  scheme: string;
+  n_batches: number;
+  n_issued: number;
+  n_spent: number;
+  n_unlinkable_issued: number;
+  linked: boolean;
+  linkage_note: string;
+  guarantees?: string;
+  does_not?: string;
 };
-export type Correction = {
-  committed_at: string;
-  commitment: string;
-  version: number;
-  previous_versions_kept: number;
-  correction_allowed_until: string | null;
-  message: string;
-};
+
 export const apiBase = (import.meta.env.VITE_API_URL || "/api").replace(
   /\/$/,
   "",
@@ -351,10 +309,9 @@ export const endpoint = {
     ),
   result: (id: string) =>
     api<Result>(`/pulses/${encodeURIComponent(id)}/result`),
-  /** `force` is the recorded analyst override for a reveal before the deadline. The engine
-   *  refuses a plain reveal until `pulse.expires_at` has passed, and the result it returns says
-   *  `revealed_reason: "analyst_before_deadline"` when this was used -- so no screen can show a
-   *  deadline reveal that was not one. */
+  /** `force` is the recorded override for a reveal before pulse.expires_at. The engine refuses
+   *  a plain reveal until then, and the result says revealed_reason: "analyst_before_deadline"
+   *  when this was used, so no screen can claim a deadline reveal that was not one. */
   reveal: (id: string, force = false) =>
     api<Result>(
       `/pulses/${encodeURIComponent(id)}/reveal`,
@@ -375,7 +332,7 @@ export const endpoint = {
       ...(decisionUse ? { decision_use: decisionUse } : {}),
       ...(action === "edit" ? { edited_probability: probability } : {}),
     }),
-  board: () => api<Board>("/committee/scoring"),
+  board: () => api<Board>("/analyst/board"),
   contract: (id: string, body: QuestionContract) =>
     api<QuestionContract>(`/risks/${encodeURIComponent(id)}/contract`, body),
   outcomeReport: (id: string) =>
@@ -393,59 +350,40 @@ export const endpoint = {
     ),
   calibration: (token: string) =>
     api<Calibration>(`/me/${encodeURIComponent(token)}/calibration`),
-  // MASTER_PROMPT 6c and 6d. Typed loosely on purpose: the payloads carry their own guarantee and
-  // does-not wording, and the Trust page renders whatever the engine states rather than a copy of
-  // it held here, so the two cannot drift.
+  card: (token: string) => api<Card>(`/e/${encodeURIComponent(token)}`),
+  // Two calls since v3.4: POST /answer drafts and commits nothing -- it is the route a link
+  // click or a mail scanner can reach -- and POST /confirm is the commitment. The single typed
+  // response here described the receipt, which this route does not return.
+  answer: (token: string, body: Answer) =>
+    api<AnswerDraft>(`/e/${encodeURIComponent(token)}/answer`, body),
+  confirm: (token: string, confirmToken: string) =>
+    api<SealReceipt>(`/e/${encodeURIComponent(token)}/confirm`, {
+      confirm_token: confirmToken,
+    }),
+  /** After the reveal, and the only place an expert sees ACAPS's band. */
+  feedback: (token: string) =>
+    api<typeof feedbackFixture>(`/e/${encodeURIComponent(token)}/feedback`),
+  // The hardening stack, for the Trust page (MASTER_PROMPT 6c and 6d). Typed loosely on purpose:
+  // every payload carries its own guarantee and does-not wording and the page renders whatever
+  // the engine states, so the two cannot drift into different promises.
   trust: () => api<TrustStatus>("/trust/status"),
   accessLog: () =>
-    api<{ entries: AccessEntry[]; n_reads: number; guarantees: string; does_not: string }>(
-      "/committee/access-log",
-    ),
+    api<{
+      entries: AccessEntry[];
+      n_reads: number;
+      guarantees: string;
+      does_not: string;
+    }>("/committee/access-log"),
   anchors: () => api<{ roots: AnchorRoot[]; enabled: boolean }>("/anchors"),
   credentialStatus: () => api<CredentialStatus>("/credentials/status"),
-  // Panel-level since v3.4: the committee reads about panels, not people.
   patterns: () =>
     api<{
-      panels: PanelPattern[];
+      panels: PatternReport[];
       not_yet: { panel_id: string; n_pulses_revealed: number }[];
       min_pulses: number;
       min_per_affiliation: number;
       never: string;
     }>("/committee/patterns"),
-  panelPattern: (panelId: string) =>
-    api<PanelPattern>(`/committee/patterns/${encodeURIComponent(panelId)}`),
-  scoring: () => api<PanelScoring>("/committee/scoring"),
-  verificationQueue: (pulseId: string, who: string, why: string) =>
-    api<VerificationQueue>(
-      `/verification-queue/${encodeURIComponent(pulseId)}` +
-        `?who=${encodeURIComponent(who)}&why=${encodeURIComponent(why)}`,
-    ),
-  feedback: (token: string) =>
-    api<Feedback>(`/e/${encodeURIComponent(token)}/feedback`),
-  reachStatus: () => api<ReachStatus>("/reach/status"),
-  reachContacts: () => api<ReachContacts>("/reach/contacts"),
-  reachSend: (pulseId: string, body: Record<string, unknown> = {}) =>
-    api<{
-      n_sent: number;
-      n_refused: number;
-      sent: { expert_id: string; channel: string; transport: string; body: string }[];
-      refused: { expert_id: string; why: string }[];
-      transport_note: string;
-    }>(`/reach/pulses/${encodeURIComponent(pulseId)}/send`, body),
-  reachDelivery: (pulseId: string) =>
-    api<ReachDelivery>(`/reach/pulses/${encodeURIComponent(pulseId)}/delivery`),
-  reachOutbox: (pulseId: string) =>
-    api<ReachOutbox>(`/reach/outbox?pulse_id=${encodeURIComponent(pulseId)}`),
-  reachStop: (expertId: string) =>
-    api<{ status: string; message: string }>(
-      `/reach/contacts/${encodeURIComponent(expertId)}/stop`,
-      {},
-    ),
-  closeTheLoop: (pulseId: string) =>
-    api<{ n_sent: number; sent: { expert_id: string; body: string }[]; note: string }>(
-      `/reach/pulses/${encodeURIComponent(pulseId)}/close-the-loop`,
-      {},
-    ),
   attestation: (id: string) =>
     api<{
       attestation: Attestation;
@@ -453,14 +391,6 @@ export const endpoint = {
       public_key: { scheme: string; key_id: string };
       anchor: AnchorRoot | null;
     }>(`/ledger/${encodeURIComponent(id)}/attestation`),
-  card: (token: string) => api<Card>(`/e/${encodeURIComponent(token)}`),
-  // Two calls, because v3.4 made them two: the draft commits nothing and the confirmation does.
-  answer: (token: string, body: Answer) =>
-    api<AnswerDraft>(`/e/${encodeURIComponent(token)}/answer`, body),
-  confirm: (token: string, confirmToken: string) =>
-    api<SealReceipt>(`/e/${encodeURIComponent(token)}/confirm`, {
-      confirm_token: confirmToken,
-    }),
 };
 export function safeUrl(value: string) {
   try {

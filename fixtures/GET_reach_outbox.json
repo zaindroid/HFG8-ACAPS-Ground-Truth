@@ -6,10 +6,10 @@
       "channel": "sms",
       "kind": "pulse",
       "scheduled_for": "2026-11-09T06:00:00+00:00",
-      "sent_at": "2026-11-07T20:27:04+00:00",
+      "sent_at": "2026-11-07T22:14:26+00:00",
       "transport": "recorded",
       "subject": null,
-      "body": "A propos de cross-border security in Chad. Will more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027? Reply 1-5 (1 very unlikely, 5 very likely) or open https://sealed-signals.zaindroid.me/e/8fc70df8016c4afa. Repondez STOP a tout moment et nous arretons. Repondez PAUSE pour un mois.",
+      "body": "A propos de cross-border security in Chad. Will more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027? Reply 1-5 (1 very unlikely, 5 very likely) or open https://sealed-signals.zaindroid.me/e/bf4a6af61eca4a96. Repondez STOP a tout moment et nous arretons. Repondez PAUSE pour un mois.",
       "delivered_at": null,
       "answered_at": null,
       "relayed": false
@@ -20,10 +20,10 @@
       "channel": "signal",
       "kind": "pulse",
       "scheduled_for": "2026-11-09T09:00:00+00:00",
-      "sent_at": "2026-11-07T20:27:04+00:00",
+      "sent_at": "2026-11-07T22:14:26+00:00",
       "transport": "recorded",
       "subject": null,
-      "body": "About cross-border security in Chad.\n\nWill more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027?\n\nYour own link: https://sealed-signals.zaindroid.me/e/9d3d68e7b8a94429\n\nYou can also reply in words, or send a voice note.\n\nThe panel's answers open together after the deadline on the screen.\n\nReply STOP at any time and we stop. Reply PAUSE for a month.",
+      "body": "About cross-border security in Chad.\n\nWill more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027?\n\nYour own link: https://sealed-signals.zaindroid.me/e/88fe4c88d84a4510\n\nYou can also reply in words, or send a voice note.\n\nThe panel's answers open together after the deadline on the screen.\n\nReply STOP at any time and we stop. Reply PAUSE for a month.",
       "delivered_at": null,
       "answered_at": null,
       "relayed": false
@@ -34,10 +34,10 @@
       "channel": "email",
       "kind": "pulse",
       "scheduled_for": "2026-11-09T08:00:00+00:00",
-      "sent_at": "2026-11-07T20:27:04+00:00",
+      "sent_at": "2026-11-07T22:14:26+00:00",
       "transport": "recorded",
       "subject": "One question",
-      "body": "About cross-border security in Chad.\n\nWill more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027?\n\nvery unlikely: https://sealed-signals.zaindroid.me/e/f441479efd824e6a?word=very_unlikely\nunlikely: https://sealed-signals.zaindroid.me/e/f441479efd824e6a?word=unlikely\neven: https://sealed-signals.zaindroid.me/e/f441479efd824e6a?word=even\nlikely: https://sealed-signals.zaindroid.me/e/f441479efd824e6a?word=likely\nvery likely: https://sealed-signals.zaindroid.me/e/f441479efd824e6a?word=very_likely\n\nTapping a word opens a screen that shows your answer and asks you to confirm. Nothing is recorded until you do.\n\nThe panel's answers open together after the deadline on the screen.\n\nReply STOP at any time and we stop. Reply PAUSE for a month.",
+      "body": "About cross-border security in Chad.\n\nWill more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027?\n\nvery unlikely: https://sealed-signals.zaindroid.me/e/cab4bb8672ae4559?word=very_unlikely\nunlikely: https://sealed-signals.zaindroid.me/e/cab4bb8672ae4559?word=unlikely\neven: https://sealed-signals.zaindroid.me/e/cab4bb8672ae4559?word=even\nlikely: https://sealed-signals.zaindroid.me/e/cab4bb8672ae4559?word=likely\nvery likely: https://sealed-signals.zaindroid.me/e/cab4bb8672ae4559?word=very_likely\n\nTapping a word opens a screen that shows your answer and asks you to confirm. Nothing is recorded until you do.\n\nThe panel's answers open together after the deadline on the screen.\n\nReply STOP at any time and we stop. Reply PAUSE for a month.",
       "delivered_at": null,
       "answered_at": null,
       "relayed": false
@@ -48,10 +48,10 @@
       "channel": "call",
       "kind": "pulse",
       "scheduled_for": "2026-11-09T10:00:00+00:00",
-      "sent_at": "2026-11-07T20:27:04+00:00",
+      "sent_at": "2026-11-07T22:14:26+00:00",
       "transport": "recorded",
       "subject": null,
-      "body": "About cross-border security in Chad.\n\nWill more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027?\n\nYour own link: https://sealed-signals.zaindroid.me/e/1b1214852f824ec2\n\nThe panel's answers open together after the deadline on the screen.\n\nReply STOP at any time and we stop. Reply PAUSE for a month.",
+      "body": "About cross-border security in Chad.\n\nWill more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027?\n\nYour own link: https://sealed-signals.zaindroid.me/e/0557fb76a90842d3\n\nThe panel's answers open together after the deadline on the screen.\n\nReply STOP at any time and we stop. Reply PAUSE for a month.",
       "delivered_at": null,
       "answered_at": null,
       "relayed": false
@@ -60,5 +60,5 @@
   "n_messages": 6,
   "transport_note": "No message left this machine. Every channel composes the real body and records it in the outbox; `transport: recorded` says so on each one. Replace Reach.deliver with a provider to send for real.",
   "served_from": "live",
-  "generated_at": "2026-11-07T20:27:04+00:00"
+  "generated_at": "2026-11-07T22:14:26+00:00"
 }

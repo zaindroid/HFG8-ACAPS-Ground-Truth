@@ -1,0 +1,514 @@
+{
+  "_about": "Questions written by a model from the R1043 record and each expert's own profile, then read by a person before being committed. The engine prefers this file over a live call, and a live call over the deterministic bank. Every place and actor named here appears in the risk record itself (Adre, Tina, Abeche, Ouaddai, Wadi Fira, Sila, Ennedi Est, Darfur, RSF, SAF); nothing is invented, because a question naming a road that does not exist is worse than a generic one.",
+  "_generated_for": "R1043 - Escalating cross-border insecurity linked to the Sudan conflict, eastern Chad",
+  "_deadline_used": "7 May 2027",
+  "_band_history_used": "46 resolved risks in the same ACAPS probability band, 83% materialised",
+  "sets": {
+    "R1043:X-syn-01": [
+      {
+        "id": "ouaddai_first_sign",
+        "kind": "choice",
+        "question": "In Ouaddai, which would show first that this is turning?",
+        "help": "The earliest visible change, not the most serious one.",
+        "options": [
+          {
+            "value": "adre_crossing",
+            "label": "Movement restrictions at the Adre crossing"
+          },
+          {
+            "value": "strikes_inland",
+            "label": "Strikes reaching beyond the border strip"
+          },
+          {
+            "value": "convoy_halts",
+            "label": "Aid convoys pausing on the Abeche road"
+          },
+          {
+            "value": "local_recruitment",
+            "label": "Visible recruitment in host communities"
+          },
+          {
+            "value": "cannot_say",
+            "label": "Cannot say",
+            "dk": true
+          }
+        ],
+        "generated": true,
+        "role": "decomposition"
+      },
+      {
+        "id": "access_conditional",
+        "kind": "choice",
+        "question": "If the Adre crossing closed for more than two weeks, where does your estimate go?",
+        "help": "Assume it closes within the next two months.",
+        "options": [
+          {
+            "value": "much_higher",
+            "label": "Much higher"
+          },
+          {
+            "value": "higher",
+            "label": "Higher"
+          },
+          {
+            "value": "unchanged",
+            "label": "Unchanged, already assumed"
+          },
+          {
+            "value": "lower",
+            "label": "Lower, it would freeze movement"
+          },
+          {
+            "value": "cannot_say",
+            "label": "Cannot say",
+            "dk": true
+          }
+        ],
+        "generated": true,
+        "role": "conditional"
+      },
+      {
+        "id": "premortem_ouaddai",
+        "kind": "text",
+        "question": "It is 7 May 2027 and this did not happen. What stopped it?",
+        "help": "One line, written as though you already knew.",
+        "limit": 240,
+        "generated": true,
+        "role": "premortem"
+      }
+    ],
+    "R1043:X-syn-02": [
+      {
+        "id": "ndjamena_signal",
+        "kind": "choice",
+        "question": "Which political move would tell you most about the next six months?",
+        "help": "Something that could plausibly happen this quarter.",
+        "options": [
+          {
+            "value": "formal_closure",
+            "label": "A formal border closure"
+          },
+          {
+            "value": "force_redeploy",
+            "label": "Chadian forces redeployed east"
+          },
+          {
+            "value": "sudan_talks",
+            "label": "Direct talks with Sudanese actors"
+          },
+          {
+            "value": "refugee_policy",
+            "label": "A change in refugee registration policy"
+          },
+          {
+            "value": "cannot_say",
+            "label": "Cannot say",
+            "dk": true
+          }
+        ],
+        "generated": true,
+        "role": "decomposition"
+      },
+      {
+        "id": "proxy_discriminator",
+        "kind": "text",
+        "question": "What would tell apart renewed proxy mobilisation from ordinary cross-border crime?",
+        "help": "The observable difference, in one line.",
+        "limit": 240,
+        "generated": true,
+        "role": "observable"
+      },
+      {
+        "id": "observable_week_02",
+        "kind": "text",
+        "question": "Name one thing checkable within seven days that would move your estimate.",
+        "help": "Something an analyst could go and look at.",
+        "limit": 240,
+        "generated": true,
+        "role": "observable"
+      },
+      {
+        "id": "premortem_X_syn_02",
+        "kind": "text",
+        "role": "premortem",
+        "question": "It is 7 May 2027 and this did not happen. What stopped it?",
+        "help": "One line, written as though you already knew.",
+        "limit": 240,
+        "generated": true
+      }
+    ],
+    "R1043:X-syn-03": [
+      {
+        "id": "wadifira_breaks_first",
+        "kind": "choice",
+        "question": "In Wadi Fira, what gives way first if arrivals rise again?",
+        "help": "Capacity, not need.",
+        "options": [
+          {
+            "value": "registration",
+            "label": "Registration throughput"
+          },
+          {
+            "value": "site_space",
+            "label": "Space at existing sites"
+          },
+          {
+            "value": "food_pipeline",
+            "label": "The food pipeline"
+          },
+          {
+            "value": "water",
+            "label": "Water at the sites"
+          },
+          {
+            "value": "cannot_say",
+            "label": "Cannot say",
+            "dk": true
+          }
+        ],
+        "generated": true,
+        "role": "decomposition"
+      },
+      {
+        "id": "next_wave_different",
+        "kind": "text",
+        "question": "Arrivals from Darfur have continued through 2026. What would make the next wave different?",
+        "help": "One line on what changes, not on how many.",
+        "limit": 240,
+        "generated": true,
+        "role": "conditional"
+      },
+      {
+        "id": "base_rate_03",
+        "kind": "text",
+        "question": "Of 46 resolved risks in this band, 83% happened. What makes this one different?",
+        "help": "If nothing does, say so. That is an answer.",
+        "limit": 240,
+        "generated": true,
+        "role": "base_rate"
+      }
+    ],
+    "R1043:X-syn-04": [
+      {
+        "id": "escalation_or_reporting",
+        "kind": "choice",
+        "question": "Recorded incidents near the border have risen. Escalation, or better reporting?",
+        "options": [
+          {
+            "value": "escalation",
+            "label": "Real escalation"
+          },
+          {
+            "value": "reporting",
+            "label": "Mostly better reporting"
+          },
+          {
+            "value": "both",
+            "label": "Both, about equally"
+          },
+          {
+            "value": "cannot_say",
+            "label": "Cannot say",
+            "dk": true
+          }
+        ],
+        "generated": true,
+        "role": "provenance"
+      },
+      {
+        "id": "weakest_link_04",
+        "kind": "choice",
+        "question": "Several things must line up for this by 7 May 2027. Which is least likely?",
+        "help": "The one you would bet against.",
+        "options": [
+          {
+            "value": "T1",
+            "label": "Cross-border attacks expanding further into Chad"
+          },
+          {
+            "value": "T2",
+            "label": "Attacks on Chadian infrastructure"
+          },
+          {
+            "value": "T3",
+            "label": "Renewed proxy mobilisation"
+          },
+          {
+            "value": "all_plausible",
+            "label": "All are plausible",
+            "dk": true
+          }
+        ],
+        "generated": true,
+        "role": "decomposition"
+      },
+      {
+        "id": "surprise_04",
+        "kind": "text",
+        "question": "What would genuinely surprise you by 7 May 2027?",
+        "help": "Not the worst case. The thing you would not have predicted.",
+        "limit": 240,
+        "generated": true,
+        "role": "premortem"
+      }
+    ],
+    "R1043:X-syn-05": [
+      {
+        "id": "route_closes_first",
+        "kind": "choice",
+        "question": "If this escalates, which route closes first for aid movement?",
+        "help": "The one whose loss cuts off the most people.",
+        "options": [
+          {
+            "value": "adre",
+            "label": "The Adre corridor"
+          },
+          {
+            "value": "abeche_road",
+            "label": "The Abeche supply road"
+          },
+          {
+            "value": "tina",
+            "label": "The northern route via Tina"
+          },
+          {
+            "value": "internal_sila",
+            "label": "Internal routes within Sila"
+          },
+          {
+            "value": "cannot_say",
+            "label": "Cannot say",
+            "dk": true
+          }
+        ],
+        "generated": true,
+        "role": "decomposition"
+      },
+      {
+        "id": "market_month",
+        "kind": "text",
+        "question": "If the border closed for a month, what changes in Abeche market first?",
+        "help": "The first price or supply you would watch.",
+        "limit": 240,
+        "generated": true,
+        "role": "conditional"
+      },
+      {
+        "id": "premortem_05",
+        "kind": "text",
+        "question": "It is 7 May 2027 and this did not happen. What stopped it?",
+        "help": "One line, written as though you already knew.",
+        "limit": 240,
+        "generated": true,
+        "role": "premortem"
+      }
+    ],
+    "R1043:X-syn-06": [
+      {
+        "id": "sila_sequence",
+        "kind": "choice",
+        "question": "For Sila to deteriorate seriously, what has to come first?",
+        "help": "The step the rest depends on.",
+        "options": [
+          {
+            "value": "incursions_inland",
+            "label": "Incursions reaching Sila itself"
+          },
+          {
+            "value": "proxy_mobilisation",
+            "label": "Chadian armed groups mobilising"
+          },
+          {
+            "value": "supply_cut",
+            "label": "Supply routes cut"
+          },
+          {
+            "value": "arrivals_outpace",
+            "label": "Arrivals outpacing sites"
+          },
+          {
+            "value": "cannot_say",
+            "label": "Cannot say",
+            "dk": true
+          }
+        ],
+        "generated": true,
+        "role": "decomposition"
+      },
+      {
+        "id": "open_presence_conditional",
+        "kind": "choice",
+        "question": "If RSF-aligned fighters operated openly inside Chadian territory, where does your estimate go?",
+        "help": "Assume it happens within two months.",
+        "options": [
+          {
+            "value": "much_higher",
+            "label": "Much higher"
+          },
+          {
+            "value": "higher",
+            "label": "Higher"
+          },
+          {
+            "value": "unchanged",
+            "label": "Unchanged, already assumed"
+          },
+          {
+            "value": "lower",
+            "label": "Lower"
+          },
+          {
+            "value": "cannot_say",
+            "label": "Cannot say",
+            "dk": true
+          }
+        ],
+        "generated": true,
+        "role": "conditional"
+      },
+      {
+        "id": "minority_06",
+        "kind": "text",
+        "question": "You expect to land apart from this panel. What do they not know?",
+        "help": "The gap between your estimate and your guess at theirs is why this is asked.",
+        "limit": 240,
+        "generated": true,
+        "role": "minority"
+      }
+    ],
+    "R1043:X-syn-07": [
+      {
+        "id": "capital_decision",
+        "kind": "choice",
+        "question": "Which decision in N'Djamena would change this most this quarter?",
+        "help": "One that could plausibly be taken.",
+        "options": [
+          {
+            "value": "border_closure",
+            "label": "Formally closing the border"
+          },
+          {
+            "value": "redeploy",
+            "label": "Redeploying forces east"
+          },
+          {
+            "value": "sudan_engagement",
+            "label": "Engaging Sudanese actors directly"
+          },
+          {
+            "value": "registration",
+            "label": "Changing registration policy"
+          },
+          {
+            "value": "cannot_say",
+            "label": "Cannot say",
+            "dk": true
+          }
+        ],
+        "generated": true,
+        "role": "decomposition"
+      },
+      {
+        "id": "economic_transmission",
+        "kind": "text",
+        "question": "What price moves first if the eastern border tightens, and roughly how far?",
+        "help": "The one that moves before the headline indicators do.",
+        "limit": 240,
+        "generated": true,
+        "role": "conditional"
+      },
+      {
+        "id": "observable_week_07",
+        "kind": "text",
+        "question": "Name one thing checkable within seven days that would move your estimate.",
+        "help": "Something an analyst could go and look at.",
+        "limit": 240,
+        "generated": true,
+        "role": "observable"
+      },
+      {
+        "id": "premortem_X_syn_07",
+        "kind": "text",
+        "role": "premortem",
+        "question": "It is 7 May 2027 and this did not happen. What stopped it?",
+        "help": "One line, written as though you already knew.",
+        "limit": 240,
+        "generated": true
+      }
+    ],
+    "R1043:X-syn-08": [
+      {
+        "id": "ennedi_exposure",
+        "kind": "choice",
+        "question": "Ennedi Est is furthest from the main crossings. What would bring this there?",
+        "help": "The mechanism, not the likelihood.",
+        "options": [
+          {
+            "value": "armed_movement",
+            "label": "Armed groups moving north"
+          },
+          {
+            "value": "displacement_north",
+            "label": "Displacement pushed north from Ouaddai"
+          },
+          {
+            "value": "supply_rerouting",
+            "label": "Supply rerouting through the north"
+          },
+          {
+            "value": "not_reach",
+            "label": "It would not reach Ennedi Est"
+          },
+          {
+            "value": "cannot_say",
+            "label": "Cannot say",
+            "dk": true
+          }
+        ],
+        "generated": true,
+        "role": "decomposition"
+      },
+      {
+        "id": "infrastructure_conditional",
+        "kind": "choice",
+        "question": "If Chadian airports or border facilities were struck, where does your estimate go?",
+        "help": "Assume it happens within two months.",
+        "options": [
+          {
+            "value": "much_higher",
+            "label": "Much higher"
+          },
+          {
+            "value": "higher",
+            "label": "Higher"
+          },
+          {
+            "value": "unchanged",
+            "label": "Unchanged, already assumed"
+          },
+          {
+            "value": "lower",
+            "label": "Lower"
+          },
+          {
+            "value": "cannot_say",
+            "label": "Cannot say",
+            "dk": true
+          }
+        ],
+        "generated": true,
+        "role": "conditional"
+      },
+      {
+        "id": "surprise_08",
+        "kind": "text",
+        "question": "What would genuinely surprise you by 7 May 2027?",
+        "help": "Not the worst case. The thing you would not have predicted.",
+        "limit": 240,
+        "generated": true,
+        "role": "premortem"
+      }
+    ]
+  },
+  "_roles": "Each question declares the role the card routes on: decomposition, conditional, premortem, base_rate, minority, observable, provenance, context. Step 3 always serves a debiasing role (premortem, base_rate or minority), so the ACAPS-named mitigations do not depend on thresholds."
+}

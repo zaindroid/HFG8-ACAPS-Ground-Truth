@@ -1,5 +1,5 @@
 {
-  "id": "D-643aed21",
+  "id": "D-f7332e50",
   "risk_id": "R1043",
   "pulse_id": "P-0001",
   "proposed_probability": "High",
@@ -251,6 +251,6 @@
   "decided_at": null,
   "note": null,
   "generator": "deterministic-template",
-  "generated_at": "2026-11-07T20:27:02+00:00",
+  "generated_at": "2026-11-07T22:14:23+00:00",
   "served_from": "live"
 }

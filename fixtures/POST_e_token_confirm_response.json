@@ -1,11 +1,11 @@
 {
-  "committed_at": "2026-11-07T20:27:02+00:00",
-  "commitment": "5f556d5cf84c720a4a058c40fd46c3bcd7bcf3c30cc63d618678a2ab555cdd81",
+  "committed_at": "2026-11-07T22:14:23+00:00",
+  "commitment": "9d6d97420c16ffadbfe0732ae1a88b8d0d416a99780fb5b0e291263379d267e0",
   "version": 1,
   "mask": "anonymous",
   "pseudonym": null,
-  "correction_allowed_until": "2026-11-08T20:27:02+00:00",
-  "edit_key": "c269eaeabbc2",
+  "correction_allowed_until": "2026-11-08T22:14:23+00:00",
+  "edit_key": "c15985667f10",
   "edit_key_note": "Keep this with your link if you may want to change your answer. It is the only handle on an answer with no identity kept, and we store only its hash.",
   "message": "Thanks. You'll hear how the panel saw it after the deadline.",
   "sealing_note": "The commitment proves when you answered and that you have not changed it. It does not hide your answer from the operator of this service.",
@@ -20,7 +20,7 @@
   "zk": null,
   "anchor": {
     "day": "2026-11-07",
-    "merkle_root": "31fa6b7c5c20a5658fdaa39b98ff2e2984b86b17982acede36c10a47d80f09a8",
+    "merkle_root": "0975ef234133b32af68a65907a61fc6dd3fc8255c70e27b7bb237193d8ce820a",
     "n_commitments": 54,
     "submitted_at": null,
     "status": "pending",
@@ -33,5 +33,5 @@
     "does_not": "Anything else; no tokens, no chain logic, no cost. A pending root proves nothing yet"
   },
   "served_from": "live",
-  "generated_at": "2026-11-07T20:27:02+00:00"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }

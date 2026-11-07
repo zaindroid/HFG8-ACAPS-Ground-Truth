@@ -1,6 +1,6 @@
 {
   "valid": true,
-  "sealed_at": "2026-11-07T20:27:00+00:00",
+  "sealed_at": "2026-11-07T22:14:21+00:00",
   "checked": "sha256 of this round's sorted answer commitments, recomputed now",
   "checked_means": "The sealed set has not changed since it was published.",
   "n_commitments": 8,
@@ -10,7 +10,7 @@
   "anchor": null,
   "anchor_root": {
     "day": "2026-11-07",
-    "merkle_root": "b0137d08f5e6bad28d15ca7d3c67aff334b707d221960aa53326abb7047d726e",
+    "merkle_root": "a2b5caa6c26dfc75cc6513b591c2b127ae80691131032df6d166d04b3b15b80d",
     "n_commitments": 58,
     "submitted_at": null,
     "status": "pending",
@@ -25,5 +25,5 @@
   "anchor_means": "Computed from this day's commitments and not submitted yet, so it proves nothing outside this service.",
   "note": "Three separate checks, three separate meanings. The hash proves the set is unchanged. The signature proves who issued the outcome record. The anchor proves timing, and only once its status reads anchored.",
   "served_from": "live",
-  "generated_at": "2026-11-07T20:27:02+00:00"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }
