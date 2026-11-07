@@ -11,6 +11,7 @@ import type { Card, Answer, Mask } from "./api";
 export type Risk = typeof fullRisk;
 export type Pulse = Card["pulse"];
 export type Result = NonNullable<Card["group_view_if_round2"]> & {
+  n_estimates?: number;
   confidence_interval?: { lower: number; upper: number };
 };
 export type Draft = {

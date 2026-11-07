@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, type CSSProperties } from "react";
 import { ArrowRight, ArrowUpRight, Check, RefreshCw } from "lucide-react";
 import { Frame } from "./LiveWorkspace";
 import { Journey } from "./Journey";
@@ -8,7 +8,13 @@ import { crisisHistory } from "./base-rates";
 
 /** What the Risk List already records against this crisis, joined on crisis_id.
     Context for whether the shift is new ground or a repeat. */
-function CrisisRecord({ id, connected = [] }: { id: string; connected?: string[] }) {
+function CrisisRecord({
+  id,
+  connected = [],
+}: {
+  id: string;
+  connected?: string[];
+}) {
   const history = crisisHistory(id);
   // A cross-border driver carries its own Risk List history, which is the
   // inter-country half of the picture the national figure leaves out.
@@ -24,8 +30,8 @@ function CrisisRecord({ id, connected = [] }: { id: string; connected?: string[]
         {resolved > 0 && (
           <>
             {" · "}
-            {materialised} of {resolved} resolved {materialised === 1 ? "has" : "have"}{" "}
-            materialised
+            {materialised} of {resolved} resolved{" "}
+            {materialised === 1 ? "has" : "have"} materialised
           </>
         )}
       </span>
@@ -111,7 +117,26 @@ function Trend({ crisis, event }: { crisis: Crisis; event: Shift }) {
                 y2="190"
                 className="trend-marker"
               />
-              <circle cx={x(marked)} cy={y(values[marked].index)} r="6" />
+              {marked > 0 && (
+                <circle
+                  cx={x(marked - 1)}
+                  cy={y(values[marked - 1].index)}
+                  r="4"
+                  className="severity-before-point"
+                />
+              )}
+              <circle
+                cx={x(marked)}
+                cy={y(values[marked].index)}
+                r="6"
+                className="severity-moving-point"
+                style={
+                  {
+                    "--point-x": `${marked > 0 ? x(marked - 1) - x(marked) : 0}px`,
+                    "--point-y": `${marked > 0 ? y(values[marked - 1].index) - y(values[marked].index) : 0}px`,
+                  } as CSSProperties
+                }
+              />
               <text x={x(marked) + 12} y="29">
                 +{event.delta} · {event.month_to}
               </text>

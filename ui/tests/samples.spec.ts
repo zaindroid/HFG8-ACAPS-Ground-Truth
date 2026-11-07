@@ -115,6 +115,7 @@ test("sample reset opens a fresh analyst round without losing history", async ({
   await page.getByRole("button", { name: "Load answers" }).click();
   await page.getByRole("button", { name: "Reveal round 1" }).click();
   await page.getByRole("button", { name: "Prepare draft" }).click();
+  await page.getByText("Read the drafted wording", { exact: true }).click();
   await expect(
     page
       .locator(".draft-text")

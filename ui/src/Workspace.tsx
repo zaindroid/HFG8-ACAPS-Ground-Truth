@@ -1,4 +1,6 @@
 import { EvidenceLine } from "./Evidence";
+import { useArrivalReplay } from "./useArrivalReplay";
+import { PanelVisuals, AnalysisWalkthrough } from "./PanelVisuals";
 import { Journey, DecisionSnapshot } from "./Journey";
 import { LedgerRecord, LedgerColumns } from "./LedgerRecord";
 import { sampleDataEnabled, sampleRisks } from "./demo-data";
@@ -152,6 +154,9 @@ function Desk() {
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
   const [announcement, setAnnouncement] = useState("");
+  const replay = useArrivalReplay(result.n);
+  const shownAnswers = replay.active ? replay.count : answers;
+  const shownRevealed = replay.active ? replay.revealed : revealed;
   async function simulate(label: string, action: () => void) {
     setBusy(label);
     setError("");
@@ -208,6 +213,7 @@ function Desk() {
           onClick={() => {
             try {
               sessionStorage.removeItem(storageKey);
+              replay.stop();
               setDecision(null);
               setAnswers(0);
               setRevealed(false);
@@ -226,7 +232,7 @@ function Desk() {
       <Journey active={2} />
       <DecisionSnapshot
         rating={risk.probability_acaps}
-        result={revealed ? result : null}
+        result={shownRevealed ? result : null}
       />
       <div className="risk-strip">
         <div>
@@ -243,18 +249,19 @@ function Desk() {
         <div className="desk-main">
           <Panel
             title="Sealed envelope tray"
-            detail={`Round 1 · ${answers} of ${result.n} answers`}
+            detail={`${replay.active ? "Arrival replay" : "Round 1"} · ${shownAnswers} of ${result.n} answers`}
           >
             <div
               className="envelope-tray"
-              aria-label={`${answers} sealed synthetic answers`}
+              role="group"
+              aria-label={`${shownAnswers} sealed synthetic answers`}
             >
               {Array.from({ length: result.n }, (_, i) => (
                 <span
                   key={i}
-                  className={i < answers ? "envelope filled" : "envelope"}
+                  className={i < shownAnswers ? "envelope filled" : "envelope"}
                 >
-                  {i < answers ? (
+                  {i < shownAnswers ? (
                     <LockKeyhole size={22} />
                   ) : (
                     <Inbox size={22} />
@@ -263,8 +270,23 @@ function Desk() {
               ))}
             </div>
             <div className="panel-actions">
+              {!replay.active ? (
+                <button disabled={!!busy} onClick={replay.start}>
+                  Simulate arrivals
+                </button>
+              ) : (
+                <>
+                  {replay.count < result.n && (
+                    <button onClick={replay.pause}>
+                      {replay.playing ? "Pause arrivals" : "Resume arrivals"}
+                    </button>
+                  )}
+                  <button onClick={replay.stop}>Return to current round</button>
+                  <button onClick={replay.start}>Restart replay</button>
+                </>
+              )}
               <button
-                disabled={!!busy || answers === result.n}
+                disabled={!!busy || replay.active || answers === result.n}
                 onClick={() =>
                   void simulate("Loading answers", () => {
                     setAnswers(result.n);
@@ -278,14 +300,21 @@ function Desk() {
               </button>
               <button
                 className="primary"
-                disabled={!!busy || answers < 5 || revealed}
+                disabled={
+                  !!busy ||
+                  (replay.active
+                    ? replay.count < result.n || replay.revealed
+                    : answers < 5 || revealed)
+                }
                 onClick={() =>
-                  void simulate("Revealing", () => {
-                    setRevealed(true);
-                    setAnnouncement(
-                      "Round one revealed. Eight answers in the group view.",
-                    );
-                  })
+                  replay.active
+                    ? replay.reveal()
+                    : void simulate("Revealing", () => {
+                        setRevealed(true);
+                        setAnnouncement(
+                          "Round one revealed. Eight answers in the group view.",
+                        );
+                      })
                 }
               >
                 Reveal round 1
@@ -294,176 +323,214 @@ function Desk() {
                 Open expert card <ArrowRight size={14} />
               </a>
             </div>
+            {replay.active && (
+              <div className="arrival-progress" role="status">
+                <span>
+                  {replay.count === result.n
+                    ? "All eight answers received"
+                    : replay.playing
+                      ? `Answer ${replay.count} of ${result.n} received · waiting for the next expert`
+                      : "Arrivals paused"}
+                </span>
+                <progress
+                  aria-label="Expert answers received"
+                  value={replay.count}
+                  max={result.n}
+                />
+              </div>
+            )}
             <p className="panel-caption">
               Answers stay sealed until the round is revealed. At least five are
               required.
             </p>
+            <PanelVisuals
+              riskId={risk.risk_id}
+              arrived={replay.active ? replay.count : undefined}
+            />
           </Panel>
-          <Panel
-            title="Panel distribution"
-            detail={revealed ? `n = ${result.n}` : "Sealed"}
-          >
-            {revealed && result.n >= 5 ? (
-              <ProbabilityChart />
-            ) : (
-              <div className="empty-panel">
-                <LockKeyhole size={24} />
-                <h3>Peer views stay hidden before reveal</h3>
-                <p>Reveal the round to see the group distribution.</p>
-              </div>
-            )}
-          </Panel>
-          <Panel
-            title="Draft update"
-            detail={
-              decision
-                ? `${decision.action === "accept" ? "Accepted" : decision.action === "edit" ? "Edited" : "Rejected"}`
-                : "Analyst approval required"
-            }
-          >
-            {!hasDraft ? (
-              <div className="empty-panel">
-                <FileCheck2 size={24} />
-                <p>
-                  Build a cited draft from the revealed panel and indicator
-                  evidence.
-                </p>
-                <button
-                  disabled={!!busy || !revealed}
-                  onClick={() =>
-                    void simulate("Preparing draft", () => {
-                      setHasDraft(true);
-                      setAnnouncement("Draft ready for analyst review.");
-                    })
-                  }
-                >
-                  Prepare draft
-                </button>
-              </div>
-            ) : (
-              <>
-                <DraftRecommendation draft={draft} current={risk.probability_acaps} proposed={decision?.probability || draft.proposed_probability}/>
-                <DraftNarrative
-                  draft={draft}
-                  themes={result.missing_themes}
-                  result={result}
-                  evidence={pulse.evidence}
-                />
-                <div className="citations">
-                  {draft.citations.map((c) => (
-                    <a
-                      key={c.url}
-                      href={c.url}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {c.text} <ArrowRight size={13} />
-                    </a>
-                  ))}
+          {replay.active && shownRevealed && (
+            <AnalysisWalkthrough
+              result={result}
+              draft={draft}
+              pulse={pulse}
+              reference={risk.probability_acaps}
+            />
+          )}
+          {(!replay.active || !shownRevealed) && (
+            <Panel
+              title="Panel distribution"
+              detail={shownRevealed ? `n = ${result.n}` : "Sealed"}
+            >
+              {shownRevealed && result.n >= 5 ? (
+                <ProbabilityChart />
+              ) : (
+                <div className="empty-panel">
+                  <LockKeyhole size={24} />
+                  <h3>Peer views stay hidden before reveal</h3>
+                  <p>Reveal the round to see the group distribution.</p>
                 </div>
-                <Verification draft={draft} />
-                {decision ? (
-                  <div className="decision-log">
-                    <h3>Decision log</h3>
-                    <p>
-                      {decision.action === "reject"
-                        ? "Rejected · no ledger entry added."
-                        : "Approved for the ledger."}
-                    </p>
-                    <p>{decision.note}</p>
-                    <time>{date(decision.at)}</time>
-                    {decision.action !== "reject" && (
-                      <a href="/ledger">
-                        View public ledger <ArrowRight size={14} />
+              )}
+            </Panel>
+          )}
+          {!replay.active && (
+            <Panel
+              title="Draft update"
+              detail={
+                decision
+                  ? `${decision.action === "accept" ? "Accepted" : decision.action === "edit" ? "Edited" : "Rejected"}`
+                  : "Analyst approval required"
+              }
+            >
+              {!hasDraft ? (
+                <div className="empty-panel">
+                  <FileCheck2 size={24} />
+                  <p>
+                    Build a cited draft from the revealed panel and indicator
+                    evidence.
+                  </p>
+                  <button
+                    disabled={!!busy || !revealed}
+                    onClick={() =>
+                      void simulate("Preparing draft", () => {
+                        setHasDraft(true);
+                        setAnnouncement("Draft ready for analyst review.");
+                      })
+                    }
+                  >
+                    Prepare draft
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <DraftRecommendation
+                    draft={draft}
+                    current={risk.probability_acaps}
+                    proposed={
+                      decision?.probability || draft.proposed_probability
+                    }
+                  />
+                  <DraftNarrative
+                    draft={draft}
+                    themes={result.missing_themes}
+                    result={result}
+                    evidence={pulse.evidence}
+                  />
+                  <div className="citations">
+                    {draft.citations.map((c) => (
+                      <a
+                        key={c.url}
+                        href={c.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {c.text} <ArrowRight size={13} />
                       </a>
-                    )}
+                    ))}
                   </div>
-                ) : (
-                  <div className="decision-form">
-                    <DecisionUseFields
-                      value={decisionUse}
-                      onChange={setDecisionUse}
-                    />
-                    <label htmlFor="decision-note">Decision note</label>
-                    <textarea
-                      id="decision-note"
-                      maxLength={500}
-                      value={note}
-                      onChange={(e) => {
-                        setNote(e.target.value);
-                        setError("");
-                      }}
-                      placeholder="Explain your decision for the audit trail."
-                    />
-                    {edit && (
-                      <div className="edit-row">
-                        <label htmlFor="edited-probability">
-                          Edited probability
-                        </label>
-                        <select
-                          id="edited-probability"
-                          value={probability}
-                          onChange={(e) => setProbability(e.target.value)}
-                        >
-                          {[
-                            "Very Low",
-                            "Low",
-                            "Medium",
-                            "High",
-                            "Very High",
-                          ].map((v) => (
-                            <option key={v}>{v}</option>
-                          ))}
-                        </select>
-                        <p className="panel-caption">
-                          Risk level remains {draft.proposed_level}; the current
-                          contract only allows editing probability.
-                        </p>
-                      </div>
-                    )}
-                    <div className="panel-actions">
-                      {edit ? (
-                        <>
-                          <button
-                            className="primary"
-                            disabled={!!busy}
-                            onClick={() => decide("edit")}
-                          >
-                            Save edited decision
-                          </button>
-                          <button onClick={() => setEdit(false)}>
-                            Cancel edit
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <button
-                            className="primary"
-                            disabled={!!busy}
-                            onClick={() => decide("accept")}
-                          >
-                            Accept draft
-                          </button>
-                          <button
-                            disabled={!!busy}
-                            onClick={() => setEdit(true)}
-                          >
-                            Edit probability
-                          </button>
-                          <button
-                            disabled={!!busy}
-                            onClick={() => decide("reject")}
-                          >
-                            Reject draft
-                          </button>
-                        </>
+                  <Verification draft={draft} />
+                  {decision ? (
+                    <div className="decision-log">
+                      <h3>Decision log</h3>
+                      <p>
+                        {decision.action === "reject"
+                          ? "Rejected · no ledger entry added."
+                          : "Approved for the ledger."}
+                      </p>
+                      <p>{decision.note}</p>
+                      <time>{date(decision.at)}</time>
+                      {decision.action !== "reject" && (
+                        <a href="/ledger">
+                          View public ledger <ArrowRight size={14} />
+                        </a>
                       )}
                     </div>
-                  </div>
-                )}
-              </>
-            )}
-          </Panel>
+                  ) : (
+                    <div className="decision-form">
+                      <DecisionUseFields
+                        value={decisionUse}
+                        onChange={setDecisionUse}
+                      />
+                      <label htmlFor="decision-note">Decision note</label>
+                      <textarea
+                        id="decision-note"
+                        maxLength={500}
+                        value={note}
+                        onChange={(e) => {
+                          setNote(e.target.value);
+                          setError("");
+                        }}
+                        placeholder="Explain your decision for the audit trail."
+                      />
+                      {edit && (
+                        <div className="edit-row">
+                          <label htmlFor="edited-probability">
+                            Edited probability
+                          </label>
+                          <select
+                            id="edited-probability"
+                            value={probability}
+                            onChange={(e) => setProbability(e.target.value)}
+                          >
+                            {[
+                              "Very Low",
+                              "Low",
+                              "Medium",
+                              "High",
+                              "Very High",
+                            ].map((v) => (
+                              <option key={v}>{v}</option>
+                            ))}
+                          </select>
+                          <p className="panel-caption">
+                            Risk level remains {draft.proposed_level}; the
+                            current contract only allows editing probability.
+                          </p>
+                        </div>
+                      )}
+                      <div className="panel-actions">
+                        {edit ? (
+                          <>
+                            <button
+                              className="primary"
+                              disabled={!!busy}
+                              onClick={() => decide("edit")}
+                            >
+                              Save edited decision
+                            </button>
+                            <button onClick={() => setEdit(false)}>
+                              Cancel edit
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              className="primary"
+                              disabled={!!busy}
+                              onClick={() => decide("accept")}
+                            >
+                              Accept draft
+                            </button>
+                            <button
+                              disabled={!!busy}
+                              onClick={() => setEdit(true)}
+                            >
+                              Edit probability
+                            </button>
+                            <button
+                              disabled={!!busy}
+                              onClick={() => decide("reject")}
+                            >
+                              Reject draft
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </Panel>
+          )}
         </div>
         <aside className="desk-side">
           <Panel title="ACAPS edition evidence">

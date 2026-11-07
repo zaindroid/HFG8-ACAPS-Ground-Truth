@@ -313,6 +313,7 @@ test("API pulse, SSE, reveal, checked draft, decision and resolution", async ({
   await page.getByRole("button", { name: "Reveal round", exact: true }).click();
   await expect(page.getByText("69%", { exact: true }).first()).toBeVisible();
   await page.getByRole("button", { name: "Prepare draft" }).click();
+  await page.locator(".draft-verification > summary").click();
   await expect(page.getByText("c1 · supported", { exact: true })).toBeVisible();
   await page
     .getByLabel("Decision note")

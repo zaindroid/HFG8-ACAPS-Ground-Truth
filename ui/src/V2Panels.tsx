@@ -216,8 +216,8 @@ export function PanelMatch({ riskId }: { riskId: string }) {
         Approved experts matched by geography and theme. Affiliation cap: three
         of eight. Mean Brier is the squared error of their past forecasts
         against what actually happened, so lower is better and 0.25 is chance.
-        "Before ACAPS" counts the times they were on the correct side of even
-        odds while the ACAPS band for that risk was not.
+        "Correct when band missed" counts the times they were on the correct
+        side of even odds while the ACAPS band for that risk was not.
       </p>
       <button disabled={loading || !riskId} onClick={() => void load()}>
         {loading ? "Matching experts…" : "Preview matched panel"}
@@ -249,7 +249,7 @@ export function PanelMatch({ riskId }: { riskId: string }) {
                   <th>Resolved</th>
                   <th>Mean Brier</th>
                   <th>Right side</th>
-                  <th>Before ACAPS</th>
+                  <th>Correct when band missed</th>
                 </tr>
               </thead>
               <tbody>

@@ -1,4 +1,5 @@
 import { EvidenceLine } from "./Evidence";
+import { PanelVisuals } from "./PanelVisuals";
 import { Journey, DecisionSnapshot } from "./Journey";
 import { LedgerRecord, LedgerColumns } from "./LedgerRecord";
 import {
@@ -13,7 +14,11 @@ import { bandRate, asPercent } from "./base-rates";
 import { MethodChain, CoverageAdvice, RegionalSpread } from "./Method";
 import { Section } from "./Panel";
 import { VerificationTrail } from "./VerificationTrail";
-import { DraftNarrative, DraftRecommendation, pendingClaims } from "./Grounding";
+import {
+  DraftNarrative,
+  DraftRecommendation,
+  pendingClaims,
+} from "./Grounding";
 import { HonestyBox, IntegrityPanel, PanelMatch } from "./V2Panels";
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowRight, Check, Copy, LockKeyhole, Radio } from "lucide-react";
@@ -292,7 +297,8 @@ export function Verification({ draft }: { draft: Draft }) {
     <details className="draft-verification">
       <summary>Evidence checks · {draft.claims?.length || 0} claims</summary>
       <p className="panel-caption">
-        These checks compare draft claims with their cited records. They do not measure the chance that the forecast is correct.
+        These checks compare draft claims with their cited records. They do not
+        measure the chance that the forecast is correct.
       </p>
       {draft.judge ? (
         <>
@@ -701,6 +707,7 @@ function LiveDesk() {
                   </p>
                 )}
               </Section>
+              <PanelVisuals riskId={selected} />
               <Section title="Panel distribution">
                 {group ? (
                   <GroupChart
@@ -730,7 +737,10 @@ function LiveDesk() {
                   </button>
                 ) : (
                   <>
-                    <DraftRecommendation draft={draft} current={risk.probability_acaps}/>
+                    <DraftRecommendation
+                      draft={draft}
+                      current={risk.probability_acaps}
+                    />
                     <DraftNarrative
                       draft={draft}
                       themes={group?.missing_themes}
