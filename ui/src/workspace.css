@@ -733,3 +733,11 @@ select:focus-visible,
     min-height: 44px;
   }
 }
+
+/* Observed materialisation rate for the band, beside the assumed midpoint. */
+.base-rate-line {
+  stroke: var(--muted);
+  stroke-width: 2;
+  stroke-dasharray: 1 4;
+  stroke-linecap: round;
+}

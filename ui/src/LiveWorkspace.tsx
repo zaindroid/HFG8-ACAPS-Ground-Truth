@@ -9,6 +9,7 @@ import {
   OutcomeReportPanel,
 } from "./V3Workflow";
 import { PortalHeader } from "./PortalHeader";
+import { bandRate, asPercent } from "./base-rates";
 import { VerificationTrail } from "./VerificationTrail";
 import { DraftNarrative, DraftRecommendation, pendingClaims } from "./Grounding";
 import { HonestyBox, IntegrityPanel, PanelMatch } from "./V2Panels";
@@ -124,6 +125,7 @@ export function GroupChart({
       "Very High": 0.9,
     } as Record<string, number>
   )[reference];
+  const past = bandRate(reference);
   return (
     <>
       <div className="stat-row">
@@ -174,6 +176,21 @@ export function GroupChart({
             />
             <text x={40 + acaps * 480 - 8} y="16" textAnchor="end">
               ACAPS
+            </text>
+          </>
+        )}
+        {/* What this band has actually done, which the assumed midpoint above is not. */}
+        {past && (
+          <>
+            <line
+              x1={40 + past.rate * 480}
+              x2={40 + past.rate * 480}
+              y1="20"
+              y2="134"
+              className="base-rate-line"
+            />
+            <text x={40 + past.rate * 480 + 8} y="16" textAnchor="start">
+              Past rate
             </text>
           </>
         )}
@@ -239,6 +256,8 @@ export function GroupChart({
         Upper marker: equal-weight mean. Whisker: minimum to maximum forecast.
         ACAPS Probability bands are mapped to numbers by assumption, not
         official numeric thresholds.
+        {past &&
+          ` Past rate: of ${past.n} resolved ${reference} risks in the Risk List, ${asPercent(past.rate)} materialised.`}
         {!result.confidence_interval &&
           " Confidence intervals are unavailable."}
       </p>
@@ -1106,6 +1125,15 @@ function LiveLedger() {
                   <span>ACAPS probability</span>
                   <strong>{entry.acaps_probability}</strong>
                   <small>Risk level: {entry.acaps_level}</small>
+                  {/* The band's own record, so a reader can judge the rating
+                      against what that band has done before. */}
+                  {bandRate(entry.acaps_probability) && (
+                    <small>
+                      {asPercent(bandRate(entry.acaps_probability)!.rate)} of{" "}
+                      {bandRate(entry.acaps_probability)!.n} past{" "}
+                      {entry.acaps_probability} risks materialised
+                    </small>
+                  )}
                 </div>
                 <div>
                   <span>Outcome</span>

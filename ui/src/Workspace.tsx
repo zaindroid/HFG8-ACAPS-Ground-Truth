@@ -12,6 +12,7 @@ import {
 import { PortalHeader } from "./PortalHeader";
 import { VerificationTrail } from "./VerificationTrail";
 import { HistoricalLedger } from "./HistoricalLedger";
+import { bandRate, asPercent } from "./base-rates";
 import { DraftNarrative, DraftRecommendation } from "./Grounding";
 import { HonestyBox, IntegrityPanel, PanelMatch } from "./V2Panels";
 import { GroupChart, Verification } from "./LiveWorkspace";
@@ -600,6 +601,15 @@ function Ledger() {
                 <span>ACAPS probability</span>
                 <strong>{decision.probability}</strong>
                 <small>Risk level: {entry.acaps_level}</small>
+                {/* The band's own record, so a reader can judge the rating
+                    against what that band has done before. */}
+                {bandRate(decision.probability) && (
+                  <small>
+                    {asPercent(bandRate(decision.probability)!.rate)} of{" "}
+                    {bandRate(decision.probability)!.n} past{" "}
+                    {decision.probability} risks materialised
+                  </small>
+                )}
               </div>
               <div>
                 <span>Outcome</span>

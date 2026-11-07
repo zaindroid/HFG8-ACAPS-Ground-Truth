@@ -189,3 +189,16 @@
     font-size: 11px;
   }
 }
+
+/* Risk List history for a crisis, on the alert detail heading. */
+.crisis-record {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.crisis-record .crisis-precedent {
+  max-width: 60ch;
+}

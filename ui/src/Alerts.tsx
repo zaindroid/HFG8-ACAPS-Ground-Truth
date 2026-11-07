@@ -4,7 +4,36 @@ import { Frame } from "./LiveWorkspace";
 import { Journey } from "./Journey";
 import { alertService, type Shift, type Crisis } from "./alerts-service";
 import { RiskLink } from "./RiskLink";
+import { crisisHistory } from "./base-rates";
 
+/** What the Risk List already records against this crisis, joined on crisis_id.
+    Context for whether the shift is new ground or a repeat. */
+function CrisisRecord({ id }: { id: string }) {
+  const history = crisisHistory(id);
+  if (!history) return null;
+  const { risks, resolved, materialised, examples } = history;
+  return (
+    <p className="crisis-record">
+      <span>
+        {risks} risk{risks === 1 ? "" : "s"} on the Risk List
+        {resolved > 0 && (
+          <>
+            {" · "}
+            {materialised} of {resolved} resolved {materialised === 1 ? "has" : "have"}{" "}
+            materialised
+          </>
+        )}
+      </span>
+      {examples.length > 0 && (
+        <span className="crisis-precedent">
+          Most recent: {examples[0].risk_id} ({examples[0].level},{" "}
+          {examples[0].status.toLowerCase()}, {examples[0].entered}) —{" "}
+          {examples[0].title}
+        </span>
+      )}
+    </p>
+  );
+}
 function Trend({ crisis, event }: { crisis: Crisis; event: Shift }) {
   const plot = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(740);
@@ -273,6 +302,7 @@ export function Alerts() {
                   <p>
                     {event.month_from} → {event.month_to}
                   </p>
+                  <CrisisRecord id={event.crisis_id} />
                 </div>
                 <div className="severity-change">
                   <strong>

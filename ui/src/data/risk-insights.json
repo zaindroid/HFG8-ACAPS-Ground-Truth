@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-07T13:21:37+00:00",
+  "generated_at": "2026-11-07T13:52:11+00:00",
   "source": "ACAPS API v1 risk-list",
   "totals": {
     "risks": 214,
@@ -300,5 +300,1507 @@
       "not_materialised": 3,
       "active": 11
     }
-  ]
+  ],
+  "by_crisis": {
+    "SYR001": {
+      "risks": 12,
+      "resolved": 12,
+      "materialised": 5,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0390",
+          "title": "The involuntary return of Syrian refugees amid a socioeconomic crisis since 2019 lead to protection risks.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-08-18"
+        },
+        {
+          "risk_id": "R0357",
+          "title": "T\u00fcrkiye's military incursion into northern Syria triggered by the nearing general elections results in the displacement of people from areas of conflict.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2022-05-31"
+        },
+        {
+          "risk_id": "R0323",
+          "title": "The disruption of the global supply chain following the Russian invasion of Ukraine disrupt food availability and increase food insecurity in Lebanon and Syria.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-03-14"
+        }
+      ]
+    },
+    "YEM001": {
+      "risks": 4,
+      "resolved": 4,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0555",
+          "title": "Red Sea shipping disruptions result in the DFA\u2019s designation as Foreign Terrorist Organization (FTO), challenging humanitarian operations in northern Yemen",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2024-01-22"
+        },
+        {
+          "risk_id": "R0277",
+          "title": "Ma'rib city gets besieged by the Houthis, cutting supply lines, including for humanitarian aid.",
+          "level": "High",
+          "status": "Not materialised",
+          "entered": "2021-11-10"
+        },
+        {
+          "risk_id": "R0278",
+          "title": "The spiralling depreciation of the currency quickly results in the inability to afford basic needs, high levels of food insecurity, and increased adoption of negative coping strategies.",
+          "level": "High",
+          "status": "Not materialised",
+          "entered": "2021-11-10"
+        }
+      ]
+    },
+    "IRQ002": {
+      "risks": 8,
+      "resolved": 8,
+      "materialised": 2,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0443",
+          "title": "Inter-Shia conflict in Iraq leads to displacement and increased needs for shelter, food, and healthcare.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2022-09-11"
+        },
+        {
+          "risk_id": "R0096",
+          "title": "The deterioration of the security situation and increase in conflict result in further displacement and protection needs.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2020-09-30"
+        },
+        {
+          "risk_id": "R0066",
+          "title": "The escalation of the Turkish air and land military campaign targeting PKK bases in the KRG leads to the displacement of thousands of families and dozens of civilian casualties.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2020-06-24"
+        }
+      ]
+    },
+    "BIH002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 0,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0011",
+          "title": "The arrival of 50,000 migrants, refugees, and asylum seekers with humanitarian needs in Bosnia and Herzegovina stretches response capacity",
+          "level": "Low",
+          "status": "Not materialised",
+          "entered": "2019-03-01"
+        }
+      ]
+    },
+    "LBY001": {
+      "risks": 15,
+      "resolved": 14,
+      "materialised": 1,
+      "active": 1,
+      "examples": [
+        {
+          "risk_id": "R0586",
+          "title": "Economic instability and a threat to the UN-brokered peace deal amid Libya's oilfield shutdown and Central Bank dispute",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2024-10-07"
+        },
+        {
+          "risk_id": "R0528",
+          "title": "Water contamination and floods from Storm Daniel in Derna district are increasing the risk of waterborne disease outbreaks ",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-10-04"
+        },
+        {
+          "risk_id": "R0442",
+          "title": "Increased clashes between political rivals lead to a return to civil war and high numbers of displacement.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2022-09-05"
+        }
+      ]
+    },
+    "LBN002": {
+      "risks": 2,
+      "resolved": 2,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0390",
+          "title": "The involuntary return of Syrian refugees amid a socioeconomic crisis since 2019 lead to protection risks.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-08-18"
+        },
+        {
+          "risk_id": "R0031",
+          "title": "A rising number of Syrian refugees opt for an unsafe return to Syria to avoid a deepening economic crisis and the repercussions of the recent Beirut explosion.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2020-01-16"
+        }
+      ]
+    },
+    "GRC002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0038",
+          "title": "Tightened asylum regulations cause a deterioration of living conditions for asylum seekers and migrants.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2020-10-02"
+        }
+      ]
+    },
+    "LBN004": {
+      "risks": 9,
+      "resolved": 9,
+      "materialised": 7,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0551",
+          "title": "The impact of the escalation of fighting between Hezbollah and Israel on the Lebanese agriculture and tourism sectors worsens the country\u2019s socioeconomic crisis",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-12-13"
+        },
+        {
+          "risk_id": "R0527",
+          "title": "An escalation of clashes between Hezbollah and Israel, coinciding with conflict escalation between Palestine and Israel, results in displacement, infrastructure damage, and humanitarian needs in southern Lebanon ",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-10-04"
+        },
+        {
+          "risk_id": "R0390",
+          "title": "The involuntary return of Syrian refugees amid a socioeconomic crisis since 2019 lead to protection risks.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-08-18"
+        }
+      ]
+    },
+    "PSE002": {
+      "risks": 4,
+      "resolved": 4,
+      "materialised": 4,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0496",
+          "title": "New proposed legislation and evictions planned by Israel cause an uprising and violence in the West Bank, with the potential of spillover in Gaza, affecting Palestinians\u2019 livelihoods and humanitarian conditions and generating heightened protection concerns.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-03-30"
+        },
+        {
+          "risk_id": "R0084",
+          "title": "Electricity shortages in Gaza increase humanitarian needs, including health, water, and sanitation.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2020-08-18"
+        },
+        {
+          "risk_id": "R0081",
+          "title": "The suspension of coordination between the Palestinian Authority and Israel limits access to services, particularly health services, for Palestinians.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2020-07-30"
+        }
+      ]
+    },
+    "IRQ001": {
+      "risks": 4,
+      "resolved": 4,
+      "materialised": 2,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0548",
+          "title": "Failure to replenish water reserves in Iraq causes livelihood-induced displacement as well as a deterioration of health and WASH services  ",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2023-11-13"
+        },
+        {
+          "risk_id": "R0074",
+          "title": "Countrywide water scarcity as a result of below-average rains, higher temperatures during summer, and reduced water flows of rivers affect WASH services and people's health, livelihoods, and food security, especially in northern governorates.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2020-07-21"
+        },
+        {
+          "risk_id": "R0064",
+          "title": "The water crisis and protests escalate in Basra over the summer.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2020-06-24"
+        }
+      ]
+    },
+    "AFG001": {
+      "risks": 16,
+      "resolved": 15,
+      "materialised": 10,
+      "active": 1,
+      "examples": [
+        {
+          "risk_id": "R0550",
+          "title": "Thousands of Afghan returnees and the onset of winter season, coupled with a weak health system and ongoing Polio outbreak, heighten the risk of a public health crisis",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-12-07"
+        },
+        {
+          "risk_id": "R0452",
+          "title": "The failure of government bureaucracy leads to a collapse of service provision and public salary payments.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2022-10-16"
+        },
+        {
+          "risk_id": "R0454",
+          "title": "There is increased Taliban interference in humanitarian programming or attempts to divert aid.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-10-16"
+        }
+      ]
+    },
+    "DZA003": {
+      "risks": 2,
+      "resolved": 2,
+      "materialised": 0,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0336",
+          "title": "As a response to Spain changing its positions towards Western Sahara, more departures to Europe departing from Algeria are possible, increasing the protection risks for migrants on the move.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2022-04-11"
+        },
+        {
+          "risk_id": "R0071",
+          "title": "The EU cuts on funds for aid following the alleged diversion of aid intended for Saharawi refugees, resulting in limited capacity to respond to the existing needs of people in Tindouf camps.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2020-07-06"
+        }
+      ]
+    },
+    "PAK001": {
+      "risks": 4,
+      "resolved": 4,
+      "materialised": 3,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0471",
+          "title": "The end of the ceasefire between Tehreek-e-Taliban Pakistan and the Pakistan Government and the armed group calling for attacks across the country raise protection concerns and hinder humanitarian access in Balochistan and Khyber Pakhtunkhwa.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-12-11"
+        },
+        {
+          "risk_id": "R0317",
+          "title": "Tehreek-e-Taliban Pakistan\u2019s strengthened presence in the newly merged tribal districts of Khyber Pakhtunkhwa increases humanitarian needs, protection concerns, and access constraints in the area.",
+          "level": "Low",
+          "status": "Materialised",
+          "entered": "2022-03-07"
+        },
+        {
+          "risk_id": "R0199",
+          "title": "The increased displacement of Afghans into surrounding countries, particularly Pakistan and Iran, results in increased needs and heightened protection concerns",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2021-09-27"
+        }
+      ]
+    },
+    "MMR001": {
+      "risks": 7,
+      "resolved": 5,
+      "materialised": 5,
+      "active": 2,
+      "examples": [
+        {
+          "risk_id": "R0567",
+          "title": "Conscription policies implemented by the Myanmar military junta and some EAOs heighten protection concerns throughout the country",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2024-03-04"
+        },
+        {
+          "risk_id": "R0545",
+          "title": "Coordinated offensives conducted by anti-military resistance forces against the military junta intensify armed conflict throughout the country, worsening the protection, food insecurity, health, and education situation",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-11-08"
+        },
+        {
+          "risk_id": "R0499",
+          "title": "Heightened military response following increased territorial control of and collaboration among anti-military resistance forces results in intensified conflict across most of the country, leading to a deterioration of the humanitarian situation",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-04-02"
+        }
+      ]
+    },
+    "NER001": {
+      "risks": 3,
+      "resolved": 3,
+      "materialised": 3,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0532",
+          "title": "Diplomatic tensions, economic sanctions, and potential regional conflict further deteriorate the humanitarian crisis ",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2023-10-06"
+        },
+        {
+          "risk_id": "R0185",
+          "title": "The national and regional spread of a cholera outbreak increases health and WASH needs in Niger.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2021-08-21"
+        },
+        {
+          "risk_id": "R0136",
+          "title": "An increase in attacks targeting civilians leads to displacement and the further deterioration of humanitarian conditions in Tillab\u00e9ri region.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2021-05-19"
+        }
+      ]
+    },
+    "NER003": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0136",
+          "title": "An increase in attacks targeting civilians leads to displacement and the further deterioration of humanitarian conditions in Tillab\u00e9ri region.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2021-05-19"
+        }
+      ]
+    },
+    "SSD001": {
+      "risks": 4,
+      "resolved": 3,
+      "materialised": 0,
+      "active": 1,
+      "examples": [
+        {
+          "risk_id": "R0330",
+          "title": "Non-adherence to the 2018 peace agreement and clashes between the SPLM/A-IO and SSPDF forces throughout South Sudan lead to displacement, increased humanitarian needs, and increased humanitarian access constraints.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2022-03-29"
+        },
+        {
+          "risk_id": "R0164",
+          "title": "The resurgence of armed conflict between the Government and opposition military forces worsens humanitarian needs and leads to increased access constraints.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2021-08-10"
+        },
+        {
+          "risk_id": "R0138",
+          "title": "The escalation of intercommunal conflict in the Abyei Administrative Area following potential UNISFA withdrawal results in casualties and displacements.",
+          "level": "Low",
+          "status": "Not materialised",
+          "entered": "2021-05-31"
+        }
+      ]
+    },
+    "SDN001": {
+      "risks": 6,
+      "resolved": 6,
+      "materialised": 4,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0526",
+          "title": "Increased political and ethnic tensions and armed conflict expansion in Sudan lead to mass displacements and unmet needs ",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-10-04"
+        },
+        {
+          "risk_id": "R0503",
+          "title": "Increased food needs following the conflict between SAF and RSF",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-05-21"
+        },
+        {
+          "risk_id": "R0459",
+          "title": "Increased intercommunal clashes in Blue Nile state lead to displacement and more needs for shelter, healthcare, and legal documentation.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-10-18"
+        }
+      ]
+    },
+    "BRA003": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0139",
+          "title": "Brazil's northeastern, southern, and central regions face flood risks.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2021-06-02"
+        }
+      ]
+    },
+    "VEN001": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0140",
+          "title": "Conflict involving Colombian armed groups, criminal groups, and the Venezuelan armed forces is brought to the Venezuelan side.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2021-06-02"
+        }
+      ]
+    },
+    "COD001": {
+      "risks": 7,
+      "resolved": 6,
+      "materialised": 6,
+      "active": 1,
+      "examples": [
+        {
+          "risk_id": "R0529",
+          "title": "Increased intercommunal conflict and militia attacks in southwestern DRC trigger new displacements and worsen the humanitarian crisis ",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2023-10-06"
+        },
+        {
+          "risk_id": "R0462",
+          "title": "The intensification of anti-MONUSCO demonstrations leads to recurrent suspensions of humanitarian activities and the inability to meet humanitarian needs for the affected population.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-11-03"
+        },
+        {
+          "risk_id": "R0463",
+          "title": "The deployment of the regional military force leads to more displacement and increased humanitarian needs in eastern Democratic Republic of Congo.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-11-03"
+        }
+      ]
+    },
+    "MLI001": {
+      "risks": 6,
+      "resolved": 6,
+      "materialised": 5,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0530",
+          "title": "Conflict escalation due to the complete withdrawal of the MINUSMA leads to protection concerns and reduced humanitarian access in northern and central Mali ",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-10-06"
+        },
+        {
+          "risk_id": "R0373",
+          "title": "Food insecurity and displacement increase as a result of movement restrictions following the expansion of armed groups towards the southern regions of the country (Bamako, Kayes, Koulikoro, Sikasso).",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-08-11"
+        },
+        {
+          "risk_id": "R0319",
+          "title": "The withdrawal of the Barkhane force, as well as consequent increase in armed group clashes and territorial expansion, results in displacement, protection concerns, and the deterioration of humanitarian access.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-03-09"
+        }
+      ]
+    },
+    "NGA003": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 0,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0145",
+          "title": "The escalation of conflict between the Fulani and other communities results in increased humanitarian needs.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2021-06-15"
+        }
+      ]
+    },
+    "BFA002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0150",
+          "title": "Violence in eastern Burkina Faso leads to displacement",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2021-07-07"
+        }
+      ]
+    },
+    "SWZ001": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 0,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0151",
+          "title": "Social unrest in Eswatini result in the disruption of harvest, access constraints, and increased food insecurity levels.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2021-07-12"
+        }
+      ]
+    },
+    "PRK001": {
+      "risks": 2,
+      "resolved": 2,
+      "materialised": 2,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0304",
+          "title": "The detection of COVID-19 cases causes the Government to (re-)enact strict border controls that aggravate food insecurity, resulting in lower food consumption and nutritional diversity levels among the most vulnerable.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-02-10"
+        },
+        {
+          "risk_id": "R0157",
+          "title": "The detection of COVID-19 cases causes the Government to (re-)enact strict border controls that worsen food insecurity, resulting in lower food consumption and nutritional diversity levels among the most vulnerable.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2021-07-23"
+        }
+      ]
+    },
+    "IND002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0186",
+          "title": "Violence and conflict in Jammu and Kashmir increase as a secondary impact of Taliban's takeover of Afghanistan.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2021-08-27"
+        }
+      ]
+    },
+    "IRN004": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0199",
+          "title": "The increased displacement of Afghans into surrounding countries, particularly Pakistan and Iran, results in increased needs and heightened protection concerns",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2021-09-27"
+        }
+      ]
+    },
+    "UKR002": {
+      "risks": 14,
+      "resolved": 13,
+      "materialised": 7,
+      "active": 1,
+      "examples": [
+        {
+          "risk_id": "R0584",
+          "title": "Continued and potentially increasing Russian attacks on Ukraine's energy infrastructure will lead to negative impacts on essential needs, socioeconomy, and humanitarian operations during the 2024-2025 cold season",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2024-09-10"
+        },
+        {
+          "risk_id": "R0521",
+          "title": "Increased fighting and power and gas supply disruptions severely limit people\u2019s ability to access heating, resulting in loss of life and increased acute humanitarian needs in Russian-controlled areas and areas of active ground conflict in the southeast ",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-08-04"
+        },
+        {
+          "risk_id": "R0514",
+          "title": "Increased Russian attacks on grain infrastructure and ports in Ukraine after withdrawal from the Grain Deal results in more casualties and economic deterioration",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-07-21"
+        }
+      ]
+    },
+    "ARM002": {
+      "risks": 2,
+      "resolved": 2,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0563",
+          "title": "The escalation of hostilities around Syunik marz between Armenia and Azerbaijan renews wide-scale conflict, resulting in displacement and humanitarian needs",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2024-02-26"
+        },
+        {
+          "risk_id": "R0246",
+          "title": "The escalation of conflict between Armenia and Azerbaijan in Nagorno-Karabakh triggered by the Lachin corridor blockade results in population displacement and increased humanitarian needs.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2016-03-24"
+        }
+      ]
+    },
+    "AZE002": {
+      "risks": 2,
+      "resolved": 2,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0563",
+          "title": "The escalation of hostilities around Syunik marz between Armenia and Azerbaijan renews wide-scale conflict, resulting in displacement and humanitarian needs",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2024-02-26"
+        },
+        {
+          "risk_id": "R0246",
+          "title": "The escalation of conflict between Armenia and Azerbaijan in Nagorno-Karabakh triggered by the Lachin corridor blockade results in population displacement and increased humanitarian needs.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2016-03-24"
+        }
+      ]
+    },
+    "TUR004": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 0,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0254",
+          "title": "The escalation and spread of violence between PKK and government forces in southeastern T\u00fcrkiye cause insecurity in affected areas.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2016-04-28"
+        }
+      ]
+    },
+    "CRI002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0263",
+          "title": "A government crackdown on the opposition and economic uncertainty surrounding the upcoming elections result in a spike in the number of Nicaraguan migrants and asylum seekers with food, health, and protection needs.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2021-10-26"
+        }
+      ]
+    },
+    "NIC001": {
+      "risks": 2,
+      "resolved": 2,
+      "materialised": 2,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0372",
+          "title": "The number of people experiencing Crisis (IPC Phase 3) food insecurity increase in the dry corridor because of inflation and the seasonal decline of employment in rural areas.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-08-09"
+        },
+        {
+          "risk_id": "R0263",
+          "title": "A government crackdown on the opposition and economic uncertainty surrounding the upcoming elections result in a spike in the number of Nicaraguan migrants and asylum seekers with food, health, and protection needs.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2021-10-26"
+        }
+      ]
+    },
+    "HTI001": {
+      "risks": 5,
+      "resolved": 5,
+      "materialised": 5,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0461",
+          "title": "An increase in the number of Haitian and Salvadoran migrants and asylum seekers in Mexico seeking to reach the US causes a deterioration of needs at the southern border.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-10-18"
+        },
+        {
+          "risk_id": "R0329",
+          "title": "Food insecurity escalates as a result of natural disasters, territorial control by criminal gangs, rising prices, and declining imports. The most affected population is children under the age of five. Gang violence affects the health, sanitation care, and food aid of this population.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-03-25"
+        },
+        {
+          "risk_id": "R0271",
+          "title": "Decreased humanitarian access resulting from fuel shortages and insecurity leads to an increase of needs across the country.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2021-11-09"
+        }
+      ]
+    },
+    "COL001": {
+      "risks": 5,
+      "resolved": 5,
+      "materialised": 5,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0310",
+          "title": "Colombian armed groups in Venezuelan territory change the dynamics towards cross-border non-international armed conflict, leading to an increase in internally displaced Colombians and Venezuelan migrants in Colombia in need of assistance.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-02-14"
+        },
+        {
+          "risk_id": "R0297",
+          "title": "There is a risk of the resurgence of armed clashes in Catatumbo region.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-01-06"
+        },
+        {
+          "risk_id": "R0272",
+          "title": "Floods in the department of La Guajira as a result of a second rainy season damage houses and infrastructure and increase the needs of the vulnerable population.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2021-11-09"
+        }
+      ]
+    },
+    "AGO002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0270",
+          "title": "Drought leads to displacement and increase food insecurity in southern Angola.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2021-11-09"
+        }
+      ]
+    },
+    "HTI002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0271",
+          "title": "Decreased humanitarian access resulting from fuel shortages and insecurity leads to an increase of needs across the country.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2021-11-09"
+        }
+      ]
+    },
+    "MEX003": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0296",
+          "title": "The implementation of the Migrant Protection Protocol leads to an increased number of migrants stranded at the border lacking protection, shelter, and services.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2021-12-09"
+        }
+      ]
+    },
+    "REG014": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0300",
+          "title": "Worsening drought conditions increase humanitarian needs in Ethiopia, Kenya, and Somalia.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-01-19"
+        }
+      ]
+    },
+    "MMR004": {
+      "risks": 7,
+      "resolved": 5,
+      "materialised": 5,
+      "active": 2,
+      "examples": [
+        {
+          "risk_id": "R0567",
+          "title": "Conscription policies implemented by the Myanmar military junta and some EAOs heighten protection concerns throughout the country",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2024-03-04"
+        },
+        {
+          "risk_id": "R0545",
+          "title": "Coordinated offensives conducted by anti-military resistance forces against the military junta intensify armed conflict throughout the country, worsening the protection, food insecurity, health, and education situation",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-11-08"
+        },
+        {
+          "risk_id": "R0499",
+          "title": "Heightened military response following increased territorial control of and collaboration among anti-military resistance forces results in intensified conflict across most of the country, leading to a deterioration of the humanitarian situation",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-04-02"
+        }
+      ]
+    },
+    "PHL003": {
+      "risks": 2,
+      "resolved": 2,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0542",
+          "title": "Village and youth council elections in Mindanao islands trigger violence among rival groups leading to internal displacements and need for assistance to IDPs",
+          "level": "High",
+          "status": "Not materialised",
+          "entered": "2023-10-18"
+        },
+        {
+          "risk_id": "R0303",
+          "title": "Political violence and attacks by armed groups in Mindanao around the May presidential elections result in displacement and protection issues.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-02-10"
+        }
+      ]
+    },
+    "BRA001": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0311",
+          "title": "Reduced income from agricultural livelihoods and rising food prices result in reduced access to food for (mainly) socioeconomically vulnerable groups.",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-02-14"
+        }
+      ]
+    },
+    "TON002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0313",
+          "title": "Continued COVID-19 movement restrictions and extreme weather conditions during the cyclone season will likely delay the recovery process after the tsunami and result in increased humanitarian needs.",
+          "level": "Low",
+          "status": "Materialised",
+          "entered": "2022-02-15"
+        }
+      ]
+    },
+    "ZWE001": {
+      "risks": 2,
+      "resolved": 2,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0512",
+          "title": "El Ni\u00f1o in Zimbabwe increases the needs of those already affected by drought, cyclones, disease outbreaks, and protracted economic instability\n",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-07-18"
+        },
+        {
+          "risk_id": "R0314",
+          "title": "Social and political instability because of the deteriorating economic situation and tensions around the parliamentary elections result in increased humanitarian needs.",
+          "level": "Low",
+          "status": "Not materialised",
+          "entered": "2022-03-07"
+        }
+      ]
+    },
+    "POL002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0321",
+          "title": "Access to quality public services and increasing prices in Poland as a result of displacements from Ukraine affect both the displaced population and hosting communities.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-03-10"
+        }
+      ]
+    },
+    "SVK002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0328",
+          "title": "Ukrainians fleeing the war face human trafficking and protection concerns when displacing within the country and internationally because of the presence of smuggling and human trafficking networks ",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-03-15"
+        }
+      ]
+    },
+    "ROU002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0328",
+          "title": "Ukrainians fleeing the war face human trafficking and protection concerns when displacing within the country and internationally because of the presence of smuggling and human trafficking networks ",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-03-15"
+        }
+      ]
+    },
+    "MDA002": {
+      "risks": 2,
+      "resolved": 2,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0343",
+          "title": "Russian interference escalating violence in Moldova results in security concerns and disrupts access to services and humanitarian aid",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2022-05-11"
+        },
+        {
+          "risk_id": "R0328",
+          "title": "Ukrainians fleeing the war face human trafficking and protection concerns when displacing within the country and internationally because of the presence of smuggling and human trafficking networks ",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-03-15"
+        }
+      ]
+    },
+    "HUN002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0328",
+          "title": "Ukrainians fleeing the war face human trafficking and protection concerns when displacing within the country and internationally because of the presence of smuggling and human trafficking networks ",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-03-15"
+        }
+      ]
+    },
+    "RUS002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0328",
+          "title": "Ukrainians fleeing the war face human trafficking and protection concerns when displacing within the country and internationally because of the presence of smuggling and human trafficking networks ",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-03-15"
+        }
+      ]
+    },
+    "REG008": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 0,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0336",
+          "title": "As a response to Spain changing its positions towards Western Sahara, more departures to Europe departing from Algeria are possible, increasing the protection risks for migrants on the move.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2022-04-11"
+        }
+      ]
+    },
+    "NGA001": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0338",
+          "title": "Electoral violence throughout Nigeria results in protection concerns",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-04-21"
+        }
+      ]
+    },
+    "MDG001": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 0,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0358",
+          "title": "Possible social unrest following elections in university students\u2019 associations causes delays in recovery after the cyclone season and further deteriorates food insecurity levels and increase humanitarian access constraints.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2022-06-06"
+        }
+      ]
+    },
+    "IDN002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0364",
+          "title": "New administrative divisions in Papua and West Papua provinces lead to more protests and violence and increase tensions among ethnic groups, resulting in displacement and aggravating the humanitarian conditions of IDPs",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-06-16"
+        }
+      ]
+    },
+    "BGD008": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 0,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0371",
+          "title": "Heavy rains in late August 2022 cause floods that affect previously affected areas, especially in the northeast, and new areas, especially in the southeast, aggravating the humanitarian situation.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2022-07-20"
+        }
+      ]
+    },
+    "BGD002": {
+      "risks": 2,
+      "resolved": 2,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0472",
+          "title": "Poor socioeconomic conditions, access restrictions, and increased insecurity faced by the Rohingya in Myanmar and Bangladesh push them to undertake more sea journeys, increasing their needs for food, protection, and health assistance",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-12-11"
+        },
+        {
+          "risk_id": "R0371",
+          "title": "Heavy rains in late August 2022 cause floods that affect previously affected areas, especially in the northeast, and new areas, especially in the southeast, aggravating the humanitarian situation.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2022-07-20"
+        }
+      ]
+    },
+    "SLV001": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0372",
+          "title": "The number of people experiencing Crisis (IPC Phase 3) food insecurity increase in the dry corridor because of inflation and the seasonal decline of employment in rural areas.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-08-09"
+        }
+      ]
+    },
+    "HND001": {
+      "risks": 2,
+      "resolved": 2,
+      "materialised": 2,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0461",
+          "title": "An increase in the number of Haitian and Salvadoran migrants and asylum seekers in Mexico seeking to reach the US causes a deterioration of needs at the southern border.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-10-18"
+        },
+        {
+          "risk_id": "R0372",
+          "title": "The number of people experiencing Crisis (IPC Phase 3) food insecurity increase in the dry corridor because of inflation and the seasonal decline of employment in rural areas.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-08-09"
+        }
+      ]
+    },
+    "MMR002": {
+      "risks": 5,
+      "resolved": 4,
+      "materialised": 4,
+      "active": 1,
+      "examples": [
+        {
+          "risk_id": "R0567",
+          "title": "Conscription policies implemented by the Myanmar military junta and some EAOs heighten protection concerns throughout the country",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2024-03-04"
+        },
+        {
+          "risk_id": "R0543",
+          "title": "Increased security incidents between the military junta and the Arakan Army (AA) lead to renewed conflict, further worsening the humanitarian crisis in Rakhine state",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2023-10-18"
+        },
+        {
+          "risk_id": "R0472",
+          "title": "Poor socioeconomic conditions, access restrictions, and increased insecurity faced by the Rohingya in Myanmar and Bangladesh push them to undertake more sea journeys, increasing their needs for food, protection, and health assistance",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-12-11"
+        }
+      ]
+    },
+    "TUN002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0445",
+          "title": "Further economic distress and social unrest lead to more needs for livelihoods, healthcare, and education and an increase in migration in the Central Mediterranean route.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-10-03"
+        }
+      ]
+    },
+    "MEX001": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0461",
+          "title": "An increase in the number of Haitian and Salvadoran migrants and asylum seekers in Mexico seeking to reach the US causes a deterioration of needs at the southern border.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2022-10-18"
+        }
+      ]
+    },
+    "MMR003": {
+      "risks": 5,
+      "resolved": 4,
+      "materialised": 4,
+      "active": 1,
+      "examples": [
+        {
+          "risk_id": "R0567",
+          "title": "Conscription policies implemented by the Myanmar military junta and some EAOs heighten protection concerns throughout the country",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2024-03-04"
+        },
+        {
+          "risk_id": "R0545",
+          "title": "Coordinated offensives conducted by anti-military resistance forces against the military junta intensify armed conflict throughout the country, worsening the protection, food insecurity, health, and education situation",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-11-08"
+        },
+        {
+          "risk_id": "R0499",
+          "title": "Heightened military response following increased territorial control of and collaboration among anti-military resistance forces results in intensified conflict across most of the country, leading to a deterioration of the humanitarian situation",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-04-02"
+        }
+      ]
+    },
+    "REG011": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0472",
+          "title": "Poor socioeconomic conditions, access restrictions, and increased insecurity faced by the Rohingya in Myanmar and Bangladesh push them to undertake more sea journeys, increasing their needs for food, protection, and health assistance",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2022-12-11"
+        }
+      ]
+    },
+    "ITA002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0476",
+          "title": "New restrictions on humanitarian rescue operations in Italian waters of the Mediterranean Sea will likely increase the numbers of dead and missing migrants.",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2023-01-11"
+        }
+      ]
+    },
+    "SOM001": {
+      "risks": 3,
+      "resolved": 3,
+      "materialised": 0,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0565",
+          "title": "Ethiopia's plans to build a seaport in the self-governing region of Somaliland results in armed conflict in the region, causing displacement and humanitarian needs",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2024-02-28"
+        },
+        {
+          "risk_id": "R0518",
+          "title": "ATMIS withdrawal from Somalia leads to the expansion and increased activity of Al-Shabaab, increasing needs in recaptured and conflict-affected areas",
+          "level": "High",
+          "status": "Not materialised",
+          "entered": "2023-07-24"
+        },
+        {
+          "risk_id": "R0488",
+          "title": "Al-Shabaab infiltration and increased attacks in Sool region result in heightened humanitarian needs and humanitarian access constraints.",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2023-02-20"
+        }
+      ]
+    },
+    "SDN008": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0505",
+          "title": "Increasing insecurity and tensions in eastern Chad following an influx of refugees from Darfur",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-06-04"
+        }
+      ]
+    },
+    "TCD005": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0505",
+          "title": "Increasing insecurity and tensions in eastern Chad following an influx of refugees from Darfur",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-06-04"
+        }
+      ]
+    },
+    "LBY003": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0528",
+          "title": "Water contamination and floods from Storm Daniel in Derna district are increasing the risk of waterborne disease outbreaks ",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-10-04"
+        }
+      ]
+    },
+    "PAN002": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0546",
+          "title": "Continued protests across Panama, following the government's approval to exploit a mining area in a biodiverse jungle, result in access constraints and disruption of services and economic activities for some population groups",
+          "level": "Medium",
+          "status": "Materialised",
+          "entered": "2023-11-13"
+        }
+      ]
+    },
+    "TLS003": {
+      "risks": 1,
+      "resolved": 1,
+      "materialised": 1,
+      "active": 0,
+      "examples": [
+        {
+          "risk_id": "R0549",
+          "title": "Drought conditions due to the El Nino, high rice prices in the international market, and restrictions imposed by India on their rice exports worsen food insecurity outcomes",
+          "level": "High",
+          "status": "Materialised",
+          "entered": "2023-11-14"
+        }
+      ]
+    },
+    "PSE003": {
+      "risks": 3,
+      "resolved": 2,
+      "materialised": 0,
+      "active": 1,
+      "examples": [
+        {
+          "risk_id": "R0588",
+          "title": "Revolt against the Palestinian Authority and President Mahmoud Abbas\u2019s possible removal increase civilian casualties and displacement in the West Bank",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2025-01-06"
+        },
+        {
+          "risk_id": "R0589",
+          "title": "Rising internal conflict in the West Bank prompts further Israeli annexation and aggravates displacement and humanitarian needs",
+          "level": "Medium",
+          "status": "Not materialised",
+          "entered": "2025-01-06"
+        }
+      ]
+    },
+    "NGA007": {
+      "risks": 1,
+      "resolved": 0,
+      "materialised": 0,
+      "active": 1,
+      "examples": []
+    },
+    "LBN006": {
+      "risks": 1,
+      "resolved": 0,
+      "materialised": 0,
+      "active": 1,
+      "examples": []
+    },
+    "BDI001": {
+      "risks": 1,
+      "resolved": 0,
+      "materialised": 0,
+      "active": 1,
+      "examples": []
+    },
+    "UGA005": {
+      "risks": 1,
+      "resolved": 0,
+      "materialised": 0,
+      "active": 1,
+      "examples": []
+    }
+  }
 }

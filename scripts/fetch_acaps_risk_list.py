@@ -137,6 +137,26 @@ def build_insights(rows: list[dict]) -> dict:
         for crisis in filter(None, (row.get("crisis_id") or "").split("; ")):
             crises[crisis] += 1
 
+    # Per-crisis history, so an alert on a crisis can show what the Risk List has
+    # already recorded against it. Keyed by crisis_id, which the alert feed carries.
+    by_crisis = {}
+    for crisis in crises:
+        linked = [r for r in rows
+                  if crisis in (r.get("crisis_id") or "").split("; ")]
+        done = [r for r in linked if r.get("status") in RESOLVED]
+        by_crisis[crisis] = {
+            "risks": len(linked),
+            "resolved": len(done),
+            "materialised": sum(1 for r in done if r["status"] == "Materialised"),
+            "active": sum(1 for r in linked if r.get("status") == "Active"),
+            "examples": [
+                {"risk_id": r["risk_id"], "title": r["risk_title"],
+                 "level": r.get("risk_level", ""), "status": r["status"],
+                 "entered": r.get("date_entered", "")[:10]}
+                for r in sorted(done, key=lambda r: r.get("date_entered", ""), reverse=True)[:3]
+            ],
+        }
+
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "source": "ACAPS API v1 risk-list",
@@ -153,6 +173,7 @@ def build_insights(rows: list[dict]) -> dict:
         "by_level": outcomes(rows, "risk_level", LEVELS),
         "matrix": matrix,
         "cohorts": cohorts,
+        "by_crisis": by_crisis,
     }
 
 
