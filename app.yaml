@@ -25,6 +25,11 @@ env:
     generate: hex
   PSEUDONYM_KEY:
     generate: hex
+  # Supplied, not generated: this one belongs to an ACAPS account. Leave it unset and the
+  # engine serves the cached editions and says so, which is a working state, not a failure.
+  ACAPS_API_TOKEN:
+    required: false
+    secret: true
 
 healthcheck:
   path: /health
