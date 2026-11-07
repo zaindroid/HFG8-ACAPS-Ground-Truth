@@ -12,7 +12,7 @@ import {
 import { PortalHeader } from "./PortalHeader";
 import { VerificationTrail } from "./VerificationTrail";
 import { HistoricalLedger } from "./HistoricalLedger";
-import { DraftNarrative } from "./Grounding";
+import { DraftNarrative, DraftRecommendation } from "./Grounding";
 import { HonestyBox, IntegrityPanel, PanelMatch } from "./V2Panels";
 import { GroupChart, Verification } from "./LiveWorkspace";
 import { useEffect, useState, type ReactNode } from "react";
@@ -337,17 +337,12 @@ function Desk() {
               </div>
             ) : (
               <>
-                <div className="draft-rating">
-                  <span className="rating">
-                    Proposed probability:{" "}
-                    {decision?.probability || draft.proposed_probability}
-                  </span>
-                  <span>Risk level: {draft.proposed_level}</span>
-                </div>
+                <DraftRecommendation draft={draft} current={risk.probability_acaps} proposed={decision?.probability || draft.proposed_probability}/>
                 <DraftNarrative
                   draft={draft}
                   themes={result.missing_themes}
                   result={result}
+                  evidence={pulse.evidence}
                 />
                 <div className="citations">
                   {draft.citations.map((c) => (
@@ -368,7 +363,7 @@ function Desk() {
                     <p>
                       {decision.action === "reject"
                         ? "Rejected · no ledger entry added."
-                        : "Approved for the demo ledger."}
+                        : "Approved for the ledger."}
                     </p>
                     <p>{decision.note}</p>
                     <time>{date(decision.at)}</time>

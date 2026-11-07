@@ -10,7 +10,7 @@ import {
 } from "./V3Workflow";
 import { PortalHeader } from "./PortalHeader";
 import { VerificationTrail } from "./VerificationTrail";
-import { DraftNarrative, pendingClaims } from "./Grounding";
+import { DraftNarrative, DraftRecommendation, pendingClaims } from "./Grounding";
 import { HonestyBox, IntegrityPanel, PanelMatch } from "./V2Panels";
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowRight, Check, Copy, LockKeyhole, Radio } from "lucide-react";
@@ -283,11 +283,10 @@ export function GroupChart({
 }
 export function Verification({ draft }: { draft: Draft }) {
   return (
-    <div className="draft-verification">
-      <h3>Evidence checks</h3>
+    <details className="draft-verification">
+      <summary>Evidence checks · {draft.claims?.length || 0} claims</summary>
       <p className="panel-caption">
-        Numeric support does not establish source corroboration. Claims still
-        needing corroboration stay in the review queue.
+        These checks compare draft claims with their cited records. They do not measure the chance that the forecast is correct.
       </p>
       {draft.judge ? (
         <>
@@ -301,7 +300,7 @@ export function Verification({ draft }: { draft: Draft }) {
               <strong>{percent(draft.judge.numbers_match)}</strong>
             </div>
             <div>
-              <span>Judge overall</span>
+              <span>Automated review score</span>
               <strong>{percent(draft.judge.overall)}</strong>
             </div>
           </div>
@@ -342,7 +341,7 @@ export function Verification({ draft }: { draft: Draft }) {
           {check.theme}: {check.status}
         </p>
       ))}
-    </div>
+    </details>
   );
 }
 function LiveDesk() {
@@ -725,18 +724,12 @@ function LiveDesk() {
                   </button>
                 ) : (
                   <>
-                    <div className="draft-rating">
-                      <span className="rating">
-                        {draft.proposed_probability} probability
-                      </span>
-                      <span>
-                        {draft.proposed_level} risk · {draft.status}
-                      </span>
-                    </div>
+                    <DraftRecommendation draft={draft} current={risk.probability_acaps}/>
                     <DraftNarrative
                       draft={draft}
                       themes={group?.missing_themes}
                       result={group || undefined}
+                      evidence={pulse?.evidence}
                     />
                     <div className="citations">
                       {draft.citations

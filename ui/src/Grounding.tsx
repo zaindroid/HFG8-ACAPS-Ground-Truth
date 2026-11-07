@@ -1,4 +1,10 @@
 import type { Draft, Result } from "./service";
+import {validResult} from "./service";
+import type {EvidenceRecord} from "./Evidence";
+import {ArrowRight, UsersRound, ChartNoAxesCombined} from "lucide-react";
+export function DraftRecommendation({draft,current,proposed=draft.proposed_probability}:{draft:Draft;current:string;proposed?:string}){
+ return <div className="draft-recommendation"><span>Proposed assessment</span><h3>{current===proposed?`Keep probability ${proposed}`:`Change probability from ${current} to ${proposed}`}</h3><p>ACAPS probability band · Risk level: {draft.proposed_level}</p></div>;
+}
 export function pendingClaims(
   draft: Draft,
   themes: Result["missing_themes"] = [],
@@ -32,14 +38,24 @@ export function DraftNarrative({
   draft,
   themes,
   result,
+  evidence=[],
 }: {
   draft: Draft;
   themes?: Result["missing_themes"];
   result?: Result;
+  evidence?:EvidenceRecord[];
 }) {
   const pending = pendingClaims(draft, themes, result);
+  const edition=evidence.find(e=>e.metric==="index"&&typeof e.before==="number"&&typeof e.after==="number");
+  const hasPanel=!!result&&validResult(result);
+  const hasSummary=hasPanel||!!edition;
   return (
     <>
+      {hasSummary&&<section className="draft-support" aria-label="What supports this assessment"><h3>What supports this</h3><div className="draft-facts">
+        {hasPanel&&<div><UsersRound size={18} aria-hidden="true"/><div><span>Expert forecast</span><strong>{Math.round(result!.mean*100)}%</strong><p>Average forecast from {result!.n} estimates</p></div></div>}
+        {edition&&<div><ChartNoAxesCombined size={18} aria-hidden="true"/><div><span>Observed severity</span><strong>{edition.before}<ArrowRight size={18} aria-hidden="true"/>{edition.after}</strong><p>{edition.month_from?.replace(/(\D+)(\d+)/,"$1 $2")} → {edition.month_to?.replace(/(\D+)(\d+)/,"$1 $2")} · index out of 10</p></div></div>}
+      </div><p className="draft-facts-caption">The forecast estimates what may happen. Severity describes the crisis already observed.</p></section>}
+      <details className="draft-wording" open={hasSummary?undefined:true}><summary>Read the drafted wording</summary>
       <div className="draft-text">
         {draft.claims?.length ? (
           draft.claims
@@ -60,18 +76,17 @@ export function DraftNarrative({
           <p>{draft.rationale_md}</p>
         )}
       </div>
+      </details>
       {pending.length > 0 && (
         <div className="to-verify">
           <h3>To verify before inclusion</h3>
-          {pending.map((c) => (
+          <p>{pending.length} {pending.length===1?"claim needs":"claims need"} evidence or corroboration before inclusion.</p><details><summary>Review these claims</summary>{pending.map((c) => (
             <p key={c.claim_id}>
               {c.claim_id}: {c.text}
             </p>
-          ))}
+          ))}</details>
           <p>
-            These claims need exact provenance, compatible aggregate values or
-            corroboration before approval. Uncorroborated does not mean false;
-            absence from selected databases is not evidence of falsity.
+            Unverified does not mean false. These claims are excluded from the draft.
           </p>
         </div>
       )}
