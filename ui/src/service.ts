@@ -332,7 +332,54 @@ export const endpoint = {
       ...(decisionUse ? { decision_use: decisionUse } : {}),
       ...(action === "edit" ? { edited_probability: probability } : {}),
     }),
-  board: () => api<Board>("/analyst/board"),
+  // The comment above this type says the route moved; the call did not, so the scoring view
+  // asked for a path the engine 404s.
+  board: () => api<Board>("/committee/scoring"),
+  // Reach (MASTER_PROMPT 6e). `transport` is `recorded` on every row in this build: the bodies
+  // are composed in full and nothing is sent, because no gateway account exists here. Whatever
+  // the desk shows has to say that, so the wording travels in the payload.
+  reachStatus: () =>
+    api<{
+      channels: {
+        channel: string;
+        name: string;
+        flag: string | null;
+        enabled: boolean;
+        built: string;
+        reply: string;
+        falls_back_to: string | null;
+        off_note: string | null;
+        transport: string;
+      }[];
+      cadence: Record<string, string | number>;
+      contacts: { n_contacts: number; reachable: number; consented: number };
+      charter: string;
+      transport_note: string;
+      guarantees: string;
+      does_not: string;
+    }>("/reach/status"),
+  reachSend: (pulseId: string, body: Record<string, unknown> = {}) =>
+    api<{
+      n_sent: number;
+      n_refused: number;
+      sent: { expert_id: string; channel: string; transport: string; body: string }[];
+      refused: { expert_id: string; why: string }[];
+      transport_note: string;
+    }>(`/reach/pulses/${encodeURIComponent(pulseId)}/send`, body),
+  reachDelivery: (pulseId: string) =>
+    api<{
+      pulse_id: string;
+      channels: { channel: string; sent: number; answered: number; transport: string }[];
+      sent: number;
+      answered: number;
+      relayed: number;
+      transport_note: string;
+    }>(`/reach/pulses/${encodeURIComponent(pulseId)}/delivery`),
+  closeTheLoop: (pulseId: string) =>
+    api<{ n_sent: number; sent: { expert_id: string; body: string }[]; note: string }>(
+      `/reach/pulses/${encodeURIComponent(pulseId)}/close-the-loop`,
+      {},
+    ),
   contract: (id: string, body: QuestionContract) =>
     api<QuestionContract>(`/risks/${encodeURIComponent(id)}/contract`, body),
   outcomeReport: (id: string) =>
