@@ -29,6 +29,7 @@ export type Answer = {
   round: number;
   missing: string;
   changed_mind: boolean;
+  probe_answers?: Record<string, string | string[]>;
 };
 export const mock = import.meta.env.VITE_MOCK === "1";
 export async function getCard(token: string): Promise<Card> {

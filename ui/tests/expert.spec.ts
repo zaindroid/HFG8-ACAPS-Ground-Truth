@@ -1,4 +1,5 @@
 import { expect } from "@playwright/test";
+import { reachSubmit } from "./expert-flow";
 import { test } from "./workspace-session";
 test("expert card fits, supports keyboard sliders and seals selected mask", async ({
   page,
@@ -26,6 +27,7 @@ test("expert card fits, supports keyboard sliders and seals selected mask", asyn
     path: `test-results/expert-${info.project.name}.png`,
     fullPage: true,
   });
+  await reachSubmit(page);
   await page.getByRole("button", { name: "Submit" }).click();
   await expect(
     page.getByRole("heading", {

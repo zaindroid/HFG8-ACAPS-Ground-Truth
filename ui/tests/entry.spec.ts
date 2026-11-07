@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { reachSubmit } from "./expert-flow";
 import AxeBuilder from "@axe-core/playwright";
 
 test("public entry exposes research and Login opens the workspace without credentials", async ({
@@ -57,6 +58,7 @@ test("public entry exposes research and Login opens the workspace without creden
   await navigation
     .getByRole("link", { name: "Expert card", exact: true })
     .click();
+  await reachSubmit(page);
   await expect(
     page.getByRole("button", { name: "Submit", exact: true }),
   ).toBeVisible();

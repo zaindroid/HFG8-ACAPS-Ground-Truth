@@ -43,6 +43,8 @@ COLUMNS = {
     "Triggers": "triggers_text",
     "Source": "sources_text",
     "Rationale": "rationale",
+    "Current vulnerability / Coping capacities": "vulnerability",
+    "Expected exposure": "exposure",
     "What materialised?": "materialised",
 }
 
@@ -133,6 +135,11 @@ def _row_to_risk(row: pd.Series) -> dict:
         "status": _clean(row.get("status")) or "Unknown",
         "trend": _clean(row.get("trend")) or None,
         "horizon_months": 6,
+        # Carried so the expert card can build questions out of the record itself rather
+        # than out of hand-written copy per risk.
+        "rationale": _clean(row.get("rationale")),
+        "vulnerability": _clean(row.get("vulnerability")),
+        "exposure": _clean(row.get("exposure")),
         "triggers": _split_triggers(row.get("triggers_text")),
         "sources": _split_sources(row.get("sources_text")) or [
             {"text": f"ACAPS Risk List, {_clean(row.get('country'))}", "url": "https://www.acaps.org/en/countries"}

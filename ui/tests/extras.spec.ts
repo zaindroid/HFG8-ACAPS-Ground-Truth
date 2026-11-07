@@ -1,4 +1,5 @@
 import { expect } from "@playwright/test";
+import { reachSubmit } from "./expert-flow";
 import { test } from "./workspace-session";
 import AxeBuilder from "@axe-core/playwright";
 test("jury QR, private calibration, reduced motion and keyboard access", async ({
@@ -52,6 +53,7 @@ test("jury QR, private calibration, reduced motion and keyboard access", async (
 });
 test("expert card accessibility and text scaling", async ({ page }) => {
   await page.goto("/e/demo");
+  await reachSubmit(page);
   await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
   expect(
     (
@@ -69,6 +71,7 @@ test("expert card accessibility and text scaling", async ({ page }) => {
   await page
     .getByRole("button", { name: "Pseudonym Nickname to peers" })
     .click();
+  await reachSubmit(page);
   await page.getByRole("button", { name: "Submit" }).click();
   await page
     .getByRole("link", { name: "Opt in to private calibration" })

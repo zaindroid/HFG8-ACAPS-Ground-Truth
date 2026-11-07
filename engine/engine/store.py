@@ -104,6 +104,9 @@ class Answer:
     committed_at: str
     commitment: str
     revealed_at: str | None = None
+    # Answers to the probes this card asked. They feed themes and coverage; they are never
+    # aggregated into the published probability, which stays the frozen core alone.
+    probe_answers: dict = field(default_factory=dict)
 
     def public_view(self) -> dict:
         """What may leave the server before a reveal: the proof of timing, never the value."""
@@ -221,6 +224,10 @@ class Store:
         stored_expert = "" if mask == "anonymous" else expert_id
         pseudonym = pseudonym_for(expert_id, key) if mask == "pseudonym" else None
         missing = (body.get("missing") or "")[:240]
+        probe_answers = {
+            str(k): (v[:240] if isinstance(v, str) else v)
+            for k, v in (body.get("probe_answers") or {}).items()
+        }
         rnd = int(body.get("round", 1))
         committed_at = now()
 
@@ -228,13 +235,15 @@ class Store:
             "pulse_id": pulse_id, "mask": mask, "probability": probability, "confidence": confidence,
             "stance": stance, "panel_share_yes": share, "missing": missing, "source_tag": source_tag,
             "round": rnd, "committed_at": committed_at,
+            # Sealed with the rest: a probe answer cannot be edited after the fact either.
+            "probe_answers": probe_answers,
         }
         answer = Answer(
             id=f"A-{uuid.uuid4().hex[:8]}", pulse_id=pulse_id, expert_id=stored_expert, mask=mask,
             pseudonym=pseudonym, probability=probability, confidence=confidence, stance=stance,
             panel_share_yes=share, missing=missing, source_tag=source_tag, round=rnd,
             changed_mind=bool(body.get("changed_mind", False)), committed_at=committed_at,
-            commitment=commit(payload, salt),
+            commitment=commit(payload, salt), probe_answers=probe_answers,
         )
         self.answers.setdefault(pulse_id, []).append(answer)
         return answer

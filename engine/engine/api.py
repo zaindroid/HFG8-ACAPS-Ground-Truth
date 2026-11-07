@@ -24,6 +24,7 @@ from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from . import acaps, alerts as alert_engine, data, draft as draft_builder, logging_conf, settings as settings_mod
+from . import probes
 from .store import Expert, Store, TooFew, now, pseudonym_for, round_verify_hash
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -700,6 +701,15 @@ def tray(pulse_id: str):
 
 
 # -- the expert card -----------------------------------------------------------
+
+def _expert_profile(expert_id: str) -> dict:
+    expert = STORE.experts.get(expert_id)
+    if not expert:
+        return {"id": expert_id, "theme_tags": [], "geo_tags": [], "region": ""}
+    return {"id": expert.id, "theme_tags": expert.theme_tags,
+            "geo_tags": expert.geo_tags, "region": expert.region}
+
+
 @api.get("/e/{token}", tags=["expert"])
 def card(token: str):
     resolved = STORE.resolve_token(token)
@@ -737,6 +747,10 @@ def card(token: str):
         "elicitation": "What share of this panel will put the probability above 0.5?",
         "rating_hidden_until_submission": blind,
         "blind": blind,
+        # Chosen from the risk record and this expert's own tags, nothing else. The card is
+        # therefore fixed when the link is issued and cannot reflect another expert's answer.
+        "probe_flow": probes.card_flow(risk, _expert_profile(expert_id)),
+        "probe_note": "These follow the scored question and are never aggregated into it.",
     })
 
 
@@ -748,6 +762,14 @@ async def answer(token: str, body: dict = Body(default_factory=dict)):
     pulse_id, expert_id = resolved
     if pulse_id in STORE.results and int(body.get("round", 1)) == 1:
         raise HTTPException(409, "round 1 is closed on this pulse; this link now opens round 2")
+    risk_for_probes = data.get_risk(STORE.pulses[pulse_id]["risk_id"]) or {}
+    allowed = probes.accepted_ids(risk_for_probes, _expert_profile(expert_id))
+    submitted = body.get("probe_answers") or {}
+    if not isinstance(submitted, dict):
+        raise HTTPException(422, "probe_answers must be an object keyed by probe id")
+    # Only answers to probes this card actually asked are kept, so a crafted request cannot
+    # inject a theme the expert was never shown.
+    body = {**body, "probe_answers": {k: v for k, v in submitted.items() if k in allowed}}
     try:
         sealed = STORE.seal(pulse_id, expert_id, body, SETTINGS.commitment_salt, SETTINGS.pseudonym_key)
     except ValueError as exc:

@@ -3,6 +3,7 @@ import { PortalHeader } from "./PortalHeader";
 import { useEffect, useState, type FormEvent } from "react";
 import * as Slider from "@radix-ui/react-slider";
 import {
+  ArrowRight,
   BadgeCheck,
   Check,
   Fingerprint,
@@ -21,6 +22,13 @@ import {
 import { CopyButton } from "./LiveWorkspace";
 import { safeUrl, validResult } from "./service";
 import { en } from "./locales/en";
+import { ProbeStep } from "./Probes";
+import {
+  probeForStep,
+  plannedSteps,
+  type ProbeAnswers,
+  type ProbeFlow,
+} from "./probe-flow";
 
 function Probability({
   id,
@@ -82,7 +90,10 @@ export function ExpertCard({ token }: { token: string }) {
     [missing, setMissing] = useState(""),
     [mask, setMask] = useState<Mask>("anonymous"),
     [stance, setStance] = useState<Answer["stance"]>("estimate"),
-    [changed, setChanged] = useState(false);
+    [changed, setChanged] = useState(false),
+    [probeAnswers, setProbeAnswers] = useState<ProbeAnswers>({}),
+    [step, setStep] = useState(1),
+    [chain, setChain] = useState<string[]>([]);
   const [busy, setBusy] = useState(false),
     [receipt, setReceipt] = useState<Awaited<
       ReturnType<typeof sealAnswer>
@@ -106,7 +117,18 @@ export function ExpertCard({ token }: { token: string }) {
       active = false;
     };
   }, [token, reload]);
-  const blind = card?.round !== 2; // Round one remains blind even if an older API includes a rating.
+  const blind = card?.round !== 2;
+  const flow = (card as { probe_flow?: ProbeFlow } | null)?.probe_flow;
+  const core = {
+    stance,
+    probability: probability / 100,
+    panelShare: panel / 100,
+    confidence,
+  };
+  const currentProbe =
+    step > 1 ? probeForStep(flow, step, core, probeAnswers, chain) : null;
+  const totalSteps = plannedSteps(flow, core, probeAnswers);
+  const onLastStep = step >= totalSteps || (step > 1 && !currentProbe); // Round one remains blind even if an older API includes a rating.
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (busy || receipt) return;
@@ -124,6 +146,7 @@ export function ExpertCard({ token }: { token: string }) {
           mask,
           missing: missing.trim(),
           changed_mind: !blind && changed,
+          probe_answers: stance === "estimate" ? probeAnswers : {},
         }),
       );
     } catch (e) {
@@ -435,6 +458,18 @@ export function ExpertCard({ token }: { token: string }) {
                       I changed my mind after seeing the panel
                     </label>
                   )}
+                  {/* One step at a time, after the scored core. Steps 2 and 3 are chosen
+                      from the answers above, so the question has to be answered before it
+                      can be framed by anything that follows. */}
+                  {step > 1 && currentProbe && (
+                    <ProbeStep
+                      probe={currentProbe}
+                      answers={probeAnswers}
+                      onChange={setProbeAnswers}
+                      step={step}
+                      total={totalSteps}
+                    />
+                  )}
                   <div className="question mask-question">
                     <span className="field-label" id="mask-label">
                       Choose your mask for this answer
@@ -499,10 +534,43 @@ export function ExpertCard({ token }: { token: string }) {
                       {submitError} Your inputs are kept here.
                     </p>
                   )}
-                  <button type="submit" className="seal-button">
-                    <LockKeyhole size={18} />
-                    {busy ? "Submitting…" : "Submit"}
-                  </button>
+                  {/* Distinct keys matter: without them React patches one element's type
+                      from "button" to "submit" during the click that advances the step, and
+                      the browser then submits the form on step two. */}
+                  {onLastStep ? (
+                    <button key="submit" type="submit" className="seal-button">
+                      <LockKeyhole size={18} />
+                      {busy ? "Submitting…" : "Submit"}
+                    </button>
+                  ) : (
+                    <button
+                      key="continue"
+                      type="button"
+                      className="seal-button"
+                      onClick={() => {
+                        // The chain records the steps already shown, so the next lookup
+                        // can read what was asked before it. Pushing the upcoming probe
+                        // instead would make the lookup skip it as already seen.
+                        if (currentProbe) setChain([...chain, currentProbe.id]);
+                        setStep(step + 1);
+                      }}
+                    >
+                      Continue
+                      <ArrowRight size={18} />
+                    </button>
+                  )}
+                  {step > 1 && (
+                    <button
+                      type="button"
+                      className="text-button"
+                      onClick={() => {
+                        setChain(chain.slice(0, -1));
+                        setStep(step - 1);
+                      }}
+                    >
+                      Back
+                    </button>
+                  )}
                   <p className="seal-note">
                     A commitment records timing and consistency. The operator
                     can access the stored answer; it does not provide
