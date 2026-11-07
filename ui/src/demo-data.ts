@@ -225,6 +225,8 @@ export function sampleDataEnabled() {
       loadSampleWorkspace();
       if (previousDecision)
         sessionStorage.setItem(decisionKey, previousDecision);
+      else
+        sessionStorage.removeItem(decisionKey);
     }
     return sessionStorage.getItem(demoDataKey) === "on";
   } catch {

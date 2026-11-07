@@ -15,7 +15,7 @@ WORKDIR /build
 COPY fixtures ./fixtures
 COPY ui ./ui
 WORKDIR /build/ui
-RUN npm run build
+RUN npm run build:demo
 
 
 FROM python:3.12-slim AS runtime
@@ -55,4 +55,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
     CMD curl -fsS http://127.0.0.1:8080/health || exit 1
 
 WORKDIR /app/engine
-CMD ["sh", "-c", "exec python -m uvicorn engine.api:app --host 0.0.0.0 --port ${PORT:-8080} --proxy-headers --forwarded-allow-ips='*'"]
+CMD ["sh", "-c", "exec python -m uvicorn engine.site:app --host 0.0.0.0 --port ${PORT:-8080} --proxy-headers --forwarded-allow-ips='*'"]

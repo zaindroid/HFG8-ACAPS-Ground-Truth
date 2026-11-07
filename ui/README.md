@@ -17,6 +17,8 @@ For the backend connection, run `npm run dev:live` and open http://localhost:517
 
 `npm run build` always builds API mode, overriding local mock settings. `npm run build:demo` produces an explicitly mocked offline UI build. The bundled Inter fonts and country geometry require no external map or font service. The Radar/map and QR screen load separately from the expert card.
 
+The Docker demo builds with `build:demo` and serves the website at `/`, deep links such as `/desk` and `/ledger`, and the fixture API at `/api` from one process. This keeps the website usable while the live engine routes are still being completed.
+
 ## Routes and review flow
 
 - `/`: compact ACAPS-connected public entry. Login opens the demo workspace without a credential form.
