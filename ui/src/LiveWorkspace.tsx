@@ -1,4 +1,7 @@
+import { ResponseProgress } from "./ResponseProgress";
+import { DeskContext, ContextSection } from "./DeskContext";
 import { EvidenceLine } from "./Evidence";
+import { PanelVisuals } from "./PanelVisuals";
 import { Journey, DecisionSnapshot } from "./Journey";
 import { LedgerRecord, LedgerColumns } from "./LedgerRecord";
 import {
@@ -9,8 +12,15 @@ import {
   OutcomeReportPanel,
 } from "./V3Workflow";
 import { PortalHeader } from "./PortalHeader";
+import { bandRate, asPercent } from "./base-rates";
+import { MethodChain, CoverageAdvice, RegionalSpread } from "./Method";
+import { Section } from "./Panel";
 import { VerificationTrail } from "./VerificationTrail";
-import { DraftNarrative, pendingClaims } from "./Grounding";
+import {
+  DraftNarrative,
+  DraftRecommendation,
+  pendingClaims,
+} from "./Grounding";
 import { HonestyBox, IntegrityPanel, PanelMatch } from "./V2Panels";
 import { useEffect, useState, type ReactNode } from "react";
 import { ArrowRight, Check, Copy, LockKeyhole, Radio } from "lucide-react";
@@ -59,22 +69,7 @@ export function Frame({
     </>
   );
 }
-export function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="workspace-panel">
-      <div className="panel-heading">
-        <h2>{title}</h2>
-      </div>
-      {children}
-    </section>
-  );
-}
+export { Section } from "./Panel";
 export function CopyButton({
   value,
   label = "Copy",
@@ -124,6 +119,7 @@ export function GroupChart({
       "Very High": 0.9,
     } as Record<string, number>
   )[reference];
+  const past = bandRate(reference);
   return (
     <>
       <div className="stat-row">
@@ -136,10 +132,8 @@ export function GroupChart({
           <strong>{result.n}</strong>
         </div>
         <div>
-          <span>SP experiment · experimental</span>
-          <strong className="small-stat">
-            {result.sp_experiment.answer === "yes" ? "Yes" : "No"}
-          </strong>
+          <span>ACAPS probability band</span>
+          <strong className="small-stat">{reference}</strong>
         </div>
       </div>
       <svg
@@ -174,6 +168,21 @@ export function GroupChart({
             />
             <text x={40 + acaps * 480 - 8} y="16" textAnchor="end">
               ACAPS
+            </text>
+          </>
+        )}
+        {/* What this band has actually done, which the assumed midpoint above is not. */}
+        {past && (
+          <>
+            <line
+              x1={40 + past.rate * 480}
+              x2={40 + past.rate * 480}
+              y1="20"
+              y2="134"
+              className="base-rate-line"
+            />
+            <text x={40 + past.rate * 480 + 8} y="16" textAnchor="start">
+              Past rate
             </text>
           </>
         )}
@@ -239,6 +248,8 @@ export function GroupChart({
         Upper marker: equal-weight mean. Whisker: minimum to maximum forecast.
         ACAPS Probability bands are mapped to numbers by assumption, not
         official numeric thresholds.
+        {past &&
+          ` Past rate: of ${past.n} resolved ${reference} risks in the Risk List, ${asPercent(past.rate)} materialised.`}
         {!result.confidence_interval &&
           " Confidence intervals are unavailable."}
       </p>
@@ -248,49 +259,22 @@ export function GroupChart({
           {percent(result.spread.max)} · IQR {percent(result.spread.iqr)}.
           Secondary weighted mean: {percent(result.weighted_mean)}.
         </p>
-        <h3>Disagreement</h3>
-        {/* Unattributed, and written from themes rather than quoted. In a panel of eight a
-            quoted line identifies its author to the colleagues who sat on it, so the sentences
-            themselves live in the access-logged verification queue. */}
-        {result.disagreement?.length ? (
-          result.disagreement.map((item, i) => (
-            <p key={i}>
-              <strong>
-                {item.n} {item.position === "lower" ? "below" : "above"} the
-                mean:
-              </strong>{" "}
-              {item.summary}
-            </p>
+        <h3>Minority reasons</h3>
+        {result.disagreement.length ? (
+          result.disagreement.map((reason: { summary?: string } | string, i: number) => (
+            <p key={i}>{typeof reason === "string" ? reason : reason.summary}</p>
           ))
         ) : (
-          <p>No answer sat far enough from the mean to count as disagreement.</p>
+          <p>No minority reasons supplied.</p>
         )}
-        <h3>Missing evidence</h3>
-        {result.missing_evidence?.length ? (
-          <ul>
-            {result.missing_evidence.map((item, i) => (
-              <li key={i}>
-                {item.theme} <span className="panel-caption">({item.n})</span>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>Nobody named missing evidence on this round.</p>
-        )}
-        {typeof result.verification_queue_count === "number" && (
+        <details>
+          <summary>Experimental comparison</summary>
           <p className="panel-caption">
-            {result.verification_queue_count} distinctive lines are in the
-            verification queue, which is read with a who and a why and logs
-            every read.
+            SP: {result.sp_experiment.answer === "yes" ? "Yes" : "No"}.
+            Experimental; does not replace the equal-weight mean. Method:{" "}
+            {result.sp_experiment.method}.
           </p>
-        )}
-        {result.number_note && (
-          <p className="panel-caption">{result.number_note}</p>
-        )}
-        <p className="panel-caption">
-          SP is experimental and does not replace the equal-weight mean. Method:{" "}
-          {result.sp_experiment.method}.
-        </p>
+        </details>
       </div>
       <details>
         <summary>Distribution data</summary>
@@ -316,11 +300,11 @@ export function GroupChart({
 }
 export function Verification({ draft }: { draft: Draft }) {
   return (
-    <div className="draft-verification">
-      <h3>Evidence checks</h3>
+    <details className="draft-verification">
+      <summary>Evidence checks · {draft.claims?.length || 0} claims</summary>
       <p className="panel-caption">
-        Numeric support does not establish source corroboration. Claims still
-        needing corroboration stay in the review queue.
+        These checks compare draft claims with their cited records. They do not
+        measure the chance that the forecast is correct.
       </p>
       {draft.judge ? (
         <>
@@ -334,7 +318,7 @@ export function Verification({ draft }: { draft: Draft }) {
               <strong>{percent(draft.judge.numbers_match)}</strong>
             </div>
             <div>
-              <span>Judge overall</span>
+              <span>Automated review score</span>
               <strong>{percent(draft.judge.overall)}</strong>
             </div>
           </div>
@@ -375,7 +359,7 @@ export function Verification({ draft }: { draft: Draft }) {
           {check.theme}: {check.status}
         </p>
       ))}
-    </div>
+    </details>
   );
 }
 function LiveDesk() {
@@ -386,6 +370,15 @@ function LiveDesk() {
   const [pulse, setPulse] = useState<Pulse | null>(null),
     [group, setGroup] = useState<Result | null>(null),
     [draft, setDraft] = useState<Draft | null>(null);
+  // The round opens at pulse.expires_at, fixed when the pulse was sent. The desk says which
+  // side of it we are on, because the engine refuses a plain reveal before it and an analyst
+  // needs to know the button is an override rather than the deadline firing.
+  const deadline = pulse?.expires_at ? new Date(pulse.expires_at) : null;
+  const deadlinePassed = !!deadline && deadline.getTime() <= Date.now();
+  const deadlineLabel = deadline
+    ? deadline.toLocaleString("en-GB", { timeZone: "UTC", hour12: false }) +
+      " UTC"
+    : "the deadline on the card";
   const [error, setError] = useState(""),
     [busy, setBusy] = useState("Loading risks"),
     [message, setMessage] = useState(""),
@@ -623,7 +616,7 @@ function LiveDesk() {
           </div>
           <div className="desk-grid">
             <div className="desk-main">
-              <Section title="Panel pulse">
+              <Section title="Expert responses" className="response-panel">
                 <div className="live-toolbar">
                   <label htmlFor="pulse-id">Pulse ID</label>
                   <input
@@ -654,26 +647,43 @@ function LiveDesk() {
                       {pulse.id} · Round {pulse.round} · {pulse.n_answers}{" "}
                       sealed answers
                     </p>
-                    <div className="envelope-tray">
-                      {Array.from(
-                        { length: Math.min(10, Math.max(5, pulse.n_answers)) },
-                        (_, i) => (
-                          <span
-                            className={`envelope ${i < pulse.n_answers ? "filled" : ""}`}
-                            key={i}
-                          >
-                            <LockKeyhole size={22} />
-                          </span>
-                        ),
-                      )}
-                    </div>
+                    <p className="panel-caption">
+                      {deadlinePassed
+                        ? `The deadline passed at ${deadlineLabel}. Answers open together.`
+                        : `Answers open together at ${deadlineLabel}. Revealing before then is recorded as an analyst override.`}
+                    </p>
+                    {group && validResult(group) ? (
+                      <ResponseProgress
+                        total={group.n}
+                        count={group.n}
+                        revealed
+                      />
+                    ) : (
+                      <ResponseProgress
+                        total={Math.max(8, pulse.n_answers)}
+                        count={pulse.n_answers}
+                        revealed={false}
+                      />
+                    )}
                     <div className="panel-actions">
                       <button
                         className="primary"
                         disabled={!!busy || pulse.n_answers < 5 || !!group}
+                        title={
+                          deadlinePassed
+                            ? "The deadline has passed."
+                            : "Before the deadline. The reveal is recorded as an analyst override."
+                        }
                         onClick={() =>
                           void run("Revealing round", async () => {
-                            const value = await endpoint.reveal(pulse.id);
+                            // The engine fixes the reveal at pulse.expires_at and refuses a
+                            // plain reveal before it, so a desk that sent no override simply
+                            // returned 409 and the demo stopped at the reveal. An analyst can
+                            // still open a round early; it goes through as a recorded override.
+                            const value = await endpoint.reveal(
+                              pulse.id,
+                              !deadlinePassed,
+                            );
                             if (value.pulse_id !== pulse.id)
                               throw new Error(
                                 "The API returned a result for a different pulse. Refresh the selected pulse.",
@@ -686,7 +696,9 @@ function LiveDesk() {
                           })
                         }
                       >
-                        Reveal round
+                        {deadlinePassed
+                          ? "Reveal (deadline passed)"
+                          : "Reveal now (before the deadline)"}
                       </button>
                       <button
                         disabled={!!busy}
@@ -729,7 +741,13 @@ function LiveDesk() {
                   </p>
                 )}
               </Section>
-              <Section title="Panel distribution">
+              <Section title="Panel coverage" className="coverage-panel">
+                <PanelVisuals riskId={selected} />
+              </Section>
+              <Section
+                title="Expert forecast versus ACAPS"
+                className="forecast-panel"
+              >
                 {group ? (
                   <GroupChart
                     result={group}
@@ -742,7 +760,7 @@ function LiveDesk() {
                   </div>
                 )}
               </Section>
-              <Section title="Draft update">
+              <Section title="Draft update" className="decision-panel">
                 {!draft ? (
                   <button
                     disabled={!!busy || !group || !pulse}
@@ -758,18 +776,16 @@ function LiveDesk() {
                   </button>
                 ) : (
                   <>
-                    <div className="draft-rating">
-                      <span className="rating">
-                        {draft.proposed_probability} probability
-                      </span>
-                      <span>
-                        {draft.proposed_level} risk · {draft.status}
-                      </span>
-                    </div>
+                    <DraftRecommendation
+                      draft={draft}
+                      current={risk.probability_acaps}
+                    />
                     <DraftNarrative
+                      showFacts={false}
                       draft={draft}
                       themes={group?.missing_themes}
                       result={group || undefined}
+                      evidence={pulse?.evidence}
                     />
                     <div className="citations">
                       {draft.citations
@@ -967,70 +983,69 @@ function LiveDesk() {
                 )}
             </div>
             <aside className="desk-side">
-              <Section title="ACAPS edition evidence">
-                {pulse?.evidence?.length ? (
-                  pulse.evidence.map((e, i) => (
-                    <EvidenceLine key={i} value={e} />
-                  ))
-                ) : (
-                  <p>No pulse evidence loaded.</p>
-                )}
-              </Section>
-              <details className="desk-support">
-                <summary>Question, panel and supporting details</summary>
-                <div>
+              <DeskContext>
+                <ContextSection label="Question">
                   <QuestionContractPanel
                     key={selected}
                     riskId={selected}
                     onFrozen={setFrozenContract}
                   />
+                </ContextSection>
+                <ContextSection label="Panel details">
                   <PanelMatch riskId={selected} />
-                  {pulse && (
-                    <OutcomeReportPanel key={pulse.id} pulseId={pulse.id} />
-                  )}
+                </ContextSection>
+                <ContextSection label="Review notes">
+                  <Section
+                    title="Published evidence"
+                    className="evidence-panel"
+                  >
+                    {pulse?.evidence?.length ? (
+                      pulse.evidence.map((e, i) => (
+                        <EvidenceLine key={i} value={e} />
+                      ))
+                    ) : (
+                      <p>No pulse evidence loaded.</p>
+                    )}
+                  </Section>
                   {pulse && group && <IntegrityPanel pulseId={pulse.id} />}
-
                   <Section title="Agreement by region">
                     {group ? (
-                      <>
-                        {group.agreement_by_region
-                          .filter((r) => r.n >= 3 && r.mean !== null)
-                          .map((r) => (
-                            <p className="region-line" key={r.region}>
-                              {r.region}
-                              <strong>{percent(r.mean!)}</strong>
-                              <span>{r.n} answers</span>
-                            </p>
-                          ))}
-                        <p className="panel-caption">
-                          Regions below three answers are withheld.
-                        </p>
-                      </>
+                      <RegionalSpread
+                        result={group}
+                        countries={risk?.country ? [risk.country] : []}
+                      />
                     ) : (
                       <p>Regional views open after reveal.</p>
                     )}
                   </Section>
-                  <Section title="Missing themes">
+                  <Section title="What this panel could not see">
                     {group ? (
-                      <ul className="theme-list">
-                        {group.missing_themes.map((t) => (
-                          <li key={t.theme}>
-                            <span>
-                              {t.theme}
-                              <small className="theme-provenance">
-                                Origin: {t.origin} · {t.corroboration}
-                              </small>
-                            </span>
-                            <strong>{t.count}</strong>
-                          </li>
-                        ))}
-                      </ul>
+                      <CoverageAdvice result={group} />
                     ) : (
-                      <p>Themes open after reveal.</p>
+                      <p>Coverage observations open after reveal.</p>
                     )}
                   </Section>
-                </div>
-              </details>
+                </ContextSection>
+                <ContextSection label="Method">
+                  <Section title="How this number was reached">
+                    {group ? (
+                      <MethodChain
+                        result={group}
+                        reference={risk?.probability_acaps || ""}
+                      />
+                    ) : (
+                      <p>The method opens after reveal.</p>
+                    )}
+                  </Section>
+                </ContextSection>
+                <ContextSection label="Outcome">
+                  {pulse ? (
+                    <OutcomeReportPanel key={pulse.id} pulseId={pulse.id} />
+                  ) : (
+                    <p>Open a pulse to review its outcome.</p>
+                  )}
+                </ContextSection>
+              </DeskContext>
             </aside>
           </div>
         </>
@@ -1146,6 +1161,15 @@ function LiveLedger() {
                   <span>ACAPS probability</span>
                   <strong>{entry.acaps_probability}</strong>
                   <small>Risk level: {entry.acaps_level}</small>
+                  {/* The band's own record, so a reader can judge the rating
+                      against what that band has done before. */}
+                  {bandRate(entry.acaps_probability) && (
+                    <small>
+                      {asPercent(bandRate(entry.acaps_probability)!.rate)} of{" "}
+                      {bandRate(entry.acaps_probability)!.n} past{" "}
+                      {entry.acaps_probability} risks materialised
+                    </small>
+                  )}
                 </div>
                 <div>
                   <span>Outcome</span>

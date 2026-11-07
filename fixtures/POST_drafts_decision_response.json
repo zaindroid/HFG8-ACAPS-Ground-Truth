@@ -1,12 +1,12 @@
 {
-  "id": "D-f6ed8984",
+  "id": "D-f7332e50",
   "risk_id": "R1043",
   "pulse_id": "P-0001",
   "proposed_probability": "High",
   "proposed_level": "High",
   "acaps_probability": "High",
   "acaps_level": "High",
-  "rationale_md": "The panel's equal-weight mean is 0.65 (n=8), which supports the current High rating. Proposed: High.\n\nAnswers range 0.30-0.85 (IQR 0.28). The weighted mean is 0.67, shown as a secondary number only.\n\nDisagreement, kept in: Two experts put the chance below the panel mean; their notes are about access and conflict.\n\nDisagreement, kept in: One expert puts the chance above the panel mean; the subject of their note is not summarised here, because in a panel of eight it would name them.\n\nRaised by 2: Night-time militia movement near Adre is not in any public reporting yet. (single-source).\n\nRaised by 2: Camp capacity in Ouaddai is already past what the sites were planned for. (corroborated).\n\nRaised by 1: held in the verification queue (one expert) (not checked).\n\nExpansion of cross-border attacks and insecurity - 40% complete puts the trigger 'Expansion of cross-border attacks and insecurity' at 40% complete. (https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026)\n\nAttacks on strategic infrastructure in Chad - 10% complete puts the trigger 'Attacks on strategic infrastructure in Chad' at 10% complete. (https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions)\n\nRenewed proxy mobilisation and cross-border armed group activity - 20% complete puts the trigger 'Renewed proxy mobilisation and cross-border armed group activity' at 20% complete. (https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions)\n\nIntegrity note (shared_origin): Two 'what are we missing' entries may share an origin (near-identical wording).\n\nSurprisingly-popular (experimental): yes. Actual share above 0.5 0.6667 against a predicted 0.6417.\n\nProbability band to number is an assumption of this build, not an ACAPS mapping: {'Very Low': 0.05, 'Low': 0.25, 'Medium': 0.5, 'High': 0.75, 'Very High': 0.95}.",
+  "rationale_md": "The panel's equal-weight mean is 0.65 (n=8), which supports the current High rating. Proposed: High.\n\nAnswers range 0.30-0.85 (IQR 0.28). The weighted mean is 0.66, shown as a secondary number only.\n\nDisagreement, kept in: Two experts put the chance below the panel mean; their notes are about access and conflict.\n\nDisagreement, kept in: One expert puts the chance above the panel mean; the subject of their note is not summarised here, because in a panel of eight it would name them.\n\nRaised by 2: Night-time militia movement near Adre is not in any public reporting yet. (single-source).\n\nRaised by 2: Camp capacity in Ouaddai is already past what the sites were planned for. (corroborated).\n\nRaised by 1: held in the verification queue (one expert) (not checked).\n\nACAPS INFORM Severity reports Displacement from Sudan to Chad: index 6.1 to 6.9 between Mar2026 and Apr2026 (index delta >= 0.5; rank 1 by deterioration among 123 crises compared this month; reliability Very High) at 6.9 against a baseline of 6.1. (https://api.acaps.org/api/v1/inform-severity-index/)\n\nACAPS human impact reports human impact 6.04 to 7.57 at 7.57 against a baseline of 6.04. (https://api.acaps.org/api/v1/inform-severity-index/)\n\nACAPS conditions reports conditions 6.52 to 7.55 at 7.55 against a baseline of 6.52. (https://api.acaps.org/api/v1/inform-severity-index/)\n\nExpansion of cross-border attacks and insecurity - 40% complete puts the trigger 'Expansion of cross-border attacks and insecurity' at 40% complete. (https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026)\n\nAttacks on strategic infrastructure in Chad - 10% complete puts the trigger 'Attacks on strategic infrastructure in Chad' at 10% complete. (https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions)\n\nRenewed proxy mobilisation and cross-border armed group activity - 20% complete puts the trigger 'Renewed proxy mobilisation and cross-border armed group activity' at 20% complete. (https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions)\n\nIntegrity note (shared_origin): Two 'what are we missing' entries may share an origin (near-identical wording).\n\nSurprisingly-popular (experimental): yes. Actual share above 0.5 0.6667 against a predicted 0.6417.\n\nProbability band to number is an assumption of this build, not an ACAPS mapping: {'Very Low': 0.05, 'Low': 0.25, 'Medium': 0.5, 'High': 0.75, 'Very High': 0.95}.",
   "claims": [
     {
       "claim_id": "C1",
@@ -49,6 +49,36 @@
     },
     {
       "claim_id": "E1",
+      "text": "ACAPS INFORM Severity reports Displacement from Sudan to Chad: index 6.1 to 6.9 between Mar2026 and Apr2026 (index delta >= 0.5; rank 1 by deterioration among 123 crises compared this month; reliability Very High) at 6.9 against a baseline of 6.1.",
+      "evidence_kind": "indicator",
+      "evidence_ref": "index:TCD005",
+      "numbers": [
+        6.9,
+        6.1
+      ]
+    },
+    {
+      "claim_id": "E2",
+      "text": "ACAPS human impact reports human impact 6.04 to 7.57 at 7.57 against a baseline of 6.04.",
+      "evidence_kind": "indicator",
+      "evidence_ref": "human_impact:TCD005",
+      "numbers": [
+        7.57,
+        6.04
+      ]
+    },
+    {
+      "claim_id": "E3",
+      "text": "ACAPS conditions reports conditions 6.52 to 7.55 at 7.55 against a baseline of 6.52.",
+      "evidence_kind": "indicator",
+      "evidence_ref": "conditions:TCD005",
+      "numbers": [
+        7.55,
+        6.52
+      ]
+    },
+    {
+      "claim_id": "E4",
       "text": "Expansion of cross-border attacks and insecurity - 40% complete puts the trigger 'Expansion of cross-border attacks and insecurity' at 40% complete.",
       "evidence_kind": "indicator",
       "evidence_ref": "trigger_completion:T1",
@@ -57,7 +87,7 @@
       ]
     },
     {
-      "claim_id": "E2",
+      "claim_id": "E5",
       "text": "Attacks on strategic infrastructure in Chad - 10% complete puts the trigger 'Attacks on strategic infrastructure in Chad' at 10% complete.",
       "evidence_kind": "indicator",
       "evidence_ref": "trigger_completion:T2",
@@ -66,7 +96,7 @@
       ]
     },
     {
-      "claim_id": "E3",
+      "claim_id": "E6",
       "text": "Renewed proxy mobilisation and cross-border armed group activity - 20% complete puts the trigger 'Renewed proxy mobilisation and cross-border armed group activity' at 20% complete.",
       "evidence_kind": "indicator",
       "evidence_ref": "trigger_completion:T3",
@@ -131,6 +161,30 @@
         "numbers match cited value",
         "evidence present on pulse"
       ]
+    },
+    {
+      "claim_id": "E4",
+      "verdict": "supported",
+      "checks": [
+        "numbers match cited value",
+        "evidence present on pulse"
+      ]
+    },
+    {
+      "claim_id": "E5",
+      "verdict": "supported",
+      "checks": [
+        "numbers match cited value",
+        "evidence present on pulse"
+      ]
+    },
+    {
+      "claim_id": "E6",
+      "verdict": "supported",
+      "checks": [
+        "numbers match cited value",
+        "evidence present on pulse"
+      ]
     }
   ],
   "missing_checks": [
@@ -168,6 +222,10 @@
   "repair_rounds": 0,
   "citations": [
     {
+      "text": "ACAPS INFORM Severity",
+      "url": "https://api.acaps.org/api/v1/inform-severity-index/"
+    },
+    {
       "text": "Expansion of cross-border attacks and insecurity - 40% complete",
       "url": "https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026"
     },
@@ -190,15 +248,15 @@
   ],
   "status": "accepted",
   "decided_by": "analyst",
-  "decided_at": "2026-11-07T17:56:29+00:00",
+  "decided_at": "2026-11-07T22:14:23+00:00",
   "note": "Accepted. The panel and the export agree on direction; the spread is in the ledger with the minority reasons.",
   "generator": "deterministic-template",
-  "generated_at": "2026-11-07T17:56:29+00:00",
+  "generated_at": "2026-11-07T22:14:23+00:00",
   "served_from": "live",
   "ledger_entry": {
     "risk_id": "R1043",
     "pulse_id": "P-0001",
-    "sealed_at": "2026-11-07T17:56:27+00:00",
+    "sealed_at": "2026-11-07T22:14:21+00:00",
     "group_probability": 0.6517,
     "acaps_probability": "High",
     "acaps_level": "High",
@@ -206,7 +264,7 @@
     "decision": "accepted",
     "outcome": null,
     "resolved_at": null,
-    "verify_hash": "6f25f50ef53b1e86a08214be941df7ad9446144c22f25648a166f4e01d20f0b4",
+    "verify_hash": "96c0ae8146d517f7c6f63cf3ac69e49b254c516fd847d6a6c0d533521ac39036",
     "honesty": {
       "n": 8,
       "agreement": 0.6517,
@@ -215,8 +273,8 @@
         0.85
       ],
       "coverage_gaps": [],
-      "claims_corroborated": 7,
-      "claims_total": 7,
+      "claims_corroborated": 10,
+      "claims_total": 10,
       "claims_in_verification_queue": 5,
       "panel_hit_rate": null,
       "misses": 0,
@@ -230,7 +288,8 @@
       "analyst_rationale": null,
       "relayed_share": 0.125,
       "corrections": 1,
-      "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
+      "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering.",
+      "channel_mix": {}
     }
   }
 }

@@ -110,9 +110,10 @@ def settle_a_historical_round(client) -> str | None:
 
 
 def main() -> int:
-    from engine.api import HARD, SETTINGS, STORE, app
+    from engine.api import HARD, REACH, SETTINGS, STORE, app
     from engine.hardening import credentials as credential_lib
-    from engine.seeding import seed_alerts, seed_demo
+    from engine.reach import contacts as contact_lib
+    from engine.seeding import seed_alerts, seed_contacts, seed_demo
     from engine.seeding_hardening import seed_all
 
     STORE.reset()
@@ -124,6 +125,7 @@ def main() -> int:
         from engine.api import ALERTS
 
         seed_alerts(ALERTS)
+        seed_contacts(REACH, STORE)
         seed_all(HARD, STORE, SETTINGS)
 
         # -- platform and reference data --------------------------------------
@@ -374,6 +376,57 @@ def main() -> int:
         # The calibration programme, with the flag off, which is the state the demo ships in.
         capture("GET_calibration_disclosure.json", client.get("/api/calibration/disclosure"))
         capture("GET_committee_calibration.json", client.get("/api/committee/calibration"))
+
+        # -- reach: the channels, the address book, the inbound replies --------
+        capture("GET_reach_status.json", client.get("/api/reach/status"))
+        capture("GET_reach_contacts.json", client.get("/api/reach/contacts"))
+        contact_body = {
+            "expert_id": "X-reach-01", "display_name": "Imported contact (synthetic)",
+            "org_type": "ngo", "coverage_area": "the Chad-Sudan border",
+            "theme_tags": ["displacement", "access"], "languages": ["fr", "en"],
+            "channel_pref": "whatsapp", "hour_pref": 8, "tz": "Africa/Ndjamena",
+            "utc_offset_hours": 1, "address": "x-reach-01@example.invalid",
+            "charter_version": contact_lib.CHARTER_VERSION,
+        }
+        save("POST_reach_contacts_request.json", contact_body)
+        capture("POST_reach_contacts_response.json",
+                client.post("/api/reach/contacts", json=contact_body), expect=201)
+        import_body = {"csv": ("expert_id,org_type,channel_pref,languages,coverage_area\n"
+                               "X-reach-02,un,sms,en,protection in eastern Chad\n"
+                               ",ngo,email,en,a row with no id\n")}
+        save("POST_reach_contacts_import_request.json", import_body)
+        capture("POST_reach_contacts_import_response.json",
+                client.post("/api/reach/contacts/import", json=import_body), expect=201)
+        capture("POST_reach_preferences_response.json",
+                client.post("/api/reach/preferences/X-reach-01",
+                            json={"channel_pref": "signal", "by": "expert"}))
+        # The send, on the demo round. Every body in here is the real composed message.
+        capture("POST_reach_send_response.json",
+                client.post(f"/api/reach/pulses/{pulse_id}/send", json={}))
+        capture("GET_reach_delivery.json",
+                client.get(f"/api/reach/pulses/{pulse_id}/delivery"))
+        capture("GET_reach_outbox.json",
+                client.get("/api/reach/outbox", params={"pulse_id": pulse_id, "limit": 4}))
+        capture("POST_reach_calls_schedule_response.json",
+                client.post("/api/reach/calls/schedule",
+                            json={"pulse_id": pulse_id, "expert_id": "X-syn-06"}), expect=201)
+        # An inbound reply on its own pulse, so the demo round keeps its eight answers.
+        inbound_pulse = client.post("/api/pulses",
+                                    json={"risk_id": "R1043", "reason": "analyst"}).json()
+        inbound_token = STORE.issue_token(inbound_pulse["id"], "X-syn-01")
+        inbound_body = {"token": inbound_token,
+                        "text": "soixante-dix pour cent, assez sur, les sites sont pleins"}
+        save("POST_inbound_sms_request.json", inbound_body)
+        capture("POST_inbound_sms_response.json",
+                client.post("/api/inbound/sms", json=inbound_body))
+        unreadable_token = STORE.issue_token(inbound_pulse["id"], "X-syn-02")
+        capture("POST_inbound_unreadable_response.json",
+                client.post("/api/inbound/email",
+                            json={"token": unreadable_token,
+                                  "text": "Thanks, I will come back to you on this"}))
+        capture("GET_reach_consent_log.json", client.get("/api/reach/consent-log"))
+        capture("POST_reach_close_the_loop_response.json",
+                client.post(f"/api/reach/pulses/{pulse_id}/close-the-loop"))
 
         # Last, and on a clean store: approving the April alert is the product's opening move, so
         # the pulse it creates has to be the first one -- the round everything else points at.

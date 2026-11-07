@@ -56,7 +56,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T22:14:21+00:00"
     },
     {
       "id": "S-0003",
@@ -120,7 +120,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T22:14:21+00:00"
     },
     {
       "id": "S-0005",
@@ -172,7 +172,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T22:14:21+00:00"
     },
     {
       "id": "S-0007",
@@ -246,7 +246,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T22:14:21+00:00"
     },
     {
       "id": "S-0011",
@@ -325,7 +325,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T22:14:21+00:00"
     },
     {
       "id": "S-0009",
@@ -376,7 +376,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T22:14:21+00:00"
     },
     {
       "id": "S-0013",
@@ -426,7 +426,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T22:14:21+00:00"
     },
     {
       "id": "S-0015",
@@ -487,7 +487,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T22:14:21+00:00"
     },
     {
       "id": "S-0017",
@@ -535,7 +535,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T22:14:21+00:00"
     }
   ],
   "rules": {
@@ -547,5 +547,5 @@
   },
   "note": "Proposed only. An analyst approves an event before any pulse is created.",
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:28+00:00"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }

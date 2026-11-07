@@ -1,0 +1,27 @@
+# make check, 2026-11-07T22:31:03Z, lane/backend with lane/frontend-probes merged
+
+$ cd engine && pytest -q
+........................................................................ [ 33%]
+........................................................................ [ 67%]
+....................................................................     [100%]
+============================== warnings summary ===============================
+..\.venv\Lib\site-packages\fastapi\testclient.py:1
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+212 passed, 1 warning in 11.34s
+
+$ cd ui && npm run build
+[2mdist/[22m[36massets/countries-110m-DuMS93yW.js                    [39m[1m[2m132.56 kB[22m[1m[22m[2m │ gzip:  48.40 kB[22m
+[2mdist/[22m[36massets/index-DKTscq3g.js                             [39m[1m[2m472.11 kB[22m[1m[22m[2m │ gzip: 143.13 kB[22m
+[32m✓ built in 7.75s[39m
+
+$ cd ui && npx playwright test                      # fixtures
+
+  66 passed (1.2m)
+
+$ cd ui && npx playwright test --config playwright.live.config.ts   # API mode
+
+  39 passed (32.0s)
+
+$ python scripts/validate_fixtures.py
+77 fixtures ok

@@ -820,7 +820,7 @@ Milestones: API with seeded data Sat 10:00 · full loop Sat 18:00 · proof.png S
 Build section 6c items 1, 2, 3, 5, 6 first, then 4; then section 6d. Keep every fallback working with the flag off.
 Deliver `docs/sealed-signals/privacy-engineering.md` updated with what is now built and the test evidence.
 
-### Lane A3 — Reach agent (parallel; folders engine/reach/, engine/inbound/, engine/tests/reach/)
+### Lane A3 — Reach agent (parallel; folders engine/engine/reach/, engine/engine/inbound/, engine/tests/reach/)
 Build section 6e: consent-first first contact with the charter and STOP, contacts, channels with the magic link in every
 message (email one-link-per-word with confirmation screen first), inbound parsers (email, WhatsApp, SMS, voice with
 confirmation), Teams and IVR behind their flags with fixture transports, call scheduling, relayed answers with expert

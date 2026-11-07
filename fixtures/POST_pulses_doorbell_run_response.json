@@ -330,5 +330,5 @@
   "n_shifts": 36,
   "note": "Signal is the ACAPS trigger completion rate. Pass fire=true to open pulses.",
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:29+00:00"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }

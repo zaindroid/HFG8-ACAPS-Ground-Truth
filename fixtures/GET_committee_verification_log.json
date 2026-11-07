@@ -4,12 +4,12 @@
       "pulse_id": "P-0001",
       "who": "alex@acaps.invalid",
       "why": "checking the Adre claim before the draft",
-      "at": "2026-11-07T17:56:29+00:00",
+      "at": "2026-11-07T22:14:23+00:00",
       "n_entries": 5
     }
   ],
   "n_reads": 1,
   "means": "Every read of a verification queue, with who asked and why.",
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:29+00:00"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }

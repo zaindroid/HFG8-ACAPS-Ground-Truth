@@ -21,7 +21,7 @@ not sign up to a portal to change that; and nobody can see the bias in a panel o
 | Step | What happens | Which problem it answers |
 | --- | --- | --- |
 | 1 Alert | A deterministic diff of ACAPS's monthly INFORM severity and humanitarian-access editions finds the moves and ranks them across all crises, within each metric and direction. No model. It proposes; the analyst approves or dismisses. | Ratings go stale between reviews |
-| 2 Ask | The analyst freezes a question contract (event, place, threshold, deadline) and the eight best-matched vetted experts receive it by email, WhatsApp, Signal, SMS, Teams or a scheduled call. No sign-up, one magic link. | Experts never sign up |
+| 2 Ask | The analyst freezes a question contract (event, place, threshold, deadline) and Reach composes the message for each of the eight best-matched vetted experts on the channel they already use -- email, WhatsApp, Signal, SMS, Teams or a scheduled call -- around one magic link. No sign-up. In this build the messages are composed and recorded, not sent: there is no gateway here, and the product says so rather than showing a tick. | Experts never sign up |
 | 3 Answer | One screen, one required tap, mask chosen per answer. ACAPS's rating is hidden. The answer is committed with a salted SHA-256 hash and a timestamp on confirmation, and all answers are revealed together at the deadline. | Anchoring, herding, social pressure |
 | 4 Check | Equal-weight mean, spread, unattributed disagreement, missing evidence, descriptive bias notes. An Investigator, Skeptic and Judge turn the panel view into a cited draft; a checker rejects any number not exactly in a versioned record. | Bias nobody could see |
 | Country scan | The brief's own example, "What are the three biggest risks in Chad that might worsen humanitarian outcomes in the next six months?": experts tap up to three of the country's ACAPS risks and tracked crises, ACAPS's view hidden and the list shuffled per link; at the deadline the panel's ranking is drawn beside ACAPS's own, and a crisis with no Risk List entry that the panel ranks high is flagged for the analyst. | Knowledge that sits in people before it shows up in a report |
@@ -33,12 +33,12 @@ Nothing publishes itself. Sealed Signals is one validation layer among others in
 
 | Must-have (organisers' wording) | Where it is in the product | Where it is in the code |
 | --- | --- | --- |
-| Easy to use | One screen at `/e/:token`, one required tap, under a minute, no account, any channel the expert already uses; a plain reply or a voice note also counts | `ui/src/ExpertCard.tsx`, `engine/engine/api.py` (`/e/{token}`), `engine/reach/` |
+| Easy to use | One screen at `/e/:token`, one required tap, under a minute, no account, any channel the expert already uses; a plain reply or a voice note also counts | `ui/src/ExpertCard.tsx`, `engine/engine/api.py` (`/e/{token}`), `engine/engine/reach/` |
 | Expert-controlled anonymity | The mask is chosen per answer, with no default: named to ACAPS, nickname to peers, no identity kept; the limit is stated on the screen | `Answer.mask` in `engine/engine/store.py`; pseudonym = HMAC of an internal id; restricted identity registry with logged access |
 | Public anonymity | The public ledger and every public aggregate show n ≥ 5 and never an individual answer, name or pseudonym | `scripts/validate_fixtures.py` fails on any aggregate with n < 5; `GET /api/ledger` strips individuals |
 
-Should-haves: sustained engagement without engagement metrics (outcome report to every expert, one pulse a week at most,
-STOP by one word); short contributions (one screen); small trusted groups (eight per panel, committee-vetted,
+Should-haves: sustained engagement without engagement metrics (outcome report to every expert, one pulse a week at most
+and STOP by one word, both enforced in `engine/engine/reach/cadence.py` and tested in `engine/tests/reach/`); short contributions (one screen); small trusted groups (eight per panel, committee-vetted,
 affiliation cap). Should-nots respected: no engagement metrics, no chatbot feel (the expert never talks to a model).
 Could-haves: agreement and disagreement by region on the desk and in the country scan; mobile and 2G-friendly expert screen; English and French
 parsing of replies. Can-have: AI behind the scenes only, model-optional, never expert-facing. No public super-estimator scoreboard,
@@ -55,7 +55,7 @@ ACAPS API (live, cached in data/acaps-api/)            Risk Radar export (data/,
   Risk Alert Engine (engine/engine/alerts.py)  diff, rank, link to the active risk, propose
         |  analyst approves (question contract frozen)
         v
-  Reach (engine/reach/)  email, WhatsApp, Signal, SMS, Teams, call; magic link; inbound parsers; consent and STOP
+  Reach (engine/engine/reach/)  email, WhatsApp, Signal, SMS, Teams, call; magic link; inbound parsers; consent and STOP
         |
         v
   Expert screen (ui/src/ExpertCard.tsx)  one tap, mask per answer, confirm -> salted SHA-256 commitment
@@ -84,7 +84,7 @@ Technology, and where each piece does its work:
 | Blind-signed credentials | `engine/engine/hardening/credentials.py` | RSA blind signatures (RFC 9474); one-time token per answer; reuse rejected; unlinkable to the approval |
 | Attestations and anchoring | `engine/engine/hardening/attest.py`, `anchors.py` | ML-DSA-65 signatures on resolved ledger entries; daily Merkle root submitted to OpenTimestamps, shown as pending until confirmed |
 | Verification loop | `engine/engine/draft.py` | Deterministic template by default; Investigator, Skeptic, Judge behind `FF_AGENTS`; exact provenance, uncorroborated claims held in a queue |
-| Reach | `engine/reach/`, `engine/inbound/` | Channels, magic links, inbound parsers (numbers, five-word scale, abstention, mask words, STOP, English and French), voice-note confirmation, cadence caps |
+| Reach | `engine/engine/reach/`, `engine/engine/inbound/` | Email, WhatsApp, Signal, SMS, Teams (`FF_TEAMS`, off), scheduled call, IVR (`FF_IVR`, off); one magic link in every channel; inbound parsers (percentages, spelled numbers, keypad digits, the five-word scale, abstentions, mask words, STOP and PAUSE, English and French), voice-note read-back, cadence caps. **Nothing is sent**: no gateway or mailbox is configured, so every message is composed in full and recorded in an outbox you can read at `GET /api/reach/outbox`, and every payload says `transport: recorded` |
 | Scoring and calibration | `engine/engine/hardening/calibration.py` | Frozen question contract before scoring; Brier at panel level; consent-gated calibration programme (`FF_CALIBRATION`, off) |
 | Country scan | `engine/engine/scan.py`, `ui/src/CountryScan.tsx` | Ranks a country's ACAPS risks and tracked crises by panel vote (3-2-1), beside ACAPS's order, with the same commit-and-reveal, deadline and anonymity rules |
 | Frontend | `ui/` | React and Vite; expert screen, analyst desk, public ledger, Risk Radar; Playwright tests |
@@ -104,9 +104,11 @@ it the cached editions in `data/acaps-api/` are used and the UI says so. The eng
 
 ## 6. Evidence
 
-`docs/evidence/make-check.txt` (test suite, UI build, fixture validation), `docs/evidence/make-demo.txt` (the offline
-loop transcript), `docs/evidence/screens/` (expert screen, desk, ledger at phone and desktop width),
-`docs/evidence/phones.md` (measured time and taps on two real phones), `docs/evidence/sensitivity.png`.
+In the repository now: `docs/evidence/make-check.txt` (194 engine tests, the UI build, 77 fixtures validated),
+`docs/evidence/make-demo.txt` (the full offline loop, fifteen steps, under three seconds) and
+`docs/evidence/tree.txt` (every file we wrote). `scripts/capture_evidence.sh` regenerates all three from a clean
+clone. Screenshots of the three screens at phone and desktop width, and the measured time and taps on two real
+phones, are added by the frontend lane at the Sunday freeze.
 
 ## 7. What is real and what is synthetic
 
@@ -117,11 +119,22 @@ Synthetic: every expert, panel and answer, labelled as synthetic in the UI. No r
 
 ## 8. What we do not claim
 
+Reach does not send messages, and its lock-screen rule has a stated limit: the subject carries no
+province and every message opens with a crisis-level line, but the frozen question names the provinces ACAPS's own
+published risk names, because an expert cannot answer a question they have not been shown -- and an SMS is one line,
+so its whole message is the preview. No SMTP server, WhatsApp Business account, SMS gateway or Teams app
+registration exists in this repository, so every channel composes the real message body and records it; the delivery
+view reports `transport: recorded` on every row and the outbox is readable. One function, `Reach.deliver`, is what a
+pilot replaces. Channel preference is a design hypothesis until a recruited panel says otherwise, and the personas are
+hypotheses too, not evidence.
+
 Commitments prove timing and consistency and block peer anchoring; they do not hide answers from the operator. Masks
 give confidentiality from peers and the public with defined, logged ACAPS access; they are pseudonymisation, not
 anonymity from ACAPS, and the product says so. Timestamp anchoring is a timestamp, not a blockchain product. The
-sensitivity test on the 104 resolved risks tests the pipeline under mixed-accuracy, shared-bias, correlated-error and
-no-advantage scenarios; it says nothing about real experts and makes no claim about timing against ACAPS. Scores are
+backtest in `reports/proof.json` is a transcript of one offline run of the loop, not a statistical result: the
+sensitivity test over the 104 resolved risks under mixed-accuracy, shared-bias and correlated-error scenarios is
+specified in MASTER_PROMPT section 7 and is not built, so nothing here says anything about real experts and nothing
+claims a timing advantage over ACAPS. Scores are
 for forecasts, panel-level, never for people; nothing is measured about an expert without consent. Integrity notes
 describe patterns; they never diagnose a person.
 

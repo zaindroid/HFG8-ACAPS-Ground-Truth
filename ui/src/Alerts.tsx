@@ -1,9 +1,61 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, type CSSProperties } from "react";
 import { ArrowRight, ArrowUpRight, Check, RefreshCw } from "lucide-react";
 import { Frame } from "./LiveWorkspace";
 import { Journey } from "./Journey";
 import { alertService, type Shift, type Crisis } from "./alerts-service";
+import { RiskLink } from "./RiskLink";
+import { crisisHistory } from "./base-rates";
 
+/** What the Risk List already records against this crisis, joined on crisis_id.
+    Context for whether the shift is new ground or a repeat. */
+function CrisisRecord({
+  id,
+  connected = [],
+}: {
+  id: string;
+  connected?: string[];
+}) {
+  const history = crisisHistory(id);
+  // A cross-border driver carries its own Risk List history, which is the
+  // inter-country half of the picture the national figure leaves out.
+  const linked = connected
+    .map((other) => ({ id: other, record: crisisHistory(other) }))
+    .filter((item) => item.record);
+  if (!history) return null;
+  const { risks, resolved, materialised, examples } = history;
+  return (
+    <p className="crisis-record">
+      <span>
+        {risks} risk{risks === 1 ? "" : "s"} on the Risk List
+        {resolved > 0 && (
+          <>
+            {" · "}
+            {materialised} of {resolved} resolved{" "}
+            {materialised === 1 ? "has" : "have"} materialised
+          </>
+        )}
+      </span>
+      {linked.length > 0 && (
+        <span className="crisis-precedent">
+          Connected across the border:{" "}
+          {linked
+            .map(
+              (item) =>
+                `${item.id} (${item.record!.risks} risks, ${item.record!.materialised} of ${item.record!.resolved} materialised)`,
+            )
+            .join("; ")}
+        </span>
+      )}
+      {examples.length > 0 && (
+        <span className="crisis-precedent">
+          Most recent: {examples[0].risk_id} ({examples[0].level},{" "}
+          {examples[0].status.toLowerCase()}, {examples[0].entered}) —{" "}
+          {examples[0].title}
+        </span>
+      )}
+    </p>
+  );
+}
 function Trend({ crisis, event }: { crisis: Crisis; event: Shift }) {
   const plot = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(740);
@@ -65,7 +117,26 @@ function Trend({ crisis, event }: { crisis: Crisis; event: Shift }) {
                 y2="190"
                 className="trend-marker"
               />
-              <circle cx={x(marked)} cy={y(values[marked].index)} r="6" />
+              {marked > 0 && (
+                <circle
+                  cx={x(marked - 1)}
+                  cy={y(values[marked - 1].index)}
+                  r="4"
+                  className="severity-before-point"
+                />
+              )}
+              <circle
+                cx={x(marked)}
+                cy={y(values[marked].index)}
+                r="6"
+                className="severity-moving-point"
+                style={
+                  {
+                    "--point-x": `${marked > 0 ? x(marked - 1) - x(marked) : 0}px`,
+                    "--point-y": `${marked > 0 ? y(values[marked - 1].index) - y(values[marked].index) : 0}px`,
+                  } as CSSProperties
+                }
+              />
               <text x={x(marked) + 12} y="29">
                 +{event.delta} · {event.month_to}
               </text>
@@ -272,6 +343,10 @@ export function Alerts() {
                   <p>
                     {event.month_from} → {event.month_to}
                   </p>
+                  <CrisisRecord
+                    id={event.crisis_id}
+                    connected={event.connected_crises}
+                  />
                 </div>
                 <div className="severity-change">
                   <strong>
@@ -333,6 +408,27 @@ export function Alerts() {
                   </a>
                 </aside>
               </div>
+              {crisis && (
+                <RiskLink
+                  key={crisis.crisis_id}
+                  crisis={crisis}
+                  onConfirmed={(record) => {
+                    setCrisis(record);
+                    void action("Refreshing alert routing", async () => {
+                      const rows = await alertService.list();
+                      setEvents((previous) =>
+                        previous.map(
+                          (e) =>
+                            rows.find(
+                              (r) =>
+                                r.id === e.id && r.crisis_id === e.crisis_id,
+                            ) || e,
+                        ),
+                      );
+                    });
+                  }}
+                />
+              )}
               <div className="alert-decision">
                 <div>
                   <strong>

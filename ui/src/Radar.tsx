@@ -10,6 +10,8 @@ import { endpoint, type Risk } from "./service";
 import { Frame, Section } from "./LiveWorkspace";
 import { date } from "./desk-model";
 import type { RadarStatus } from "./v2-types";
+import { EditionHistory } from "./EditionHistory";
+import { RiskInsights } from "./RiskInsights";
 
 const world = feature(
   countries as unknown as Topology<{ countries: GeometryCollection }>,
@@ -147,6 +149,7 @@ export function Radar() {
           ))}
         </div>
       )}
+      <EditionHistory />
       {loading && <p role="status">Loading Risk Radar…</p>}
       {error && (
         <p className="error-box" role="alert">
@@ -313,6 +316,7 @@ export function Radar() {
           )
         )}
       </Section>
+      <RiskInsights />
       <div className="radar-next">
         <a href="/apply">Apply as a synthetic expert</a>
         <a href="/committee">Committee review</a>

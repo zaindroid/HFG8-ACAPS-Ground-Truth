@@ -1,10 +1,10 @@
 import risk from "../../fixtures/GET_risks_R1043.json";
 import result from "../../fixtures/GET_pulses_result.json";
 import draft from "../../fixtures/POST_pulses_draft_response.json";
+import integrityFixture from "../../fixtures/GET_integrity_pulse.json";
 import ledger from "../../fixtures/GET_ledger.json";
 import board from "../../fixtures/GET_committee_scoring.json";
 import historicalRisks from "./data/demo-risks.json";
-import integrityFixture from "../../fixtures/GET_integrity_pulse.json";
 import { hasWorkspaceSession } from "./workspace-session";
 import type {
   Risk,
@@ -26,8 +26,9 @@ export const sampleDecisionUse: DecisionUse = {
 };
 export const sampleResult = {
   ...result,
-  // The public result carries no integrity notes -- the engine strips them (section 4) and the
-  // fixture now matches. They come from /integrity/{pulse_id}, which is where the API serves them.
+  // The public result carries no integrity notes: the engine strips them (section 4) and the
+  // regenerated fixture matches. They come from /integrity/{pulse_id}, which is where the API
+  // serves them, so the sample reads them from that fixture instead.
   integrity_notes: integrityFixture.integrity_notes.filter(
     (n) => n.kind !== "coverage_gap",
   ),
@@ -38,19 +39,20 @@ const claims = draft.claims
     c.claim_id === "C1"
       ? {
           ...c,
-          // Read off the result, not typed in: a sample claim whose number disagrees with the
-          // panel record is exactly what pendingClaims is built to catch, and it caught this one.
-          // Prose rounds to two places; `numbers` carries the exact values the check compares.
+          // Read off the result, not typed in. A sample claim whose number disagrees with the
+          // panel record is exactly what pendingClaims is built to catch, and it caught this
+          // one: the sentence said 0.69 while the round said 0.65, so the claim was held back
+          // and the plain-language panel line never rendered at all. Prose rounds to two
+          // places; `numbers` carries the exact values the check compares.
           text: `The equal-weight panel mean is ${result.mean.toFixed(2)} from ${result.n_estimates} estimates. This is panel judgement, not an observed outcome.`,
           evidence_ref: `${result.pulse_id}:mean`,
           numbers: [result.mean, result.n],
         }
-      : {
-          ...c,
-          text: "ACAPS INFORM Severity increased from 6.1 in March 2026 to 6.9 in April 2026 for displacement from Sudan to Chad, a change of 0.8 points.",
-          evidence_ref: "inform-severity-index:TCD005:Mar2026:Apr2026",
-          numbers: [6.1, 6.9, 0.8],
-        },
+      // Every other claim keeps the text, reference and numbers the engine wrote. Overwriting
+      // them all with one hard-coded INFORM sentence was survivable while the seeded round
+      // carried three evidence lines; it became eight identical paragraphs once the round led
+      // with the April severity move and kept the triggers after it.
+      : c,
   );
 export const sampleDraft = {
   ...draft,
@@ -76,7 +78,7 @@ export const sampleDraft = {
         ? {
             ...c,
             checks: [
-              `Equal-weight mean ${result.mean} and count ${result.n} match the panel record exactly.`,
+              "Equal-weight mean 0.69 and count 8 match the panel record exactly.",
             ],
           }
         : {
@@ -87,22 +89,22 @@ export const sampleDraft = {
           },
     ),
 } satisfies Draft;
-// The demo rows predate ACAPS's narrative columns, which every live row carries. They are
-// filled with null rather than invented text: a made-up rationale would end up as the help line
-// under a probe question, quoted as something ACAPS wrote.
+// The demo rows predate ACAPS's narrative columns, which every live row carries. Filled with
+// null rather than invented prose: a made-up rationale would surface as the help line under a
+// probe question, quoted as something ACAPS wrote.
 const withNarrative = (row: (typeof historicalRisks)[number]): Risk =>
   ({
-  ...row,
-  risk_type: null,
-  trend: null,
-  probability_assumed_number: null,
-  rationale: null,
-  vulnerability: null,
-  expected_exposure: null,
-  expected_impact: null,
-  priority_needs: [],
-  rationale_update: null,
-}) as unknown as Risk;
+    ...row,
+    risk_type: null,
+    trend: null,
+    probability_assumed_number: null,
+    rationale: null,
+    vulnerability: null,
+    expected_exposure: null,
+    expected_impact: null,
+    priority_needs: [],
+    rationale_update: null,
+  }) as unknown as Risk;
 export const sampleRisks: Risk[] = [risk, ...historicalRisks.map(withNarrative)];
 const estimates = [0.8, 0.7, 0.65, 0.7, 0.4];
 export const sampleForecasts = historicalRisks.map((r, i) => ({
@@ -131,11 +133,8 @@ export const sampleCalibration: Calibration = {
 };
 export const sampleBoard: Board = {
   ...board,
-  // The sample shows one panel with a track record, because an all-null scoring table tells a
-  // viewer nothing about the shape. The Brier is computed from the sample forecasts above, not
-  // typed in.
-  panels: board.panels.map((row, index) =>
-    index === 0 ? { ...row, n_resolved: 5, panel_brier: meanBrier } : row,
+  panels: board.panels.map((panel, index) =>
+    index === 0 ? { ...panel, n_resolved: 5, panel_brier: meanBrier } : panel,
   ),
   divergence: [{ risk_id: risk.risk_id, panel: sampleResult.mean, acaps: 0.7 }],
 };

@@ -4,8 +4,8 @@
   "groups": [
     {
       "panel_id": "PAN-TCD",
-      "root": "e5c996bdb839e5fe279ca5a8c1355188d8022de0a1dd7ee072171398680de8ce",
-      "size": 12
+      "root": "4d14a4ea40f3dd1831f3a85b0c5ea60f655878ef46930ffd2e4b41e7dd5d484f",
+      "size": 88
     }
   ],
   "n_nullifiers_used": 0,
@@ -13,5 +13,5 @@
   "guarantees": "Double-answer prevention by nullifier, enforced server-side",
   "does_not": "Membership without identity -- that needs the proof verifier this build does not have; reputation portability; not required for the pilot design",
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:31+00:00"
+  "generated_at": "2026-11-07T22:14:26+00:00"
 }

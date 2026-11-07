@@ -603,31 +603,46 @@ def test_the_card_carries_the_probe_flow_and_takes_its_answers(seeded):
     from engine.api import STORE
 
     token = open_token(STORE, pulse_id)
-    flow = client.get(f"/api/e/{token}")["probe_flow"] if False else \
-        client.get(f"/api/e/{token}").json()["probe_flow"]
+    flow = client.get(f"/api/e/{token}").json()["probe_flow"]
     assert flow["max_steps"] == 3 and flow["bank"]
-    assert all(rule["probe"] in flow["bank"] for rule in flow["rules"])
-    # Every condition reads only this expert's own four numbers.
+    # Every condition reads only this expert's own four numbers from step 1. Nothing a peer could
+    # set is readable here, so the card cannot herd even by accident.
     for rule in flow["rules"]:
         assert set(rule.get("when") or {}) <= {"gap_at_least", "confidence_at_most",
                                                "probability_at_least", "probability_at_most",
                                                "answered"}
+    roles_in_bank = {probe.get("role") for probe in flow["bank"].values()}
+    # Step 3 always lands on a debiasing role, so one has to be in the bank. ACAPS's 2016 brief
+    # names these mitigations; a card that offered none of them would be a card that asks for a
+    # number and never challenges it.
+    assert roles_in_bank & set(flow["debiasing_roles"])
+    # And on the demo risk, which uses a reviewed question set, every role the rules name is
+    # served. An unserved role does not crash the card: it ends the walk early and the answer
+    # that rule exists to collect is never asked for.
+    named = {rule["role"] for rule in flow["rules"] if rule.get("role")}
+    assert not (named - roles_in_bank), f"unserved roles: {sorted(named - roles_in_bank)}"
+
+    # A probe this card really asked, and one it did not.
+    asked = sorted(flow["bank"])[0]
     committed = commit_answer(client, token, probe_answers={
-        "evidence_seen": "Two sites reported new arrivals last Thursday.",
-        "exposure_sanity": "250,000-500,000",
+        asked: "Two sites reported new arrivals last Thursday.",
+        "not_a_probe_this_card_asked": "250,000-500,000",
     })
     assert committed.status_code == 201
     _, expert_id = STORE.tokens[token]
     answer = STORE.find_answer(pulse_id, expert_id, None)
-    assert answer.probe_answers["exposure_sanity"] == "250,000-500,000"
+    assert answer.probe_answers[asked] == "Two sites reported new arrivals last Thursday."
+    assert "not_a_probe_this_card_asked" not in answer.probe_answers
     # The probe answers never move the number.
     assert answer.probability == 0.78
 
     result = reveal_now(client, pulse_id).json()
     assert "probe_summary" not in result, "option counts on a panel of eight stay moderator-only"
     moderator = client.get(f"/api/integrity/{pulse_id}").json()
-    summary = next(row for row in moderator["probe_summary"] if row["probe"] == "exposure_sanity")
-    assert summary["options"][0]["option"] == "250,000-500,000"
+    assert "probe_summary" in moderator and moderator["moderator_only"] is True
+    # The prose answer above is clustered as free text, not counted as an option: a sentence is
+    # not a radio button, and counting one would invent a theme out of the other.
+    assert all(row["probe"] != asked for row in moderator["probe_summary"])
 
 
 def test_indicator_claims_never_print_a_none_or_a_fake_baseline(seeded):

@@ -24,6 +24,107 @@ import matched from "../../fixtures/GET_panels_match.json" with { type: "json" }
 import alerts from "../../fixtures/GET_alerts.json" with { type: "json" };
 import crisis from "../../fixtures/GET_crises_TCD005.json" with { type: "json" };
 import alertPulse from "../../fixtures/POST_alerts_pulse_response.json" with { type: "json" };
+import { submitCard } from "./card-flow";
+
+test("edition history reports an unavailable API and retries without cached fallback", async ({
+  page,
+}) => {
+  await contractApi(page);
+  let available = false;
+  await page.route("**/radar/editions", (route) =>
+    route.fulfill({
+      status: available ? 200 : 501,
+      json: available
+        ? { "inform-severity-index": ["Mar2026", "Nov2026", "Apr2026"] }
+        : {},
+      headers: { "Access-Control-Allow-Origin": "*" },
+    }),
+  );
+  await page.goto("/radar");
+  await page.getByText("Edition history", { exact: true }).click();
+  await expect(page.getByRole("alert")).toContainText("not available");
+  await expect(page.locator(".edition-months a")).toHaveCount(0);
+  available = true;
+  await page.getByRole("button", { name: "Refresh editions" }).click();
+  await expect(page.locator(".edition-months a")).toHaveText([
+    "Nov2026",
+    "Apr2026",
+    "Mar2026",
+  ]);
+  await expect(page.getByRole("alert")).toHaveCount(0);
+});
+
+test("risk links require a stored crisis mapping before alert routing changes", async ({
+  page,
+}) => {
+  await contractApi(page);
+  let state: "unsupported" | "unconfirmed" | "confirmed" = "unsupported";
+  const writes: unknown[] = [];
+  await page.route("http://127.0.0.1:18000/alerts", (route) =>
+    route.fulfill({
+      json: {
+        events: alerts.events.map((e) => ({
+          ...e,
+          risk_id: state === "confirmed" ? "R1043" : null,
+        })),
+      },
+      headers: { "Access-Control-Allow-Origin": "*" },
+    }),
+  );
+  await page.route("http://127.0.0.1:18000/crises/TCD005", (route) =>
+    route.fulfill({
+      json: { ...crisis, linked_risks: state === "confirmed" ? ["R1043"] : [] },
+      headers: { "Access-Control-Allow-Origin": "*" },
+    }),
+  );
+  await page.route("http://127.0.0.1:18000/risks/R1043/link", (route) => {
+    if (route.request().method() === "OPTIONS")
+      return route.fulfill({
+        status: 204,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "content-type",
+          "Access-Control-Allow-Methods": "POST",
+        },
+      });
+    writes.push(route.request().postDataJSON());
+    return route.fulfill({
+      status: state === "unsupported" ? 501 : 200,
+      json: { risk_id: "R1043", crisis_id: "TCD005" },
+      headers: { "Access-Control-Allow-Origin": "*" },
+    });
+  });
+  await page.goto("/alerts");
+  await expect(
+    page.getByRole("button", { name: "Ask experts", exact: true }),
+  ).toBeDisabled();
+  await page.getByText("Review risk link", { exact: true }).click();
+  await page
+    .getByLabel("The geography and risk triggers match this crisis.")
+    .check();
+  await page.getByRole("button", { name: "Confirm risk link" }).click();
+  await expect(page.getByRole("alert")).toContainText("not available");
+  await expect(page.locator(".risk-link-confirmed")).toHaveCount(0);
+  state = "unconfirmed";
+  await page.getByRole("button", { name: "Confirm risk link" }).click();
+  await expect(page.getByRole("alert")).toContainText("has not confirmed");
+  await expect(
+    page.getByRole("button", { name: "Ask experts", exact: true }),
+  ).toBeDisabled();
+  state = "confirmed";
+  await page.getByRole("button", { name: "Confirm risk link" }).click();
+  await expect(page.locator(".risk-link-confirmed")).toHaveText(
+    "R1043 linked to TCD005.",
+  );
+  await expect(
+    page.getByRole("button", { name: "Ask experts", exact: true }),
+  ).toBeEnabled();
+  expect(writes).toEqual([
+    { crisis_id: "TCD005" },
+    { crisis_id: "TCD005" },
+    { crisis_id: "TCD005" },
+  ]);
+});
 
 test("alert API failures retain the proposed alert and confirmed pulse opens the desk", async ({
   page,
@@ -78,10 +179,20 @@ test("alert API failures retain the proposed alert and confirmed pulse opens the
   );
   await page.getByRole("button", { name: "Open pulse", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: "Reveal round", exact: true }),
+    revealButton(page),
   ).toBeEnabled();
   expect(writes[1]).toEqual({ path: "/alerts/S-0001/pulse", body: {} });
 });
+
+/** The reveal button, whichever label the deadline put on it.
+ *
+ * The round opens at pulse.expires_at and the engine refuses a plain reveal before then, so the
+ * desk offers "Reveal (deadline passed)" or "Reveal now (before the deadline)" and sends the
+ * recorded override only in the second case. A test matching one fixed label would pass or fail
+ * on what time the fixture was generated. */
+function revealButton(page: Page) {
+  return page.getByRole("button", { name: /^Reveal (\(deadline passed\)|now \(before the deadline\))$/ });
+}
 
 async function contractApi(page: Page) {
   const writes: { path: string; body: any }[] = [];
@@ -222,11 +333,18 @@ test("API pulse, SSE, reveal, checked draft, decision and resolution", async ({
   await expect(
     page.getByText("P-0001 · Round 1 · 8 sealed answers", { exact: true }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Reveal round", exact: true }).click();
+  await revealButton(page).click();
+  // The engine fixes the reveal at pulse.expires_at and refuses a plain reveal before it. The
+  // seeded round's deadline is a day out, so the desk has to send the recorded override or the
+  // button 409s -- which is exactly what it did until this assertion existed.
+  const revealWrite = writes.find((w) => w.path.endsWith("/reveal"));
+  expect(revealWrite).toBeTruthy();
+  expect(revealWrite!.body).toEqual({ force: true });
   await expect(
     page.getByText(meanPercent, { exact: true }).first(),
   ).toBeVisible();
   await page.getByRole("button", { name: "Prepare draft" }).click();
+  await page.locator(".draft-verification > summary").click();
   await expect(page.getByText("c1 · supported", { exact: true })).toBeVisible();
   await page
     .getByLabel("Decision note")
@@ -250,7 +368,7 @@ test("API pulse, SSE, reveal, checked draft, decision and resolution", async ({
     page.getByRole("button", { name: "Resolve risk and score forecasts" }),
   ).toBeDisabled();
   await page
-    .getByText("Question, panel and supporting details", { exact: true })
+    .getByText("Edit question and resolution rules", { exact: true })
     .click();
   await page.getByRole("button", { name: "Freeze question contract" }).click();
   await expect(
@@ -354,10 +472,7 @@ test("network errors retry without fixture fallback and expert answers use selec
   await page
     .getByRole("button", { name: "Pseudonym Nickname to peers" })
     .click();
-  await page.getByRole("button", { name: "Submit" }).click();
-  // v3.4: Submit opens the confirmation screen and commits nothing. Only Confirm writes.
-  await expect(page.getByRole("heading", { name: "Is this right?" })).toBeVisible();
-  await page.getByRole("button", { name: "Confirm", exact: true }).click();
+  await submitCard(page);
   await expect(
     page.getByRole("heading", {
       name: "Submitted. You’ll get the group outcome.",
@@ -419,9 +534,9 @@ test("uncorroborated API claims remain to verify and block publication", async (
   await page.goto("/desk");
   await page.getByRole("button", { name: "Ask panel" }).click();
   await expect(
-    page.getByRole("button", { name: "Reveal round", exact: true }),
+    revealButton(page),
   ).toBeEnabled();
-  await page.getByRole("button", { name: "Reveal round", exact: true }).click();
+  await revealButton(page).click();
   await page.getByRole("button", { name: "Prepare draft" }).click();
   await expect(
     page.getByRole("heading", { name: "To verify before inclusion" }),
@@ -446,7 +561,7 @@ test("a result for another pulse is not revealed on the selected desk", async ({
   );
   await page.goto("/desk");
   await page.getByRole("button", { name: "Ask panel" }).click();
-  await page.getByRole("button", { name: "Reveal round", exact: true }).click();
+  await revealButton(page).click();
   await expect(page.getByRole("alert")).toContainText("different pulse");
   await expect(
     page.getByRole("button", { name: "Prepare draft" }),
@@ -538,10 +653,7 @@ test("v3 abstentions submit null estimates and calibration waits for opt-in and 
     .getByRole("button", { name: "Not enough evidence", exact: true })
     .click();
   await expect(page.getByRole("slider")).toHaveCount(0);
-  await page.getByRole("button", { name: "Submit", exact: true }).click();
-  // v3.4: Submit opens the confirmation screen and commits nothing. Only Confirm writes.
-  await expect(page.getByRole("heading", { name: "Is this right?" })).toBeVisible();
-  await page.getByRole("button", { name: "Confirm", exact: true }).click();
+  await submitCard(page);
   await expect(
     page.getByRole("heading", {
       name: "Submitted. You’ll get the group outcome.",
@@ -597,7 +709,7 @@ test("v3 aggregate stays primary and mismatched outcome reports are withheld", a
   );
   await page.goto("/desk");
   await page.getByRole("button", { name: "Ask panel", exact: true }).click();
-  await page.getByRole("button", { name: "Reveal round", exact: true }).click();
+  await revealButton(page).click();
   await expect(
     page
       .getByText("Equal-weight mean", { exact: true })
@@ -616,8 +728,9 @@ test("v3 aggregate stays primary and mismatched outcome reports are withheld", a
     page.getByText(result.disagreement[0].summary, { exact: false }),
   ).toBeVisible();
   await page
-    .getByText("Question, panel and supporting details", { exact: true })
+    .getByText("Edit question and resolution rules", { exact: true })
     .click();
+  await page.getByRole("tab", { name: "Outcome", exact: true }).click();
   await page.getByRole("button", { name: "Open group outcome report" }).click();
   await expect(page.locator(".outcome-report")).toContainText(
     `Equal-weight group mean: ${meanPercent}`,
@@ -656,13 +769,13 @@ test("a successful status without a frozen contract cannot unlock scoring", asyn
   await page.goto("/desk");
   await page.getByRole("button", { name: "Ask panel", exact: true }).click();
   await page
-    .getByText("Question, panel and supporting details", { exact: true })
+    .getByText("Edit question and resolution rules", { exact: true })
     .click();
   await page.getByRole("button", { name: "Freeze question contract" }).click();
   await expect(page.getByRole("alert")).toContainText(
     "did not confirm this frozen contract",
   );
-  await page.getByRole("button", { name: "Reveal round", exact: true }).click();
+  await revealButton(page).click();
   await page.getByRole("button", { name: "Prepare draft" }).click();
   await page.getByLabel("Decision note").fill("Keep High for the demo.");
   await page

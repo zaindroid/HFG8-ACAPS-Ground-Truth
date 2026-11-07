@@ -1,10 +1,10 @@
 {
   "day": "2026-11-07",
-  "merkle_root": "37fc680b9e528a486af7a278b0647dbd393d7a15f40b580cac2d86778639e7a4",
+  "merkle_root": "a2b5caa6c26dfc75cc6513b591c2b127ae80691131032df6d166d04b3b15b80d",
   "n_commitments": 58,
-  "submitted_at": "2026-11-07T17:56:31+00:00",
+  "submitted_at": "2026-11-07T22:14:26+00:00",
   "status": "pending",
-  "receipt": "8AjyrbFFl8pm9wjwEIiG3zzttQ+up3ict80xvdEI8SC5MtycSofj/94jiGpVtX7gBf825CJlgAv74v+GfE8aRwjwINuYU9DEXS63EdiB01qftY+EiygLqzEeNK31rpUW+i6BCPEEau9mT/AItm1BHbordkMAg9/jDS75DI4uLWh0dHBzOi8vYWxpY2UuYnRjLmNhbGVuZGFyLm9wZW50aW1lc3RhbXBzLm9yZw==",
+  "receipt": "8AiGg/7zeupo0AjwEGgZDwtKye/nDRKU/4gIa98I8CDFqvLeaWZLt3JwihTwKNuvuj7WjvE7SR1T9XIlUEr/9gjwIOLKbd0Swaq8lB1P/Oavwo05leWrQQDWKOkpjN1FXtVlCPEEau+iwvAI283ycdwVXhgAg9/jDS75DI4uLWh0dHBzOi8vYWxpY2UuYnRjLmNhbGVuZGFyLm9wZW50aW1lc3RhbXBzLm9yZw==",
   "calendar": "https://a.pool.opentimestamps.org",
   "anchored_at": null,
   "note": "A calendar holds this digest. It becomes anchored when the proof is upgraded after the next Bitcoin block.",
@@ -12,5 +12,5 @@
   "guarantees": "Independent proof the commitments existed by that time, once the status reads anchored",
   "does_not": "Anything else; no tokens, no chain logic, no cost. A pending root proves nothing yet",
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:31+00:00"
+  "generated_at": "2026-11-07T22:14:26+00:00"
 }

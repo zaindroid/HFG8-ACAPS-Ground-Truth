@@ -53,30 +53,59 @@ def main() -> int:
 
         step(3, f"pulse {pulse_id}")
         pulse = client.get(f"/api/pulses/{pulse_id}").json()
-        print(f"       {len(pulse['evidence'])} evidence lines, question: {pulse['question'][:58]}...")
+        question = pulse["question"]
+        print(f"       {len(pulse['evidence'])} evidence lines, deadline {question['deadline']}, "
+              f"from the {question['source'].replace('_', ' ')}")
+        print(f"       question: {question['text'][:70]}...")
 
-        step(4, "sealed answers")
+        step(4, "reach: the question goes to the channel each expert already uses")
+        sent = client.post(f"/api/reach/pulses/{pulse_id}/send", json={}).json()
+        channels = sorted({row["channel"] for row in sent["sent"]})
+        print(f"       {sent['n_sent']} messages composed on {', '.join(channels)}")
+        for refused in sent["refused"][:2]:
+            print(f"       refused: {refused['why'][:76]}")
+        print(f"       {sent['transport_note'][:96]}")
+
+        step(5, "a reply by SMS, parsed into the same Answer record")
+        reply_pulse = client.post("/api/pulses", json={"risk_id": "R1043",
+                                                       "reason": "analyst"}).json()
+        from engine.api import STORE as _STORE
+
+        reply_token = _STORE.issue_token(reply_pulse["id"], "X-syn-01")
+        reply = client.post("/api/inbound/sms", json={
+            "token": reply_token, "text": "soixante-dix pour cent, assez sur"}).json()
+        print(f"       read {', '.join(reply['parsed']['read'])} -> "
+              f"{reply['act']}, commitment {reply['commitment'][:16]}...")
+
+        step(6, "sealed answers")
         tray = client.get(f"/api/pulses/{pulse_id}/tray").json()
         print(f"       {tray['n_answers']} envelopes, revealable={tray['revealable']} (k_min={tray['k_min']})")
         print(f"       first commitment {tray['envelopes'][0]['commitment'][:24]}...")
 
-        step(5, "reveal")
-        result = client.post(f"/api/pulses/{pulse_id}/reveal").json()
+        step(7, "reveal at the deadline (forced here, and the result says so)")
+        result = client.post(f"/api/pulses/{pulse_id}/reveal", json={"force": True}).json()
         print(f"       n={result['n']} mean={result['mean']} spread="
               f"{result['spread']['min']}-{result['spread']['max']} iqr={result['spread']['iqr']}")
         print(f"       weighted (secondary)={result['weighted_mean']}  "
               f"sp(experimental)={result['sp_experiment']['answer']}")
+        print(f"       revealed_reason={result['revealed_reason']}  "
+              f"{result['number_note'][:72]}")
+        for item in result["disagreement"]:
+            print(f"       disagreement ({item['n']} {item['position']}): {item['summary'][:70]}")
+        print(f"       {result['verification_queue_count']} lines held for verification")
         if "integrity_notes" in result:
             return _fail("integrity notes leaked into the public reveal response")
+        if "probe_summary" in result:
+            return _fail("the closed follow-up counts leaked into the public reveal response")
 
-        step(6, "integrity notes (moderator only)")
+        step(8, "integrity notes (moderator only)")
         notes = client.get(f"/api/integrity/{pulse_id}").json()["integrity_notes"]
         for note in notes:
             print(f"       [{note['kind']}] {note['text'][:72]}")
         if not notes:
             print("       none on this round")
 
-        step(7, "draft")
+        step(9, "draft")
         drafted = client.post(f"/api/pulses/{pulse_id}/draft").json()
         print(f"       {drafted['id']} proposes {drafted['proposed_probability']} "
               f"(ACAPS: {drafted['acaps_probability']}), {len(drafted['claims'])} claims")
@@ -84,7 +113,7 @@ def main() -> int:
               f"numbers_match={drafted['judge']['numbers_match']} "
               f"flagged={drafted['judge']['flagged_claim_ids'] or 'none'}")
 
-        step(8, "question contract")
+        step(10, "question contract")
         client.post(f"/api/risks/R1043/contract", json={
             "event": "Sustained cross-border attacks on eastern Chad border localities",
             "location": "Ouaddai, Wadi Fira and Sila, Chad",
@@ -93,7 +122,7 @@ def main() -> int:
             "adjudication_rule": "Materialised if ACAPS marks the risk materialised by the deadline.",
         })
 
-        step(9, "analyst decision")
+        step(11, "analyst decision")
         decided = client.post(f"/api/drafts/{drafted['id']}/decision", json={
             "action": "accept", "decided_by": "analyst-demo",
             "what_decision": "Pre-position shelter and cash in Ouaddai",
@@ -102,7 +131,7 @@ def main() -> int:
         }).json()
         print(f"       {decided['status']} by {decided['decided_by']}")
 
-        step(10, "ledger")
+        step(12, "ledger")
         entry = client.get("/api/ledger").json()["entries"][0]
         print(f"       group={entry['group_probability']} acaps={entry['acaps_probability']} "
               f"verify_hash={entry['verify_hash'][:24]}...")
@@ -111,13 +140,19 @@ def main() -> int:
         if not verified["valid"]:
             return _fail("the ledger entry did not verify against its own commitments")
 
-        step(11, "resolve and score")
+        step(13, "resolve and score")
         resolved = client.post("/api/risks/R1043/resolve", json={"outcome": "materialised"}).json()
         print(f"       {resolved['scores_written']} scores written, weights updated")
 
-        step(12, "outcome report")
+        step(14, "outcome report")
         report = client.get(f"/api/pulses/{pulse_id}/outcome-report").json()
         print(f"       outcome={report['outcome']} decision={report['analyst_decision_summary'][:48]}")
+
+        step(15, "closing the loop: what each expert who answered is told")
+        closed = client.post(f"/api/reach/pulses/{pulse_id}/close-the-loop").json()
+        print(f"       {closed['n_sent']} messages, in the language each contact reads")
+        if closed["sent"]:
+            print(f"       “{closed['sent'][0]['body'][:150]}”")
 
         elapsed = time.monotonic() - started
         proof = {
@@ -139,6 +174,13 @@ def main() -> int:
                 "delta": top["delta"],
             },
             "scores_written": resolved["scores_written"],
+            "reach": {
+                "messages_composed": sent["n_sent"],
+                "channels": channels,
+                "refused_by_a_cadence_or_consent_rule": sent["n_refused"],
+                "loop_closed_to": closed["n_sent"],
+                "transport": "recorded -- no provider is configured in this build",
+            },
             "seconds": round(elapsed, 2),
             "offline": True,
             "synthetic_panel": True,

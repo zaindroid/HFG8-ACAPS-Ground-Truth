@@ -3,7 +3,7 @@
     {
       "risk_id": "R1043",
       "pulse_id": "P-0001",
-      "sealed_at": "2026-11-07T17:56:27+00:00",
+      "sealed_at": "2026-11-07T22:14:21+00:00",
       "group_probability": 0.6517,
       "acaps_probability": "High",
       "acaps_level": "High",
@@ -11,7 +11,7 @@
       "decision": "accepted",
       "outcome": null,
       "resolved_at": null,
-      "verify_hash": "6f25f50ef53b1e86a08214be941df7ad9446144c22f25648a166f4e01d20f0b4",
+      "verify_hash": "96c0ae8146d517f7c6f63cf3ac69e49b254c516fd847d6a6c0d533521ac39036",
       "honesty": {
         "n": 8,
         "agreement": 0.6517,
@@ -20,8 +20,8 @@
           0.85
         ],
         "coverage_gaps": [],
-        "claims_corroborated": 7,
-        "claims_total": 7,
+        "claims_corroborated": 10,
+        "claims_total": 10,
         "claims_in_verification_queue": 5,
         "panel_hit_rate": null,
         "misses": 0,
@@ -35,13 +35,14 @@
         "analyst_rationale": null,
         "relayed_share": 0.125,
         "corrections": 1,
-        "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
+        "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering.",
+        "channel_mix": {}
       }
     },
     {
       "risk_id": "R0033",
       "pulse_id": "P-0002",
-      "sealed_at": "2026-11-07T17:56:28+00:00",
+      "sealed_at": "2026-11-07T22:14:22+00:00",
       "group_probability": 0.65,
       "acaps_probability": "Medium",
       "acaps_level": "Medium",
@@ -49,7 +50,7 @@
       "decision": "rejected",
       "outcome": "materialised",
       "resolved_at": "2026-10-20T09:00:00+00:00",
-      "verify_hash": "1d1013329af0f066cbc437bd3a31e885dec6d73a625bc5f679dce35d97980b76",
+      "verify_hash": "4b1b742f4462065177887d3e1fdc6e8e5475a14fc52aa35200d8200da34145e3",
       "honesty": {
         "n": 9,
         "agreement": 0.65,
@@ -73,27 +74,28 @@
         "analyst_rationale": "Rejected: the panel read the displacement figures as a trend, and the registration backlog at the time explains most of the jump. Published with the decision.",
         "relayed_share": 0.0,
         "corrections": 0,
-        "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
+        "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering.",
+        "channel_mix": {}
       },
       "attestation": {
         "scheme": "ML-DSA-65",
         "key_id": "83c1ae5ed579ac54",
-        "signature": "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",
-        "commitment_root": "ef67cda08c1957d5dd4aa2ba2311552ee64d0f8e9fdf92de45dd177c2b253d0c"
+        "signature": "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",
+        "commitment_root": "32154b87e6f4f55392a657b575f0ba16c15d3a365e035b9bf591a37d1822d55e"
       }
     },
     {
       "risk_id": "R0978",
       "pulse_id": "P-0006",
-      "sealed_at": "2026-11-07T17:56:28+00:00",
+      "sealed_at": "2026-11-07T22:14:22+00:00",
       "group_probability": 0.6687,
       "acaps_probability": "Medium",
       "acaps_level": "Medium",
       "proposed_probability": "High",
       "decision": "accepted",
       "outcome": "materialised",
-      "resolved_at": "2026-11-07T17:56:28+00:00",
-      "verify_hash": "1024555bdf773e3227781bcf12b2be84f3f31ae068586b14b679a5e600bfb748",
+      "resolved_at": "2026-11-07T22:14:22+00:00",
+      "verify_hash": "e3f99b7e3cd4340935cd5c01a29ee21555944da6fc573d3d757c7a2c711376f4",
       "honesty": {
         "n": 9,
         "agreement": 0.6687,
@@ -124,15 +126,15 @@
     {
       "risk_id": "R0094",
       "pulse_id": "P-0005",
-      "sealed_at": "2026-11-07T17:56:28+00:00",
+      "sealed_at": "2026-11-07T22:14:22+00:00",
       "group_probability": 0.6056,
       "acaps_probability": "Medium",
       "acaps_level": "Medium",
       "proposed_probability": "Medium",
       "decision": "rejected",
       "outcome": "not_materialised",
-      "resolved_at": "2026-11-07T17:56:28+00:00",
-      "verify_hash": "305eefa4141f85dd331f3478b8b440c992b6feca875b71c8136d3f5cb05513a9",
+      "resolved_at": "2026-11-07T22:14:22+00:00",
+      "verify_hash": "283bd450c9d689067930fde096452c7a16d9ac46654d15cda6114c295d1cebdd",
       "honesty": {
         "n": 9,
         "agreement": 0.6056,
@@ -163,15 +165,15 @@
     {
       "risk_id": "R0301",
       "pulse_id": "P-0004",
-      "sealed_at": "2026-11-07T17:56:28+00:00",
+      "sealed_at": "2026-11-07T22:14:22+00:00",
       "group_probability": 0.6375,
       "acaps_probability": "High",
       "acaps_level": "High",
       "proposed_probability": "High",
       "decision": "accepted",
       "outcome": "materialised",
-      "resolved_at": "2026-11-07T17:56:28+00:00",
-      "verify_hash": "5af9081bddcf3678d01d7251c8aa77852541d43d517c05d2dd24a1525bc27a39",
+      "resolved_at": "2026-11-07T22:14:22+00:00",
+      "verify_hash": "da1650564c8ba2ced8a010050d347f7ea2b9be9061ee71ab6c6759f29dd88528",
       "honesty": {
         "n": 9,
         "agreement": 0.6375,
@@ -202,15 +204,15 @@
     {
       "risk_id": "R0089",
       "pulse_id": "P-0003",
-      "sealed_at": "2026-11-07T17:56:28+00:00",
+      "sealed_at": "2026-11-07T22:14:22+00:00",
       "group_probability": 0.6188,
       "acaps_probability": "Medium",
       "acaps_level": "Medium",
       "proposed_probability": "Medium",
       "decision": "rejected",
       "outcome": "not_materialised",
-      "resolved_at": "2026-11-07T17:56:28+00:00",
-      "verify_hash": "1780cdd73e00d4c790a362150ad650c3edf23c22d330bfdb4592e00aed7bc47e",
+      "resolved_at": "2026-11-07T22:14:22+00:00",
+      "verify_hash": "cfb9ae2944b26207bb5b5643d86466999597c4e2265844034292ae0625f902b1",
       "honesty": {
         "n": 9,
         "agreement": 0.6188,
@@ -242,5 +244,5 @@
   "k_min": 5,
   "note": "Group views only. No names, and nothing about any individual.",
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:29+00:00"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }

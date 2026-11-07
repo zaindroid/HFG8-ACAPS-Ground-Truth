@@ -17,13 +17,29 @@ export type Integrity = {
   pulse_id?: string;
   integrity_notes: { kind: string; text: string; evidence: string }[];
 };
+export type TrackRecord = {
+  reported: boolean;
+  n_resolved: number;
+  mean_brier?: number;
+  hit_rate?: number | null;
+  moved_before_acaps?: number;
+  reliability_weight?: number;
+  on_theme_share?: number;
+  note?: string;
+};
 export type Match = {
   risk_id: string;
+  n_approved_available?: number;
   experts: {
     pseudonym: string;
     match: number;
     geo_tags: string[];
     theme_tags: string[];
+    region?: string;
+    affiliation_tag?: string;
+    languages?: string[];
+    years_experience?: number;
+    track_record?: TrackRecord;
   }[];
   composition: {
     max_per_affiliation: number;

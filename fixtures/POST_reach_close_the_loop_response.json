@@ -1,0 +1,50 @@
+{
+  "pulse_id": "P-0001",
+  "sent": [
+    {
+      "expert_id": "X-syn-01",
+      "channel": "email",
+      "body": "About half the panel answered. The group view is around 0.65. You said 0.85. ACAPS rates this High. The analyst accepted."
+    },
+    {
+      "expert_id": "X-syn-02",
+      "channel": "whatsapp",
+      "body": "About half the panel answered. The group view is around 0.65. You said 0.78. ACAPS rates this High. The analyst accepted."
+    },
+    {
+      "expert_id": "X-syn-03",
+      "channel": "sms",
+      "body": "Environ la moitie du panel a repondu. L'avis du groupe est autour de 0.65. Vous avez dit 0.78. ACAPS evalue ce risque : High. Decision de l'analyste : accepted."
+    },
+    {
+      "expert_id": "X-syn-04",
+      "channel": "signal",
+      "body": "About half the panel answered. The group view is around 0.65. ACAPS rates this High. The analyst accepted."
+    },
+    {
+      "expert_id": "X-syn-05",
+      "channel": "teams",
+      "body": "About half the panel answered. The group view is around 0.65. You said 0.50. ACAPS rates this High. The analyst accepted."
+    },
+    {
+      "expert_id": "X-syn-06",
+      "channel": "call",
+      "body": "About half the panel answered. The group view is around 0.65. You said 0.30. ACAPS rates this High. The analyst accepted."
+    },
+    {
+      "expert_id": "X-syn-07",
+      "channel": "email",
+      "body": "Environ la moitie du panel a repondu. L'avis du groupe est autour de 0.65. ACAPS evalue ce risque : High. Decision de l'analyste : accepted."
+    },
+    {
+      "expert_id": "X-syn-08",
+      "channel": "email",
+      "body": "About half the panel answered. The group view is around 0.65. ACAPS rates this High. The analyst accepted."
+    }
+  ],
+  "n_sent": 8,
+  "transport_note": "No message left this machine. Every channel composes the real body and records it in the outbox; `transport: recorded` says so on each one. Replace Reach.deliver with a provider to send for real.",
+  "note": "Only the experts who answered. An answer with no identity kept gets the group view without their own figure in it, because the service cannot tell which answer was theirs.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T22:14:26+00:00"
+}

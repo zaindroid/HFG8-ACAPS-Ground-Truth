@@ -50,6 +50,7 @@ test("April alert leads to a human panel request and a readable desk", async ({
   await expect(
     page.getByRole("region", { name: "Decision at a glance" }),
   ).toContainText("Sealed");
+  await page.getByText("Round tools", { exact: true }).click();
   await page.getByRole("button", { name: "Load answers", exact: true }).click();
   await page
     .getByRole("button", { name: "Reveal round 1", exact: true })
