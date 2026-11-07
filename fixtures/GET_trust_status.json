@@ -4,7 +4,9 @@
     "FF_BLIND": true,
     "FF_ZK": false,
     "FF_ANCHOR": true,
-    "FF_CALIBRATION": false
+    "FF_CALIBRATION": false,
+    "FF_TEAMS": false,
+    "FF_IVR": false
   },
   "mechanisms": [
     {
@@ -95,7 +97,7 @@
   "credentials": {
     "scheme": "rsa-blind-rfc9474",
     "issuer": {
-      "key_id": "ee92bafb718acc3d",
+      "key_id": "e4b0216d3865908d",
       "bits": 2048,
       "hash": "sha384",
       "salt_length": 0,
@@ -140,5 +142,5 @@
     "means": "Counts only. A report belongs to the expert, and reaches the committee only if that expert says yes a second time."
   },
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:29+00:00"
+  "generated_at": "2026-11-07T19:49:43+00:00"
 }

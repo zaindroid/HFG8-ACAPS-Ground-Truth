@@ -1,0 +1,209 @@
+{
+  "contacts": [
+    {
+      "expert_id": "X-syn-01",
+      "org_type": "ngo",
+      "coverage_area": "the Chad-Sudan border",
+      "theme_tags": [
+        "conflict",
+        "access"
+      ],
+      "languages": [
+        "fr",
+        "en"
+      ],
+      "channel_pref": "email",
+      "channel_pref_set_by": "expert",
+      "hour_pref": 8,
+      "tz": "Africa/Ndjamena",
+      "status": "active",
+      "paused_until": null,
+      "consent": {
+        "charter_version": "2026-11-07.1",
+        "consented_at": "2026-11-07T19:49:41+00:00",
+        "stopped_at": null
+      },
+      "has_address_on_file": true
+    },
+    {
+      "expert_id": "X-syn-02",
+      "org_type": "un",
+      "coverage_area": "protection in eastern Chad",
+      "theme_tags": [
+        "conflict",
+        "political"
+      ],
+      "languages": [
+        "en"
+      ],
+      "channel_pref": "whatsapp",
+      "channel_pref_set_by": "expert",
+      "hour_pref": 9,
+      "tz": "Africa/Ndjamena",
+      "status": "active",
+      "paused_until": null,
+      "consent": {
+        "charter_version": "2026-11-07.1",
+        "consented_at": "2026-11-07T19:49:41+00:00",
+        "stopped_at": null
+      },
+      "has_address_on_file": true
+    },
+    {
+      "expert_id": "X-syn-03",
+      "org_type": "ngo",
+      "coverage_area": "displacement across the Sahel",
+      "theme_tags": [
+        "displacement",
+        "food"
+      ],
+      "languages": [
+        "fr"
+      ],
+      "channel_pref": "sms",
+      "channel_pref_set_by": "expert",
+      "hour_pref": 7,
+      "tz": "Africa/Ndjamena",
+      "status": "active",
+      "paused_until": null,
+      "consent": {
+        "charter_version": "2026-11-07.1",
+        "consented_at": "2026-11-07T19:49:41+00:00",
+        "stopped_at": null
+      },
+      "has_address_on_file": true
+    },
+    {
+      "expert_id": "X-syn-04",
+      "org_type": "research",
+      "coverage_area": "armed group activity in Darfur",
+      "theme_tags": [
+        "conflict"
+      ],
+      "languages": [
+        "en"
+      ],
+      "channel_pref": "signal",
+      "channel_pref_set_by": "suggested_by_analyst",
+      "hour_pref": 10,
+      "tz": "Europe/Paris",
+      "status": "active",
+      "paused_until": null,
+      "consent": {
+        "charter_version": "2026-11-07.1",
+        "consented_at": "2026-11-07T19:49:41+00:00",
+        "stopped_at": null
+      },
+      "has_address_on_file": true
+    },
+    {
+      "expert_id": "X-syn-05",
+      "org_type": "ngo",
+      "coverage_area": "humanitarian access in the east",
+      "theme_tags": [
+        "access",
+        "food"
+      ],
+      "languages": [
+        "en"
+      ],
+      "channel_pref": "teams",
+      "channel_pref_set_by": "suggested_by_analyst",
+      "hour_pref": 9,
+      "tz": "Europe/Paris",
+      "status": "active",
+      "paused_until": null,
+      "consent": {
+        "charter_version": "2026-11-07.1",
+        "consented_at": "2026-11-07T19:49:41+00:00",
+        "stopped_at": null
+      },
+      "has_address_on_file": true
+    },
+    {
+      "expert_id": "X-syn-06",
+      "org_type": "un",
+      "coverage_area": "camp coordination in Ouaddai",
+      "theme_tags": [
+        "conflict",
+        "displacement"
+      ],
+      "languages": [
+        "fr",
+        "en"
+      ],
+      "channel_pref": "call",
+      "channel_pref_set_by": "expert",
+      "hour_pref": 11,
+      "tz": "Africa/Ndjamena",
+      "status": "active",
+      "paused_until": null,
+      "consent": {
+        "charter_version": "2026-11-07.1",
+        "consented_at": "2026-11-07T19:49:41+00:00",
+        "stopped_at": null
+      },
+      "has_address_on_file": true
+    },
+    {
+      "expert_id": "X-syn-07",
+      "org_type": "government",
+      "coverage_area": "market prices in the Sahel",
+      "theme_tags": [
+        "political",
+        "economic"
+      ],
+      "languages": [
+        "fr"
+      ],
+      "channel_pref": "email",
+      "channel_pref_set_by": "expert",
+      "hour_pref": 8,
+      "tz": "Africa/Ndjamena",
+      "status": "paused",
+      "paused_until": "2026-12-07T19:49:41+00:00",
+      "consent": {
+        "charter_version": "2026-11-07.1",
+        "consented_at": "2026-11-07T19:49:41+00:00",
+        "stopped_at": null
+      },
+      "has_address_on_file": true
+    },
+    {
+      "expert_id": "X-syn-08",
+      "org_type": "research",
+      "coverage_area": "cross-border trade routes",
+      "theme_tags": [
+        "conflict",
+        "access"
+      ],
+      "languages": [
+        "en"
+      ],
+      "channel_pref": "email",
+      "channel_pref_set_by": "expert",
+      "hour_pref": 8,
+      "tz": "Europe/Paris",
+      "status": "stopped",
+      "paused_until": null,
+      "consent": {
+        "charter_version": "2026-11-07.1",
+        "consented_at": "2026-11-07T19:49:41+00:00",
+        "stopped_at": "2026-11-07T19:49:41+00:00"
+      },
+      "has_address_on_file": true
+    }
+  ],
+  "n_contacts": 8,
+  "by_status": {
+    "active": 6,
+    "paused": 1,
+    "stopped": 1
+  },
+  "consented": 8,
+  "charter_version": "2026-11-07.1",
+  "reachable": 6,
+  "note": "Display names and addresses stay in the restricted registry; this list carries neither, so a screenshot of the desk cannot carry them either.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T19:49:45+00:00"
+}

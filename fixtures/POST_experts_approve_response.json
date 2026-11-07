@@ -1,5 +1,5 @@
 {
-  "expert_id": "X-d94cf1cd",
+  "expert_id": "X-ece7af13",
   "status": "approved",
   "approvals": [
     "admin-a",
@@ -8,7 +8,7 @@
   "approvals_required": 2,
   "credential_issued": true,
   "credential_batch": {
-    "batch_id": "B-98c39759",
+    "batch_id": "B-9d6efdb0",
     "n_issued": 3,
     "scheme": "rsa-blind-rfc9474",
     "unlinkable": false,
@@ -16,5 +16,5 @@
   },
   "note": "Approved experts can be matched to a panel.",
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:29+00:00"
+  "generated_at": "2026-11-07T19:49:42+00:00"
 }

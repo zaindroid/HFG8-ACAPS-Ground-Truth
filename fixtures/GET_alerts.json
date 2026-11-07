@@ -53,7 +53,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T19:49:41+00:00"
     },
     {
       "id": "S-0003",
@@ -117,7 +117,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T19:49:41+00:00"
     },
     {
       "id": "S-0005",
@@ -169,7 +169,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T19:49:41+00:00"
     },
     {
       "id": "S-0007",
@@ -243,7 +243,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T19:49:41+00:00"
     },
     {
       "id": "S-0011",
@@ -322,7 +322,7 @@
       "pulse_id": null,
       "status": "proposed",
       "note": null,
-      "detected_at": "2026-11-07T17:56:27+00:00"
+      "detected_at": "2026-11-07T19:49:41+00:00"
     }
   ],
   "n": 9,
@@ -334,5 +334,5 @@
     "access": 1.0
   },
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:28+00:00"
+  "generated_at": "2026-11-07T19:49:42+00:00"
 }

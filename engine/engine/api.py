@@ -25,6 +25,10 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from . import (acaps, alerts as alert_engine, data, draft as draft_builder, logging_conf,
                probes as probe_lib, settings as settings_mod)
+from . import inbound as inbound_lib
+from . import reach as reach_mod
+from .reach import cadence as cadence_lib, channels as channel_lib, \
+    contacts as contact_lib, messages as message_lib
 from . import hardening as hardening_mod
 from .hardening import (anchors as anchor_lib, calibration as calibration_lib,
                         flags as ff, patterns as pattern_lib)
@@ -40,6 +44,10 @@ SETTINGS = settings_mod.load()
 STORE = Store(k_min=SETTINGS.k_min)
 ALERTS = alert_engine.new_store()
 HARD = hardening_mod.new()
+# Section 6e. The analyst's address book, the outbox and the cadence rules. Separate from STORE
+# because a contact outlives any one pulse, and separate from HARD because reaching somebody is
+# not a cryptographic guarantee -- it is a promise about how often we will bother them.
+REACH = reach_mod.new()
 _subscribers: set[asyncio.Queue] = set()
 
 
@@ -99,12 +107,15 @@ async def lifespan(app: FastAPI):
     logging_conf.log(log, "info", "starting", app_env=SETTINGS.app_env, sha=SETTINGS.git_sha,
                      k_min=SETTINGS.k_min, ui_built=UI_DIST.exists())
     if os.environ.get("SEED_ON_START", "true").lower() == "true":
-        from .seeding import seed_alerts, seed_demo
+        from .seeding import seed_alerts, seed_contacts, seed_demo
         pulse_id = seed_demo(STORE, SETTINGS)
+        book = seed_contacts(REACH, STORE)
         replay = seed_alerts(ALERTS)
         logging_conf.log(log, "info", "seeded synthetic panel", pulse_id=pulse_id,
                          n_experts=len(STORE.experts), n_answers=STORE.n_answers(pulse_id),
-                         n_alerts=len(replay["events"]), replay=f"{replay['month_from']}->{replay['month_to']}")
+                         n_alerts=len(replay["events"]), contacts=book["n_contacts"],
+                         reachable=book["reachable"],
+                         replay=f"{replay['month_from']}->{replay['month_to']}")
         # Sections 6c and 6d: identities in the encrypted registry, one membership group, and five
         # resolved pulses of history so the pattern reports describe something real. Deliberately
         # separate from seed_demo, so the core loop and its tests never depend on it.
@@ -1284,7 +1295,13 @@ async def decide(draft_id: str, body: dict = Body(default_factory=dict)):
         "outcome": None,
         "resolved_at": None,
         "verify_hash": round_verify_hash([a.commitment for a in answers]),
-        "honesty": draft_builder.honesty_box(result, found, {**body, "action": action}),
+        "honesty": {
+            **draft_builder.honesty_box(result, found, {**body, "action": action}),
+            # Section 6e: the honesty box records the channel mix. A panel answered entirely by
+            # phone through one analyst is a different object from one that answered on its own,
+            # and the public record says which it was.
+            "channel_mix": REACH.channel_mix(found["pulse_id"]),
+        },
     }
     STORE.ledger = [e for e in STORE.ledger if e["pulse_id"] != entry["pulse_id"]] + [entry]
     await publish("draft_decided", {"draft_id": draft_id, "action": action})
@@ -1906,6 +1923,348 @@ def calibration_off(token: str):
 def committee_calibration():
     """Counts, flagged. No names, no reports, unless an expert shared one."""
     return envelope({"enabled": ff.enabled("FF_CALIBRATION"), **HARD.calibration.counts()})
+
+
+# -- reach: the channels, the address book and the inbound replies -------------
+def _contact_or_404(expert_id: str):
+    contact = REACH.book.get(expert_id)
+    if not contact:
+        raise HTTPException(404, f"{expert_id} is not in the address book")
+    return contact
+
+
+@api.get("/reach/status", tags=["reach"])
+def reach_status():
+    """What is built, what is flagged off, and the sentence that keeps the delivery view honest."""
+    return envelope({
+        "channels": channel_lib.status(),
+        "cadence": cadence_lib.status(),
+        "contacts": REACH.book.summary(),
+        "charter": contact_lib.CHARTER,
+        "charter_version": contact_lib.CHARTER_VERSION,
+        "transport_note": channel_lib.TRANSPORT_NOTE,
+        "guarantees": ("One pulse per expert per seven days across every panel. STOP honoured "
+                       "immediately and logged. No message body carries the ACAPS rating, a "
+                       "severity number or a place name finer than the crisis title. A reminder "
+                       "never carries a count of who has answered."),
+        "does_not": ("Send anything. No gateway or mailbox is configured in this build, so every "
+                     "message is composed in full and recorded in the outbox."),
+    })
+
+
+@api.get("/reach/contacts", tags=["reach"])
+def list_contacts():
+    """No names and no addresses: the desk needs to route a question, not read a phone book."""
+    return envelope({
+        "contacts": [c.public_view() for c in sorted(REACH.book.contacts.values(),
+                                                     key=lambda c: c.expert_id)],
+        **REACH.book.summary(),
+        "note": ("Display names and addresses stay in the restricted registry; this list carries "
+                 "neither, so a screenshot of the desk cannot carry them either."),
+    })
+
+
+@api.post("/reach/contacts", status_code=201, tags=["reach"])
+def add_contact(body: dict = Body(default_factory=dict)):
+    try:
+        contact = REACH.book.upsert(body)
+    except (contact_lib.Refused, ValueError) as exc:
+        raise HTTPException(422, str(exc)) from exc
+    if body.get("charter_version"):
+        try:
+            REACH.book.record_consent(contact.expert_id, body["charter_version"])
+        except contact_lib.Refused as exc:
+            raise HTTPException(422, str(exc)) from exc
+    return envelope({**contact.public_view(),
+                     "note": ("Added as invited and unconsented. The first message is the "
+                              "consent-first note, and nothing else is sent until they reply.")})
+
+
+@api.post("/reach/contacts/import", status_code=201, tags=["reach"])
+def import_contacts(body: dict = Body(default_factory=dict)):
+    """From the analyst's own contacts, as a CSV they already have."""
+    text = body.get("csv") or ""
+    if not text.strip():
+        raise HTTPException(422, "send the file contents as `csv`")
+    report = REACH.book.import_csv(text)
+    return envelope({**report, **REACH.book.summary()})
+
+
+@api.post("/reach/contacts/{expert_id}/stop", tags=["reach"])
+def stop_contact(expert_id: str, body: dict = Body(default_factory=dict)):
+    """One word, honoured now. The route exists so the inbound parser and the analyst use the
+    same path, and so the act lands in the consent log either way."""
+    _contact_or_404(expert_id)
+    contact = REACH.book.stop(expert_id, body.get("said") or "STOP")
+    logging_conf.log(log, "info", "contact stopped", expert_id=expert_id)
+    return envelope({**contact.public_view(),
+                     "message": "Stopped. Nothing further is sent, including reminders."})
+
+
+@api.post("/reach/contacts/{expert_id}/pause", tags=["reach"])
+def pause_contact(expert_id: str, body: dict = Body(default_factory=dict)):
+    _contact_or_404(expert_id)
+    contact = REACH.book.pause(expert_id, int(body.get("days") or contact_lib.PAUSE_DAYS),
+                               body.get("said") or "PAUSE")
+    return envelope({**contact.public_view(), "message": "Paused."})
+
+
+@api.post("/reach/contacts/{expert_id}/consent", status_code=201, tags=["reach"])
+def consent_contact(expert_id: str, body: dict = Body(default_factory=dict)):
+    _contact_or_404(expert_id)
+    try:
+        contact = REACH.book.record_consent(expert_id, body.get("charter_version") or "")
+    except contact_lib.Refused as exc:
+        raise HTTPException(422, str(exc)) from exc
+    return envelope({**contact.public_view(), "charter": contact_lib.CHARTER})
+
+
+@api.post("/reach/preferences/{expert_id}", tags=["reach"])
+def set_preferences(expert_id: str, body: dict = Body(default_factory=dict)):
+    """The expert sets theirs; the analyst can only suggest. `by` says which this is."""
+    _contact_or_404(expert_id)
+    try:
+        contact = REACH.book.set_preferences(expert_id, body,
+                                             body.get("by") or "suggested_by_analyst")
+    except (contact_lib.Refused, ValueError) as exc:
+        raise HTTPException(422, str(exc)) from exc
+    return envelope({
+        **contact.public_view(),
+        "message": ("Saved as the expert's own choice." if contact.preferences_set_by == "expert"
+                    else "Saved as a suggestion, and marked as one until the expert confirms it."),
+    })
+
+
+@api.get("/reach/consent-log", tags=["reach"])
+def consent_log():
+    """Every consent, pause and stop, with its time. An opt-out that is honoured but not recorded
+    cannot be shown to have been honoured."""
+    entries = REACH.book.consent_log
+    return envelope({"entries": list(reversed(entries)), "n_entries": len(entries)})
+
+
+@api.post("/reach/pulses/{pulse_id}/send", tags=["reach"])
+def reach_send(pulse_id: str, body: dict = Body(default_factory=dict)):
+    """Compose and record the message for every panel member who may receive one.
+
+    Refusals are returned per expert rather than failing the call: one stopped contact must not
+    stop the other seven from being asked, and the analyst needs to see which rule applied."""
+    pulse = STORE.pulses.get(pulse_id)
+    if not pulse:
+        raise HTTPException(404, f"no pulse {pulse_id}")
+    risk = data.get_risk(pulse["risk_id"]) or {}
+    kind = body.get("kind") or "pulse"
+    if kind not in ("pulse", "first_contact", "reminder"):
+        raise HTTPException(422, "kind must be pulse, first_contact or reminder")
+    sent, refused = [], []
+    for token, (token_pulse, expert_id) in sorted(STORE.tokens.items(),
+                                                  key=lambda item: item[1][1]):
+        if token_pulse != pulse_id:
+            continue
+        if not REACH.book.get(expert_id):
+            refused.append({"expert_id": expert_id,
+                            "why": "not in the address book; add the contact first"})
+            continue
+        try:
+            delivery = REACH.send_pulse(pulse, risk, expert_id, token,
+                                        body.get("channel_override"), kind,
+                                        bool(body.get("escalating")))
+        except (cadence_lib.Refused, contact_lib.Refused, message_lib.Unsafe) as exc:
+            refused.append({"expert_id": expert_id, "why": str(exc)})
+            continue
+        sent.append({"expert_id": expert_id, "channel": delivery.channel,
+                     "scheduled_for": delivery.scheduled_for, "transport": delivery.transport,
+                     "subject": delivery.subject, "body": delivery.body})
+    logging_conf.log(log, "info", "reach send", pulse_id=pulse_id, kind=kind,
+                     sent=len(sent), refused=len(refused))
+    return envelope({
+        "pulse_id": pulse_id, "kind": kind, "sent": sent, "refused": refused,
+        "n_sent": len(sent), "n_refused": len(refused),
+        "transport_note": channel_lib.TRANSPORT_NOTE,
+    })
+
+
+@api.get("/reach/pulses/{pulse_id}/delivery", tags=["reach"])
+def reach_delivery(pulse_id: str):
+    """Counts per channel. Who answered is the analyst's business in the registry, not a field
+    on a route the desk leaves open on a projector."""
+    if not STORE.pulses.get(pulse_id):
+        raise HTTPException(404, f"no pulse {pulse_id}")
+    return envelope(REACH.delivery_report(pulse_id))
+
+
+@api.get("/reach/outbox", tags=["reach"])
+def reach_outbox(pulse_id: str | None = None, limit: int = 20):
+    """The composed messages themselves, because the honest claim is "recorded, not sent" and
+    that claim is only checkable if the thing recorded can be read."""
+    rows = REACH.for_pulse(pulse_id) if pulse_id else REACH.outbox
+    return envelope({
+        "messages": [d.as_dict() for d in rows[-max(1, min(int(limit), 100)):]],
+        "n_messages": len(rows),
+        "transport_note": channel_lib.TRANSPORT_NOTE,
+    })
+
+
+@api.post("/reach/calls/schedule", status_code=201, tags=["reach"])
+def schedule_call(body: dict = Body(default_factory=dict)):
+    """An ICS invite to the expert and the analyst. The answer taken on that call is entered as
+    relayed and counts only after the expert confirms it through their own link."""
+    pulse_id = (body.get("pulse_id") or "").strip()
+    expert_id = (body.get("expert_id") or "").strip()
+    pulse = STORE.pulses.get(pulse_id)
+    if not pulse:
+        raise HTTPException(404, f"no pulse {pulse_id}")
+    contact = _contact_or_404(expert_id)
+    when = body.get("starts_at") or cadence_lib.next_send_time(contact)
+    token = STORE._token_of.get(f"{pulse_id}:{expert_id}")
+    ics = "\r\n".join([
+        "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Sealed Signals//Reach//EN",
+        "BEGIN:VEVENT", f"UID:{pulse_id}-{expert_id}@sealed-signals",
+        f"DTSTART:{str(when)[:19].replace('-', '').replace(':', '')}Z",
+        "DURATION:PT10M",
+        "SUMMARY:One question about a risk you follow",
+        f"DESCRIPTION:A ten-minute call with {pulse.get('asked_by')}. "
+        "Your answer is entered for you and counts once you confirm it.",
+        "END:VEVENT", "END:VCALENDAR",
+    ])
+    delivery = REACH.deliver(reach_mod.Delivery(
+        pulse_id=pulse_id, expert_id=expert_id, channel="call", kind="call",
+        scheduled_for=str(when), token=token, body=ics, subject="A ten-minute call"))
+    return envelope({
+        "pulse_id": pulse_id, "expert_id": expert_id, "starts_at": delivery.scheduled_for,
+        "ics": ics, "transport": delivery.transport,
+        "note": ("The answer from this call is entered as relayed and does not count until the "
+                 "expert confirms it at POST /api/e/{token}/relayed-confirm."),
+    })
+
+
+@api.post("/inbound/{channel}", tags=["reach"])
+async def inbound(channel: str, body: dict = Body(default_factory=dict)):
+    """An answer that arrived as a reply rather than a tap.
+
+    A typed reply commits, unlike a link click: writing "4 likely" and sending it is a deliberate
+    act, where following a URL is something a mail scanner does. The reply is read back in the
+    response and the answer stays correctable until the deadline, which is the same promise the
+    confirmation screen makes.
+
+    A voice note is the exception that proves the rule: the transcript is a guess, so the response
+    carries the read-back line the expert has to be shown before the deadline."""
+    if channel not in ("email", "whatsapp", "signal", "sms", "voice"):
+        raise HTTPException(404, f"no inbound channel {channel}")
+    token = (body.get("token") or "").strip()
+    text = body.get("text") or body.get("transcript") or ""
+    resolved = STORE.resolve_token(token)
+    if not resolved:
+        # An unresolvable reply is still a person who answered. It goes to the analyst with the
+        # text, rather than being dropped because the token was mangled by a mail client.
+        parsed = inbound_lib.parse(text, channel)
+        return envelope({
+            "accepted": False, "needs_analyst": True, "parsed": parsed.as_dict(),
+            "why": "this link could not be resolved, so the reply is held for the analyst",
+        })
+    pulse_id, expert_id = resolved
+    parsed = inbound_lib.parse(text, channel)
+
+    if parsed.act == "stop":
+        if REACH.book.get(expert_id):
+            REACH.book.stop(expert_id, parsed.original[:60])
+        return envelope({"accepted": True, "act": "stop", "parsed": parsed.as_dict(),
+                         "message": "Stopped. Nothing further is sent."})
+    if parsed.act == "pause":
+        if REACH.book.get(expert_id):
+            REACH.book.pause(expert_id, contact_lib.PAUSE_DAYS, parsed.original[:60])
+        return envelope({"accepted": True, "act": "pause", "parsed": parsed.as_dict(),
+                         "message": f"Paused for {contact_lib.PAUSE_DAYS} days."})
+    if parsed.needs_analyst:
+        return envelope({
+            "accepted": False, "needs_analyst": True, "parsed": parsed.as_dict(),
+            "why": ("nothing in this reply could be read as a likelihood, an abstention or an "
+                    "opt-out, so it goes to the analyst with the original text"),
+        })
+
+    pulse = STORE.pulses.get(pulse_id) or {}
+    if store.past(pulse.get("expires_at") or ""):
+        raise HTTPException(409, f"this round closed at {pulse.get('expires_at')}")
+    contact = REACH.book.get(expert_id)
+    default_mask = "pseudonym"
+    answer_body = parsed.answer_body(default_mask)
+    answer_body["relayed"] = bool(body.get("relayed"))
+    if answer_body["relayed"]:
+        answer_body["relayed_by"] = body.get("relayed_by") or "analyst"
+
+    existing = STORE.find_answer(pulse_id, expert_id, None)
+    try:
+        if existing:
+            # A second reply before the deadline is a correction, not a refusal. Someone who
+            # writes "actually, 40" should not be told their answer is already in.
+            answer = STORE.correct(existing, answer_body, SETTINGS.commitment_salt)
+            act = "corrected"
+        else:
+            answer = STORE.seal(pulse_id, expert_id, answer_body, SETTINGS.commitment_salt,
+                                SETTINGS.pseudonym_key)
+            STORE.take_edit_key(answer)
+            STORE.mark_used(token)
+            act = "committed"
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    _record_day_roots()
+    REACH.mark_answered(pulse_id, expert_id, answer.relayed)
+    if contact:
+        REACH.book.mark_answered(expert_id)
+    await publish("answer_sealed", {"pulse_id": pulse_id, "n_answers": STORE.n_answers(pulse_id)})
+    logging_conf.log(log, "info", "inbound answer", pulse_id=pulse_id, channel=channel, act=act)
+    return envelope({
+        "accepted": True, "act": act, "parsed": parsed.as_dict(),
+        "committed_at": answer.committed_at, "commitment": answer.commitment,
+        "version": answer.version, "mask": answer.mask,
+        "counts": answer.counts(),
+        "correction_allowed_until": pulse.get("expires_at"),
+        "read_back": message_lib.voice_confirmation(parsed.as_dict()) if channel == "voice"
+        else None,
+        "transcript_source": "the request" if channel == "voice" else None,
+        "message": ("Thanks. You'll hear how the panel saw it after the deadline."
+                    if act == "committed" else
+                    "Changed. Your earlier answer is kept with its own timestamp."),
+    })
+
+
+@api.post("/reach/pulses/{pulse_id}/close-the-loop", tags=["reach"])
+def close_the_loop(pulse_id: str):
+    """The message every expert who answered gets within 24 hours of the reveal: the group view,
+    their own answer, ACAPS's band and what the analyst did. This is where the band first
+    appears, which is what lets the card promise it is hidden."""
+    result = STORE.results.get(pulse_id)
+    if not result:
+        raise HTTPException(409, "reveal the round before closing the loop on it")
+    pulse = STORE.pulses.get(pulse_id) or {}
+    risk = data.get_risk(pulse.get("risk_id") or "") or {}
+    entry = next((e for e in STORE.ledger if e["pulse_id"] == pulse_id), None)
+    sent = []
+    for token, (token_pulse, expert_id) in sorted(STORE.tokens.items(),
+                                                  key=lambda item: item[1][1]):
+        if token_pulse != pulse_id or not STORE.answered(pulse_id, expert_id):
+            continue
+        contact = REACH.book.get(expert_id)
+        if not contact:
+            continue
+        mine = STORE.find_answer(pulse_id, expert_id, None)
+        panel = _panel_size(pulse_id)
+        text = message_lib.closing_the_loop(contact, {
+            "group_mean": result["mean"],
+            "answered_share": (result["n"] / panel) if panel else None,
+            "your_answer": {"probability": mine.probability} if mine else None,
+            "acaps_band": risk.get("probability_acaps"),
+            "analyst_decision": (entry or {}).get("decision") or "has not decided yet",
+        })
+        delivery = REACH.send_feedback(pulse_id, expert_id, text)
+        sent.append({"expert_id": expert_id, "channel": delivery.channel, "body": text})
+    return envelope({
+        "pulse_id": pulse_id, "sent": sent, "n_sent": len(sent),
+        "transport_note": channel_lib.TRANSPORT_NOTE,
+        "note": ("Only the experts who answered. An answer with no identity kept gets the group "
+                 "view without their own figure in it, because the service cannot tell which "
+                 "answer was theirs."),
+    })
 
 
 # -- the built UI --------------------------------------------------------------

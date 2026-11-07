@@ -1,0 +1,47 @@
+{
+  "pulse_id": "P-0001",
+  "channels": [
+    {
+      "channel": "call",
+      "sent": 1,
+      "delivered": 0,
+      "answered": 0,
+      "transport": "recorded"
+    },
+    {
+      "channel": "email",
+      "sent": 2,
+      "delivered": 0,
+      "answered": 0,
+      "transport": "recorded"
+    },
+    {
+      "channel": "signal",
+      "sent": 1,
+      "delivered": 0,
+      "answered": 0,
+      "transport": "recorded"
+    },
+    {
+      "channel": "sms",
+      "sent": 1,
+      "delivered": 0,
+      "answered": 0,
+      "transport": "recorded"
+    },
+    {
+      "channel": "whatsapp",
+      "sent": 1,
+      "delivered": 0,
+      "answered": 0,
+      "transport": "recorded"
+    }
+  ],
+  "sent": 6,
+  "answered": 0,
+  "relayed": 0,
+  "reminders": 0,
+  "transport_note": "No message left this machine. Every channel composes the real body and records it in the outbox; `transport: recorded` says so on each one. Replace Reach.deliver with a provider to send for real.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T19:49:45+00:00"
+}

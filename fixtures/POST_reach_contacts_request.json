@@ -1,0 +1,20 @@
+{
+  "expert_id": "X-reach-01",
+  "display_name": "Imported contact (synthetic)",
+  "org_type": "ngo",
+  "coverage_area": "the Chad-Sudan border",
+  "theme_tags": [
+    "displacement",
+    "access"
+  ],
+  "languages": [
+    "fr",
+    "en"
+  ],
+  "channel_pref": "whatsapp",
+  "hour_pref": 8,
+  "tz": "Africa/Ndjamena",
+  "utc_offset_hours": 1,
+  "address": "x-reach-01@example.invalid",
+  "charter_version": "2026-11-07.1"
+}

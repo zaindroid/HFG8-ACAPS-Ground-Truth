@@ -1,0 +1,28 @@
+{
+  "expert_id": "X-reach-01",
+  "org_type": "ngo",
+  "coverage_area": "the Chad-Sudan border",
+  "theme_tags": [
+    "displacement",
+    "access"
+  ],
+  "languages": [
+    "fr",
+    "en"
+  ],
+  "channel_pref": "whatsapp",
+  "channel_pref_set_by": "suggested_by_analyst",
+  "hour_pref": 8,
+  "tz": "Africa/Ndjamena",
+  "status": "invited",
+  "paused_until": null,
+  "consent": {
+    "charter_version": "2026-11-07.1",
+    "consented_at": "2026-11-07T19:49:45+00:00",
+    "stopped_at": null
+  },
+  "has_address_on_file": true,
+  "note": "Added as invited and unconsented. The first message is the consent-first note, and nothing else is sent until they reply.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T19:49:45+00:00"
+}

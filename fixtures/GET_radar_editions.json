@@ -23,5 +23,5 @@
   "token_present": false,
   "note": "Cached editions ship in data/acaps-api/ so this runs with no network. Set ACAPS_API_TOKEN to fetch live.",
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:28+00:00"
+  "generated_at": "2026-11-07T19:49:42+00:00"
 }

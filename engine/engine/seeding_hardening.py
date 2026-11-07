@@ -2,7 +2,7 @@
 
 Everything here is SYNTHETIC: invented names against invented experts, and a history of invented
 answers to real past risks. It exists so the committee view, the registry lock line, the access log
-and the pattern reports have real data behind them on stage instead of a placeholder, and so the
+and the pattern reports have real rounds behind them on stage rather than an empty page, and so the
 6d thresholds are exercised by something other than a unit test.
 
 The profiles are deliberate. One expert anchors on the ACAPS band in round 2, one answers at the

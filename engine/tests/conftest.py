@@ -23,11 +23,12 @@ from fastapi.testclient import TestClient  # noqa: E402
 @pytest.fixture()
 def seeded():
     """A client over a freshly seeded store: synthetic panel, one pulse, eight sealed answers."""
-    from engine.api import ALERTS, HARD, STORE, SETTINGS, app
-    from engine.seeding import seed_demo
+    from engine.api import ALERTS, HARD, REACH, STORE, SETTINGS, app
+    from engine.seeding import seed_contacts, seed_demo
 
     HARD.reset()
     pulse_id = seed_demo(STORE, SETTINGS)
+    seed_contacts(REACH, STORE)
     # The alert store is module-global too. Without this, a dismissed or approved event from an
     # earlier test is still dismissed or approved in the next one.
     ALERTS.reset()
@@ -38,10 +39,11 @@ def seeded():
 @pytest.fixture()
 def empty():
     """A client over an empty store, for the paths that must refuse to do anything."""
-    from engine.api import ALERTS, HARD, STORE, app
+    from engine.api import ALERTS, HARD, REACH, STORE, app
 
     STORE.reset()
     ALERTS.reset()
     HARD.reset()
+    REACH.reset()
     with TestClient(app) as client:
         yield client

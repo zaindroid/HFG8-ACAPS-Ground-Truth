@@ -105,6 +105,45 @@ def seed_experts(store: Store) -> list[Expert]:
     return experts
 
 
+# The address book behind the synthetic panel (section 6e). Channels, languages and hours vary
+# because that is the point of the module: the question goes where the expert already is. Two
+# contacts are deliberately unreachable -- one stopped, one paused -- so the cadence rules are
+# visible in the demo rather than only in the tests.
+CONTACTS = [
+    {"expert_id": "X-syn-01", "display_name": "Contact 01 (synthetic)", "org_type": "ngo",
+     "coverage_area": "the Chad-Sudan border", "channel_pref": "email", "languages": ["fr", "en"],
+     "hour_pref": 8, "tz": "Africa/Ndjamena", "utc_offset_hours": 1, "consented": True,
+     "set_by": "expert"},
+    {"expert_id": "X-syn-02", "display_name": "Contact 02 (synthetic)", "org_type": "un",
+     "coverage_area": "protection in eastern Chad", "channel_pref": "whatsapp",
+     "languages": ["en"], "hour_pref": 9, "tz": "Africa/Ndjamena", "utc_offset_hours": 1,
+     "consented": True, "set_by": "expert"},
+    {"expert_id": "X-syn-03", "display_name": "Contact 03 (synthetic)", "org_type": "ngo",
+     "coverage_area": "displacement across the Sahel", "channel_pref": "sms",
+     "languages": ["fr"], "hour_pref": 7, "tz": "Africa/Ndjamena", "utc_offset_hours": 1,
+     "consented": True, "set_by": "expert"},
+    {"expert_id": "X-syn-04", "display_name": "Contact 04 (synthetic)", "org_type": "research",
+     "coverage_area": "armed group activity in Darfur", "channel_pref": "signal",
+     "languages": ["en"], "hour_pref": 10, "tz": "Europe/Paris", "utc_offset_hours": 1,
+     "consented": True, "set_by": "suggested_by_analyst"},
+    {"expert_id": "X-syn-05", "display_name": "Contact 05 (synthetic)", "org_type": "ngo",
+     "coverage_area": "humanitarian access in the east", "channel_pref": "teams",
+     "languages": ["en"], "hour_pref": 9, "tz": "Europe/Paris", "utc_offset_hours": 1,
+     "consented": True, "set_by": "suggested_by_analyst"},
+    {"expert_id": "X-syn-06", "display_name": "Contact 06 (synthetic)", "org_type": "un",
+     "coverage_area": "camp coordination in Ouaddai", "channel_pref": "call",
+     "languages": ["fr", "en"], "hour_pref": 11, "tz": "Africa/Ndjamena",
+     "utc_offset_hours": 1, "consented": True, "set_by": "expert"},
+    {"expert_id": "X-syn-07", "display_name": "Contact 07 (synthetic)", "org_type": "government",
+     "coverage_area": "market prices in the Sahel", "channel_pref": "email",
+     "languages": ["fr"], "hour_pref": 8, "tz": "Africa/Ndjamena", "utc_offset_hours": 1,
+     "consented": True, "set_by": "expert", "paused": True},
+    {"expert_id": "X-syn-08", "display_name": "Contact 08 (synthetic)", "org_type": "research",
+     "coverage_area": "cross-border trade routes", "channel_pref": "email", "languages": ["en"],
+     "hour_pref": 8, "tz": "Europe/Paris", "utc_offset_hours": 1, "consented": True,
+     "set_by": "expert", "stopped": True},
+]
+
 DEMO_CRISIS = "TCD005"
 DEMO_REPLAY = ("Mar2026", "Apr2026")
 
@@ -117,6 +156,34 @@ def seed_alerts(alert_store, risk_id: str = DEMO_RISK, crisis_id: str = DEMO_CRI
     alert_store.reset()
     alert_engine.confirm_link(alert_store, risk_id, crisis_id, "seed")
     return alert_engine.run(alert_store, *DEMO_REPLAY)
+
+
+def seed_contacts(reach, store: Store) -> dict:
+    """The address book for the synthetic panel. Separate from seed_demo so the core loop and its
+    tests never depend on Reach existing."""
+    from .reach import contacts as contact_lib
+
+    reach.reset()
+    for row in CONTACTS:
+        contact = reach.book.upsert({
+            "expert_id": row["expert_id"], "display_name": row["display_name"],
+            "org_type": row["org_type"], "coverage_area": row["coverage_area"],
+            "theme_tags": (store.experts[row["expert_id"]].theme_tags
+                           if row["expert_id"] in store.experts else []),
+            "languages": row["languages"], "channel_pref": row["channel_pref"],
+            "hour_pref": row["hour_pref"], "tz": row["tz"],
+            "utc_offset_hours": row["utc_offset_hours"],
+            "address": f"{row['expert_id'].lower()}@example.invalid",
+        })
+        if row.get("consented"):
+            reach.book.record_consent(contact.expert_id, contact_lib.CHARTER_VERSION)
+        contact.preferences_set_by = row["set_by"]
+        contact.status = "active"
+        if row.get("paused"):
+            reach.book.pause(contact.expert_id)
+        if row.get("stopped"):
+            reach.book.stop(contact.expert_id)
+    return {**reach.book.summary(), "synthetic": True}
 
 
 def seed_demo(store: Store, settings, risk_id: str = DEMO_RISK, seal: bool = True) -> str:

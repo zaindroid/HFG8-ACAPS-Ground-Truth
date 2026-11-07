@@ -3,25 +3,25 @@
     {
       "who": "committee-admin",
       "why": "duplicate application check before approval",
-      "expert_id": "X-d94cf1cd",
-      "at": "2026-11-07T17:56:29+00:00"
+      "expert_id": "X-ece7af13",
+      "at": "2026-11-07T19:49:43+00:00"
     },
     {
       "who": "seed",
       "why": "confirm the registry decrypts after seeding",
       "expert_id": "X-syn-01",
-      "at": "2026-11-07T17:56:27+00:00"
+      "at": "2026-11-07T19:49:41+00:00"
     },
     {
       "who": "seed",
       "why": "confirm the registry decrypts after seeding",
       "expert_id": "X-syn-01",
-      "at": "2026-11-07T17:56:27+00:00"
+      "at": "2026-11-07T19:49:40+00:00"
     }
   ],
   "n_reads": 3,
   "guarantees": "Committee access to identities is defined and visible",
   "does_not": "Prevention of access by an authorised administrator",
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:29+00:00"
+  "generated_at": "2026-11-07T19:49:43+00:00"
 }

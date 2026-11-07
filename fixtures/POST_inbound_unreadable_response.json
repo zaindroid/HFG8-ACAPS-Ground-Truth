@@ -1,0 +1,25 @@
+{
+  "accepted": false,
+  "needs_analyst": true,
+  "parsed": {
+    "channel": "email",
+    "act": "unreadable",
+    "stance": "estimate",
+    "likelihood_word": null,
+    "probability": null,
+    "confidence_word": null,
+    "mask": null,
+    "missing": "Thanks I will come back to you on this",
+    "read": [
+      "a free-text line"
+    ],
+    "not_read": [
+      "no likelihood, abstention or opt-out could be read"
+    ],
+    "needs_analyst": true,
+    "original": "Thanks, I will come back to you on this"
+  },
+  "why": "nothing in this reply could be read as a likelihood, an abstention or an opt-out, so it goes to the analyst with the original text",
+  "served_from": "live",
+  "generated_at": "2026-11-07T19:49:45+00:00"
+}

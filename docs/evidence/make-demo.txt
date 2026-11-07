@@ -1,0 +1,50 @@
+# make demo, 2026-11-07T19:53:53Z, commit e26ec1d (lane/backend)
+# offline, synthetic panel, no network
+
+Sealed Signals -- full loop on R1043, offline, synthetic panel
+  1. risk alert engine: replay Mar2026 -> Apr2026 on ACAPS's own editions
+       123 crises diffed, 9 events
+       rank 1: TCD005 Displacement from Sudan to Chad index 6.1 -> 6.9 (+0.80), rule: index delta >= 0.5
+       linked risk R1043, reliability Very High, status proposed -- proposed, not fired
+  2. doorbell (the risk's own ACAPS triggers)
+       36 triggers at or above 40% completion across active risks
+  3. pulse P-0001
+       3 evidence lines, deadline 2027-03-31, from the question contract
+       question: Will more than 50,000 new arrivals from Sudan be registered in Ouaddaï...
+  4. reach: the question goes to the channel each expert already uses
+       6 messages composed on call, email, signal, sms, whatsapp
+       refused: not in the address book; add the contact first
+       refused: not in the address book; add the contact first
+       No message left this machine. Every channel composes the real body and records it in the outbox;
+  5. a reply by SMS, parsed into the same Answer record
+       read 70 %, confidence 'fairly sure' -> committed, commitment d7c619d0a5f2171a...
+  6. sealed answers
+       8 envelopes, revealable=True (k_min=5)
+       first commitment 911279889324e725260540eb...
+  7. reveal at the deadline (forced here, and the result says so)
+       n=8 mean=0.6517 spread=0.3-0.85 iqr=0.28
+       weighted (secondary)=0.6517  sp(experimental)=yes
+       revealed_reason=analyst_before_deadline  3 estimates were exact percentages and 3 were one of the five words; for
+       disagreement (2 lower): Two experts put the chance below the panel mean; their notes are about
+       disagreement (1 higher): One expert puts the chance above the panel mean; the subject of their 
+       5 lines held for verification
+  8. integrity notes (moderator only)
+       [shared_origin] Two 'what are we missing' entries may share an origin (near-identical wo
+  9. draft
+       D-b2b025c7 proposes High (ACAPS: High), 7 claims
+       judge coverage=1.0 numbers_match=1.0 flagged=none
+  10. question contract
+  11. analyst decision
+       accepted by analyst-demo
+  12. ledger
+       group=0.6517 acaps=High verify_hash=6571719da2f0b3630f862806...
+       verify: valid=True over 8 commitments
+  13. resolve and score
+       5 scores written, weights updated
+  14. outcome report
+       outcome=materialised decision=accepted
+  15. closing the loop: what each expert who answered is told
+       8 messages, in the language each contact reads
+       “Most of the panel answered. The group view is around 0.65. You said 0.85. ACAPS rates this High. The analyst accepted.”
+
+loop complete in 2.78s -- reports/proof.json written

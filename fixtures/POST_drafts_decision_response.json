@@ -1,5 +1,5 @@
 {
-  "id": "D-f6ed8984",
+  "id": "D-6d4df018",
   "risk_id": "R1043",
   "pulse_id": "P-0001",
   "proposed_probability": "High",
@@ -190,15 +190,15 @@
   ],
   "status": "accepted",
   "decided_by": "analyst",
-  "decided_at": "2026-11-07T17:56:29+00:00",
+  "decided_at": "2026-11-07T19:49:43+00:00",
   "note": "Accepted. The panel and the export agree on direction; the spread is in the ledger with the minority reasons.",
   "generator": "deterministic-template",
-  "generated_at": "2026-11-07T17:56:29+00:00",
+  "generated_at": "2026-11-07T19:49:43+00:00",
   "served_from": "live",
   "ledger_entry": {
     "risk_id": "R1043",
     "pulse_id": "P-0001",
-    "sealed_at": "2026-11-07T17:56:27+00:00",
+    "sealed_at": "2026-11-07T19:49:41+00:00",
     "group_probability": 0.6517,
     "acaps_probability": "High",
     "acaps_level": "High",
@@ -206,7 +206,7 @@
     "decision": "accepted",
     "outcome": null,
     "resolved_at": null,
-    "verify_hash": "6f25f50ef53b1e86a08214be941df7ad9446144c22f25648a166f4e01d20f0b4",
+    "verify_hash": "1c5bdabfb0c871785bcbc5c7efe45016e08e3284588317f408d8eeca59c1b890",
     "honesty": {
       "n": 8,
       "agreement": 0.6517,
@@ -230,7 +230,8 @@
       "analyst_rationale": null,
       "relayed_share": 0.125,
       "corrections": 1,
-      "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
+      "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering.",
+      "channel_mix": {}
     }
   }
 }

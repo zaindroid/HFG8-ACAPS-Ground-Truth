@@ -155,12 +155,12 @@
   "number_note": "3 estimates were exact percentages and 3 were one of the five words; for those the mean uses the band midpoint, which is an assumption.",
   "relayed_share": 0.125,
   "corrections": 1,
-  "revealed_at": "2026-11-07T17:56:29+00:00",
-  "verify_hash": "6f25f50ef53b1e86a08214be941df7ad9446144c22f25648a166f4e01d20f0b4",
+  "revealed_at": "2026-11-07T19:49:43+00:00",
+  "verify_hash": "1c5bdabfb0c871785bcbc5c7efe45016e08e3284588317f408d8eeca59c1b890",
   "reveal_status": "revealed",
   "revealed_reason": "analyst_before_deadline",
   "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering.",
   "verification_queue_count": 5,
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:29+00:00"
+  "generated_at": "2026-11-07T19:49:43+00:00"
 }

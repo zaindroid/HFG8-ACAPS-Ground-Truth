@@ -3,7 +3,7 @@
     "id": "P-0001",
     "risk_id": "R1043",
     "panel_id": "PAN-TCD",
-    "fired_at": "2026-11-07T17:56:27+00:00",
+    "fired_at": "2026-11-07T19:49:41+00:00",
     "reason": "doorbell",
     "round": 1,
     "question": {
@@ -13,11 +13,11 @@
       "deadline": "2027-03-31",
       "text": "Will more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027?",
       "source": "question_contract",
-      "frozen_at": "2026-11-07T17:56:27+00:00",
+      "frozen_at": "2026-11-07T19:49:41+00:00",
       "resolution_source": "UNHCR registration figures for eastern Chad, as reported to ACAPS"
     },
     "asked_by": "Alex, ACAPS Risk Radar",
-    "expires_at": "2026-11-08T17:56:27+00:00",
+    "expires_at": "2026-11-08T19:49:41+00:00",
     "reveal_status": "open",
     "n_answers": 8
   },
@@ -142,7 +142,7 @@
     "deadline": "2027-03-31",
     "text": "Will more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027?",
     "source": "question_contract",
-    "frozen_at": "2026-11-07T17:56:27+00:00",
+    "frozen_at": "2026-11-07T19:49:41+00:00",
     "resolution_source": "UNHCR registration figures for eastern Chad, as reported to ACAPS"
   },
   "asked_by": "Alex, ACAPS Risk Radar",
@@ -245,8 +245,8 @@
     ],
     "panel_share_prompt": "What share of this panel will say likely or very likely?"
   },
-  "expires_at": "2026-11-08T17:56:27+00:00",
-  "correction_allowed_until": "2026-11-08T17:56:27+00:00",
+  "expires_at": "2026-11-08T19:49:41+00:00",
+  "correction_allowed_until": "2026-11-08T19:49:41+00:00",
   "probe_flow": {
     "max_steps": 3,
     "bank": {
@@ -571,5 +571,5 @@
   "commit_note": "Submitting opens a confirmation screen. Nothing is recorded until you confirm, so a link click or a mail scanner cannot answer for you.",
   "after_confirm_line": "Thanks. You'll hear how the panel saw it after the deadline.",
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:29+00:00"
+  "generated_at": "2026-11-07T19:49:42+00:00"
 }

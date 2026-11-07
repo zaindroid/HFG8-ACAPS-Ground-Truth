@@ -1,0 +1,25 @@
+{
+  "added": [
+    "X-reach-02"
+  ],
+  "skipped": [
+    {
+      "line": 3,
+      "why": "a contact needs an expert_id"
+    }
+  ],
+  "n_added": 1,
+  "note": "Imported contacts start as invited and unconsented. The first message is the consent-first note; nothing else is sent until they reply.",
+  "n_contacts": 10,
+  "by_status": {
+    "active": 6,
+    "invited": 2,
+    "paused": 1,
+    "stopped": 1
+  },
+  "consented": 9,
+  "charter_version": "2026-11-07.1",
+  "reachable": 8,
+  "served_from": "live",
+  "generated_at": "2026-11-07T19:49:45+00:00"
+}

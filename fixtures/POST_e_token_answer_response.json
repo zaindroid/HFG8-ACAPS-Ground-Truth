@@ -1,13 +1,13 @@
 {
-  "confirm_token": "cf-a737e9",
+  "confirm_token": "cf-7b413e",
   "summary": "70 % (likely) · no identity kept · fairly sure · note: Camp capacity in Ouaddai is already past what the sites were · against: Registration could stay flat if the border stays quiet. · trigger: T2 · 2 follow-up answers",
   "committed": false,
   "message": "Nothing is recorded until you confirm.",
   "probability_used": 0.7,
   "probability_source": "exact",
   "number_note": "Your exact percentage is what the panel mean will use.",
-  "confirm_at": "/api/e/f8062f2f651341e5/confirm",
-  "expires_at": "2026-11-08T17:56:29+00:00",
+  "confirm_at": "/api/e/b70f2eecf9754785/confirm",
+  "expires_at": "2026-11-08T19:49:43+00:00",
   "served_from": "live",
-  "generated_at": "2026-11-07T17:56:29+00:00"
+  "generated_at": "2026-11-07T19:49:43+00:00"
 }

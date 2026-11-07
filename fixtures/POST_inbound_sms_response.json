@@ -1,0 +1,33 @@
+{
+  "accepted": true,
+  "act": "committed",
+  "parsed": {
+    "channel": "sms",
+    "act": "answer",
+    "stance": "estimate",
+    "likelihood_word": null,
+    "probability": 0.7,
+    "confidence_word": "fairly sure",
+    "mask": null,
+    "missing": "les sites sont pleins",
+    "read": [
+      "70 %",
+      "confidence 'fairly sure'",
+      "a free-text line"
+    ],
+    "not_read": [],
+    "needs_analyst": false,
+    "original": "soixante-dix pour cent, assez sur, les sites sont pleins"
+  },
+  "committed_at": "2026-11-07T19:49:45+00:00",
+  "commitment": "136037ecb0cda7d07bba830f6b187ff3c7636f749a89fe5d2365e3c37fd862cc",
+  "version": 1,
+  "mask": "pseudonym",
+  "counts": true,
+  "correction_allowed_until": "2026-11-08T19:49:45+00:00",
+  "read_back": null,
+  "transcript_source": null,
+  "message": "Thanks. You'll hear how the panel saw it after the deadline.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T19:49:45+00:00"
+}

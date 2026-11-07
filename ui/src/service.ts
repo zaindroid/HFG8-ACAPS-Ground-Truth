@@ -13,6 +13,10 @@ import type feedbackFixture from "../../fixtures/GET_e_token_feedback.json";
 import type scoringFixture from "../../fixtures/GET_committee_scoring.json";
 import type panelPatternFixture from "../../fixtures/GET_committee_patterns_panel.json";
 import type queueFixture from "../../fixtures/GET_verification_queue.json";
+import type reachStatusFixture from "../../fixtures/GET_reach_status.json";
+import type reachContactsFixture from "../../fixtures/GET_reach_contacts.json";
+import type reachDeliveryFixture from "../../fixtures/GET_reach_delivery.json";
+import type reachOutboxFixture from "../../fixtures/GET_reach_outbox.json";
 // One fixture row cannot express a nullable column: R1043 happens to have a risk type and a
 // trend and no materialisation, so `typeof` alone would make all three mandatory and reject the
 // rows of the export that leave them blank. These four really are optional in the ACAPS CSV.
@@ -64,6 +68,13 @@ export type Feedback = typeof feedbackFixture;
 export type PanelScoring = typeof scoringFixture;
 export type PanelPattern = typeof panelPatternFixture;
 export type VerificationQueue = typeof queueFixture;
+/** Reach (MASTER_PROMPT 6e). `transport` is `recorded` on every row in this build: the message
+ *  bodies are real and composed, and nothing is sent, because no provider account exists here.
+ *  Whatever the desk shows must say that, so the wording travels in the payload. */
+export type ReachStatus = typeof reachStatusFixture;
+export type ReachContacts = typeof reachContactsFixture;
+export type ReachDelivery = typeof reachDeliveryFixture;
+export type ReachOutbox = typeof reachOutboxFixture;
 export type Draft = {
   id: string;
   risk_id: string;
@@ -404,6 +415,30 @@ export const endpoint = {
     ),
   feedback: (token: string) =>
     api<Feedback>(`/e/${encodeURIComponent(token)}/feedback`),
+  reachStatus: () => api<ReachStatus>("/reach/status"),
+  reachContacts: () => api<ReachContacts>("/reach/contacts"),
+  reachSend: (pulseId: string, body: Record<string, unknown> = {}) =>
+    api<{
+      n_sent: number;
+      n_refused: number;
+      sent: { expert_id: string; channel: string; transport: string; body: string }[];
+      refused: { expert_id: string; why: string }[];
+      transport_note: string;
+    }>(`/reach/pulses/${encodeURIComponent(pulseId)}/send`, body),
+  reachDelivery: (pulseId: string) =>
+    api<ReachDelivery>(`/reach/pulses/${encodeURIComponent(pulseId)}/delivery`),
+  reachOutbox: (pulseId: string) =>
+    api<ReachOutbox>(`/reach/outbox?pulse_id=${encodeURIComponent(pulseId)}`),
+  reachStop: (expertId: string) =>
+    api<{ status: string; message: string }>(
+      `/reach/contacts/${encodeURIComponent(expertId)}/stop`,
+      {},
+    ),
+  closeTheLoop: (pulseId: string) =>
+    api<{ n_sent: number; sent: { expert_id: string; body: string }[]; note: string }>(
+      `/reach/pulses/${encodeURIComponent(pulseId)}/close-the-loop`,
+      {},
+    ),
   attestation: (id: string) =>
     api<{
       attestation: Attestation;

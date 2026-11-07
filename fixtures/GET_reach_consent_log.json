@@ -1,0 +1,81 @@
+{
+  "entries": [
+    {
+      "expert_id": "X-reach-01",
+      "act": "preferences",
+      "set_by": "expert",
+      "channel": "signal",
+      "at": "2026-11-07T19:49:45+00:00"
+    },
+    {
+      "expert_id": "X-reach-01",
+      "act": "consented",
+      "charter_version": "2026-11-07.1",
+      "at": "2026-11-07T19:49:45+00:00"
+    },
+    {
+      "expert_id": "X-syn-08",
+      "act": "stopped",
+      "said": "STOP",
+      "at": "2026-11-07T19:49:41+00:00"
+    },
+    {
+      "expert_id": "X-syn-08",
+      "act": "consented",
+      "charter_version": "2026-11-07.1",
+      "at": "2026-11-07T19:49:41+00:00"
+    },
+    {
+      "expert_id": "X-syn-07",
+      "act": "paused",
+      "said": "PAUSE",
+      "until": "2026-12-07T19:49:41+00:00",
+      "at": "2026-11-07T19:49:41+00:00"
+    },
+    {
+      "expert_id": "X-syn-07",
+      "act": "consented",
+      "charter_version": "2026-11-07.1",
+      "at": "2026-11-07T19:49:41+00:00"
+    },
+    {
+      "expert_id": "X-syn-06",
+      "act": "consented",
+      "charter_version": "2026-11-07.1",
+      "at": "2026-11-07T19:49:41+00:00"
+    },
+    {
+      "expert_id": "X-syn-05",
+      "act": "consented",
+      "charter_version": "2026-11-07.1",
+      "at": "2026-11-07T19:49:41+00:00"
+    },
+    {
+      "expert_id": "X-syn-04",
+      "act": "consented",
+      "charter_version": "2026-11-07.1",
+      "at": "2026-11-07T19:49:41+00:00"
+    },
+    {
+      "expert_id": "X-syn-03",
+      "act": "consented",
+      "charter_version": "2026-11-07.1",
+      "at": "2026-11-07T19:49:41+00:00"
+    },
+    {
+      "expert_id": "X-syn-02",
+      "act": "consented",
+      "charter_version": "2026-11-07.1",
+      "at": "2026-11-07T19:49:41+00:00"
+    },
+    {
+      "expert_id": "X-syn-01",
+      "act": "consented",
+      "charter_version": "2026-11-07.1",
+      "at": "2026-11-07T19:49:41+00:00"
+    }
+  ],
+  "n_entries": 12,
+  "served_from": "live",
+  "generated_at": "2026-11-07T19:49:45+00:00"
+}

@@ -17,6 +17,12 @@ DEFAULTS = {
     # the only thing here that measures a person, and it does not run until an expert has read
     # the disclosure and said yes.
     "FF_CALIBRATION": False,
+    # Reach channels that need an agreement rather than code (section 6e). Both off, and the
+    # reason is in reach/channels.py next to the fallback each one uses: Teams needs an app
+    # registration inside the agency's own tenant, and IVR needs a telephony account whose
+    # tariffs a local partner has to confirm before anyone says the word free.
+    "FF_TEAMS": False,
+    "FF_IVR": False,
 }
 TRUE = {"1", "true", "yes", "on"}
 
