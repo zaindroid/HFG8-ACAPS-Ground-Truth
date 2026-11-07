@@ -1,4 +1,7 @@
-import { ResponseCards } from "./ResponseCards";
+import { ResponseProgress } from "./ResponseProgress";
+import { scrollToDeskSection } from "./desk-navigation";
+import { ArrivalForecast } from "./ArrivalForecast";
+import { DeskContext, ContextSection } from "./DeskContext";
 import { EvidenceLine } from "./Evidence";
 import { useArrivalReplay } from "./useArrivalReplay";
 import { PanelVisuals, AnalysisWalkthrough } from "./PanelVisuals";
@@ -145,9 +148,10 @@ function Desk() {
     import("./service").QuestionContract | null
   >(null);
   const [decision, setDecision] = useState(readDecision);
-  const [answers, setAnswers] = useState(decision ? result.n : 0);
-  const [revealed, setRevealed] = useState(!!decision);
-  const [hasDraft, setHasDraft] = useState(!!decision);
+  // Saved decisions remain in the ledger; each desk visit starts a fresh arrival run.
+  const [answers, setAnswers] = useState(0);
+  const [revealed, setRevealed] = useState(false);
+  const [hasDraft, setHasDraft] = useState(false);
   const [decisionUse, setDecisionUse] = useState(emptyDecisionUse);
   const [note, setNote] = useState("");
   const [edit, setEdit] = useState(false);
@@ -246,23 +250,35 @@ function Desk() {
           <small>Pulse {pulse.id}</small>
         </span>
       </div>
-      <div className="desk-grid">
+      <div className={`desk-grid ${replay.active ? "replaying" : ""}`}>
         <div className="desk-main">
+          {replay.active && (
+            <ArrivalForecast
+              count={replay.count}
+              reference={risk.probability_acaps}
+            />
+          )}
           <Panel
+            className="response-panel"
             title={
               shownRevealed ? "Revealed responses" : "Sealed envelope tray"
             }
             detail={`${replay.active ? "Arrival replay" : "Round 1"} · ${shownAnswers} of ${result.n} answers`}
           >
-            <ResponseCards
+            <ResponseProgress
               total={result.n}
               count={shownAnswers}
               revealed={shownRevealed}
-              result={result}
             />
             <div className="panel-actions">
               {!replay.active ? (
-                <button disabled={!!busy} onClick={replay.start}>
+                <button
+                  disabled={!!busy}
+                  onClick={() => {
+                    replay.start();
+                    scrollToDeskSection("arrival-forecast");
+                  }}
+                >
                   Simulate arrivals
                 </button>
               ) : (
@@ -284,31 +300,23 @@ function Desk() {
                   (!shownRevealed &&
                     (replay.active ? replay.count < result.n : answers < 5))
                 }
-                onClick={() =>
-                  shownRevealed
-                    ? document
-                        .getElementById(
-                          replay.active
-                            ? "analysis-walkthrough"
-                            : "current-draft",
-                        )
-                        ?.scrollIntoView({
-                          behavior: matchMedia(
-                            "(prefers-reduced-motion: reduce)",
-                          ).matches
-                            ? "auto"
-                            : "smooth",
-                          block: "start",
-                        })
-                    : replay.active
-                      ? replay.reveal()
-                      : void simulate("Revealing", () => {
-                          setRevealed(true);
-                          setAnnouncement(
-                            "Round one revealed. Eight answers in the group view.",
-                          );
-                        })
-                }
+                onClick={() => {
+                  if (shownRevealed)
+                    scrollToDeskSection(
+                      replay.active ? "analysis-walkthrough" : "current-draft",
+                    );
+                  else if (replay.active) {
+                    replay.reveal();
+                    scrollToDeskSection("analysis-walkthrough");
+                  } else
+                    void simulate("Revealing", () => {
+                      setRevealed(true);
+                      setAnnouncement(
+                        "Round one revealed. Eight answers in the group view.",
+                      );
+                      scrollToDeskSection("current-draft");
+                    });
+                }}
               >
                 {shownRevealed
                   ? replay.active
@@ -356,9 +364,16 @@ function Desk() {
                 ? "Responses opened together. Continue to compare the forecasts and review the evidence."
                 : "Answers stay sealed until reveal. At least five are required."}
             </p>
+          </Panel>
+          <Panel title="Panel coverage" className="coverage-panel">
+            {" "}
             <PanelVisuals
               riskId={risk.risk_id}
-              arrived={replay.active ? replay.count : undefined}
+              arrived={
+                replay.active
+                  ? replay.count
+                  : answers || (revealed ? undefined : 0)
+              }
             />
           </Panel>
           {replay.active && shownRevealed && (
@@ -373,23 +388,14 @@ function Desk() {
                 setAnswers(result.n);
                 setRevealed(true);
                 setHasDraft(true);
-                setTimeout(
-                  () =>
-                    document.getElementById("current-draft")?.scrollIntoView({
-                      behavior: matchMedia("(prefers-reduced-motion: reduce)")
-                        .matches
-                        ? "auto"
-                        : "smooth",
-                      block: "start",
-                    }),
-                  30,
-                );
+                scrollToDeskSection("current-draft");
               }}
             />
           )}
           {(!replay.active || !shownRevealed) && (
             <Panel
-              title="Panel distribution"
+              title="Expert forecast versus ACAPS"
+              className="forecast-panel"
               detail={shownRevealed ? `n = ${result.n}` : "Sealed"}
             >
               {shownRevealed && result.n >= 5 ? (
@@ -442,6 +448,7 @@ function Desk() {
                       }
                     />
                     <DraftNarrative
+                      showFacts={false}
                       draft={draft}
                       themes={result.missing_themes}
                       result={result}
@@ -566,61 +573,54 @@ function Desk() {
           )}
         </div>
         <aside className="desk-side">
-          <Panel title="Why this risk was flagged">
-            {pulse.evidence.map((e, i) => (
-              <EvidenceLine key={i} value={e} />
-            ))}
-          </Panel>
-          <section className="desk-support dashboard-context">
-            <h2>Question and panel context</h2>
-            <div>
+          <DeskContext>
+            <ContextSection label="Question">
               <QuestionContractPanel
                 riskId={risk.risk_id}
                 onFrozen={setFrozenContract}
               />
+            </ContextSection>
+            <ContextSection label="Panel details">
               <PanelMatch riskId={risk.risk_id} />
+            </ContextSection>
+            <ContextSection label="Review notes">
+              <Panel title="Published evidence" className="evidence-panel">
+                {pulse.evidence.map((e, i) => (
+                  <EvidenceLine key={i} value={e} />
+                ))}
+              </Panel>
               {shownRevealed && <IntegrityPanel pulseId={pulse.id} />}
-
-              <Panel
-                title="How this number was reached"
-                detail={shownRevealed ? "Seven steps" : "Sealed"}
-              >
+              <Panel title="Agreement by region">
+                {shownRevealed ? (
+                  <Regions />
+                ) : (
+                  <p>Regional views open after reveal.</p>
+                )}
+              </Panel>
+              <Panel title="What this panel could not see">
+                {shownRevealed ? (
+                  <CoverageAdvice result={result} />
+                ) : (
+                  <p>Coverage observations open after reveal.</p>
+                )}
+              </Panel>
+            </ContextSection>
+            <ContextSection label="Method">
+              <Panel title="How this number was reached">
                 {shownRevealed ? (
                   <MethodChain
                     result={result}
                     reference={risk.probability_acaps}
                   />
                 ) : (
-                  <p className="empty-copy">
-                    The method chain opens with the round.
-                  </p>
+                  <p>The method opens after reveal.</p>
                 )}
               </Panel>
-              <Panel
-                title="Agreement by region"
-                detail={shownRevealed ? "Regional minimum n = 3" : "Sealed"}
-              >
-                {shownRevealed ? (
-                  <Regions />
-                ) : (
-                  <p className="empty-copy">
-                    Regional views open with the round.
-                  </p>
-                )}
-              </Panel>
-              <Panel
-                title="What this panel could not see"
-                detail={shownRevealed ? "Themes routed to expertise" : "Sealed"}
-              >
-                {shownRevealed ? (
-                  <CoverageAdvice result={result} />
-                ) : (
-                  <p className="empty-copy">Themes appear after reveal.</p>
-                )}
-              </Panel>
+            </ContextSection>
+            <ContextSection label="Outcome">
               <OutcomeReportPanel pulseId={pulse.id} />
-            </div>
-          </section>
+            </ContextSection>
+          </DeskContext>
         </aside>
       </div>
       {error && (
@@ -683,7 +683,11 @@ function Ledger() {
       </div>
       <LedgerColumns />
       {matches ? (
-        <LedgerRecord entry={entry} country={risk.country} checked={verified}>
+        <LedgerRecord
+          entry={entry}
+          country={risk.country}
+          checked={verified || undefined}
+        >
           <Panel
             title={`${risk.country} / ${entry.risk_id}`}
             detail="Analyst approved"

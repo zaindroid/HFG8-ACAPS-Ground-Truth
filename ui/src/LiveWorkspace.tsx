@@ -1,4 +1,5 @@
-import { ResponseCards } from "./ResponseCards";
+import { ResponseProgress } from "./ResponseProgress";
+import { DeskContext, ContextSection } from "./DeskContext";
 import { EvidenceLine } from "./Evidence";
 import { PanelVisuals } from "./PanelVisuals";
 import { Journey, DecisionSnapshot } from "./Journey";
@@ -131,10 +132,8 @@ export function GroupChart({
           <strong>{result.n}</strong>
         </div>
         <div>
-          <span>SP experiment · experimental</span>
-          <strong className="small-stat">
-            {result.sp_experiment.answer === "yes" ? "Yes" : "No"}
-          </strong>
+          <span>ACAPS probability band</span>
+          <strong className="small-stat">{reference}</strong>
         </div>
       </div>
       <svg
@@ -266,10 +265,14 @@ export function GroupChart({
         ) : (
           <p>No minority reasons supplied.</p>
         )}
-        <p className="panel-caption">
-          SP is experimental and does not replace the equal-weight mean. Method:{" "}
-          {result.sp_experiment.method}.
-        </p>
+        <details>
+          <summary>Experimental comparison</summary>
+          <p className="panel-caption">
+            SP: {result.sp_experiment.answer === "yes" ? "Yes" : "No"}.
+            Experimental; does not replace the equal-weight mean. Method:{" "}
+            {result.sp_experiment.method}.
+          </p>
+        </details>
       </div>
       <details>
         <summary>Distribution data</summary>
@@ -602,7 +605,7 @@ function LiveDesk() {
           </div>
           <div className="desk-grid">
             <div className="desk-main">
-              <Section title="Panel pulse">
+              <Section title="Expert responses" className="response-panel">
                 <div className="live-toolbar">
                   <label htmlFor="pulse-id">Pulse ID</label>
                   <input
@@ -634,28 +637,17 @@ function LiveDesk() {
                       sealed answers
                     </p>
                     {group && validResult(group) ? (
-                      <ResponseCards
+                      <ResponseProgress
                         total={group.n}
                         count={group.n}
                         revealed
-                        result={group}
                       />
                     ) : (
-                      <div className="envelope-tray">
-                        {Array.from(
-                          {
-                            length: Math.min(10, Math.max(5, pulse.n_answers)),
-                          },
-                          (_, i) => (
-                            <span
-                              className={`envelope ${i < pulse.n_answers ? "filled" : ""}`}
-                              key={i}
-                            >
-                              <LockKeyhole size={22} />
-                            </span>
-                          ),
-                        )}
-                      </div>
+                      <ResponseProgress
+                        total={Math.max(8, pulse.n_answers)}
+                        count={pulse.n_answers}
+                        revealed={false}
+                      />
                     )}
                     <div className="panel-actions">
                       <button
@@ -719,8 +711,13 @@ function LiveDesk() {
                   </p>
                 )}
               </Section>
-              <PanelVisuals riskId={selected} />
-              <Section title="Panel distribution">
+              <Section title="Panel coverage" className="coverage-panel">
+                <PanelVisuals riskId={selected} />
+              </Section>
+              <Section
+                title="Expert forecast versus ACAPS"
+                className="forecast-panel"
+              >
                 {group ? (
                   <GroupChart
                     result={group}
@@ -733,7 +730,7 @@ function LiveDesk() {
                   </div>
                 )}
               </Section>
-              <Section title="Draft update">
+              <Section title="Draft update" className="decision-panel">
                 {!draft ? (
                   <button
                     disabled={!!busy || !group || !pulse}
@@ -754,6 +751,7 @@ function LiveDesk() {
                       current={risk.probability_acaps}
                     />
                     <DraftNarrative
+                      showFacts={false}
                       draft={draft}
                       themes={group?.missing_themes}
                       result={group || undefined}
@@ -955,29 +953,31 @@ function LiveDesk() {
                 )}
             </div>
             <aside className="desk-side">
-              <Section title="Why this risk was flagged">
-                {pulse?.evidence.length ? (
-                  pulse.evidence.map((e, i) => (
-                    <EvidenceLine key={i} value={e} />
-                  ))
-                ) : (
-                  <p>No pulse evidence loaded.</p>
-                )}
-              </Section>
-              <section className="desk-support dashboard-context">
-                <h2>Question and panel context</h2>
-                <div>
+              <DeskContext>
+                <ContextSection label="Question">
                   <QuestionContractPanel
                     key={selected}
                     riskId={selected}
                     onFrozen={setFrozenContract}
                   />
+                </ContextSection>
+                <ContextSection label="Panel details">
                   <PanelMatch riskId={selected} />
-                  {pulse && (
-                    <OutcomeReportPanel key={pulse.id} pulseId={pulse.id} />
-                  )}
+                </ContextSection>
+                <ContextSection label="Review notes">
+                  <Section
+                    title="Published evidence"
+                    className="evidence-panel"
+                  >
+                    {pulse?.evidence.length ? (
+                      pulse.evidence.map((e, i) => (
+                        <EvidenceLine key={i} value={e} />
+                      ))
+                    ) : (
+                      <p>No pulse evidence loaded.</p>
+                    )}
+                  </Section>
                   {pulse && group && <IntegrityPanel pulseId={pulse.id} />}
-
                   <Section title="Agreement by region">
                     {group ? (
                       <RegionalSpread
@@ -992,9 +992,11 @@ function LiveDesk() {
                     {group ? (
                       <CoverageAdvice result={group} />
                     ) : (
-                      <p>Themes open after reveal.</p>
+                      <p>Coverage observations open after reveal.</p>
                     )}
                   </Section>
+                </ContextSection>
+                <ContextSection label="Method">
                   <Section title="How this number was reached">
                     {group ? (
                       <MethodChain
@@ -1002,11 +1004,18 @@ function LiveDesk() {
                         reference={risk?.probability_acaps || ""}
                       />
                     ) : (
-                      <p>The method chain opens after reveal.</p>
+                      <p>The method opens after reveal.</p>
                     )}
                   </Section>
-                </div>
-              </section>
+                </ContextSection>
+                <ContextSection label="Outcome">
+                  {pulse ? (
+                    <OutcomeReportPanel key={pulse.id} pulseId={pulse.id} />
+                  ) : (
+                    <p>Open a pulse to review its outcome.</p>
+                  )}
+                </ContextSection>
+              </DeskContext>
             </aside>
           </div>
         </>

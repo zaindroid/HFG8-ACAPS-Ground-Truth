@@ -1,4 +1,11 @@
 import { useEffect, useState } from "react";
+import {
+  MapPin,
+  CalendarDays,
+  ShieldCheck,
+  Target,
+  LockKeyhole,
+} from "lucide-react";
 import { mock } from "./api";
 import { sampleDataEnabled, sampleResult, sampleBoard } from "./demo-data";
 import {
@@ -85,30 +92,57 @@ export function QuestionContractPanel({
   }, [riskId, onFrozen]);
   return (
     <Section title="Question being forecast">
-      <p className="panel-caption">
-        Agree what must happen, where and by when before scoring the forecasts.
-      </p>
+      <div className={`question-status ${frozen ? "confirmed" : ""}`}>
+        <LockKeyhole size={15} aria-hidden="true" />
+        {frozen ? "Confirmed" : "Awaiting analyst confirmation"}
+      </div>
       <div className="question-at-glance">
-        <p>{value.event || "Define the event this panel will forecast."}</p>
+        <div className="forecast-event">
+          <h3>
+            <Target size={20} aria-hidden="true" /> Will this happen?
+          </h3>
+          <p>{value.event || "Define the event this panel will forecast."}</p>
+        </div>
         <dl>
           <div>
-            <dt>Where</dt>
+            <dt>
+              <MapPin size={19} aria-hidden="true" /> Where
+            </dt>
             <dd>{value.location || "Not defined"}</dd>
           </div>
           <div>
-            <dt>By when</dt>
-            <dd>{value.horizon_deadline || "Not defined"}</dd>
+            <dt>
+              <CalendarDays size={19} aria-hidden="true" /> By when
+            </dt>
+            <dd>
+              {/^\d{4}-\d{2}-\d{2}$/.test(value.horizon_deadline) &&
+              Number.isFinite(Date.parse(value.horizon_deadline)) ? (
+                <time dateTime={value.horizon_deadline}>
+                  {new Intl.DateTimeFormat("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                    timeZone: "UTC",
+                  }).format(new Date(value.horizon_deadline))}
+                </time>
+              ) : (
+                value.horizon_deadline || "Not defined"
+              )}
+            </dd>
           </div>
           <div>
-            <dt>How the outcome is checked</dt>
+            <dt>
+              <ShieldCheck size={19} aria-hidden="true" /> How we check it
+            </dt>
             <dd>{value.resolution_source || "Not defined"}</dd>
-          </div>
-          <div>
-            <dt>Question status</dt>
-            <dd>{frozen ? "Confirmed" : "Awaiting analyst confirmation"}</dd>
           </div>
         </dl>
       </div>
+      <p className="question-next">
+        {frozen
+          ? "Forecasts will be checked against this confirmed question."
+          : "Confirm these rules before scoring the forecasts."}
+      </p>
       <details className="question-editor">
         <summary>Edit question and resolution rules</summary>
         <form

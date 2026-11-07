@@ -23,6 +23,7 @@ test("approval gates public ledger, verification is labelled and both screens fi
     page.getByRole("heading", { name: "No approved group views yet" }),
   ).toBeVisible();
   await draftReady(page);
+  await page.getByRole("tab", { name: "Review notes", exact: true }).click();
   await expect(
     page.getByText("Other regions withheld", { exact: false }),
   ).toBeVisible();

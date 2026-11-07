@@ -58,11 +58,13 @@ export function DraftNarrative({
   themes,
   result,
   evidence = [],
+  showFacts = true,
 }: {
   draft: Draft;
   themes?: Result["missing_themes"];
   result?: Result;
   evidence?: EvidenceRecord[];
+  showFacts?: boolean;
 }) {
   const pending = pendingClaims(draft, themes, result);
   const edition = evidence.find(
@@ -75,7 +77,7 @@ export function DraftNarrative({
   const hasSummary = hasPanel || !!edition;
   return (
     <>
-      {hasSummary && (
+      {hasSummary && showFacts && (
         <section
           className="draft-support"
           aria-label="What supports this assessment"

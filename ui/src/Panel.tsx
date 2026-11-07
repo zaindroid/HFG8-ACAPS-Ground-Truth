@@ -5,12 +5,14 @@ import type { ReactNode } from "react";
 export function Section({
   title,
   children,
+  className = "",
 }: {
   title: string;
   children: ReactNode;
+  className?: string;
 }) {
   return (
-    <section className="workspace-panel">
+    <section className={`workspace-panel ${className}`}>
       <div className="panel-heading">
         <h2>{title}</h2>
       </div>

@@ -685,6 +685,7 @@ test("v3 aggregate stays primary and mismatched outcome reports are withheld", a
   await page
     .getByText("Edit question and resolution rules", { exact: true })
     .click();
+  await page.getByRole("tab", { name: "Outcome", exact: true }).click();
   await page.getByRole("button", { name: "Open group outcome report" }).click();
   await expect(page.locator(".outcome-report")).toContainText(
     "Equal-weight group mean: 69%",

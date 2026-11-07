@@ -1,10 +1,12 @@
 import { expect } from "@playwright/test";
+import { reachSubmit } from "./expert-flow";
 import { test } from "./workspace-session";
 import AxeBuilder from "@axe-core/playwright";
 test("blind round hides all ACAPS anchors, source and confidence are selectable", async ({
   page,
 }, info) => {
   await page.goto("/e/demo");
+  await reachSubmit(page);
   await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
   await expect(page.getByText("High", { exact: true })).toHaveCount(0);
   await expect(page.getByText("Still High?", { exact: true })).toHaveCount(0);
@@ -76,6 +78,7 @@ test("Radar filters, country map, source badge and matching work", async ({
     ).violations,
   ).toEqual([]);
   await page.getByRole("link", { name: "Review risk" }).click();
+  await page.getByRole("tab", { name: "Panel details", exact: true }).click();
   await page.getByRole("button", { name: "Preview matched panel" }).click();
   await expect(
     page.getByText("Composition check: passes", { exact: false }),
@@ -125,6 +128,7 @@ test("integrity is desk-only and the public ledger includes honesty and resolved
   await page.getByText("Round tools", { exact: true }).click();
   await page.getByRole("button", { name: "Load answers" }).click();
   await page.getByRole("button", { name: "Reveal round 1" }).click();
+  await page.getByRole("tab", { name: "Review notes", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Integrity notes" }),
   ).toBeVisible();

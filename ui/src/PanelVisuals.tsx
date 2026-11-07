@@ -1,4 +1,5 @@
 import { ForecastComparison } from "./ForecastComparison";
+import { scrollToDeskSection } from "./desk-navigation";
 import { useEffect, useState, lazy, Suspense } from "react";
 const ExpertMap = lazy(() =>
   import("./ExpertMap").then((m) => ({ default: m.ExpertMap })),
@@ -105,6 +106,9 @@ export function PanelVisuals({
   const current = arrived
     ? panel.experts[Math.min(arrived, panel.experts.length) - 1]
     : null;
+  const represented = themes.filter((theme) =>
+    responding.some((expert) => expert.theme_tags.includes(theme)),
+  ).length;
   return (
     <section
       className="panel-visuals"
@@ -160,11 +164,17 @@ export function PanelVisuals({
       </div>
       <div className="panel-coverage-finding">
         <strong>
-          {panel.composition.gaps.length
-            ? `Panel selection gap: ${panel.composition.gaps.map(label).join(", ")}`
-            : "Selected panel covers the required expertise"}
+          {arrived !== undefined
+            ? `${represented} of ${themes.length} specialties represented in replies`
+            : panel.composition.gaps.length
+              ? `Panel selection gap: ${panel.composition.gaps.map(label).join(", ")}`
+              : "Selected panel covers the required expertise"}
         </strong>
-        <span>{panel.composition.theme_cover.map(label).join(" · ")}</span>
+        <span>
+          {arrived !== undefined
+            ? `${responding.length} of ${panel.experts.length} selected experts have responded`
+            : panel.composition.theme_cover.map(label).join(" · ")}
+        </span>
       </div>
       <details className="panel-roster">
         <summary>See locations and expertise for each expert</summary>
@@ -244,7 +254,10 @@ export function AnalysisWalkthrough({
           <button
             key={name}
             aria-current={step === i ? "step" : undefined}
-            onClick={() => setStep(i)}
+            onClick={() => {
+              setStep(i);
+              scrollToDeskSection("analysis-step-content");
+            }}
           >
             <span>
               {i < step ? <Check size={13} aria-hidden="true" /> : i + 1}
@@ -254,7 +267,11 @@ export function AnalysisWalkthrough({
         ))}
       </nav>
       <ForecastComparison result={result} reference={reference} />
-      <div className="analysis-step-content" key={step}>
+      <div
+        id="analysis-step-content"
+        className="analysis-step-content"
+        key={step}
+      >
         {step === 0 && (
           <>
             <h3>
@@ -356,7 +373,13 @@ export function AnalysisWalkthrough({
         )}
       </div>
       <div className="analysis-step-actions">
-        <button disabled={step === 0} onClick={() => setStep((s) => s - 1)}>
+        <button
+          disabled={step === 0}
+          onClick={() => {
+            setStep((s) => s - 1);
+            scrollToDeskSection("analysis-step-content");
+          }}
+        >
           Previous
         </button>
         <span>
@@ -365,7 +388,10 @@ export function AnalysisWalkthrough({
         <button
           className="primary"
           onClick={() =>
-            step === steps.length - 1 ? onContinue() : setStep((s) => s + 1)
+            step === steps.length - 1
+              ? onContinue()
+              : (setStep((s) => s + 1),
+                scrollToDeskSection("analysis-step-content"))
           }
         >
           {step === steps.length - 1

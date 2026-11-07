@@ -3,21 +3,28 @@ import { ChevronDown } from "lucide-react";
 import type { LedgerEntry } from "./service";
 export function LedgerColumns() {
   return (
-    <div className="ledger-columns" aria-hidden="true">
-      <span>Record</span>
-      <span>Panel</span>
-      <span className="ledger-col-acaps">ACAPS</span>
-      <span>Outcome</span>
-      <span className="ledger-col-count">Answers</span>
-      <span className="ledger-col-check">Verification</span>
-      <span />
-    </div>
+    <>
+      <p className="ledger-reading-guide">
+        <strong>Outcome:</strong> did the forecast event happen?{" "}
+        <strong>Receipt check:</strong> does the record match its receipt? Open
+        a row to check.
+      </p>
+      <div className="ledger-columns" aria-hidden="true">
+        <span>Record</span>
+        <span>Panel</span>
+        <span className="ledger-col-acaps">ACAPS</span>
+        <span>Outcome</span>
+        <span className="ledger-col-count">Answers</span>
+        <span className="ledger-col-check">Receipt check</span>
+        <span />
+      </div>
+    </>
   );
 }
 export function LedgerRecord({
   entry,
   country,
-  checked = false,
+  checked,
   children,
 }: {
   entry: LedgerEntry;
@@ -42,7 +49,11 @@ export function LedgerRecord({
           {entry.n ?? entry.honesty?.n ?? "—"}
         </span>
         <span className="ledger-col-check">
-          {checked ? "Receipt matched" : "Not checked"}
+          {checked === true
+            ? "Receipt matched"
+            : checked === false
+              ? "Receipt mismatch"
+              : "Open to check"}
         </span>
         <ChevronDown size={17} aria-hidden="true" />
       </summary>
