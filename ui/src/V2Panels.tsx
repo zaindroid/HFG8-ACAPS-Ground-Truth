@@ -29,6 +29,8 @@ export function HonestyBox({
       aria-label={`Public honesty box${context ? ` · ${context}` : ""}`}
     >
       <h3>What fed into this view</h3>
+      <p className="panel-caption">{value.reidentification_note || "In a panel of eight, a distinctive reason may identify its author to colleagues; experts are told this before answering."}</p>
+      <p className="panel-caption">Extended panel (confirmed relayed answers): {value.relayed_share === undefined ? "Not reported" : percent(value.relayed_share)}{value.channel_mix && ` · Channels: ${Object.entries(value.channel_mix).map(([channel,n])=>`${channel} ${n}`).join(", ")}`}</p>
       <div className="honesty-grid">
         <div>
           <span>Contributions</span>
@@ -243,19 +245,13 @@ export function PanelMatch({ riskId }: { riskId: string }) {
                 <tr>
                   <th>Synthetic pseudonym</th>
                   <th>Match</th>
-                  <th>Based in</th>
+                  <th>Coverage area</th>
                   <th>Expertise</th>
                   <th>Years</th>
-                  <th>Resolved</th>
-                  <th>Mean Brier</th>
-                  <th>Right side</th>
-                  <th>Correct when band missed</th>
                 </tr>
               </thead>
               <tbody>
                 {value.experts.map((e) => {
-                  const record = e.track_record;
-                  const scored = record?.reported ? record : null;
                   return (
                     <tr key={e.pseudonym}>
                       <td>{e.pseudonym}</td>
@@ -273,22 +269,6 @@ export function PanelMatch({ riskId }: { riskId: string }) {
                         ) : null}
                       </td>
                       <td>{e.years_experience ?? "—"}</td>
-                      {scored ? (
-                        <>
-                          <td>{scored.n_resolved}</td>
-                          <td>{scored.mean_brier?.toFixed(2)}</td>
-                          <td>
-                            {scored.hit_rate == null
-                              ? "—"
-                              : percent(scored.hit_rate)}
-                          </td>
-                          <td>{scored.moved_before_acaps ?? 0}</td>
-                        </>
-                      ) : (
-                        <td colSpan={4} className="no-record">
-                          {record?.note || "No track record yet"}
-                        </td>
-                      )}
                     </tr>
                   );
                 })}

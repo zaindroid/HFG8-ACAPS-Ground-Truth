@@ -1,9 +1,11 @@
 import { ResponseProgress } from "./ResponseProgress";
+import { scrollToDeskSection } from "./desk-navigation";
 import { DeskContext, ContextSection } from "./DeskContext";
 import { EvidenceLine } from "./Evidence";
 import { PanelVisuals } from "./PanelVisuals";
 import { Journey, DecisionSnapshot } from "./Journey";
 import { LedgerRecord, LedgerColumns } from "./LedgerRecord";
+import { RevealOverview } from "./RevealOverview";
 import {
   DecisionUseFields,
   emptyDecisionUse,
@@ -260,8 +262,8 @@ export function GroupChart({
           Secondary weighted mean: {percent(result.weighted_mean)}.
         </p>
         <h3>Minority reasons</h3>
-        {result.minority_rationales.length ? (
-          result.minority_rationales.map((reason, i) => <p key={i}>{reason}</p>)
+        {result.disagreement?.length ? (
+          result.disagreement.map((item, i) => <p key={i}>{item.summary}</p>)
         ) : (
           <p>No minority reasons supplied.</p>
         )}
@@ -361,6 +363,8 @@ export function Verification({ draft }: { draft: Draft }) {
   );
 }
 function LiveDesk() {
+  const [clock, setClock] = useState(Date.now());
+  useEffect(() => { const timer=setInterval(()=>setClock(Date.now()),1000); return()=>clearInterval(timer); }, []);
   const [risks, setRisks] = useState<Risk[]>([]),
     [selected, setSelected] = useState(
       new URLSearchParams(location.search).get("risk_id") || "",
@@ -385,6 +389,8 @@ function LiveDesk() {
   const [outcome, setOutcome] = useState("materialised"),
     [resolvedAt, setResolvedAt] = useState(""),
     [confirmResolve, setConfirmResolve] = useState(false);
+  const deadline = pulse?.expires_at ? Date.parse(pulse.expires_at) : NaN;
+  const deadlinePassed = Number.isFinite(deadline) && clock >= deadline;
   async function run(label: string, task: () => Promise<void>) {
     setBusy(label);
     setError("");
@@ -650,12 +656,16 @@ function LiveDesk() {
                       />
                     )}
                     <div className="panel-actions">
+                      {group && validResult(group) && (
+                        <button className="primary" onClick={() => scrollToDeskSection("reveal-overview")}>Review panel</button>
+                      )}
                       <button
-                        className="primary"
-                        disabled={!!busy || pulse.n_answers < 5 || !!group}
+                        className={group ? "" : "primary"}
+                        disabled={!!busy || !deadlinePassed || !!group || pulse.reveal_status === "insufficient_panel"}
                         onClick={() =>
                           void run("Revealing round", async () => {
                             const value = await endpoint.reveal(pulse.id);
+                            if (value.reveal_status === "insufficient_panel") { setPulse({...pulse,reveal_status:"insufficient_panel"}); setMessage("Insufficient panel at the deadline. Answers remain sealed."); return; }
                             if (value.pulse_id !== pulse.id)
                               throw new Error(
                                 "The API returned a result for a different pulse. Refresh the selected pulse.",
@@ -668,7 +678,7 @@ function LiveDesk() {
                           })
                         }
                       >
-                        Reveal round
+                        {deadlinePassed ? "Reveal (deadline passed)" : Number.isFinite(deadline) ? `Opens at ${new Date(deadline).toLocaleString("en-GB")}` : "Deadline unavailable"}
                       </button>
                       <button
                         disabled={!!busy}
@@ -700,6 +710,7 @@ function LiveDesk() {
                         Refresh result
                       </button>
                     </div>
+                    {pulse.reveal_status === "insufficient_panel" && <p role="status">Insufficient panel: fewer than five responses at the deadline. Nothing is revealed.</p>}
                     <p className="panel-caption">
                       At least five answers are required to reveal.
                     </p>
@@ -714,6 +725,7 @@ function LiveDesk() {
               <Section title="Panel coverage" className="coverage-panel">
                 <PanelVisuals riskId={selected} />
               </Section>
+              {group && validResult(group) && <RevealOverview result={group} rationale={note} onRationale={setNote} />}
               <Section
                 title="Expert forecast versus ACAPS"
                 className="forecast-panel"
@@ -730,7 +742,7 @@ function LiveDesk() {
                   </div>
                 )}
               </Section>
-              <Section title="Draft update" className="decision-panel">
+              <Section id="live-decision" title="Draft update" className="decision-panel">
                 {!draft ? (
                   <button
                     disabled={!!busy || !group || !pulse}
@@ -739,6 +751,7 @@ function LiveDesk() {
                         const value = await endpoint.draft(pulse!.id);
                         setDraft(value);
                         setProbability(value.proposed_probability);
+                        scrollToDeskSection("live-decision");
                       })
                     }
                   >

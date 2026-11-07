@@ -128,6 +128,7 @@ export function PublicHome() {
               are sealed until the round opens, aggregated as a group view, and
               published with their own limitations.
             </p>
+            <p>Easier to contribute to, easier to scrutinise, easier to trace. An expert review inside ACAPS’s existing analysis workflow.</p>
             <ProductLink to="/workspace">
               <span className="public-primary">
                 Open the workspace <ArrowRight size={18} aria-hidden="true" />
@@ -266,6 +267,7 @@ export function WorkspaceHome() {
         <DemoSamples />
         <div className="support-links">
           <a href="/radar">Risk Radar & metrics</a>
+          <a href="/reach">Reach the panel</a>
           <a href="/stage">Stage & jury access</a>
           <a href="/calibration">Calibration report</a>
           <a href="/committee">Expert committee</a>

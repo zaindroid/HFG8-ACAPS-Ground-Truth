@@ -20,6 +20,9 @@ const Calibration = lazy(() =>
 );
 const Radar = lazy(() => import("./Radar").then((m) => ({ default: m.Radar })));
 import { Apply, Committee } from "./Gateway";
+const Reach = lazy(() => import("./Reach").then(m=>({default:m.Reach})));
+const ContactPreferences = lazy(() => import("./Reach").then(m=>({default:m.ContactPreferences})));
+const CalibrationProgramme = lazy(() => import("./Programme").then(m=>({default:m.CalibrationProgramme})));
 import "./theme.css";
 import "./styles.css";
 import "./workspace.css";
@@ -72,12 +75,17 @@ function Router() {
   const expert = /^\/e\/([^/]+)\/?$/.exec(path);
   if (expert) return <ExpertCard token={expert[1]} />;
   const calibration = /^\/me\/([^/]+)\/calibration\/?$/.exec(path);
+  const preferences = /^\/preferences\/([^/]+)\/?$/.exec(path);
+  if(preferences) return <ContactPreferences id={preferences[1]}/>;
+  const programme = /^\/c\/([^/]+)\/?$/.exec(path);
+  if(programme) return <CalibrationProgramme token={programme[1]}/>;
   if (calibration) return <Calibration token={calibration[1]} />;
   if (!hasWorkspaceSession()) return <LoginRequired />;
   if (/^\/(countries|analysis|topics|search)(\/|$)/.test(path))
     return <WorkspaceRedirect />;
   if (path === "/workspace") return <WorkspaceHome />;
   if (path === "/alerts") return <Alerts />;
+  if (path === "/reach") return <Reach />;
   if (path === "/radar") return <Radar />;
   if (path === "/expert")
     return mock ? (

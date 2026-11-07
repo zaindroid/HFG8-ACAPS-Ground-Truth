@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CommitteeScoring } from "./V3Workflow";
+import { CommitteeOversight } from "./CommitteeOversight";
 import { mock } from "./api";
 import {
   sampleDataEnabled,
@@ -444,6 +445,7 @@ export function Committee() {
         approvals. No credential or approval count is invented in API mode.
       </p>
       <CommitteeScoring />
+      <CommitteeOversight />
     </Frame>
   );
 }

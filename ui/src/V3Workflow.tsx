@@ -325,7 +325,7 @@ export function CommitteeScoring() {
               mock && sampleDataEnabled()
                 ? sampleBoard
                 : mock
-                  ? (await import("../../fixtures/GET_analyst_board.json"))
+                  ? (await import("../../fixtures/GET_committee_scoring.json"))
                       .default
                   : await endpoint.board(),
             );
@@ -344,19 +344,19 @@ export function CommitteeScoring() {
           <table>
             <thead>
               <tr>
-                <th>Pseudonym</th>
+                <th>Panel / risk</th>
                 <th>Resolved forecasts</th>
-                <th>Mean Brier score</th>
-                <th>Secondary weight</th>
+                <th>Panel Brier score</th>
+                <th>ACAPS band Brier score</th>
               </tr>
             </thead>
             <tbody>
-              {value.super_estimators.map((item) => (
-                <tr key={item.pseudonym}>
-                  <td>{item.pseudonym}</td>
-                  <td>{item.n}</td>
-                  <td>{item.mean_brier.toFixed(2)}</td>
-                  <td>{item.weight.toFixed(2)}×</td>
+              {value.panels.map((item) => (
+                <tr key={item.panel_id}>
+                  <td>{item.panel_id} / {item.risk_id}</td>
+                  <td>{item.n_resolved}</td>
+                  <td>{item.panel_brier?.toFixed(2) ?? "Not yet scored"}</td>
+                  <td>{item.acaps_band_brier?.toFixed(2) ?? "Not yet scored"}</td>
                 </tr>
               ))}
             </tbody>
@@ -365,9 +365,7 @@ export function CommitteeScoring() {
             {mock && sampleDataEnabled()
               ? "These are synthetic sample forecast scores."
               : "These values are supplied by the backend."}{" "}
-            Equal-weight mean remains primary. Secondary weights start equal,
-            shrink toward a prior and are capped at twice the median; the
-            backend must implement those rules.
+            Panel-level only. Individual reports belong to the separate, consent-gated calibration programme.
           </p>
         </div>
       )}

@@ -1,0 +1,9 @@
+.reach-toolbar,.reach-contact-form { display:flex; flex-wrap:wrap; align-items:end; gap:16px; margin-bottom:20px; }
+.reach-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }
+.reach-grid .workspace-panel { min-width:0; }
+.reach-preview { background:var(--accent-soft); border-radius:8px; padding:20px; margin:16px 0; font-size:14px; line-height:1.65; overflow-wrap:anywhere; }
+.reach-word-links { display:flex; flex-wrap:wrap; gap:10px; margin:12px 0; }
+.reach-message { background:var(--accent-soft); padding:16px; border-left:3px solid var(--accent); }
+.reach-grid label,.reach-contact-form label { display:block; font-size:13px; margin-bottom:12px; }
+.reach-grid input,.reach-grid select,.reach-contact-form input,.reach-contact-form select,.reach-toolbar input { display:block; width:100%; box-sizing:border-box; margin-top:6px; }
+@media(max-width:760px) { .reach-grid { grid-template-columns:1fr; } }

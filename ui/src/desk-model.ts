@@ -2,7 +2,7 @@ import risk from "../../fixtures/GET_risks_R1043.json";
 import pulse from "../../fixtures/POST_pulses_response.json";
 import resultFixture from "../../fixtures/GET_pulses_result.json";
 import draftFixture from "../../fixtures/POST_pulses_draft_response.json";
-import boardFixture from "../../fixtures/GET_analyst_board.json";
+import boardFixture from "../../fixtures/GET_committee_scoring.json";
 import ledgerFixture from "../../fixtures/GET_ledger.json";
 import verification from "../../fixtures/POST_ledger_verify_response.json";
 

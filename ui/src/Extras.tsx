@@ -7,7 +7,8 @@ import {
   sampleCalibration,
   sampleForecasts,
 } from "./demo-data";
-import { endpoint, type Calibration as Report } from "./service";
+import { endpoint, api, type Calibration as Report } from "./service";
+import { calibrationEnabled } from "./Programme";
 import { CopyButton, Frame, Section } from "./LiveWorkspace";
 import { en } from "./locales/en";
 
@@ -184,7 +185,7 @@ export function Calibration({ token }: { token: string }) {
     [busy, setBusy] = useState(false),
     [reload, setReload] = useState(0);
   useEffect(() => {
-    if (!optedIn) return;
+    if (!optedIn || !calibrationEnabled) return;
     let active = true;
     setBusy(true);
     setError("");
@@ -207,13 +208,14 @@ export function Calibration({ token }: { token: string }) {
       active = false;
     };
   }, [token, optedIn, reload]);
+  if(!calibrationEnabled) return <Frame title="Private calibration" subtitle="Separate, voluntary and switched off by default."><Section title="Calibration programme is off"><p>No calibration questions are included in a pulse. Experts must consent separately and see their own report first.</p><a href={`/c/${encodeURIComponent(token)}`}>Read the programme disclosure</a></Section></Frame>;
   return (
     <Frame
       title="Your calibration"
       subtitle="Private, optional feedback on resolved forecasts."
     >
       <p className="panel-caption">
-        Available after five resolved forecasts. Anonymous answers cannot be
+        Available after five resolved forecasts. Answers without an identity link cannot be
         linked to this report or claimed later. Scores never gate expert
         approval.
       </p>
@@ -223,9 +225,11 @@ export function Calibration({ token }: { token: string }) {
             Opening this report is optional. Free-text observations and
             abstentions are never scored.
           </p>
-          <button onClick={() => setOptedIn(true)}>
-            View my private calibration
+          <p>We compare your probabilities with resolved outcomes. Only you see the report unless you separately consent to sharing. Participation never affects approval or forecast weights.</p>
+          <button disabled={busy} onClick={async () => {setBusy(true);setError("");try{if(!mock)await api(`/me/${encodeURIComponent(token)}/calibration/opt-in`,{consent:true,disclosure_version:"forecast-calibration-1.0"});setOptedIn(true);}catch(e){setError((e as Error).message);}finally{setBusy(false);}}}>
+            I consent to private forecast calibration
           </button>
+          {error&&<p role="alert">{error}</p>}
         </Section>
       ) : busy ? (
         <p role="status">Loading calibration…</p>
@@ -249,14 +253,6 @@ export function Calibration({ token }: { token: string }) {
               <strong>{report.mean_brier.toFixed(2)}</strong>
               <small>Lower is better · 0 is perfect</small>
             </div>
-            <div>
-              <span>Overconfidence index</span>
-              <strong>
-                {report.overconfidence === undefined
-                  ? "Not supplied"
-                  : report.overconfidence.toFixed(2)}
-              </strong>
-            </div>
           </div>
           <p className="panel-caption">
             Brier score is the squared difference between a forecast probability
@@ -272,9 +268,7 @@ export function Calibration({ token }: { token: string }) {
               <h3 className="subheading">Resolved forecasts</h3>
               <p className="panel-caption">
                 Probabilities and dates are illustrative; outcomes come from the
-                export. Each Brier value is (probability − outcome)². The sample
-                overconfidence index is mean stated certainty minus
-                classification accuracy.
+                export. Each Brier value is (probability − outcome)².
               </p>
               <div className="table-wrap">
                 <table>
@@ -311,6 +305,7 @@ export function Calibration({ token }: { token: string }) {
           <p>Your optional report will appear after five forecasts resolve.</p>
         </Section>
       )}
+      {optedIn&&<button onClick={async()=>{setError("");try{if(!mock)await api(`/me/${encodeURIComponent(token)}/calibration/off`,{});setOptedIn(false);setReport(null);}catch(e){setError((e as Error).message);}}}>Switch my report off</button>}
     </Frame>
   );
 }

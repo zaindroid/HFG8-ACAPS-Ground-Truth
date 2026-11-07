@@ -34,28 +34,21 @@ test("April alert leads to a human panel request and a readable desk", async ({
     ),
   ).toBe(true);
   await page.getByRole("button", { name: "Ask experts", exact: true }).click();
-  await expect(
-    page.getByRole("link", { name: "Open analyst desk" }),
-  ).toHaveAttribute("href", /pulse_id=P-0001/);
-  await page.reload();
-  await expect(
-    page.getByRole("link", { name: "Open analyst desk" }),
-  ).toBeVisible();
-  await page.getByRole("link", { name: "Open analyst desk" }).click();
+  await expect(page).toHaveURL(/\/desk\?risk_id=R1043&pulse_id=P-0001/);
   await expect(
     page.getByRole("region", { name: "Decision at a glance" }),
   ).toContainText("Sealed");
-  await page.getByText("Round tools", { exact: true }).click();
-  await page.getByRole("button", { name: "Load answers", exact: true }).click();
-  await page
-    .getByRole("button", { name: "Reveal round 1", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Load 8 demo answers" }).click();
+  await page.getByRole("button", { name: "Advance to deadline" }).first().click();
+  await page.getByRole("button", { name: "Reveal answers" }).click();
   await expect(
     page.getByRole("region", { name: "Decision at a glance" }),
   ).toContainText("69%");
   await expect(
     page.getByRole("region", { name: "Decision at a glance" }),
   ).toContainText("30–90%");
+  await page.getByRole("button", { name: "Continue to decision" }).click();
+  await expect(page.getByRole("button", { name: "Accept draft" })).toBeVisible();
   await page.screenshot({ path: info.outputPath("desk.png"), fullPage: true });
   expect(
     await page.evaluate(

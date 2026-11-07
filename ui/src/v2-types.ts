@@ -1,4 +1,7 @@
 export type Honesty = {
+  relayed_share?: number;
+  reidentification_note?: string;
+  channel_mix?: Record<string, number>;
   n: number;
   agreement: number;
   spread: number[];

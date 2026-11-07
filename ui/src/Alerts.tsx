@@ -295,7 +295,13 @@ export function Alerts() {
                   e.id === selected ? "shift-row selected" : "shift-row"
                 }
                 aria-pressed={e.id === selected}
-                onClick={() => setSelected(e.id)}
+                onClick={() => {
+                  setSelected(e.id);
+                  document.getElementById("selected-alert")?.scrollIntoView({
+                    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+                    block: "start",
+                  });
+                }}
               >
                 <span className="shift-rank">{e.rank_this_month}</span>
                 <span>
@@ -328,7 +334,7 @@ export function Alerts() {
             ))}
           </div>
           {event && (
-            <section className="alert-detail" aria-label="Selected alert">
+            <section id="selected-alert" className="alert-detail" aria-label="Selected alert">
               <div className="alert-detail-heading">
                 <div>
                   <span>
@@ -454,9 +460,7 @@ export function Alerts() {
                                 "The API did not confirm a panel request.",
                               );
                             update(next);
-                            setMessage(
-                              "Panel requested. Continue to the analyst desk.",
-                            );
+                            location.assign(`/desk?risk_id=${encodeURIComponent(next.risk_id || event.risk_id || "")}&pulse_id=${encodeURIComponent(next.pulse_id)}`);
                           })
                         }
                       >

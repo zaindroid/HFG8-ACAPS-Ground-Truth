@@ -1,5 +1,6 @@
 import { ResponseProgress } from "./ResponseProgress";
 import { scrollToDeskSection } from "./desk-navigation";
+import { RevealOverview } from "./RevealOverview";
 import { ArrivalForecast } from "./ArrivalForecast";
 import { DeskContext, ContextSection } from "./DeskContext";
 import { EvidenceLine } from "./Evidence";
@@ -144,6 +145,7 @@ function Regions() {
   );
 }
 function Desk() {
+  const [stage, setStage] = useState<"responses" | "interpret" | "decision">("responses");
   const [, setFrozenContract] = useState<
     import("./service").QuestionContract | null
   >(null);
@@ -159,9 +161,15 @@ function Desk() {
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
   const [announcement, setAnnouncement] = useState("");
+  const [deadlinePassed, setDeadlinePassed] = useState(false);
+  const [insufficient, setInsufficient] = useState(false);
   const replay = useArrivalReplay(result.n);
   const shownAnswers = replay.active ? replay.count : answers;
   const shownRevealed = replay.active ? replay.revealed : revealed;
+  function showStage(next: "responses" | "interpret" | "decision") {
+    setStage(next);
+    requestAnimationFrame(() => document.getElementById("case-stepper")?.scrollIntoView({ block: "start" }));
+  }
   async function simulate(label: string, action: () => void) {
     setBusy(label);
     setError("");
@@ -179,12 +187,14 @@ function Desk() {
   function decide(action: Decision["action"]) {
     if (!note.trim()) {
       setError("Add a decision note before continuing.");
+      document.getElementById("decision-note")?.focus();
       return;
     }
     if (!completeDecisionUse(decisionUse)) {
       setError(
         "Add the decision, decision owner and deadline before continuing.",
       );
+      document.getElementById(!decisionUse.what_decision.trim() ? "use-what_decision" : !decisionUse.for_whom.trim() ? "use-for_whom" : "use-by_when")?.focus();
       return;
     }
     void simulate("Saving decision", () => {
@@ -199,6 +209,7 @@ function Desk() {
       sessionStorage.setItem(storageKey, JSON.stringify(next));
       setDecision(next);
       setEdit(false);
+      showStage("decision");
       setAnnouncement(
         action === "reject"
           ? "Draft rejected. No ledger entry added."
@@ -223,6 +234,9 @@ function Desk() {
               setAnswers(0);
               setRevealed(false);
               setHasDraft(false);
+              setStage("responses");
+              setDeadlinePassed(false);
+              setInsufficient(false);
               setNote("");
               setEdit(false);
               setAnnouncement("Demo reset. No answers loaded.");
@@ -250,7 +264,34 @@ function Desk() {
           <small>Pulse {pulse.id}</small>
         </span>
       </div>
-      <div className={`desk-grid ${replay.active ? "replaying" : ""}`}>
+      <nav id="case-stepper" className="case-stepper" aria-label="Case progress">
+        <a href="/alerts"><span>1</span> Signal</a>
+        <button aria-current={stage === "responses" ? "step" : undefined} onClick={() => showStage("responses")}><span>2</span> Responses</button>
+        <button aria-current={stage === "interpret" ? "step" : undefined} disabled={!shownRevealed} onClick={() => showStage("interpret")}><span>3</span> Interpret</button>
+        <button aria-current={stage === "decision" ? "step" : undefined} disabled={!hasDraft} onClick={() => showStage("decision")}><span>4</span> Decide</button>
+        <a href="/ledger" aria-disabled={!decision || decision.action === "reject"} onClick={e => { if (!decision || decision.action === "reject") e.preventDefault(); }}><span>5</span> Record</a>
+      </nav>
+      <div className="case-stage-heading">
+        <div>
+          <h2>{stage === "responses" ? "Collect independent answers" : stage === "interpret" ? "What does the panel tell us?" : "Make and record the call"}</h2>
+          <p>{stage === "responses" ? "Answers stay sealed until the fixed deadline. The demo can load eight sample answers." : stage === "interpret" ? "Compare the mean with the spread, disagreements and missing evidence before deciding." : "Review the cited draft, name its intended use and record your rationale."}</p>
+        </div>
+        {stage === "interpret" && <button className="primary" onClick={() => { setHasDraft(true); showStage("decision"); }}>Continue to decision <ArrowRight size={15} /></button>}
+        {stage === "decision" && decision && decision.action !== "reject" && <a className="button-link primary" href="/ledger">Open ledger record <ArrowRight size={15} /></a>}
+      </div>
+      {stage === "interpret" && (
+        <div className="case-insight">
+          <strong>{Math.round(result.mean * 100)}% is the panel average, not a consensus.</strong>
+          <p>Estimates range from {Math.round(result.spread.min * 100)}% to {Math.round(result.spread.max * 100)}%. Read the disagreement and missing evidence before choosing what to change.</p>
+        </div>
+      )}
+      {stage === "decision" && !decision && (
+        <div className="case-insight">
+          <strong>The draft proposes {draft.proposed_probability} probability.</strong>
+          <p>Check its citations and open claims, then record what decision this assessment will inform, who owns it and when it is needed.</p>
+        </div>
+      )}
+      <div data-stage={stage} className={`desk-grid demo-case ${replay.active ? "replaying" : ""}`}>
         <div className="desk-main">
           {replay.active && (
             <ArrivalForecast
@@ -276,6 +317,7 @@ function Desk() {
                   disabled={!!busy}
                   onClick={() => {
                     replay.start();
+                    setDeadlinePassed(false); setInsufficient(false);
                     scrollToDeskSection("arrival-forecast");
                   }}
                 >
@@ -295,41 +337,53 @@ function Desk() {
               )}
               <button
                 className="primary"
-                disabled={
-                  !!busy ||
-                  (!shownRevealed &&
-                    (replay.active ? replay.count < result.n : answers < 5))
-                }
+                disabled={insufficient || !!busy || (replay.active && !shownRevealed && replay.count < result.n)}
                 onClick={() => {
-                  if (shownRevealed)
-                    scrollToDeskSection(
-                      replay.active ? "analysis-walkthrough" : "current-draft",
-                    );
+                  if (!replay.active && !shownRevealed && answers < 5) {
+                    void simulate("Loading answers", () => {
+                      setAnswers(result.n);
+                      setAnnouncement("Eight demo answers loaded. Advance to the deadline to reveal them.");
+                    });
+                    return;
+                  }
+                  if (!deadlinePassed && !shownRevealed) { setDeadlinePassed(true); setAnnouncement("Simulation clock advanced to the fixed reveal deadline."); return; }
+                  if (!shownRevealed && shownAnswers < 5) { setInsufficient(true); setAnnouncement("Insufficient panel. Answers remain sealed."); return; }
+                  if (shownRevealed) {
+                    if (!replay.active) {
+                      setHasDraft(true);
+                      setAnnouncement("Draft ready for analyst review.");
+                    }
+                    showStage("decision");
+                  }
                   else if (replay.active) {
                     replay.reveal();
-                    scrollToDeskSection("analysis-walkthrough");
+                    showStage("interpret");
                   } else
                     void simulate("Revealing", () => {
                       setRevealed(true);
                       setAnnouncement(
                         "Round one revealed. Eight answers in the group view.",
                       );
-                      scrollToDeskSection("current-draft");
+                      showStage("interpret");
                     });
                 }}
               >
                 {shownRevealed
                   ? replay.active
                     ? "Analyse responses"
-                    : "Review assessment"
-                  : "Reveal round 1"}
+                    : hasDraft ? "Go to decision" : "Prepare draft"
+                  : deadlinePassed ? "Reveal answers" : shownAnswers >= 5 ? "Advance to deadline" : replay.active ? "Waiting for answers" : "Load 8 demo answers"}
               </button>
             </div>
+            {(busy || announcement) && (
+              <p className="desk-action-status" role="status">{busy || announcement}</p>
+            )}
             {!replay.active && (
               <details className="round-tools">
                 <summary>Round tools</summary>{" "}
+                <button onClick={() => {setDeadlinePassed(true); if(shownAnswers<5)setInsufficient(true);}}>Advance to deadline</button>
                 <button
-                  disabled={!!busy || replay.active || answers === result.n}
+                  disabled={!!busy || insufficient || replay.active || answers === result.n}
                   onClick={() =>
                     void simulate("Loading answers", () => {
                       setAnswers(result.n);
@@ -362,9 +416,11 @@ function Desk() {
             <p className="panel-caption">
               {shownRevealed
                 ? "Responses opened together. Continue to compare the forecasts and review the evidence."
-                : "Answers stay sealed until reveal. At least five are required."}
+                : "Answers open at the fixed deadline, only if at least five have responded."}
             </p>
+            {insufficient && <p role="status">Insufficient panel: fewer than five responses at the deadline. Nothing is revealed.</p>}
           </Panel>
+          {shownRevealed && <RevealOverview result={result} rationale={note} onRationale={setNote} />}
           <Panel title="Panel coverage" className="coverage-panel">
             {" "}
             <PanelVisuals
@@ -388,7 +444,7 @@ function Desk() {
                 setAnswers(result.n);
                 setRevealed(true);
                 setHasDraft(true);
-                scrollToDeskSection("current-draft");
+                showStage("decision");
               }}
             />
           )}
@@ -432,6 +488,7 @@ function Desk() {
                         void simulate("Preparing draft", () => {
                           setHasDraft(true);
                           setAnnouncement("Draft ready for analyst review.");
+                          scrollToDeskSection("current-draft");
                         })
                       }
                     >
@@ -485,6 +542,7 @@ function Desk() {
                       </div>
                     ) : (
                       <div className="decision-form">
+                        {error && <p className="workspace-message error" role="alert">{error}</p>}
                         <DecisionUseFields
                           value={decisionUse}
                           onChange={setDecisionUse}
@@ -573,6 +631,8 @@ function Desk() {
           )}
         </div>
         <aside className="desk-side">
+          <details className="case-reference">
+            <summary>Question, evidence and method</summary>
           <DeskContext>
             <ContextSection label="Question">
               <QuestionContractPanel
@@ -621,16 +681,9 @@ function Desk() {
               <OutcomeReportPanel pulseId={pulse.id} />
             </ContextSection>
           </DeskContext>
+          </details>
         </aside>
       </div>
-      {error && (
-        <p className="workspace-message error" role="alert">
-          {error}
-        </p>
-      )}
-      <p className="workspace-message" role="status">
-        {busy || announcement}
-      </p>
     </Shell>
   );
 }

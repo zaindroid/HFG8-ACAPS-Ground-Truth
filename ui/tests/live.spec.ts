@@ -163,7 +163,7 @@ test("alert API failures retain the proposed alert and confirmed pulse opens the
     body: { note: "Covered in the current assessment." },
   });
   await page.getByRole("button", { name: "Ask experts", exact: true }).click();
-  await page.getByRole("link", { name: "Open analyst desk" }).click();
+  await expect(page).toHaveURL(/\/desk\?risk_id=R1043&pulse_id=P-0001/);
   await expect(page.getByLabel("Pulse ID", { exact: true })).toHaveValue(
     "P-0001",
   );

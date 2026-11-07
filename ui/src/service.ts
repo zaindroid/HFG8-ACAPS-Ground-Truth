@@ -7,12 +7,14 @@ import type {
   Approval,
 } from "./v2-types";
 import type fullRisk from "../../fixtures/GET_risks_R1043.json";
-import type { Card, Answer, Mask } from "./api";
+import type { Card, Answer, Mask, PendingAnswer, CommitmentReceipt } from "./api";
+import type { EvidenceRecord } from "./Evidence";
 export type Risk = typeof fullRisk;
-export type Pulse = Card["pulse"];
+export type Pulse = { id: string; risk_id: string; panel_id: string; round: number; evidence: EvidenceRecord[]; n_answers: number; expires_at?: string; reveal_status?: string };
 export type Result = NonNullable<Card["group_view_if_round2"]> & {
   n_estimates?: number;
   confidence_interval?: { lower: number; upper: number };
+  dissent_index?: number;
 };
 export type Draft = {
   id: string;
@@ -42,11 +44,14 @@ export type Draft = {
   decided_at: string | null;
 };
 export type Board = {
-  super_estimators: {
-    pseudonym: string;
+  panels: {
+    risk_id: string;
+    panel_id: string;
     n: number;
-    mean_brier: number;
-    weight: number;
+    n_resolved: number;
+    panel_brier: number | null;
+    acaps_band_brier: number | null;
+    status: string;
   }[];
   divergence: { risk_id: string; panel: number; acaps: number }[];
 };
@@ -107,10 +112,11 @@ export async function api<T>(
   path: string,
   body?: unknown,
   signal?: AbortSignal,
+  method?: "POST" | "PUT",
 ): Promise<T> {
   try {
     const response = await fetch(`${apiBase}${path}`, {
-      method: body === undefined ? "GET" : "POST",
+      method: method || (body === undefined ? "GET" : "POST"),
       headers:
         body === undefined ? undefined : { "Content-Type": "application/json" },
       body: body === undefined ? undefined : JSON.stringify(body),
@@ -177,7 +183,7 @@ export const endpoint = {
       ...(decisionUse ? { decision_use: decisionUse } : {}),
       ...(action === "edit" ? { edited_probability: probability } : {}),
     }),
-  board: () => api<Board>("/analyst/board"),
+  board: () => api<Board>("/committee/scoring"),
   contract: (id: string, body: QuestionContract) =>
     api<QuestionContract>(`/risks/${encodeURIComponent(id)}/contract`, body),
   outcomeReport: (id: string) =>
@@ -197,12 +203,9 @@ export const endpoint = {
     api<Calibration>(`/me/${encodeURIComponent(token)}/calibration`),
   card: (token: string) => api<Card>(`/e/${encodeURIComponent(token)}`),
   answer: (token: string, body: Answer) =>
-    api<{
-      committed_at: string;
-      commitment: string;
-      generated_at: string;
-      served_from: string;
-    }>(`/e/${encodeURIComponent(token)}/answer`, body),
+    api<PendingAnswer>(`/e/${encodeURIComponent(token)}/answer`, body),
+  confirmAnswer: (token: string, confirmToken: string) => api<CommitmentReceipt>(`/e/${encodeURIComponent(token)}/confirm`, { confirm_token: confirmToken }),
+  correctAnswer: (token: string, body: Answer) => api<CommitmentReceipt>(`/e/${encodeURIComponent(token)}/answer`, body, undefined, "PUT"),
 };
 export function safeUrl(value: string) {
   try {

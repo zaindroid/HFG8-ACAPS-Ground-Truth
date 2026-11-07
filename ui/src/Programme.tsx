@@ -1,0 +1,16 @@
+import { useState } from "react";
+import { api } from "./service";
+import { mock } from "./api";
+export const calibrationEnabled=import.meta.env.VITE_FF_CALIBRATION==="1";
+const disclosureVersion="calibration-1.0";
+type Enrolment={consented_at:string;disclosure_version:string;items_answered:number;report_available:boolean;report_off:boolean};
+type Item={id:string;question:string;options:{id:string;label:string}[];confidence_prompt:string};
+export function CalibrationProgramme({token}:{token:string}) {
+  const [enrolment,setEnrolment]=useState<Enrolment|null>(null),[error,setError]=useState(""),[busy,setBusy]=useState(false),[item,setItem]=useState<Item|null>(null),[choice,setChoice]=useState(""),[confidence,setConfidence]=useState("");
+  async function run(job:()=>Promise<void>){setBusy(true);setError("");try{await job();}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
+  return <main className="expert34"><p className="expert34-from">Separate from your panel answers</p><h1>Optional calibration programme</h1>{!calibrationEnabled?<><p>This programme is switched off.</p><p>No calibration items or hidden measurements are included in your panel question.</p></>:<>
+    <p>At most two factual questions a month, with a numeric confidence estimate. After 20 comparable items, a private report goes to you first. The committee cannot see it unless you separately consent to sharing. Participation never affects panel approval or forecast weights. You can switch it off at any time.</p>
+    {!enrolment?<button className="primary" disabled={busy} onClick={()=>void run(async()=>setEnrolment(mock?{consented_at:new Date().toISOString(),disclosure_version:disclosureVersion,items_answered:0,report_available:false,report_off:false}:await api<Enrolment>(`/me/${encodeURIComponent(token)}/calibration/opt-in`,{consent:true,disclosure_version:disclosureVersion})))}>I consent to this programme</button>:<section><h2>{enrolment.report_off?"Programme switched off":"You are enrolled"}</h2><p>{enrolment.items_answered} of 20 items answered. {enrolment.report_available?"Your private report is available.":"No individual report is available yet."}</p>{!enrolment.report_off&&<><button disabled={busy} onClick={()=>void run(async()=>{if(mock){setError("No calibration items have been issued for this preview.");return;}setItem(await api<Item>(`/me/${encodeURIComponent(token)}/calibration/items`));})}>Open next item</button><button disabled={busy} onClick={()=>void run(async()=>{if(!mock)await api(`/me/${encodeURIComponent(token)}/calibration/off`,{});setEnrolment({...enrolment,report_off:true});setItem(null);})}>Switch programme off</button></>}</section>}
+    {item&&<section><h2>{item.question}</h2><label>Answer<select value={choice} onChange={e=>setChoice(e.target.value)}><option value="">Choose</option>{item.options.map(option=><option key={option.id} value={option.id}>{option.label}</option>)}</select></label><label>{item.confidence_prompt}<input type="number" min="50" max="100" value={confidence} onChange={e=>setConfidence(e.target.value)}/></label><p>Your panel forecast is separate from this activity. Item submission is available when issued by the programme service.</p></section>}
+  </>}{error&&<p role="alert">{error}</p>}</main>;
+}

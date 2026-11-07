@@ -26,9 +26,9 @@ export function PortalHeader() {
       <div className="portal-navigation">
         <nav aria-label="Main navigation">
           {[
-            ["/alerts", "Alerts"],
-            ["/expert", "Expert card"],
-            ["/desk", "Analyst desk"],
+            ["/workspace", "Cases"],
+            ["/alerts", "Signals"],
+            ["/desk", "Analyst case"],
             ["/ledger", "Ledger"],
           ].map(([href, label]) => (
             <a
@@ -49,8 +49,9 @@ export function PortalHeader() {
             <summary>More</summary>
             <div>
               {[
-                ["/workspace", "Overview"],
                 ["/radar", "Radar"],
+                ["/reach", "Contact panel"],
+                ["/expert", "Expert card preview"],
                 ["/calibration", "Calibration"],
                 ["/stage", "Stage"],
                 ["/committee", "Committee"],
