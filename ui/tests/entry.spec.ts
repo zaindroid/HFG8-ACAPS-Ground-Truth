@@ -6,11 +6,11 @@ test("public entry exposes research and Login opens the workspace without creden
 }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "See the crisis.Change the outcome.",
+    "One question.Independent judgement.",
   );
   await expect(
     page.getByRole("link", { name: "Countries", exact: true }),
-  ).toHaveAttribute("href", "https://www.acaps.org/en/countries");
+  ).toHaveCount(0);
   await expect(
     page.getByText("Equal-weight mean", { exact: true }),
   ).toHaveCount(0);
