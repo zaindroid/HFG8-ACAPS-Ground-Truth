@@ -56,9 +56,11 @@ test("Radar filters, country map, source badge and matching work", async ({
       exact: true,
     }),
   ).toBeVisible();
-  const header = await page.locator(".site-header").boundingBox();
+  const side = await page.locator(".e2-side").boundingBox();
   const title = await page.locator(".workspace-title").boundingBox();
-  expect(header!.y + header!.height).toBeLessThanOrEqual(title!.y);
+  expect(
+    title!.x >= side!.x + side!.width || title!.y >= side!.y + side!.height,
+  ).toBe(true);
   await expect(
     page.getByRole("link", { name: "Review risk" }).first(),
   ).toBeVisible();

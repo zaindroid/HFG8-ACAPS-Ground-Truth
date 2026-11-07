@@ -25,9 +25,12 @@ test("populated samples connect every main page and align content with the heade
   await expect(
     page.getByText("6 risk records", { exact: false }),
   ).toBeVisible();
-  const brand = await page.locator(".portal-topline .brand").boundingBox(),
+  // The workspace sits beside the navigation sidebar, or below it on a phone, never under it.
+  const side = await page.locator(".e2-side").boundingBox(),
     title = await page.getByRole("heading", { level: 1 }).boundingBox();
-  expect(Math.abs(brand!.x - title!.x)).toBeLessThan(1);
+  expect(
+    title!.x >= side!.x + side!.width || title!.y >= side!.y + side!.height,
+  ).toBe(true);
   await page.screenshot({
     path: test.info().outputPath("sample-overview.png"),
     fullPage: true,
