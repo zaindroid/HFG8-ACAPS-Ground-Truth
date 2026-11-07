@@ -19,7 +19,11 @@ RISK = {
 }
 PULSE = {
     "id": "P-0001", "risk_id": "R1043", "asked_by": "Alex, ACAPS Risk Radar",
-    "question": {"text": "Will more than 50,000 new arrivals be registered by 31 March 2027?",
+    # The real frozen question for the demo risk, provinces included. An earlier version of this
+    # fixture left them out, so the preview test below passed without ever exercising the case
+    # it exists for.
+    "question": {"text": "Will more than 50,000 new arrivals from Sudan be registered in "
+                         "Ouaddai and Wadi Fira by 31 March 2027?",
                  "deadline": "2027-03-31"},
 }
 
@@ -54,20 +58,35 @@ def test_the_composed_pulse_message_passes_the_lock_screen_check():
         assert "tok" in body
 
 
-def test_every_body_leads_with_the_crisis_line_so_a_preview_names_no_province():
-    """The two lines a lock screen shows are the subject and the start of the body. Both name a
-    country and a subject; the frozen question, which names provinces because ACAPS's own risk
-    does, sits below them."""
+def test_the_subject_and_the_opening_line_name_a_country_and_not_a_province():
+    """What is actually guaranteed, stated exactly.
+
+    The subject is held to the rule with no exemption: it carries no province, no rating and no
+    severity number. The body opens with the crisis-level line, so the first thing read is a
+    country and a subject. The frozen question follows, and it does name provinces, because
+    ACAPS's own published risk does and the expert has to see the question they are answering. So
+    a long preview on a large screen can show them -- and an SMS is one line, so its whole
+    message is the preview. That is the limit of this guarantee, and saying it holds for every
+    channel and every preview length would be a claim the code does not make good on."""
     for channel in ("email", "whatsapp", "sms", "signal"):
         subject, body = messages.pulse_message(_contact(channel_pref=channel), PULSE, RISK,
                                                "tok", channel)
-        preview = f"{subject or ''} {body[:120]}"
+        if subject:
+            messages.assert_lock_screen_safe(subject, RISK)
+            for area in RISK["adm1_name"]:
+                assert area not in subject, f"{channel}: the subject showed {area}"
+        # The first sentence, not the first line: an SMS is one line, so its whole message is
+        # the preview. What holds on every channel is that the message *begins* at crisis level.
+        opening = body.split(".")[0]
+        assert "Chad" in opening, f"{channel}: the body does not open at crisis level"
         for area in RISK["adm1_name"]:
-            assert area not in preview, f"{channel}: a preview showed {area}"
-        assert "Chad" in preview
-    # And the subject is held to the rule with no exemption at all.
-    subject, _ = messages.pulse_message(_contact(), PULSE, RISK, "tok", "email")
-    messages.assert_lock_screen_safe(subject, RISK)
+            assert area not in opening, f"{channel}: the opening sentence showed {area}"
+        # And a province appears nowhere except inside the frozen question itself.
+        without_question = body.replace(PULSE["question"]["text"], " ")
+        for area in RISK["adm1_name"]:
+            assert area not in without_question, \
+                f"{channel}: {area} appears outside the frozen question"
+        assert "High" not in body and "6.1" not in body
 
 
 def test_the_frozen_question_is_exempt_but_nothing_around_it_is():

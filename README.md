@@ -115,7 +115,10 @@ Synthetic: every expert, panel and answer, labelled as synthetic in the UI. No r
 
 ## 8. What we do not claim
 
-Reach does not send messages. No SMTP server, WhatsApp Business account, SMS gateway or Teams app
+Reach does not send messages, and its lock-screen rule has a stated limit: the subject carries no
+province and every message opens with a crisis-level line, but the frozen question names the provinces ACAPS's own
+published risk names, because an expert cannot answer a question they have not been shown -- and an SMS is one line,
+so its whole message is the preview. No SMTP server, WhatsApp Business account, SMS gateway or Teams app
 registration exists in this repository, so every channel composes the real message body and records it; the delivery
 view reports `transport: recorded` on every row and the outbox is readable. One function, `Reach.deliver`, is what a
 pilot replaces. Channel preference is a design hypothesis until a recruited panel says otherwise, and the personas are

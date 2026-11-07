@@ -1,4 +1,4 @@
-# make check, 2026-11-07T19:57:05Z, commit (lane/backend, pre-commit run)
+# make check, 2026-11-07T20:04:00Z, lane/backend
 
 $ cd engine && pytest -q
 ........................................................................ [ 37%]
@@ -8,20 +8,20 @@ $ cd engine && pytest -q
 ..\.venv\Lib\site-packages\fastapi\testclient.py:1
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-194 passed, 1 warning in 8.93s
+194 passed, 1 warning in 7.49s
 
 $ cd ui && npm run build
 [2mdist/[22m[36massets/Radar-88gJnqQL.js                             [39m[1m[2m136.89 kB[22m[1m[22m[2m │ gzip:  51.23 kB[22m
 [2mdist/[22m[36massets/index-DmsKe6jA.js                             [39m[1m[2m393.02 kB[22m[1m[22m[2m │ gzip: 123.66 kB[22m
-[32m✓ built in 8.46s[39m
+[32m✓ built in 6.66s[39m
 
 $ cd ui && npx playwright test                      # fixtures
 
-  54 passed (54.9s)
+  54 passed (52.0s)
 
 $ cd ui && npx playwright test --config playwright.live.config.ts   # API mode
 
-  33 passed (25.2s)
+  33 passed (24.5s)
 
 $ python scripts/validate_fixtures.py
 77 fixtures ok

@@ -4,7 +4,13 @@ Guarantees, each enforced by a function in here rather than by care:
 
 * `assert_lock_screen_safe` refuses a body that carries the ACAPS rating, a severity number or a
   place name finer than the crisis title. A notification preview is read by whoever is holding the
-  phone, which in this panel's case may be at a checkpoint.
+  phone, which in this panel's case may be at a checkpoint. The exception is the frozen question
+  itself, which names provinces because ACAPS's own published risk does and because the expert
+  has to read the question they are answering: it is passed in by name, so everything this module
+  composes around it is still checked. What is guaranteed is therefore precise and worth stating
+  without rounding up -- the subject carries no province at all, and the body opens with the
+  crisis-level line, so the first thing read is a country and a subject. A long preview on a
+  large screen can still reach the question below it.
 * `reminder` is built from a template with no count in it. "Most of the panel has answered" is the
   strongest thing a reminder may say; a count in a panel of eight tells the reader how to be the
   fifth, and that is herding by arithmetic.
@@ -65,11 +71,12 @@ def assert_lock_screen_safe(body: str, risk: dict, question: str | None = None) 
     `question` is the frozen question text, which is exempt and checked separately. There is a
     real tension in section 6e here: it asks for the question in the message and for no place
     name finer than the crisis title. The frozen question names provinces, because ACAPS's own
-    published risk does. The reading taken here is that the rule is about the *preview*: every
-    body starts with the crisis-level line, so the two lines a lock screen shows name a country
-    and a subject, and the question follows below. Everything this module composes around the
-    question is still held to the rule, which is why the exemption is one named argument and not
-    a switch that turns the check off."""
+    published risk does, and an expert cannot answer a question they have not been shown. So the
+    body opens with the crisis-level line and the question follows it, the subject is held to the
+    rule with no exemption, and everything this module composes around the question is checked --
+    which is why the exemption is one named argument and not a switch that turns the check off.
+    It does not make every preview province-free, and the test says so rather than implying
+    otherwise."""
     if question:
         body = body.replace(question, " ")
     lowered = body.lower()
