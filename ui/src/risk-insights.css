@@ -202,3 +202,137 @@
 .crisis-record .crisis-precedent {
   max-width: 60ch;
 }
+
+/* Aggregation method chain */
+.method-chain {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.method-chain li {
+  border-left: 2px solid var(--border);
+  padding: 10px 0 10px 16px;
+}
+.method-chain li.headline {
+  border-left-color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 0 4px 4px 0;
+}
+.method-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.method-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.method-head strong {
+  font-size: 15px;
+}
+.method-chain p {
+  margin: 4px 0 0;
+  max-width: 68ch;
+  font-size: 12px;
+  color: var(--muted);
+}
+.method-tag {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+.method-tag.published {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Theme routing and second opinion */
+.theme-routing {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.theme-routing li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.theme-text {
+  max-width: 48ch;
+  font-size: 13px;
+}
+.theme-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.theme-tag {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: 11px;
+}
+.second-opinion,
+.coverage-gaps {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.second-opinion h3,
+.coverage-gaps h3 {
+  margin: 0 0 6px;
+  font-size: 13px;
+}
+.second-opinion p,
+.coverage-gaps p {
+  margin: 0 0 6px;
+  max-width: 68ch;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Regional spread */
+.region-bar {
+  flex: 1;
+  min-width: 60px;
+  max-width: 220px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  overflow: hidden;
+}
+.region-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+.region-note {
+  margin: 10px 0 0;
+  max-width: 68ch;
+  font-size: 12px;
+  color: var(--muted);
+}

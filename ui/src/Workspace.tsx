@@ -13,6 +13,7 @@ import { PortalHeader } from "./PortalHeader";
 import { VerificationTrail } from "./VerificationTrail";
 import { HistoricalLedger } from "./HistoricalLedger";
 import { bandRate, asPercent } from "./base-rates";
+import { MethodChain, CoverageAdvice, spreadNote } from "./Method";
 import { DraftNarrative, DraftRecommendation } from "./Grounding";
 import { HonestyBox, IntegrityPanel, PanelMatch } from "./V2Panels";
 import { GroupChart, Verification } from "./LiveWorkspace";
@@ -125,6 +126,9 @@ function Regions() {
             <strong>{percent(region.mean!)}</strong>
           </div>
         ))}
+        {spreadNote(result) && (
+          <p className="region-note">{spreadNote(result)}</p>
+        )}
         <p className="panel-caption">
           Other regions withheld below three answers. Map is a schematic
           locator, not a boundary dataset.
@@ -478,6 +482,21 @@ function Desk() {
               {revealed && <IntegrityPanel pulseId={pulse.id} />}
 
               <Panel
+                title="How this number was reached"
+                detail={revealed ? "Seven steps" : "Sealed"}
+              >
+                {revealed ? (
+                  <MethodChain
+                    result={result}
+                    reference={risk.probability_acaps}
+                  />
+                ) : (
+                  <p className="empty-copy">
+                    The method chain opens with the round.
+                  </p>
+                )}
+              </Panel>
+              <Panel
                 title="Agreement by region"
                 detail={revealed ? "Regional minimum n = 3" : "Sealed"}
               >
@@ -490,23 +509,11 @@ function Desk() {
                 )}
               </Panel>
               <Panel
-                title="What the panel is missing"
-                detail={revealed ? "Panel themes" : "Sealed"}
+                title="What this panel could not see"
+                detail={revealed ? "Themes routed to expertise" : "Sealed"}
               >
                 {revealed ? (
-                  <ul className="theme-list">
-                    {result.missing_themes.map((theme) => (
-                      <li key={theme.theme}>
-                        <span>
-                          {theme.theme}
-                          <small className="theme-provenance">
-                            Origin: {theme.origin} · {theme.corroboration}
-                          </small>
-                        </span>
-                        <strong>{theme.count}</strong>
-                      </li>
-                    ))}
-                  </ul>
+                  <CoverageAdvice result={result} />
                 ) : (
                   <p className="empty-copy">Themes appear after reveal.</p>
                 )}

@@ -8,8 +8,13 @@ import { crisisHistory } from "./base-rates";
 
 /** What the Risk List already records against this crisis, joined on crisis_id.
     Context for whether the shift is new ground or a repeat. */
-function CrisisRecord({ id }: { id: string }) {
+function CrisisRecord({ id, connected = [] }: { id: string; connected?: string[] }) {
   const history = crisisHistory(id);
+  // A cross-border driver carries its own Risk List history, which is the
+  // inter-country half of the picture the national figure leaves out.
+  const linked = connected
+    .map((other) => ({ id: other, record: crisisHistory(other) }))
+    .filter((item) => item.record);
   if (!history) return null;
   const { risks, resolved, materialised, examples } = history;
   return (
@@ -24,6 +29,17 @@ function CrisisRecord({ id }: { id: string }) {
           </>
         )}
       </span>
+      {linked.length > 0 && (
+        <span className="crisis-precedent">
+          Connected across the border:{" "}
+          {linked
+            .map(
+              (item) =>
+                `${item.id} (${item.record!.risks} risks, ${item.record!.materialised} of ${item.record!.resolved} materialised)`,
+            )
+            .join("; ")}
+        </span>
+      )}
       {examples.length > 0 && (
         <span className="crisis-precedent">
           Most recent: {examples[0].risk_id} ({examples[0].level},{" "}
@@ -302,7 +318,10 @@ export function Alerts() {
                   <p>
                     {event.month_from} → {event.month_to}
                   </p>
-                  <CrisisRecord id={event.crisis_id} />
+                  <CrisisRecord
+                    id={event.crisis_id}
+                    connected={event.connected_crises}
+                  />
                 </div>
                 <div className="severity-change">
                   <strong>

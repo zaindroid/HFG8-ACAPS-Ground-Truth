@@ -10,6 +10,8 @@ import {
 } from "./V3Workflow";
 import { PortalHeader } from "./PortalHeader";
 import { bandRate, asPercent } from "./base-rates";
+import { MethodChain, CoverageAdvice, RegionalSpread } from "./Method";
+import { Section } from "./Panel";
 import { VerificationTrail } from "./VerificationTrail";
 import { DraftNarrative, DraftRecommendation, pendingClaims } from "./Grounding";
 import { HonestyBox, IntegrityPanel, PanelMatch } from "./V2Panels";
@@ -60,22 +62,7 @@ export function Frame({
     </>
   );
 }
-export function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="workspace-panel">
-      <div className="panel-heading">
-        <h2>{title}</h2>
-      </div>
-      {children}
-    </section>
-  );
-}
+export { Section } from "./Panel";
 export function CopyButton({
   value,
   label = "Copy",
@@ -971,41 +958,29 @@ function LiveDesk() {
 
                   <Section title="Agreement by region">
                     {group ? (
-                      <>
-                        {group.agreement_by_region
-                          .filter((r) => r.n >= 3 && r.mean !== null)
-                          .map((r) => (
-                            <p className="region-line" key={r.region}>
-                              {r.region}
-                              <strong>{percent(r.mean!)}</strong>
-                              <span>{r.n} answers</span>
-                            </p>
-                          ))}
-                        <p className="panel-caption">
-                          Regions below three answers are withheld.
-                        </p>
-                      </>
+                      <RegionalSpread
+                        result={group}
+                        countries={risk?.country ? [risk.country] : []}
+                      />
                     ) : (
                       <p>Regional views open after reveal.</p>
                     )}
                   </Section>
-                  <Section title="Missing themes">
+                  <Section title="What this panel could not see">
                     {group ? (
-                      <ul className="theme-list">
-                        {group.missing_themes.map((t) => (
-                          <li key={t.theme}>
-                            <span>
-                              {t.theme}
-                              <small className="theme-provenance">
-                                Origin: {t.origin} · {t.corroboration}
-                              </small>
-                            </span>
-                            <strong>{t.count}</strong>
-                          </li>
-                        ))}
-                      </ul>
+                      <CoverageAdvice result={group} />
                     ) : (
                       <p>Themes open after reveal.</p>
+                    )}
+                  </Section>
+                  <Section title="How this number was reached">
+                    {group ? (
+                      <MethodChain
+                        result={group}
+                        reference={risk?.probability_acaps || ""}
+                      />
+                    ) : (
+                      <p>The method chain opens after reveal.</p>
                     )}
                   </Section>
                 </div>
