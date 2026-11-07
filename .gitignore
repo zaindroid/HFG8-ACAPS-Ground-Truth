@@ -8,3 +8,7 @@ reports/*.png
 ui/node_modules/
 ui/dist/
 .venv/
+reports/
+.venv/
+ui/package-lock.json.bak
+ui/tsconfig.tsbuildinfo

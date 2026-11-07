@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { ArrowRight, ArrowUpRight, LockKeyhole } from "lucide-react";
 import { Frame } from "./LiveWorkspace";
 import { DemoSamples } from "./DemoSamples";
-import { checkedOn, publications } from "./acaps-catalog";
 import { startDemoSession, workspaceDestination } from "./workspace-session";
 
 function DemoLoginButton({
@@ -42,46 +41,56 @@ function DemoLoginButton({
     </>
   );
 }
-function PublicHeader() {
+function ProductLink({ to, children }: { to: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={to}
+      onClick={(event) => {
+        event.preventDefault();
+        try {
+          startDemoSession();
+        } catch {
+          /* session storage blocked: the destination's own gate explains what to do */
+        }
+        location.assign(to);
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+function PortalHeader() {
   return (
     <header className="public-header">
-      <a className="acaps-wordmark" href="/">
-        ACAPS<span>Humanitarian analysis</span>
+      <a className="sealed-wordmark" href="/">
+        Sealed Signals<span>Expert validation for risk analysis</span>
       </a>
-      <nav aria-label="Public navigation">
-        <a href="https://www.acaps.org/en/countries">Countries</a>
-        <a href="https://www.acaps.org/en/countries/archives">Analysis</a>
-        <a href="https://www.acaps.org/en/thematics/all-topics">
-          Topics & data
-        </a>
-        <a href="https://www.acaps.org/en/about-us/who-we-are">About ACAPS</a>
+      <nav aria-label="Portal navigation">
+        <ProductLink to="/alerts">Risk alerts</ProductLink>
+        <ProductLink to="/desk">Analyst desk</ProductLink>
+        <ProductLink to="/ledger">Public ledger</ProductLink>
         <a href="/e/demo">Expert card</a>
       </nav>
       <DemoLoginButton />
     </header>
   );
 }
-function PublicFooter() {
+function PortalFooter() {
   return (
     <footer className="public-footer">
       <div>
-        <a className="acaps-wordmark" href="https://www.acaps.org/en/">
-          ACAPS
-        </a>
+        <p className="sealed-wordmark-plain">Sealed Signals</p>
         <p>
-          Independent humanitarian analysis.
-          <br />
-          Explore the evidence. Inform the response.
+          A prototype built for the ACAPS Ground Truth challenge, Hackathon for
+          Good #8. Not an ACAPS service and not affiliated with ACAPS.
         </p>
       </div>
       <div>
-        <a href="https://www.acaps.org/en/newsletter">
-          Newsletter <ArrowUpRight size={14} aria-hidden="true" />
-        </a>
-        <a href="https://api.acaps.org">
-          ACAPS API <ArrowUpRight size={14} aria-hidden="true" />
-        </a>
-        <a href="https://www.acaps.org/en/">
+        <p>
+          Risk and severity figures come from the ACAPS Risk Radar export and
+          the ACAPS API, used under ACAPS terms of use.
+        </p>
+        <a href="https://www.acaps.org/en/" target="_blank" rel="noreferrer">
           Official ACAPS website <ArrowUpRight size={14} aria-hidden="true" />
         </a>
       </div>
@@ -91,92 +100,109 @@ function PublicFooter() {
 
 export function PublicHome() {
   useEffect(() => {
-    document.title = "Humanitarian analysis | ACAPS-connected prototype";
+    document.title = "Sealed Signals · Expert validation for risk analysis";
   }, []);
   return (
     <>
       <a className="skip-link" href="#public-content">
         Skip to content
       </a>
-      <PublicHeader />
+      <p className="prototype-banner" role="note">
+        Prototype for the ACAPS Ground Truth challenge. Not an ACAPS service.
+        Expert panels and their answers are synthetic.
+      </p>
+      <PortalHeader />
       <main id="public-content" className="public-home">
         <section className="public-hero">
           <div className="public-hero-copy">
             <h1>
-              See the crisis.
+              One question.
               <br />
-              Change the outcome.
+              Independent judgement.
             </h1>
             <p>
-              Find country analysis, explore humanitarian research and access
-              the data that supports informed decisions.
+              When ACAPS severity data shifts, Sealed Signals asks a small panel
+              of humanitarian experts whether the analysis still holds. Answers
+              are sealed until the round opens, aggregated as a group view, and
+              published with their own limitations.
             </p>
-            <a
-              className="public-primary"
-              href="https://www.acaps.org/en/countries"
-            >
-              Explore country analysis{" "}
-              <ArrowRight size={18} aria-hidden="true" />
-            </a>
-          </div>
-          <a className="public-feature" href={publications[0].url}>
-            <img
-              src="/acaps-feature.webp"
-              alt="Featured image from ACAPS’s Afghanistan analysis"
-              fetchPriority="high"
-            />
-            <div>
-              <p>Featured analysis · Afghanistan</p>
-              <h2>{publications[0].title}</h2>
-              <span>
-                Read the report <ArrowUpRight size={18} aria-hidden="true" />
+            <ProductLink to="/workspace">
+              <span className="public-primary">
+                Open the workspace <ArrowRight size={18} aria-hidden="true" />
               </span>
-            </div>
-          </a>
+            </ProductLink>
+          </div>
+          <div className="public-feature-static">
+            <p>Latest alert · Chad</p>
+            <h2>Displacement from Sudan to Chad</h2>
+            <p className="public-feature-figure">
+              <span className="num">6.1</span> &rarr;{" "}
+              <strong className="num">6.9</strong>
+            </p>
+            <p>
+              INFORM severity, March to April 2026. The largest deterioration of
+              123 crises that month, and the question that round put to the
+              panel.
+            </p>
+          </div>
         </section>
+
         <section className="public-research">
           <div className="public-section-heading">
             <div>
-              <p>Humanitarian research</p>
-              <h2>Analysis for a clearer picture.</h2>
+              <p>How it works</p>
+              <h2>From a signal to an accountable decision.</h2>
             </div>
-            <a href="https://www.acaps.org/en/countries/archives">
-              Explore the publications library{" "}
-              <ArrowUpRight size={17} aria-hidden="true" />
-            </a>
           </div>
-          <p className="public-source">
-            Selected publications · links checked {checkedOn}. Visit ACAPS for
-            the current archive.
-          </p>
-          <div className="public-report-grid">
-            {publications.slice(1).map((p) => (
-              <article key={p.url}>
-                <p>{p.country}</p>
-                <time dateTime={p.date}>{p.date}</time>
-                <h3>
-                  <a href={p.url}>{p.title}</a>
-                </h3>
-                <a className="public-report-link" href={p.url}>
-                  Read analysis <ArrowUpRight size={16} aria-hidden="true" />
-                </a>
-              </article>
-            ))}
+          <div className="portal-steps">
+            <article>
+              <p>1 · Spot the change</p>
+              <h3>The alert engine watches ACAPS&rsquo;s own monthly editions</h3>
+              <p>
+                Fixed numeric rules over the INFORM severity and access
+                editions. It proposes; it never opens a round by itself.
+              </p>
+            </article>
+            <article>
+              <p>2 · Hear the experts</p>
+              <h3>A small panel answers in about a minute</h3>
+              <p>
+                Each expert chooses a mask. The first round hides the current
+                rating so it cannot anchor an independent answer.
+              </p>
+            </article>
+            <article>
+              <p>3 · Make the call</p>
+              <h3>An analyst accepts, edits or rejects</h3>
+              <p>
+                Nothing publishes itself. Rejecting the panel requires a
+                rationale, and the rationale is published too.
+              </p>
+            </article>
+            <article>
+              <p>4 · Check the record</p>
+              <h3>The group view goes on a public ledger</h3>
+              <p>
+                With the spread, the coverage gaps, the unchecked claims and a
+                hash anyone can verify against the sealed answers.
+              </p>
+            </article>
           </div>
         </section>
+
         <section className="public-workspace-entry">
           <div>
             <LockKeyhole size={23} aria-hidden="true" />
             <h2>Sealed Signals workspace</h2>
             <p>
-              Team access to expert validation, risk metrics and the decision
+              Risk alerts, panel management, the analyst desk and the decision
               ledger.
             </p>
           </div>
           <DemoLoginButton />
         </section>
       </main>
-      <PublicFooter />
+      <PortalFooter />
     </>
   );
 }
@@ -220,7 +246,7 @@ export function WorkspaceHome() {
           <strong>
             6.1 <ArrowRight size={28} /> 6.9
           </strong>
-          <small>+0.8 points · largest change among 123 crises</small>
+          <small>+0.8 points · largest deterioration among 123 crises</small>
         </div>
       </section>
       <div className="journey-overview">

@@ -1,0 +1,31 @@
+# Platform contract for zorc. Memory and node placement come from the deployment report, not from here.
+name: sealed-signals
+kind: dockerfile
+port: 8080
+memory_mb: 512
+
+domains:
+  - sealed-signals.zaindroid.me
+
+# No database: this pilot keeps its round in process and rebuilds it from engine/seeding.py on start.
+# The risk list is read from the committed ACAPS export. Nothing here is a system of record yet, and
+# declaring a Postgres we do not use would be worse than saying so.
+database: false
+redis: false
+ai: false
+
+dependencies:
+  python: "3.12"
+  node: "22"
+
+env:
+  # Internal secrets. The platform generates these and sets them before the first real start; the
+  # engine refuses to boot without them rather than falling back to a default.
+  COMMITMENT_SALT:
+    generate: hex
+  PSEUDONYM_KEY:
+    generate: hex
+
+healthcheck:
+  path: /health
+  ready_path: /ready
