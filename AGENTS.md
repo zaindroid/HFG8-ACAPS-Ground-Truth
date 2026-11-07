@@ -42,7 +42,12 @@ Start with `README.md`. This file says where each part lives and which test or c
 `FF_PQ`, `FF_BLIND`, `FF_ZK` (off), `FF_ANCHOR`, `FF_AGENTS` (off, model-optional), `FF_CALIBRATION` (off,
 consent-gated), `FF_TEAMS` (off: needs an app registration in the agency's own tenant; falls back to email),
 `FF_IVR` (off: needs a telephony account whose tariffs a local partner has to confirm; falls back to SMS),
-`LLM_BASE_URL`. Each is declared with its fallback in `engine/engine/hardening/flags.py`. Every flag has a deterministic fallback so the demo never blocks;
+`LLM_BASE_URL` and `LLM_API_KEY`, which come from the platform's shared AI gateway when `app.yaml`
+declares `ai: true` -- no provider key is ever held in this repo. With them set, the expert card's
+questions are written per risk and per expert by `engine/engine/question_gen.py`; without them that
+generator is absent and the reviewed sets and the deterministic bank in `engine/engine/probes.py`
+answer instead, so a card always has questions. Each flag is declared with its fallback in
+`engine/engine/hardening/flags.py`. Every flag has a deterministic fallback so the demo never blocks;
 the README and the UI state which path ran. Nothing in the pitch depends on a flag that is off.
 
 ## What is not built

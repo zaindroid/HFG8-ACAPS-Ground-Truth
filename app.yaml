@@ -12,7 +12,17 @@ domains:
 # declaring a Postgres we do not use would be worse than saying so.
 database: false
 redis: false
-ai: false
+# The expert card's questions are written by a model when one is reachable (engine/question_gen.py,
+# MASTER_PROMPT 6d): the risk's own record, how its band has actually resolved, the severity move
+# that fired the pulse, and the expert's region and expertise go in; questions in the deterministic
+# bank's own schema come out. It runs when the pulse is created -- analyst-side, so the analyst can
+# read what it produced before a link goes out, and the card still opens on a bad connection.
+#
+# `ai: true` wires LLM_BASE_URL and LLM_API_KEY to the shared zorc gateway, which picks a free
+# provider and fails over between them. No provider key is ever held here. Without those vars the
+# generator is simply absent and the reviewed sets and deterministic bank answer instead, which is
+# why nothing breaks when the gateway is down.
+ai: true
 
 dependencies:
   python: "3.12"
