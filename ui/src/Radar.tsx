@@ -10,6 +10,7 @@ import { endpoint, type Risk } from "./service";
 import { Frame, Section } from "./LiveWorkspace";
 import { date } from "./desk-model";
 import type { RadarStatus } from "./v2-types";
+import { EditionHistory } from "./EditionHistory";
 
 const world = feature(
   countries as unknown as Topology<{ countries: GeometryCollection }>,
@@ -144,6 +145,7 @@ export function Radar() {
           ))}
         </div>
       )}
+      <EditionHistory />
       {loading && <p role="status">Loading Risk Radar…</p>}
       {error && (
         <p className="error-box" role="alert">

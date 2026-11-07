@@ -36,6 +36,14 @@ type Run = {
   note?: string;
 };
 const key = "sealed-signals-alert-decisions-v1";
+const linksKey = "sealed-signals-risk-links-v1";
+function links(): Record<string, string> {
+  try {
+    return JSON.parse(sessionStorage.getItem(linksKey) || "{}");
+  } catch {
+    return {};
+  }
+}
 function stored(): Record<
   string,
   { status: string; pulse_id: string | null; note?: string }
@@ -48,7 +56,16 @@ function stored(): Record<
 }
 function withDecisions(events: Shift[]) {
   const saved = stored();
-  return events.map((e) => ({ ...e, ...saved[e.id] }));
+  const linked = links();
+  return events.map((e) => ({
+    ...e,
+    ...saved[e.id],
+    risk_id:
+      Object.entries(linked).find(([, id]) => id === e.crisis_id)?.[0] ||
+      (e.risk_id && linked[e.risk_id] && linked[e.risk_id] !== e.crisis_id
+        ? null
+        : e.risk_id),
+  }));
 }
 function save(event: Shift, note?: string) {
   sessionStorage.setItem(
@@ -79,7 +96,20 @@ export const alertService = {
     if (mock) {
       if (id !== crisis.crisis_id)
         throw new Error("This crisis is not available.");
-      return crisis;
+      const linked = links();
+      return {
+        ...crisis,
+        linked_risks: [
+          ...new Set([
+            ...crisis.linked_risks.filter(
+              (id) => !linked[id] || linked[id] === crisis.crisis_id,
+            ),
+            ...Object.keys(linked).filter(
+              (id) => linked[id] === crisis.crisis_id,
+            ),
+          ]),
+        ],
+      };
     }
     return api<Crisis>(`/crises/${encodeURIComponent(id)}`);
   },
@@ -91,4 +121,27 @@ export const alertService = {
     mock
       ? save({ ...event, status: "dismissed" }, note)
       : api<Shift>(`/alerts/${encodeURIComponent(event.id)}/dismiss`, { note }),
+  linkRisk: async (riskId: string, crisisId: string): Promise<Crisis> => {
+    if (mock) {
+      if (crisisId !== crisis.crisis_id)
+        throw new Error("This crisis is not available.");
+      sessionStorage.setItem(
+        linksKey,
+        JSON.stringify({ ...links(), [riskId]: crisisId }),
+      );
+      return {
+        ...crisis,
+        linked_risks: [...new Set([...crisis.linked_risks, riskId])],
+      };
+    }
+    await api<unknown>(`/risks/${encodeURIComponent(riskId)}/link`, {
+      crisis_id: crisisId,
+    });
+    const record = await api<Crisis>(`/crises/${encodeURIComponent(crisisId)}`);
+    if (record.crisis_id !== crisisId || !record.linked_risks?.includes(riskId))
+      throw new Error(
+        "The API has not confirmed this risk link in the crisis record. Refresh before trying again.",
+      );
+    return record;
+  },
 };

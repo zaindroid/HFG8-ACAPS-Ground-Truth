@@ -56,14 +56,18 @@ Three-minute presentation update:
 - Alerts supports current edition runs, April replay, compact selectable shifts, a marked severity trend, rule/rank/reliability, panel requests and note-required dismissal. API failures preserve the proposed alert; unsupported backend actions never appear successful. The local scaffold still needs the dismissal endpoint.
 - Both desks show the ACAPS band beside the sealed/revealed equal-weight panel mean and spread. The expert card remains blind in round one. Ledger records remain compact and expandable with their existing verification trail.
 - The local sample draft now cites the ACAPS edition change. Shared backend draft provenance remains Lane A's responsibility.
+- Radar has expandable edition history, loaded from `/radar/editions` in API mode. The local view lists only the four retained INFORM editions and one access edition, not every month in the crisis-only trend.
+- Alerts has expandable risk-link review: same-country active risks, crisis drivers and risk triggers, explicit analyst confirmation, and `POST /risks/{id}/link`. API confirmation requires reading the link back from `/crises/{id}`; panel routing refreshes from `/alerts` rather than inventing a new mapping locally.
 
 Remaining frontend work beyond this presentation pass:
 
 1. Add dedicated crisis browsing and component time-series (the Alerts detail currently shows severity history and component changes).
-2. Add edition history and explicit risk-to-crisis link confirmation.
-3. Wire the new routes as implemented by Lane A. At this sync the scaffold lacks several specified endpoints (including dismissal, link confirmation and edition history); do not simulate their success in API mode.
+2. Confirm final edition-history response shape with Lane A. The UI currently accepts a dataset-to-months map or dataset rows with `months` in `editions`/`datasets`.
+3. Rehearse against Lane A's implemented routes. At this sync the scaffold still lacks dismissal, link confirmation and edition history; their API-mode controls show the service error without a mock fallback.
 4. The shared draft still cites older ACLED/UNHCR evidence and weighted probability. Preserve API approval guards until its provenance is consistent.
 5. Audit copy against trust-design: no blockchain claims, no promise of anonymity from the operator, no public individual responses or moderator-only rationale. Commitments establish timing/consistency, not factual truth. External indicators remain later enrichment.
 
 Validation: TypeScript, API-mode and mock production builds passed. All 54 frontend browser checks and 33 API-contract checks passed across phone, desktop and projector widths. The final chart-sizing change was checked again with the six Alerts journey cases. Alerts and Radar include accessibility checks. API-contract checks intercept HTTP responses; they do not establish backend security or missing scaffold capabilities.
+
+Edition/link follow-up validation: mock production build and 18 targeted browser checks passed (12 local UI/journey checks and six API-contract checks). This includes unsupported endpoints, retry, same-country selection, explicit confirmation, read-after-write verification, unchanged routing after a failed confirmation, accessibility and responsive overflow checks.
 

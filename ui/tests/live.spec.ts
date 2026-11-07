@@ -17,6 +17,106 @@ import alerts from "../../fixtures/GET_alerts.json" with { type: "json" };
 import crisis from "../../fixtures/GET_crises_TCD005.json" with { type: "json" };
 import alertPulse from "../../fixtures/POST_alerts_pulse_response.json" with { type: "json" };
 
+test("edition history reports an unavailable API and retries without cached fallback", async ({
+  page,
+}) => {
+  await contractApi(page);
+  let available = false;
+  await page.route("**/radar/editions", (route) =>
+    route.fulfill({
+      status: available ? 200 : 501,
+      json: available
+        ? { "inform-severity-index": ["Mar2026", "Nov2026", "Apr2026"] }
+        : {},
+      headers: { "Access-Control-Allow-Origin": "*" },
+    }),
+  );
+  await page.goto("/radar");
+  await page.getByText("Edition history", { exact: true }).click();
+  await expect(page.getByRole("alert")).toContainText("not available");
+  await expect(page.locator(".edition-months a")).toHaveCount(0);
+  available = true;
+  await page.getByRole("button", { name: "Refresh editions" }).click();
+  await expect(page.locator(".edition-months a")).toHaveText([
+    "Nov2026",
+    "Apr2026",
+    "Mar2026",
+  ]);
+  await expect(page.getByRole("alert")).toHaveCount(0);
+});
+
+test("risk links require a stored crisis mapping before alert routing changes", async ({
+  page,
+}) => {
+  await contractApi(page);
+  let state: "unsupported" | "unconfirmed" | "confirmed" = "unsupported";
+  const writes: unknown[] = [];
+  await page.route("http://127.0.0.1:18000/alerts", (route) =>
+    route.fulfill({
+      json: {
+        events: alerts.events.map((e) => ({
+          ...e,
+          risk_id: state === "confirmed" ? "R1043" : null,
+        })),
+      },
+      headers: { "Access-Control-Allow-Origin": "*" },
+    }),
+  );
+  await page.route("http://127.0.0.1:18000/crises/TCD005", (route) =>
+    route.fulfill({
+      json: { ...crisis, linked_risks: state === "confirmed" ? ["R1043"] : [] },
+      headers: { "Access-Control-Allow-Origin": "*" },
+    }),
+  );
+  await page.route("http://127.0.0.1:18000/risks/R1043/link", (route) => {
+    if (route.request().method() === "OPTIONS")
+      return route.fulfill({
+        status: 204,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "content-type",
+          "Access-Control-Allow-Methods": "POST",
+        },
+      });
+    writes.push(route.request().postDataJSON());
+    return route.fulfill({
+      status: state === "unsupported" ? 501 : 200,
+      json: { risk_id: "R1043", crisis_id: "TCD005" },
+      headers: { "Access-Control-Allow-Origin": "*" },
+    });
+  });
+  await page.goto("/alerts");
+  await expect(
+    page.getByRole("button", { name: "Ask experts", exact: true }),
+  ).toBeDisabled();
+  await page.getByText("Review risk link", { exact: true }).click();
+  await page
+    .getByLabel("The geography and risk triggers match this crisis.")
+    .check();
+  await page.getByRole("button", { name: "Confirm risk link" }).click();
+  await expect(page.getByRole("alert")).toContainText("not available");
+  await expect(page.locator(".risk-link-confirmed")).toHaveCount(0);
+  state = "unconfirmed";
+  await page.getByRole("button", { name: "Confirm risk link" }).click();
+  await expect(page.getByRole("alert")).toContainText("has not confirmed");
+  await expect(
+    page.getByRole("button", { name: "Ask experts", exact: true }),
+  ).toBeDisabled();
+  state = "confirmed";
+  await page.getByRole("button", { name: "Confirm risk link" }).click();
+  await expect(page.locator(".risk-link-confirmed")).toHaveText(
+    "R1043 linked to TCD005.",
+  );
+  await expect(
+    page.getByRole("button", { name: "Ask experts", exact: true }),
+  ).toBeEnabled();
+  expect(writes).toEqual([
+    { crisis_id: "TCD005" },
+    { crisis_id: "TCD005" },
+    { crisis_id: "TCD005" },
+  ]);
+});
+
 test("alert API failures retain the proposed alert and confirmed pulse opens the desk", async ({
   page,
 }) => {

@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight, Check, RefreshCw } from "lucide-react";
 import { Frame } from "./LiveWorkspace";
 import { Journey } from "./Journey";
 import { alertService, type Shift, type Crisis } from "./alerts-service";
+import { RiskLink } from "./RiskLink";
 
 function Trend({ crisis, event }: { crisis: Crisis; event: Shift }) {
   const plot = useRef<HTMLDivElement>(null);
@@ -333,6 +334,27 @@ export function Alerts() {
                   </a>
                 </aside>
               </div>
+              {crisis && (
+                <RiskLink
+                  key={crisis.crisis_id}
+                  crisis={crisis}
+                  onConfirmed={(record) => {
+                    setCrisis(record);
+                    void action("Refreshing alert routing", async () => {
+                      const rows = await alertService.list();
+                      setEvents((previous) =>
+                        previous.map(
+                          (e) =>
+                            rows.find(
+                              (r) =>
+                                r.id === e.id && r.crisis_id === e.crisis_id,
+                            ) || e,
+                        ),
+                      );
+                    });
+                  }}
+                />
+              )}
               <div className="alert-decision">
                 <div>
                   <strong>
