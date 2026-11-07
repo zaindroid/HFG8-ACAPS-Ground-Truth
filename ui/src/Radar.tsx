@@ -11,6 +11,7 @@ import { Frame, Section } from "./LiveWorkspace";
 import { date } from "./desk-model";
 import type { RadarStatus } from "./v2-types";
 import { EditionHistory } from "./EditionHistory";
+import { RiskInsights } from "./RiskInsights";
 
 const world = feature(
   countries as unknown as Topology<{ countries: GeometryCollection }>,
@@ -312,6 +313,7 @@ export function Radar() {
           )
         )}
       </Section>
+      <RiskInsights />
       <div className="radar-next">
         <a href="/apply">Apply as a synthetic expert</a>
         <a href="/committee">Committee review</a>

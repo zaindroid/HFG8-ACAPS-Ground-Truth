@@ -55,7 +55,10 @@ export function DraftNarrative({
         {hasPanel&&<div><UsersRound size={18} aria-hidden="true"/><div><span>Expert forecast</span><strong>{Math.round(result!.mean*100)}%</strong><p>Average forecast from {result!.n} estimates</p></div></div>}
         {edition&&<div><ChartNoAxesCombined size={18} aria-hidden="true"/><div><span>Observed severity</span><strong>{edition.before}<ArrowRight size={18} aria-hidden="true"/>{edition.after}</strong><p>{edition.month_from?.replace(/(\D+)(\d+)/,"$1 $2")} → {edition.month_to?.replace(/(\D+)(\d+)/,"$1 $2")} · index out of 10</p></div></div>}
       </div><p className="draft-facts-caption">The forecast estimates what may happen. Severity describes the crisis already observed.</p></section>}
-      <details className="draft-wording" open={hasSummary?undefined:true}><summary>Read the drafted wording</summary>
+      {/* Open by default: the summary above puts the recommendation first, but the
+          analyst still has to be able to read the wording they are approving. */}
+      <details className="draft-wording" open>
+        <summary>Read the drafted wording</summary>
       <div className="draft-text">
         {draft.claims?.length ? (
           draft.claims

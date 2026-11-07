@@ -1,0 +1,304 @@
+{
+  "generated_at": "2026-11-07T13:21:37+00:00",
+  "source": "ACAPS API v1 risk-list",
+  "totals": {
+    "risks": 214,
+    "resolved": 199,
+    "active": 14,
+    "materialised": 113,
+    "countries": 90,
+    "crises": 76
+  },
+  "calibration": [
+    {
+      "label": "Very Low",
+      "n": 8,
+      "materialised": 2,
+      "rate": 0.25,
+      "expected": 0.1
+    },
+    {
+      "label": "Low",
+      "n": 39,
+      "materialised": 8,
+      "rate": 0.2051,
+      "expected": 0.3
+    },
+    {
+      "label": "Medium",
+      "n": 92,
+      "materialised": 54,
+      "rate": 0.587,
+      "expected": 0.5
+    },
+    {
+      "label": "High",
+      "n": 46,
+      "materialised": 38,
+      "rate": 0.8261,
+      "expected": 0.7
+    },
+    {
+      "label": "Very High",
+      "n": 10,
+      "materialised": 9,
+      "rate": 0.9,
+      "expected": 0.9
+    }
+  ],
+  "by_level": [
+    {
+      "label": "Low",
+      "n": 8,
+      "materialised": 2,
+      "rate": 0.25
+    },
+    {
+      "label": "Medium",
+      "n": 131,
+      "materialised": 62,
+      "rate": 0.4733
+    },
+    {
+      "label": "High",
+      "n": 56,
+      "materialised": 47,
+      "rate": 0.8393
+    }
+  ],
+  "matrix": [
+    {
+      "probability": "Very Low",
+      "impact": 1,
+      "n": 1,
+      "materialised": 0,
+      "rate": 0.0
+    },
+    {
+      "probability": "Very Low",
+      "impact": 2,
+      "n": 3,
+      "materialised": 0,
+      "rate": 0.0
+    },
+    {
+      "probability": "Very Low",
+      "impact": 3,
+      "n": 2,
+      "materialised": 2,
+      "rate": 1.0
+    },
+    {
+      "probability": "Very Low",
+      "impact": 4,
+      "n": 1,
+      "materialised": 0,
+      "rate": 0.0
+    },
+    {
+      "probability": "Very Low",
+      "impact": 5,
+      "n": 1,
+      "materialised": 0,
+      "rate": 0.0
+    },
+    {
+      "probability": "Low",
+      "impact": 1,
+      "n": 0,
+      "materialised": 0,
+      "rate": null
+    },
+    {
+      "probability": "Low",
+      "impact": 2,
+      "n": 7,
+      "materialised": 2,
+      "rate": 0.2857
+    },
+    {
+      "probability": "Low",
+      "impact": 3,
+      "n": 18,
+      "materialised": 4,
+      "rate": 0.2222
+    },
+    {
+      "probability": "Low",
+      "impact": 4,
+      "n": 7,
+      "materialised": 2,
+      "rate": 0.2857
+    },
+    {
+      "probability": "Low",
+      "impact": 5,
+      "n": 6,
+      "materialised": 0,
+      "rate": 0.0
+    },
+    {
+      "probability": "Medium",
+      "impact": 1,
+      "n": 4,
+      "materialised": 3,
+      "rate": 0.75
+    },
+    {
+      "probability": "Medium",
+      "impact": 2,
+      "n": 21,
+      "materialised": 10,
+      "rate": 0.4762
+    },
+    {
+      "probability": "Medium",
+      "impact": 3,
+      "n": 32,
+      "materialised": 18,
+      "rate": 0.5625
+    },
+    {
+      "probability": "Medium",
+      "impact": 4,
+      "n": 23,
+      "materialised": 15,
+      "rate": 0.6522
+    },
+    {
+      "probability": "Medium",
+      "impact": 5,
+      "n": 11,
+      "materialised": 8,
+      "rate": 0.7273
+    },
+    {
+      "probability": "High",
+      "impact": 1,
+      "n": 0,
+      "materialised": 0,
+      "rate": null
+    },
+    {
+      "probability": "High",
+      "impact": 2,
+      "n": 2,
+      "materialised": 1,
+      "rate": 0.5
+    },
+    {
+      "probability": "High",
+      "impact": 3,
+      "n": 20,
+      "materialised": 19,
+      "rate": 0.95
+    },
+    {
+      "probability": "High",
+      "impact": 4,
+      "n": 15,
+      "materialised": 11,
+      "rate": 0.7333
+    },
+    {
+      "probability": "High",
+      "impact": 5,
+      "n": 8,
+      "materialised": 7,
+      "rate": 0.875
+    },
+    {
+      "probability": "Very High",
+      "impact": 1,
+      "n": 1,
+      "materialised": 0,
+      "rate": 0.0
+    },
+    {
+      "probability": "Very High",
+      "impact": 2,
+      "n": 2,
+      "materialised": 2,
+      "rate": 1.0
+    },
+    {
+      "probability": "Very High",
+      "impact": 3,
+      "n": 0,
+      "materialised": 0,
+      "rate": null
+    },
+    {
+      "probability": "Very High",
+      "impact": 4,
+      "n": 5,
+      "materialised": 5,
+      "rate": 1.0
+    },
+    {
+      "probability": "Very High",
+      "impact": 5,
+      "n": 2,
+      "materialised": 2,
+      "rate": 1.0
+    }
+  ],
+  "cohorts": [
+    {
+      "year": "2016",
+      "entered": 18,
+      "materialised": 8,
+      "not_materialised": 9,
+      "active": 0
+    },
+    {
+      "year": "2019",
+      "entered": 4,
+      "materialised": 0,
+      "not_materialised": 4,
+      "active": 0
+    },
+    {
+      "year": "2020",
+      "entered": 32,
+      "materialised": 14,
+      "not_materialised": 18,
+      "active": 0
+    },
+    {
+      "year": "2021",
+      "entered": 41,
+      "materialised": 25,
+      "not_materialised": 16,
+      "active": 0
+    },
+    {
+      "year": "2022",
+      "entered": 59,
+      "materialised": 37,
+      "not_materialised": 21,
+      "active": 1
+    },
+    {
+      "year": "2023",
+      "entered": 33,
+      "materialised": 23,
+      "not_materialised": 9,
+      "active": 1
+    },
+    {
+      "year": "2024",
+      "entered": 11,
+      "materialised": 4,
+      "not_materialised": 6,
+      "active": 1
+    },
+    {
+      "year": "2025",
+      "entered": 16,
+      "materialised": 2,
+      "not_materialised": 3,
+      "active": 11
+    }
+  ]
+}

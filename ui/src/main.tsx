@@ -30,6 +30,7 @@ import "./v3.css";
 import "./verification-trail.css";
 import "./ledger-list.css";
 import "./journey.css";
+import "./risk-insights.css";
 
 const MockWorkspace = lazy(() =>
   import("./Workspace").then((m) => ({ default: m.Workspace })),
