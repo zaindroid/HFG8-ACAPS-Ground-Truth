@@ -161,9 +161,61 @@ ACAPS's technical brief on cognitive biases (March 2016) names 38 biases and rec
 | Overconfidence | Outcome scoring of forecasts; group outcome report; consent-gated calibration programme |
 | Key-assumption check | Trigger pick: "which trigger would move your view most?" feeds the analyst's trigger list |
 
-Personas (Emily, Jose, Pierre, Aisha, from the organisers' pack, to be filled in when the PDF arrives): each persona is
-mapped to a contact type and a default channel marked "assumed, to verify in the pilot". Personas are design hypotheses,
-not evidence of channel preference or willingness to be calibrated; only a pilot establishes those. [PERSONAS: pending]
+Two more sentences from the poster, to quote verbatim: at the end of Communicate the outputs are "tailored, relevant and
+readable analysis outputs, providing solid reasoning and **reviewed by subject experts**" with a "**clearly and explicitly
+communicated limit of knowledge and how it impacts confidence in the results**". The first is the expert loop; the second
+is the honesty box. Step numbers for slides: 3.1 Explore item 15 "notice possible signals or stories in your data"; 3.4
+Interpret item 27 "evaluate evidence and assess plausibility"; 3.5 Anticipate item 32 "identify triggers and track new
+developments"; 4 Communicate items 38 "communicate uncertainty and document data and methods" and 39 "(self) edit and
+peer review"; 5 Throughout "organise and document your work: provide an audit trail".
+
+**Personas** (ACAPS's own, from 30 interviews with readers; two axes, global/field × information users/producers; the
+organisers say they are also the kind of experts ACAPS engages). Full mapping in `docs/sealed-signals/personas.md`.
+Design hypotheses, not evidence; every channel below is marked "assumed, to verify in the pilot".
+
+| Persona | Who | What they said that we answer | Role in Sealed Signals | Contact type, assumed channel |
+| --- | --- | --- | --- | --- |
+| Emily | Head of methodology, donor emergency team, HQ, global | "With ACAPS I know what you don't know and what is assumed"; "understanding which sources are more reliable is tricky"; wants "online access to all resources used to build an analysis, even those with different perspectives" | Reader of the ledger and honesty box; panel member on health and nutrition themes; a reviewer who will check the Verify click | HQ methodologist; email, Teams |
+| Jose | Emergency specialist, UN regional office in Jordan, covers Sudan among six countries | Wants "an easy way for field-users to provide quality feedback to HQ level to get a more accurate picture"; "discrepancies between information shared and the real situation"; wants updates "only for the countries I cover" | The expert the pulse is built for: covers Sudan, so the R1043 demo panel; also receives alerts filtered to his countries | Regional desk expert; email with one-click links, Teams; app alert |
+| Pierre | MEAL officer, IFRC, field, deployed for months, now food crisis in Nairobi | Wants reliable sources fast on a new mission, in-depth context, scenario skills; limited resources and time | Field expert on food and displacement; the "outside my area" and voice-note paths exist for him; reader of trigger lists | Field practitioner; WhatsApp, voice note, scheduled call |
+| Aisha | INGO country director, Madagascar, one country, 150 staff | Financial visibility "rarely beyond 6–10 months"; wants "information on political projections" to decide between an emergency and a development team | Reader of the ledger's "what decision, for whom, by when" line (her horizon matches the six-month question); one-country expert, rarely available | Country lead; email weekly, scheduled call; low cadence |
+
+Three design consequences, all already in v3.4: the question horizon is six months because that is the readers' planning
+horizon (Aisha, Pierre); alerts and pulses are filtered by the countries a person covers (Jose); every ledger entry
+lists what fed into it and what is not known (Emily).
+
+## 0c. The jury sheet (handed out Saturday evening; every lane reads this)
+
+Scores 1 to 10 per criterion; total = A Concept ×4 (40 %) + B Prototype ×2 (20 %) + C Technology feasibility ×1.5
+(future-proof, ethics, security, legal side of AI) + D Product potential ×1.5 + E Business feasibility ×0.5 + F Wow
+×0.5. The sheet's own challenge check: "the brief's must-haves are easy to use, expert-controlled anonymity and public
+anonymity; weigh them under A and B." Consequences: the live demo is inside the three minutes (B is 20 % and asks "does
+it work"); the three must-haves are named in the jury's words on slide 2 and shown working in the demo (card, mask
+picker, ledger); ethics, security and legal are labelled on slide 3; slide 6 carries one sentence of business model.
+Full mapping and the Q&A answers: docs/sealed-signals/judging-checklist.md. Lane B: the mask picker and the ledger's
+"never an individual" line must be visible without explanation. Lane A: `make demo` runs the full loop in under
+75 seconds.
+
+## 0d. Repository standard (enforced at every merge)
+
+1. Root files: `CLAUDE.md` (project context), `README.md` (problem, five-step solution, the must-haves by the
+   organisers' name with code paths, architecture, technology table, run, evidence, real vs synthetic, what we do not
+   claim, pilot), `AGENTS.md` (file map and the test or command behind each claim), `SUBMISSION.md`, `CHANGELOG.md`.
+   Every code path in them stays true; if a module moves, update the table in the same commit.
+2. Evidence: `scripts/capture_evidence.sh` writes `docs/evidence/make-check.txt`, `make-demo.txt`, `tree.txt`; Lane B
+   adds `docs/evidence/screens/` (three screens at 375 px and 1920 px) and `phones.md` (measured time and taps);
+   Lane A adds `sensitivity.png`. Regenerated from a clean clone at the Sunday freeze.
+3. Tests are named by the behaviour they prove (`test_link_click_never_commits`, `test_reveal_refused_before_deadline`,
+   `test_public_ledger_never_returns_individual`, `test_replay_apr2026_tcd005_rank1`, `test_blind_token_reuse_rejected`,
+   `test_pattern_sentence_never_names_pseudonym`).
+4. Every module has a top docstring saying what it does, what it guarantees and what it does not, in the trust-design
+   wording. Every feature flag is documented in `engine/engine/hardening/flags.py` with its fallback.
+5. No dead code, no TODO, no placeholder text on the submitted branch. Unfinished work is deleted or moved behind a
+   flag that is documented as off.
+6. The organisers' files stay unchanged (`docs/challenge/`, `data/`, `references/`, `notebooks/`); ours sit beside them.
+7. Submission: `demo` contains `main`'s history. Sunday 10:30 freeze: all lanes merged into `demo`, `make check` green,
+   evidence captured, README tables true, tag `v1.0`. One pull request `demo` → `main` with `SUBMISSION.md` as the
+   description, merged before 11:30; the submission form links to `main`.
 
 ## 1a. Who can learn what (replaces every "sealed" or "nothing leaves the device" claim)
 
@@ -697,17 +749,15 @@ Professional, minimal, modern. The jury should think "this already exists in pro
 - README: paragraph from section 0, architecture diagram, run instructions, what is synthetic vs live, limits, team.
 - Pitch rehearsed twice with the QR step (jury becomes the panel); fallback `make demo` pre-loads 8 synthetic answers.
 
-## 9a. The three minutes (Lane C owns demo-script.md; these beats are fixed)
+## 9a. The three minutes (Lane C owns demo-script.md; deck in pitch/sealed-signals-slides.html; six slides, fixed)
 
-0:00 the gap, in one sentence (section 0); 0:15 the alert engine diffs April 2026 live, TCD005 rank 1 of 123, the analyst
-approves the pulse; 0:40 the pulse leaves the Reach module as an email, a WhatsApp message and an SMS at once (delivery
-counts only); the jury scans the QR and answers on the one-screen card (60-second exercise timer, product has none);
-1:45 reveal at the deadline: four columns, spread, unattributed disagreement, coverage gap; 2:10 cited draft, Skeptic
-marks, analyst accepts with "what decision, for whom, by when"; 2:30 ledger entry with the honesty box; one click on
-Verify: "matches: these answers existed at this time and were not changed; it proves timing, not truth"; 2:45 the
-outcome report that every expert receives; 2:50 "easier to contribute to, easier to scrutinise, easier to trace; ready
-for a supervised pilot of this workflow". Crypto gets the Verify click and nothing else; the stack is on the repo page
-and in Q&A. Personas slide directly after the spine line.
+0:00 slide 1, the problem (20 s) · 0:20 slide 2, the solution and the three must-haves in the jury's words (25 s) ·
+0:45 live demo from the product (75 s): approve the April alert, send the pulse, the jury scans and answers on the card,
+reveal, draft with Skeptic marks, accept with "what decision, for whom, by when", ledger, one click on Verify · 2:00
+slide 3, how it is built, ethics, security and legal badges (20 s) · 2:20 slide 4, the card against six biases and the
+agent loop (20 s) · 2:40 slide 5, why people can trust it (10 s) · 2:50 slide 6, it runs, it is different, opportunity
+and model (10 s) · close on the spine line. Fallback slides B if the demo fails. Q&A answers in judging-checklist.md.
+Nothing is said on stage about a path that is off.
 
 ## 10. Lanes
 
@@ -755,7 +805,8 @@ Milestones: expert card mock Sat 12:00 · desk + ledger mock Sat 16:00 · live A
    want to give their view (channel, language, time) → what would make them stop. Use the four personas from the
    organisers' pack (Emily, Jose, Pierre, Aisha) as design hypotheses: map each to a contact type and a default channel
    marked "assumed, to verify in the pilot"; never present a persona as evidence of channel preference or willingness to
-   be calibrated. Fill section 0b when the PDF arrives.
+   be calibrated. Section 0b and docs/sealed-signals/personas.md hold the mapping; the persona slide follows the spine
+   line and shows Jose answering the Chad pulse, Emily reading the honesty box, Aisha reading the decision line.
 2. **Before / after**: ACAPS's own workflow poster (Design → Acquire → Analyse → Communicate) with our modules placed on
    it (section 0b table); the gap stated exactly as in section 0 (ad-hoc checks between scheduled reviews are not
    structured, time-stamped or auditable). One diagram. Never "today there is no record".
