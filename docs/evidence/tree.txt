@@ -12,6 +12,7 @@ app.yaml
 data/README.md
 data/acaps-risk-list.csv
 data/data-dictionary.md
+data/generated-questions.json
 data/risk-radar-export.csv
 data/risk-radar-export.xlsx
 data/synthetic/README.md
@@ -58,6 +59,7 @@ engine/engine/inbound/__init__.py
 engine/engine/inbound/parse.py
 engine/engine/logging_conf.py
 engine/engine/probes.py
+engine/engine/question_gen.py
 engine/engine/reach/__init__.py
 engine/engine/reach/cadence.py
 engine/engine/reach/channels.py
@@ -80,7 +82,9 @@ engine/tests/reach/test_inbound.py
 engine/tests/reach/test_reach.py
 engine/tests/reach/test_reach_routes.py
 engine/tests/test_alerts.py
+engine/tests/test_card_questions.py
 engine/tests/test_loop.py
+engine/tests/test_questions_the_brief_asks.py
 engine/tests/test_skeleton.py
 fixtures/GET_alerts.json
 fixtures/GET_anchors.json
@@ -184,6 +188,7 @@ ui/package.json
 ui/playwright.config.ts
 ui/playwright.live.config.ts
 ui/playwright.scaffold.config.ts
+ui/preview.html
 ui/public/ASSET_SOURCES.md
 ui/public/acaps-feature.webp
 ui/reviews/OUTREACH_REVIEW.md
@@ -240,6 +245,7 @@ ui/src/main.tsx
 ui/src/panel-visuals.css
 ui/src/polish.css
 ui/src/portal.css
+ui/src/preview.tsx
 ui/src/probe-flow.ts
 ui/src/risk-insights.css
 ui/src/service.ts
@@ -269,3 +275,4 @@ ui/tests/workspace-session.ts
 ui/tests/workspace.spec.ts
 ui/tsconfig.json
 ui/vite.config.ts
+ui/vite.preview.config.ts

@@ -1,4 +1,4 @@
-# make demo, 2026-11-07T21:38:05Z, lane/backend with lane/frontend merged
+# make demo, 2026-11-07T22:33:38Z, lane/backend with lane/frontend-probes merged
 # offline, synthetic panel, no network
 
 Sealed Signals -- full loop on R1043, offline, synthetic panel
@@ -17,10 +17,10 @@ Sealed Signals -- full loop on R1043, offline, synthetic panel
        refused: not in the address book; add the contact first
        No message left this machine. Every channel composes the real body and records it in the outbox;
   5. a reply by SMS, parsed into the same Answer record
-       read 70 %, confidence 'fairly sure' -> committed, commitment 15858cf831add16d...
+       read 70 %, confidence 'fairly sure' -> committed, commitment 426c7fd72aae255f...
   6. sealed answers
        8 envelopes, revealable=True (k_min=5)
-       first commitment f0b6bbe1f63381c4b7a0ccea...
+       first commitment 98c556793ed88b57965ffe94...
   7. reveal at the deadline (forced here, and the result says so)
        n=8 mean=0.6517 spread=0.3-0.85 iqr=0.28
        weighted (secondary)=0.6503  sp(experimental)=yes
@@ -31,13 +31,13 @@ Sealed Signals -- full loop on R1043, offline, synthetic panel
   8. integrity notes (moderator only)
        [shared_origin] Two 'what are we missing' entries may share an origin (near-identical wo
   9. draft
-       D-df8c14c6 proposes High (ACAPS: High), 10 claims
+       D-b5c1f327 proposes High (ACAPS: High), 10 claims
        judge coverage=1.0 numbers_match=1.0 flagged=none
   10. question contract
   11. analyst decision
        accepted by analyst-demo
   12. ledger
-       group=0.6517 acaps=High verify_hash=9844210850d3b9d58a4e50ca...
+       group=0.6517 acaps=High verify_hash=c6a585a336bdb39fd6170d3d...
        verify: valid=True over 8 commitments
   13. resolve and score
        5 scores written, weights updated
@@ -47,4 +47,4 @@ Sealed Signals -- full loop on R1043, offline, synthetic panel
        8 messages, in the language each contact reads
        “About half the panel answered. The group view is around 0.65. You said 0.85. ACAPS rates this High. The analyst accepted.”
 
-loop complete in 2.73s -- reports/proof.json written
+loop complete in 2.69s -- reports/proof.json written
