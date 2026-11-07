@@ -1,7 +1,9 @@
 # Sealed Signals — Reach and elicitation design, for external review
 
-Version 1, Saturday 7 November 2026. Prepared for review by independent models and people. Please read the whole
-document before answering the questions in section 9.
+Version 1, Saturday 7 November 2026, as sent for review. **Superseded by master prompt v3.4** after three reviews: the
+hidden measures of section 3.3 (seed questions on pulses, knowledge-gap measure, response time, overclaiming foil) were
+removed; calibration became a consent-gated programme; the card, link flow, reveal policy and privacy wording changed.
+Kept here as the record of what was reviewed.
 
 **Review prompt (paste together with this document):**
 You are reviewing the expert-outreach and elicitation design of a humanitarian risk-analysis tool built in a 48-hour

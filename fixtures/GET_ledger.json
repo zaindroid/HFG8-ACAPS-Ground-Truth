@@ -32,7 +32,9 @@
           "by_when": "2026-11-20"
         },
         "panel_view_rejected": false,
-        "analyst_rationale": null
+        "analyst_rationale": null,
+        "relayed_share": 0.0,
+        "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
       }
     },
     {
@@ -65,7 +67,9 @@
           "by_when": "2026-06-01"
         },
         "panel_view_rejected": true,
-        "analyst_rationale": "Panel mean 0.72 rejected on 2026-05-02: indicators flat; the risk later materialised. Recorded as a miss for the analyst, not the panel."
+        "analyst_rationale": "Panel mean 0.72 rejected on 2026-05-02: indicators flat; the risk later materialised. Recorded as a miss for the analyst, not the panel.",
+        "relayed_share": 0.0,
+        "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
       }
     }
   ],

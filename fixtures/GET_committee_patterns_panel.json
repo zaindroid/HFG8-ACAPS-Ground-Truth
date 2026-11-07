@@ -1,0 +1,27 @@
+{
+  "panel_id": "PAN-TCD",
+  "n_pulses": 4,
+  "n_experts": 8,
+  "sentences": [
+    "Round-2 answers moved toward the mean on 2 of 4 pulses; on both, two experts gave a new reason.",
+    "The spread narrowed from 0.6 to 0.4 over the last three pulses.",
+    "One in four answers was an abstention.",
+    "Most free text was tagged heard.",
+    "This panel has no humanitarian-access expert."
+  ],
+  "by_affiliation": [
+    {
+      "affiliation_tag": "UN",
+      "n": 3,
+      "sentence": "UN-affiliated answers sat above the panel mean on 3 of 4 pulses."
+    },
+    {
+      "affiliation_tag": "other",
+      "n": 5,
+      "sentence": "merged (below n = 3 per tag)"
+    }
+  ],
+  "never_per_person": true,
+  "served_from": "live",
+  "generated_at": "2026-11-07T09:00:00Z"
+}

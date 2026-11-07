@@ -1,11 +1,18 @@
 # Sealed Signals
 
-Sealed Signals lets ACAPS ask a small, trusted panel of humanitarian experts (5–10 per country) to challenge and forecast
-its risk analyses in one minute, behind a mask each expert chooses. A daily doorbell watches open indicators mapped to the
-risk's own triggers and fires a pulse when something shifts. Answers are sealed, opened together, aggregated with the
-surprisingly-popular method and reliability weights, turned into a cited draft update the analyst accepts or rejects, and
-published as a group view on a public ledger. When the risk resolves, every forecast is scored, weights update, and experts
-get a private calibration report. Nothing identifying ever leaves the expert's device; nothing publishes itself.
+Sealed Signals is the Risk Radar platform ACAPS does not have: the live Risk List from the ACAPS API, with an expert loop,
+descriptive integrity notes and a public audit trail on top. An ACAPS analyst (or, in phase 2, an indicator doorbell)
+sends a one-minute question to the eight best-matched vetted experts. Experts answer on their phone behind a mask they
+choose, with ACAPS's rating hidden until after submission. Answers are committed with a timestamp, opened together,
+summarised as an equal-weight mean with spread and minority reasons, annotated with integrity notes the analyst reads,
+turned into a cited draft the analyst accepts, edits or rejects, and published as a group view on a ledger with an honesty
+box that states what fed into it, its limits and its misses. When the risk resolves, forecasts are scored committee-side
+and every panel member gets the group outcome report. Nothing publishes itself.
+
+The gap, stated exactly: ACAPS has a documented methodology and peer review for its scheduled products. The ad-hoc expert
+checks between scheduled reviews, by email and conversation, are not structured, time-stamped or auditable. Sealed
+Signals adds a reviewable trail to those checks. It does not replace ACAPS's method; it sits inside it (section 0b).
+Pitch spine: **easier to contribute to, easier to scrutinise, easier to trace.**
 
 > **One correction to that paragraph, and we would rather say it here than be caught on it.** "Nothing identifying ever
 > leaves the expert's device" is not what this build does. Sealing proves *timing and consistency* and blocks *peer*

@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sealed Signals pitch</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f7f8f6;--ink:#14201f;--muted:#5a6a6a;--line:#d9e0de;--teal:#0f6e6a;--teal-soft:#e3f3f1;--amber:#b45309;--amber-soft:#fdf0dc;--deep:#0b2f2d;--deep-2:#124744;--sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;--serif:"IBM Plex Serif",Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0a1413;overflow:hidden;font-family:var(--sans);color:var(--ink);font-feature-settings:"tnum"}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.slide{position:absolute;inset:0;background:var(--paper);visibility:hidden;padding:120px 160px 100px}
+.slide.cur{visibility:visible}
+.slide.dark{background:var(--deep);color:#fff}
+.k{font-size:24px;color:var(--muted);margin-bottom:26px}
+.dark .k{color:#9fc8c3}
+h1{font-size:120px;font-weight:600;line-height:1;letter-spacing:-2px}
+h2{font-size:64px;font-weight:600;line-height:1.1;letter-spacing:-1px;max-width:1500px}
+p{font-size:30px;line-height:1.4}
+.muted{color:var(--muted)}.dark .muted{color:#9fc8c3}
+q,.q{font-family:var(--serif);font-style:italic}
+.foot{position:absolute;left:160px;bottom:56px;right:160px;font-size:22px;color:var(--muted);display:flex;justify-content:space-between}
+.dark .foot{color:#9fc8c3}
+.big{font-size:360px;font-weight:600;line-height:.9;letter-spacing:-12px;color:var(--teal)}
+.row{display:flex;gap:40px}
+.box{border:2px solid var(--line);border-radius:12px;padding:34px 38px}
+.box.t{background:var(--teal-soft);border-color:var(--teal)}
+.box.a{background:var(--amber-soft);border-color:var(--amber)}
+.box h3{font-size:34px;font-weight:600;margin-bottom:10px}
+.box p{font-size:27px;color:var(--muted);line-height:1.4}
+.box.t h3{color:var(--teal)}.box.a h3{color:var(--amber)}
+.legend{display:flex;gap:36px;font-size:22px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:18px;height:18px;border-radius:4px;margin-right:10px;vertical-align:-2px}
+.legend .lt::before{background:var(--teal)}.legend .la::before{background:var(--amber)}
+.bar{height:16px;border-radius:8px;background:var(--teal)}
+/* builds */
+[data-s]{opacity:0;transform:translateY(14px);transition:opacity .35s ease,transform .35s ease}
+[data-s].on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){[data-s]{transition:none}}
+.hud{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);color:#9fc8c3;font:13px var(--sans);background:#000a;padding:8px 14px;border-radius:8px;transition:opacity 1s;z-index:9}
+/* phone */
+.phone{width:400px;height:820px;border-radius:44px;background:#fff;border:3px solid var(--line);box-shadow:0 30px 60px rgba(20,32,31,.12);padding:30px 26px;font-size:18px;line-height:1.35;position:relative}
+.phone .from{font-size:15px;color:var(--muted);margin-bottom:14px}
+.phone .qn{font-size:21px;font-weight:600;line-height:1.3;margin-bottom:22px}
+.phone .w{display:flex;justify-content:space-between;align-items:center;border:2px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px;font-size:19px}
+.phone .w small{font-size:14px;color:var(--muted)}
+.phone .w.sel{border-color:var(--teal);background:var(--teal-soft)}
+.phone .st{display:flex;gap:10px;margin:16px 0 20px;font-size:14px;color:var(--muted)}
+.phone .st span{border:1.5px solid var(--line);border-radius:999px;padding:6px 12px}
+.phone .opt{font-size:15px;color:var(--muted);margin-bottom:10px}
+.phone .mask{display:flex;gap:8px;font-size:13px;margin-bottom:18px}
+.phone .mask span{border:1.5px solid var(--line);border-radius:999px;padding:6px 10px}
+.phone .btn{background:var(--teal);color:#fff;border-radius:12px;text-align:center;padding:14px;font-weight:600;font-size:18px}
+.note{position:absolute;font-size:22px;color:var(--muted);max-width:420px;line-height:1.35}
+.note::before{content:"";position:absolute;left:-36px;top:14px;width:24px;height:2px;background:var(--line)}
+/* workflow strip */
+.wf{display:flex;gap:0;margin:40px 0 60px}
+.wf div{flex:1;border-top:10px solid var(--line);padding-top:18px;font-size:30px;font-weight:600}
+.wf div small{display:block;font-weight:400;font-size:24px;color:var(--muted);margin-top:6px;line-height:1.3}
+.wf div.hit{border-top-color:var(--teal)}
+/* table */
+table{border-collapse:collapse;width:100%;font-size:28px}
+th,td{text-align:left;padding:22px 20px;border-bottom:2px solid var(--line);vertical-align:top;line-height:1.3}
+th{font-weight:600}
+.dark th,.dark td{border-color:#2d5c58}
+/* channels */
+.ch{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:56px}
+.ch div{border:2px solid var(--line);border-radius:12px;padding:30px 34px;font-size:32px;font-weight:600}
+.ch div small{display:block;font-weight:400;font-size:24px;color:var(--muted);margin-top:8px;line-height:1.3}
+/* cols */
+.cols4{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:40px}
+.cols4 div{border-top:8px solid var(--teal);padding-top:18px}
+.cols4 div.a{border-top-color:var(--amber)}
+.cols4 h3{font-size:28px;font-weight:600;margin-bottom:10px}
+.cols4 p{font-size:22px;color:var(--muted)}
+.bars{display:flex;align-items:flex-end;gap:14px;height:260px;margin-top:50px}
+.bars div{flex:1;background:var(--teal);border-radius:6px 6px 0 0;position:relative}
+.bars div::after{content:attr(data-l);position:absolute;left:0;right:0;top:100%;margin-top:10px;font-size:18px;color:var(--muted);text-align:center}
+.ledger{border:2px solid var(--line);border-radius:12px;padding:30px 34px;font-size:24px;line-height:1.5;background:#fff}
+.ledger b{font-weight:600}
+.verify{display:inline-block;margin-top:18px;background:var(--teal);color:#fff;border-radius:10px;padding:12px 22px;font-weight:600}
+.persona{border:2px solid var(--line);border-radius:12px;padding:26px 30px}
+.persona h3{font-size:30px;font-weight:600}
+.persona .who{font-size:20px;color:var(--muted);margin:4px 0 14px}
+.persona q{font-size:23px;display:block;margin-bottom:14px;line-height:1.35}
+.persona p{font-size:22px;color:var(--teal);font-weight:500}
+</style></head><body>
+<div id="stage">
+
+<!-- 0 title -->
+<section class="slide dark" id="s0">
+ <div style="margin-top:160px">
+  <h1 data-s="0">Sealed Signals</h1>
+  <p data-s="0" style="font-size:44px;margin-top:40px;max-width:1300px;line-height:1.3">Expert checks on ACAPS risk ratings that are easier to contribute to, easier to scrutinise, easier to trace.</p>
+ </div>
+ <div class="foot"><span>Hackathon for Good #8, ACAPS Ground Truth</span><span>Zain Ul Haq, Saleeta Qadir, Sho Izuno</span></div>
+</section>
+
+<!-- 1 the gap -->
+<section class="slide" id="s1">
+ <div class="k">The gap</div>
+ <div class="row" style="align-items:flex-start">
+  <div style="width:860px">
+   <div class="big" data-s="0">47<span style="font-size:160px;letter-spacing:0">%</span></div>
+   <p data-s="0" style="font-size:40px;font-weight:500;margin-top:10px;max-width:760px">of Medium-rated ACAPS risks materialised. A coin flip.</p>
+   <p data-s="0" class="muted" style="font-size:22px;margin-top:18px">27 of 58 resolved Medium risks; 32 of 38 High (84 %). ACAPS Risk Radar export, 139 risks.</p>
+  </div>
+  <div style="width:740px;padding-top:40px">
+   <p data-s="1" style="font-size:34px;line-height:1.35">ACAPS has a method and peer review for its scheduled products.</p>
+   <p data-s="2" style="font-size:34px;line-height:1.35;margin-top:30px">The expert checks between those reviews happen by email and conversation. They are not structured, not time-stamped, not auditable.</p>
+   <p data-s="3" style="font-size:34px;line-height:1.35;margin-top:30px;color:var(--teal);font-weight:500">We add a reviewable trail to exactly those checks. Nothing else changes.</p>
+  </div>
+ </div>
+ <div class="foot"><span>Numbers from the ACAPS export shared with the challenge</span><span>1</span></div>
+</section>
+
+<!-- 2 ACAPS's own method -->
+<section class="slide" id="s2">
+ <div class="k">Where it sits in ACAPS's own method</div>
+ <h2 data-s="0">ACAPS already wrote the requirement. We built the step.</h2>
+ <div class="wf" data-s="1" style="margin:60px 0 90px">
+  <div>Design</div>
+  <div>Acquire</div>
+  <div class="hit">Analyse<small>3.1 Explore: notice signals in the data<br>3.4 Interpret: evaluate evidence and plausibility<br>3.5 Anticipate: identify triggers to track</small></div>
+  <div class="hit">Communicate<small>38 communicate uncertainty<br>39 edit and peer review</small></div>
+  <div class="hit">Throughout<small>provide an audit trail</small></div>
+ </div>
+ <div class="row">
+  <div style="flex:1" data-s="2"><p class="q" style="font-size:42px;line-height:1.35">"analysis outputs, providing solid reasoning and reviewed by subject experts"</p><p class="muted" style="font-size:26px;margin-top:16px">ACAPS analysis workflow, end of Communicate. That is the panel.</p></div>
+  <div style="flex:1" data-s="3"><p class="q" style="font-size:42px;line-height:1.35">"clearly and explicitly communicated limit of knowledge and how it impacts confidence in the results"</p><p class="muted" style="font-size:26px;margin-top:16px">Same page. That is the honesty box.</p></div>
+ </div>
+ <div class="foot"><span>ACAPS analysis workflow poster v2.0; ACAPS technical brief on cognitive biases, 2016</span><span>2</span></div>
+</section>
+
+<!-- 3 the alert -->
+<section class="slide" id="s3">
+ <div class="k">The alert, from ACAPS's own monthly data</div>
+ <div class="row" style="align-items:flex-start">
+  <div style="width:1000px">
+   <div data-s="0" style="font-size:200px;font-weight:600;letter-spacing:-6px;line-height:1;color:var(--teal)">6.1<span style="color:var(--line)"> → </span>6.9</div>
+   <p data-s="0" style="font-size:36px;font-weight:500;margin-top:16px">Displacement from Sudan to Chad, INFORM severity, March to April 2026.</p>
+   <p data-s="1" style="font-size:30px;margin-top:22px">The largest move of 123 crises that month. Human impact 6.0 to 7.6.</p>
+   <svg data-s="1" viewBox="0 0 1000 300" width="1000" height="300" style="margin-top:30px;display:block">
+<line x1="80" y1="260" x2="960" y2="260" stroke="#d9e0de" stroke-width="2"/>
+<text x="20" y="117" font-size="18" fill="#5a6a6a">index</text>
+<path d="M80 117 L120 128 L160 150 L200 150 L240 161 L280 150 L320 139 L360 183 L400 183 L440 183 L480 183 L520 183 L560 183 L600 194 L640 194 L680 106 L720 106 L760 95 L800 84 L840 84 L880 84 L920 84 L960 84" fill="none" stroke="#0f6e6a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="680" cy="106" r="14" fill="#b45309"/>
+<text x="680" y="80" font-size="22" text-anchor="middle" font-weight="600" fill="#b45309">Apr 2026, rule fired</text>
+<text x="80" y="292" font-size="18" text-anchor="middle" fill="#5a6a6a">Jan 2025</text><text x="200" y="292" font-size="18" text-anchor="middle" fill="#5a6a6a">Apr 2025</text><text x="320" y="292" font-size="18" text-anchor="middle" fill="#5a6a6a">Jul 2025</text><text x="440" y="292" font-size="18" text-anchor="middle" fill="#5a6a6a">Oct 2025</text><text x="560" y="292" font-size="18" text-anchor="middle" fill="#5a6a6a">Jan 2026</text><text x="680" y="292" font-size="18" text-anchor="middle" fill="#5a6a6a">Apr 2026</text><text x="800" y="292" font-size="18" text-anchor="middle" fill="#5a6a6a">Jul 2026</text><text x="920" y="292" font-size="18" text-anchor="middle" fill="#5a6a6a">Oct 2026</text></svg>
+  </div>
+  <div style="width:600px;padding-top:20px">
+   <div class="box t" data-s="2"><h3>Arithmetic, no model</h3><p>Every month, diff ACAPS's severity and access editions for every crisis. Rank the moves. Rule that fired: index change of 0.5 or more.</p></div>
+   <div class="box a" data-s="3" style="margin-top:24px"><h3>Proposes, never fires</h3><p>The analyst links the crisis to the active risk, approves the question, or dismisses with a note.</p></div>
+   <div class="legend" data-s="3" style="margin-top:24px"><span class="lt">arithmetic</span><span class="la">a person decides</span></div>
+  </div>
+ </div>
+ <div class="foot"><span>ACAPS API, inform-severity-index Mar2026 and Apr2026, cached for the demo</span><span>3</span></div>
+</section>
+
+<!-- 4 reach -->
+<section class="slide" id="s4">
+ <div class="k">Reaching the experts</div>
+ <h2 data-s="0">Experts never sign up. The first contact is a question.</h2>
+ <div class="ch">
+  <div data-s="1">Email<small>one link per answer word, confirm on screen</small></div>
+  <div data-s="1">WhatsApp and Signal<small>reply, or send a voice note</small></div>
+  <div data-s="1">SMS<small>"4 likely" is an answer</small></div>
+  <div data-s="2">Teams<small>where the agency allows it</small></div>
+  <div data-s="2">A scheduled call<small>entered on their behalf, confirmed by them</small></div>
+  <div data-s="2">Nothing to install<small>no account, no password, no portal</small></div>
+ </div>
+ <div class="row" style="margin-top:70px;gap:60px">
+  <p data-s="3" style="flex:1;font-size:32px">A personal note from the analyst by name, why you, one line on what we store and who sees it, and STOP by one word.</p>
+  <p data-s="3" style="flex:1;font-size:32px">One question a week at most. Sent at 08:00 their time. Every channel lands in the same record, with the mask they chose.</p>
+ </div>
+ <div class="foot"><span>Channel preferences are hypotheses until the pilot panel confirms them</span><span>4</span></div>
+</section>
+
+<!-- 5 the card -->
+<section class="slide" id="s5">
+ <div class="k">One screen, under a minute</div>
+ <div class="row" style="align-items:flex-start;gap:120px">
+  <div class="phone" data-s="0">
+   <div class="from">Alex, ACAPS Risk Radar</div>
+   <div class="qn">Will more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027?</div>
+   <div class="w"><span>very unlikely</span><small>under 10 %</small></div>
+   <div class="w"><span>unlikely</span><small>10 to 35 %</small></div>
+   <div class="w"><span>even</span><small>35 to 65 %</small></div>
+   <div class="w sel"><span>likely</span><small>65 to 90 %</small></div>
+   <div class="w"><span>very likely</span><small>over 90 %</small></div>
+   <div class="st"><span>Outside my area</span><span>Not enough evidence</span></div>
+   <div class="opt">Add a note, a trigger, how sure you are (optional)</div>
+   <div class="mask"><span>named to ACAPS</span><span>nickname to peers</span><span>no identity kept</span></div>
+   <div class="btn">Review and confirm</div>
+  </div>
+  <div style="position:relative;flex:1;padding-top:40px">
+   <p class="note" data-s="1" style="position:static;margin-bottom:40px">The question first, frozen in a contract: event, place, threshold, deadline.</p>
+   <p class="note" data-s="2" style="position:static;margin-bottom:40px">One required tap. The percentage range is printed under every word, so a word is never silently a number.</p>
+   <p class="note" data-s="3" style="position:static;margin-bottom:40px">ACAPS's rating is not on this screen. Neither is the alert. Anchoring is the first bias in ACAPS's own brief.</p>
+   <p class="note" data-s="4" style="position:static;margin-bottom:40px">The mask is chosen per answer, with its limit stated: in a panel of eight, a distinctive reason may identify you.</p>
+   <p class="note" data-s="5" style="position:static">Nothing is recorded until they confirm. They can change it until the deadline.</p>
+  </div>
+ </div>
+ <div class="foot"><span>Measured on two phones: time and taps go here before Sunday</span><span>5</span></div>
+</section>
+
+<!-- 6 demo -->
+<section class="slide dark" id="s6">
+ <div class="k">Live</div>
+ <div class="row" style="align-items:center;gap:120px;margin-top:40px">
+  <div id="qr" data-s="0" style="width:520px;height:520px;background:#fff;border-radius:24px;display:flex;align-items:center;justify-content:center;text-align:center;padding:50px;color:var(--muted);font-size:24px">QR code to the live expert screen</div>
+  <div>
+   <h2 data-s="0" style="color:#fff;font-size:80px">Scan. You are the Chad panel.</h2>
+   <p data-s="1" style="font-size:34px;margin-top:30px;color:#9fc8c3">Sixty seconds on the clock for the room. The product itself has no timer.</p>
+   <p data-s="2" style="font-size:26px;margin-top:30px;color:#9fc8c3">Risk R1043, eastern Chad. The pulse has just left as an email, a WhatsApp message and an SMS. Synthetic experts are labelled as synthetic.</p>
+  </div>
+ </div>
+ <div class="foot"><span>Fallback: make demo pre-loads eight answers, offline</span><span>6</span></div>
+</section>
+<section class="slide dark" id="s6v" style="padding:0">
+ <video id="demovid" src="sealed-signals-demo.mp4" muted playsinline preload="auto" style="position:absolute;left:0;top:0;width:1920px;height:1080px;background:#fff"></video>
+</section>
+
+<!-- 7 reveal -->
+<section class="slide" id="s7">
+ <div class="k">Revealed together, at the deadline</div>
+ <div class="row" style="align-items:flex-start;gap:80px">
+  <div style="width:620px">
+   <div data-s="0" style="font-size:150px;font-weight:600;letter-spacing:-5px;line-height:1;color:var(--teal)">0.69</div>
+   <p data-s="0" style="font-size:28px;margin-top:8px">equal-weight mean of eight, spread 0.3 to 0.9</p>
+   <div class="bars" data-s="1"><div data-l="very unlikely" style="height:0%"></div><div data-l="unlikely" style="height:20%"></div><div data-l="even" style="height:40%"></div><div data-l="likely" style="height:60%"></div><div data-l="very likely" style="height:40%"></div></div>
+  </div>
+  <div style="flex:1">
+   <div class="cols4" style="grid-template-columns:1fr 1fr;margin-top:0">
+    <div data-s="2"><h3>Agreement</h3><p>Six of eight above even. ACAPS's band: High.</p></div>
+    <div data-s="3"><h3>Disagreement, unattributed</h3><p>Two expect displacement rather than attacks and put it below even. No name, no verbatim text.</p></div>
+    <div data-s="4"><h3>Missing evidence</h3><p>Night movements near Adré, three mentions; registration backlog, one. Claims wait in a verification queue; absence from a database is not falsity.</p></div>
+    <div data-s="5" class="a"><h3>Analyst rationale</h3><p>Notes describe patterns in ACAPS's own bias vocabulary. They never judge a person. The analyst reads and writes the reason.</p></div>
+   </div>
+  </div>
+ </div>
+ <div class="foot"><span>Answers are committed with a timestamp before anyone sees them; peers cannot anchor on each other</span><span>7</span></div>
+</section>
+
+<!-- 8 decide and record -->
+<section class="slide" id="s8">
+ <div class="k">A person decides. The ledger remembers.</div>
+ <div class="row" style="align-items:flex-start;gap:60px">
+  <div style="width:760px">
+   <div class="box" data-s="0"><h3>Cited draft</h3><p>Every sentence names its aggregate, its ACAPS record or its source. A checker rejects any number not exactly in the evidence.</p></div>
+   <div class="box a" data-s="1" style="margin-top:24px"><h3>Accept, edit or reject</h3><p>With the line that makes it useful: what decision this could inform, for whom, by when.</p></div>
+   <p data-s="2" style="font-size:24px;margin-top:28px;color:var(--muted)">Nothing publishes itself. An ACAPS product changes only when an analyst says so. One validation layer among others.</p>
+  </div>
+  <div class="ledger" style="flex:1" data-s="3">
+   <b>R1043, eastern Chad</b><br>
+   Committed 7 Nov 09:00. Group 0.69, spread 0.3 to 0.9. ACAPS band High. Decision: kept High, triggers updated.<br>
+   <span class="muted">Honesty box: 8 experts, agreement 0.75, no humanitarian-access expert on the panel, 2 of 4 claims corroborated, 2 in the queue. Panel hit rate so far: 3 of 4, one miss. A distinctive reason may identify its author to colleagues; experts were told this before answering.</span><br>
+   <span class="verify" data-s="4">Verify: matches</span>
+   <p data-s="4" style="font-size:22px;margin-top:12px;color:var(--muted)">These answers existed at this time and were not changed since. It proves timing, not truth.</p>
+  </div>
+ </div>
+ <div class="foot"><span>When the risk resolves: scored at panel level, outcome report to every expert, misses stay on the page</span><span>8</span></div>
+</section>
+
+<!-- 9 trust stated plainly -->
+<section class="slide" id="s9">
+ <div class="k">Trust, stated plainly</div>
+ <table data-s="0">
+  <tr><th style="width:260px">Who</th><th>Before the reveal</th><th>After</th><th>Ever</th></tr>
+  <tr data-s="1"><td>The expert</td><td>their own answer</td><td>the group view, ACAPS's band, the decision</td><td>their calibration, if they ask, and they see it first</td></tr>
+  <tr data-s="1"><td>Peers</td><td>nothing</td><td>the spread, unattributed disagreement</td><td>never a name</td></tr>
+  <tr data-s="2"><td>ACAPS</td><td>that an answer exists</td><td>answers under the mask chosen</td><td>the registry, with every read logged</td></tr>
+  <tr data-s="2"><td>The public</td><td>nothing</td><td>aggregates of five or more, the honesty box</td><td>never an individual</td></tr>
+ </table>
+ <div class="row" style="margin-top:60px;gap:60px">
+  <p data-s="3" style="flex:1;font-size:29px">Pseudonymised, not anonymous: we say which. Commitments prove timing, not secrecy from the operator. Scores are for forecasts, panel-level; nothing is measured about a person without consent.</p>
+  <p data-s="4" style="flex:1;font-size:29px;color:var(--muted)">Built and tested behind flags, described on the repo page with what each proves: post-quantum key establishment for the registry, signed outcome attestations, one-time blind-signed credentials, timestamp anchoring.</p>
+ </div>
+ <div class="foot"><span>docs/sealed-signals/trust-design.md</span><span>9</span></div>
+</section>
+
+<!-- 10 personas -->
+<section class="slide" id="s10">
+ <div class="k">Who it is for, in ACAPS's own personas</div>
+ <div class="row" style="gap:28px">
+  <div class="persona" data-s="1" style="flex:1"><h3>Jose</h3><div class="who">UN regional office, covers Sudan among six countries</div><q>an easy way for field-users to provide quality feedback to HQ level</q><p>Answers the Chad pulse. Gets alerts only for his countries.</p></div>
+  <div class="persona" data-s="2" style="flex:1"><h3>Emily</h3><div class="who">Donor methodology lead, HQ</div><q>with ACAPS I know what you don't know and what is assumed</q><p>Reads the honesty box. Clicks Verify.</p></div>
+  <div class="persona" data-s="3" style="flex:1"><h3>Aisha</h3><div class="who">INGO country director</div><q>my financial visibility rarely goes beyond 6 to 10 months</q><p>Reads "what decision, for whom, by when". The six-month question is hers.</p></div>
+  <div class="persona" data-s="4" style="flex:1"><h3>Pierre</h3><div class="who">IFRC MEAL officer, deployed</div><q>our resources are limited</q><p>"Outside my area" is a real answer. Voice note from the field.</p></div>
+ </div>
+ <p class="muted" data-s="4" style="font-size:22px;margin-top:36px">Personas from ACAPS's reader research. Design hypotheses, verified in the pilot, not before.</p>
+ <div class="foot"><span>ACAPS, Understanding our readers through personas</span><span>10</span></div>
+</section>
+
+<!-- 11 pilot and team -->
+<section class="slide dark" id="s11">
+ <div class="k">December</div>
+ <h2 data-s="0" style="color:#fff">Ready for a supervised pilot of this workflow.</h2>
+ <div class="row" style="margin-top:80px;gap:40px">
+  <div class="box" data-s="1" style="flex:1;border-color:#2d5c58"><h3 style="color:#fff">One crisis, one panel of eight, three months</h3><p style="color:#9fc8c3">Eastern Chad, with ACAPS's Risk Radar manager as the analyst. Real experts, with consent, from the analyst's own contacts.</p></div>
+  <div class="box" data-s="2" style="flex:1;border-color:#2d5c58"><h3 style="color:#fff">What we will measure</h3><p style="color:#9fc8c3">Experts still answering in week 8. Minutes per weekly update. Panel mean against the rating on questions that resolve. Usability now; forecast quality only when questions resolve.</p></div>
+  <div class="box" data-s="3" style="flex:1;border-color:#2d5c58"><h3 style="color:#fff">What runs today</h3><p style="color:#9fc8c3">Live ACAPS API with offline cache, full loop in under a minute from a clean clone, every mechanism tested with its guarantee and its limit written down.</p></div>
+ </div>
+ <div class="foot"><span>Zain Ul Haq, backend. Saleeta Qadir, frontend. Sho Izuno, research and pitch.</span><span>11</span></div>
+</section>
+
+<!-- 12 closing -->
+<section class="slide dark" id="s12">
+ <div style="margin-top:200px">
+  <h1 data-s="0" style="font-size:96px">Easier to contribute to.<br>Easier to scrutinise.<br>Easier to trace.</h1>
+  <p data-s="1" style="font-size:32px;margin-top:50px;color:#9fc8c3">Sealed Signals. The numbers raise the alert, people make the call, the record shows the misses.</p>
+ </div>
+ <div class="foot"><span>github.com/zaindroid/HFG8-ACAPS-Ground-Truth</span><span>Thank you</span></div>
+</section>
+
+<!-- backup A sensitivity -->
+<section class="slide" id="b1">
+ <div class="k">Backup: sensitivity test</div>
+ <h2 data-s="0">A software test on all 104 resolved risks, with synthetic panels.</h2>
+ <div class="row" style="margin-top:50px;align-items:flex-start;gap:60px">
+  <div style="width:700px">
+   <p data-s="1" style="font-size:28px">Scenarios: mixed accuracy, shared bias, correlated errors, no expert advantage.</p>
+   <p data-s="2" style="font-size:28px;margin-top:24px">Reports Brier of the equal-weight mean, the shrunk weighted mean, and ACAPS's probability band mapped to a number under a stated assumption.</p>
+   <p data-s="3" style="font-size:28px;margin-top:24px;color:var(--teal);font-weight:500">It tests the pipeline. It says nothing about real experts and makes no timing claim against ACAPS.</p>
+  </div>
+  <div data-s="1" style="flex:1;height:560px;border:2px dashed var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:24px">reports/sensitivity.png</div>
+ </div>
+ <div class="foot"><span>Intervals labelled as resampling spread, not statistical confidence</span><span>backup</span></div>
+</section>
+
+<!-- backup B hardening -->
+<section class="slide" id="b2">
+ <div class="k">Backup: what each mechanism proves</div>
+ <table data-s="0" style="font-size:22px">
+  <tr><th style="width:420px">Mechanism</th><th>Guarantees</th><th>Does not</th></tr>
+  <tr><td>Commit and reveal, SHA-256 with salt and timestamp</td><td>answers unchanged after submission; timing verifiable; no peer anchoring</td><td>confidentiality from the operator; truth</td></tr>
+  <tr><td>Masks: named, nickname, no identity kept</td><td>confidentiality from peers and the public, with logged ACAPS access</td><td>anonymity from ACAPS; re-identification by distinctive wording</td></tr>
+  <tr><td>Blind-signed one-time credentials, RFC 9474</td><td>a vetted member answered, unlinkable to the approval</td><td>timing or network correlation</td></tr>
+  <tr><td>Timestamp anchoring, OpenTimestamps</td><td>independent proof the commitments existed by that time</td><td>anything else; no tokens, no chain logic</td></tr>
+  <tr><td>ML-KEM-768 key establishment, AES-256-GCM at rest; ML-DSA-65 attestations</td><td>long-horizon confidentiality of the identity map; outcome records provably issued by the committee key</td><td>confidentiality from an admin with the key; truth of the outcome</td></tr>
+  <tr><td>Calibration programme, consent-gated, off by default</td><td>numeric confidence on comparable items; the expert sees the report first; off at any time</td><td>any measurement of a person without consent</td></tr>
+ </table>
+ <div class="foot"><span>All built, tested, behind flags; fallbacks keep the demo running with a flag off</span><span>backup</span></div>
+</section>
+
+</div>
+<div class="hud" id="hud">Right, Space or click: next. Left: back. F: fullscreen. 0 to 9: jump. B: backups.</div>
+<script>
+(function(){
+ var stage=document.getElementById('stage'),S=[].slice.call(document.querySelectorAll('.slide'));
+ var i=0,step=0,max=S.map(function(sl){var m=0;[].forEach.call(sl.querySelectorAll('[data-s]'),function(e){m=Math.max(m,+e.dataset.s)});return m});
+ function fit(){var k=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform='scale('+k+')';stage.style.left=(innerWidth-1920*k)/2+'px';stage.style.top=(innerHeight-1080*k)/2+'px'}
+ addEventListener('resize',fit);fit();
+ function apply(){S.forEach(function(sl,k){sl.classList.toggle('cur',k==i)});
+  var v=document.getElementById('demovid');if(v){if(S[i].id==='s6v'){try{v.currentTime=0;var pr=v.play();if(pr&&pr.catch)pr.catch(function(){})}catch(x){}}else{try{v.pause()}catch(x){}}}
+  [].forEach.call(S[i].querySelectorAll('[data-s]'),function(e){e.classList.toggle('on',+e.dataset.s<=step)})}
+ function go(n,s){i=n;step=s;apply()}
+ function next(){if(step<max[i])go(i,step+1);else if(i<S.length-1)go(i+1,0)}
+ function prev(){if(step>0)go(i,step-1);else if(i>0)go(i-1,max[i-1])}
+ addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'||e.key==='PageDown'){e.preventDefault();next()}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){prev()}
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
+  else if(/^[0-9]$/.test(e.key)){var el=document.getElementById('s'+e.key);if(el)go(S.indexOf(el),0)}
+  else if(e.key==='b'||e.key==='B'){go(S.indexOf(document.getElementById('b1')),0)}});
+ addEventListener('click',next);
+ setTimeout(function(){document.getElementById('hud').style.opacity=0},6000);
+ go(0,0);
+})();
+</script></body></html>

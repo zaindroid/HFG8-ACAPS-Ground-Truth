@@ -1,0 +1,16 @@
+{
+  "pulse_id": "P-0001",
+  "revealed_at": "2026-11-09T09:00:00Z",
+  "n_text": "most of the panel answered",
+  "group_mean": 0.69,
+  "your_answer": {
+    "likelihood_word": "likely",
+    "probability": null
+  },
+  "acaps_band": "High",
+  "analyst_decision": "kept High",
+  "attribution": null,
+  "outcome_report_pending": true,
+  "served_from": "live",
+  "generated_at": "2026-11-07T09:00:00Z"
+}

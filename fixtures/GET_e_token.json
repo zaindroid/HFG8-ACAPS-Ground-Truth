@@ -3,477 +3,118 @@
     "id": "P-0001",
     "risk_id": "R1043",
     "panel_id": "PAN-TCD",
-    "fired_at": "2026-11-07T16:52:33+00:00",
-    "reason": "doorbell",
     "round": 1,
-    "evidence": [
-      {
-        "source": "Expansion of cross-border attacks and insecurity - 40% complete",
-        "indicator": "trigger_completion:T1",
-        "value": 40,
-        "baseline": null,
-        "z": null,
-        "url": "https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026",
-        "note": "Expansion of cross-border attacks and insecurity"
-      },
-      {
-        "source": "Attacks on strategic infrastructure in Chad - 10% complete",
-        "indicator": "trigger_completion:T2",
-        "value": 10,
-        "baseline": null,
-        "z": null,
-        "url": "https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions",
-        "note": "Attacks on strategic infrastructure in Chad"
-      },
-      {
-        "source": "Renewed proxy mobilisation and cross-border armed group activity - 20% complete",
-        "indicator": "trigger_completion:T3",
-        "value": 20,
-        "baseline": null,
-        "z": null,
-        "url": "https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions",
-        "note": "Renewed proxy mobilisation and cross-border armed group activity"
-      }
-    ],
-    "question": "Is the level of concern on this risk still right, and what are we missing? You will see the current ACAPS rating as soon as you submit.",
-    "expires_at": "2026-11-08T16:52:33+00:00",
-    "n_answers": 8
+    "question": {
+      "event": "More than 50,000 new arrivals from Sudan registered by UNHCR in Ouaddaï and Wadi Fira",
+      "location": "Ouaddaï and Wadi Fira, eastern Chad",
+      "threshold": "> 50,000 newly registered arrivals (cumulative from 1 Nov 2026)",
+      "deadline": "2027-03-31",
+      "text": "Will more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027?"
+    },
+    "asked_by": "Alex, ACAPS Risk Radar",
+    "expires_at": "2026-11-09T09:00:00Z",
+    "reveal_status": "open",
+    "served_from": "live",
+    "generated_at": "2026-11-07T09:00:00Z"
   },
   "risk": {
     "risk_id": "R1043",
     "title": "Escalating cross-border insecurity linked to the Sudan conflict increases protection risks and humanitarian needs in eastern Chad",
-    "risk_type": "Marked deterioration in an existing crisis",
-    "country_iso": "TCD",
     "country": "Chad",
-    "probability_acaps": "High",
-    "probability_assumed_number": 0.75,
-    "impact_acaps": 4,
-    "level": "High",
-    "status": "Active",
-    "trend": "Deteriorated",
-    "horizon_months": 6,
-    "rationale": "Since early 2026, the conflict in Sudan has evolved from a humanitarian crisis affecting Chad into a direct security threat to eastern border areas. Repeated drone strikes, cross-border incursions, and clashes involving fighters aligned with the Rapid Support Forces (RSF) and Sudanese Armed Forces (SAF) have already caused casualties on Chadian territory, including around Tine and other border regions. These incidents indicate a growing risk that the Sudan conflict could generate sustained military confrontations, proxy violence, or retaliatory attacks inside Chad. This risk is increasingly characterised by the possibility of sustained military confrontation on Chadian territory involving RSF, SAF-aligned groups, and associated proxy forces operating along the Chad\u2013Sudan border.\r\n\r\nThis risk is driven by a convergence of security, economic, and political factors. The Chad\u2013Sudan border has become a strategic corridor for the movement of fuel, arms, gold, and military supplies supporting groups involved in the Sudan conflict. Competition over these routes has transformed border areas into contested spaces where violence increasingly follows smuggling and supply networks. Recent attacks suggest a shift from incidental spillover to deliberate projection of force into Chadian territory.\r\n\r\nThe conflict is also aggravating existing vulnerabilities in Chad. Fractures within cross-border Zaghawa community networks, which remain influential within Chad\u2019s security apparatus, have deepened as communities react to violence in Darfur and perceptions of Chad\u2019s involvement in the conflict. Continued violence in Darfur, combined with Chad\u2019s historical role in Sudanese proxy conflicts, increases the risk of elite defections, armed realignments, and renewed cross-border mobilisation. Historical patterns of proxy warfare between Chad and Sudan may also re-emerge, including support to armed groups and militias operating across the border, increasing the likelihood of retaliatory attacks and further regional destabilisation.\r\n\r\nOver the next one to three months, further RSF incursions, SAF-backed proxy activity, or competition over border corridors could increase cross-border violence, displacement, protection risks, and humanitarian needs in eastern Chad. Additional attacks or retaliations would likely worsen conditions in provinces already hosting large numbers of refugees and returnees, further straining regional services, humanitarian operations, and community relations. The risk is not limited to humanitarian spillover and increasingly involves the possibility of sustained confrontation on Chadian territory involving RSF, SAF-aligned groups, and associated proxy forces. ([Africa Center for Strategic Studies 09/03/2026](https://africacenter.org/wp-content/uploads/2026/04/Chad-Risks-Instability.pdf), [ACLED 08/04/2026](https://acleddata.com/update/africa-overview-april-2026), [Global Initiative 06/03/2026](https://globalinitiative.net/analysis/how-border-criminal-economies-are-drawing-chad-further-into-sudans-conflict/), [ISS Africa 03/04/2025](https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions), [RFI 13/05/2026](https://www.rfi.fr/fr/afrique/20260513-tchad-de-nouvelles-frappes-enregistr%C3%A9es-%C3%A0-la-fronti%C3%A8re-soudanaise-font-craindre-le-pire), [UNHCR 18/05/2026](https://reliefweb.int/report/chad/core-emergency-situation-chad-update-arrivals-sudan-17-may-2026), [UNFPA 15/05/2026](https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026))",
-    "vulnerability": "Before the Sudan conflict escalated, eastern Chad already faced high levels of poverty, food insecurity, weak infrastructure, and limited access to basic services. Refugee-hosting regions such as Ennedi Est, Ouaddai, Sila, and Wadi Fira have experienced sustained humanitarian pressure since 2023, with repeated refugee arrivals straining regional coping capacities, public services, and natural resources. Host communities in these areas also face chronic vulnerabilities linked to limited livelihood opportunities, climate shocks, water scarcity, and underdeveloped healthcare and education systems.\r\n\r\nInsecurity, logistical challenges, and major funding gaps continue to constrain humanitarian response capacity. Several refugee-hosting areas depend heavily on humanitarian assistance, while overcrowded sites continue to face inadequate access to shelter, water, sanitation, healthcare, and protection services. Limited funding has already reduced food assistance and cash support in some locations, increasing reliance on potentially harmful coping mechanisms among refugees and host communities.\r\n\r\nProtection risks are particularly high for women, children, and displaced populations. Overcrowding, limited lighting, long distances to water points, and weak service coverage increase exposure to gender-based violence, exploitation, and child protection risks. Repeated displacement and prolonged humanitarian needs have also reduced household resilience and increased tensions over access to resources and assistance in eastern Chad. ([UNHCR 18/05/2026](https://reliefweb.int/report/chad/core-emergency-situation-chad-update-arrivals-sudan-17-may-2026), [UNFPA 15/05/2026](https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026), [FEWS NET 21/05/2026](https://reliefweb.int/report/chad/chad-food-security-outlook-update-refugee-impacts-are-driving-income-and-consumption-toward-crisis-ipc-phase-3-april-september-2026), [RFI 19/04/2026](https://www.rfi.fr/fr/podcasts/reportage-afrique/20260418-guerre-au-soudan-pour-les-r%C3%A9fugi%C3%A9s-au-tchad-l-espoir-de-migrer-en-europe))",
-    "exposure": ">500,000",
     "triggers": [
       {
         "id": "T1",
-        "acaps_trigger_id": "R1043 - T0618",
-        "title": "Expansion of cross-border attacks and insecurity",
-        "description": "Additional drone strikes, shelling, or armed incursions near the Chad\u2013Sudan border, particularly around Adr\u00e9, Tina, and other eastern border localities, increase civilian casualties, trigger further displacement into Chad, and constrain humanitarian operations in already fragile border areas. Continued insecurity may also disrupt cross-border trade and movement routes relied upon by refugees and host communities",
-        "completion_rate": 40,
-        "sources": [
-          {
-            "text": "reliefweb.int",
-            "url": "https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026"
-          },
-          {
-            "text": "rfi.fr",
-            "url": "https://www.rfi.fr/fr/afrique/20260513-tchad-de-nouvelles-frappes-enregistr%C3%A9es-%C3%A0-la-fronti%C3%A8re-soudanaise-font-craindre-le-pire"
-          },
-          {
-            "text": "reliefweb.int",
-            "url": "https://reliefweb.int/report/chad/chad-food-security-outlook-update-refugee-impacts-are-driving-income-and-consumption-toward-crisis-ipc-phase-3-april-september-2026"
-          }
-        ]
+        "title": "Cross-border raids and militia activity in Ouaddaï",
+        "description": "Armed incursions from Darfur into border areas around Adré."
       },
       {
         "id": "T2",
-        "acaps_trigger_id": "R1043 - T0619",
-        "title": "Attacks on strategic infrastructure in Chad",
-        "description": "Threats by Sudanese actors against Chadian airports, border facilities, military positions, or transport infrastructure may materialise into direct attacks on strategic assets in eastern Chad. Any strike against airports such as Amdjarass, military installations, or critical transport corridors would increase the risk of direct confrontation between Chad and Sudanese armed actors, disrupt humanitarian and commercial operations, and further destabilise border regions",
-        "completion_rate": 10,
-        "sources": [
-          {
-            "text": "issafrica.org",
-            "url": "https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions"
-          },
-          {
-            "text": "acleddata.com",
-            "url": "https://acleddata.com/update/africa-overview-april-2026"
-          },
-          {
-            "text": "africacenter.org",
-            "url": "https://africacenter.org/wp-content/uploads/2026/04/Chad-Risks-Instability.pdf"
-          }
-        ]
+        "title": "New refugee influx",
+        "description": "Renewed fighting in Darfur drives further arrivals into eastern Chad."
       },
       {
         "id": "T3",
-        "acaps_trigger_id": "R1043 - T0620",
-        "title": "Renewed proxy mobilisation and cross-border armed group activity",
-        "description": "Historical patterns of proxy warfare between Chad and Sudan may re-emerge through the mobilisation, arming, or support of rebel groups and allied militias operating along the border. Increased involvement of SAF-aligned groups, RSF-linked actors, Darfuri armed factions, or Chadian rebel networks could expand the conflict beyond isolated border incidents and increase the likelihood of retaliatory attacks on Chadian territory.",
-        "completion_rate": 20,
-        "sources": [
-          {
-            "text": "issafrica.org",
-            "url": "https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions"
-          },
-          {
-            "text": "africacenter.org",
-            "url": "https://africacenter.org/wp-content/uploads/2026/04/Chad-Risks-Instability.pdf"
-          },
-          {
-            "text": "globalinitiative.net",
-            "url": "https://globalinitiative.net/analysis/how-border-criminal-economies-are-drawing-chad-further-into-sudans-conflict/"
-          }
-        ]
+        "title": "Escalation in Darfur",
+        "description": "RSF/SAF escalation in West and Central Darfur."
       }
     ],
-    "sources": [
-      {
-        "text": "africacenter.org",
-        "url": "https://africacenter.org/wp-content/uploads/2026/04/Chad-Risks-Instability.pdf"
-      },
-      {
-        "text": "acleddata.com",
-        "url": "https://acleddata.com/update/africa-overview-april-2026"
-      },
-      {
-        "text": "globalinitiative.net",
-        "url": "https://globalinitiative.net/analysis/how-border-criminal-economies-are-drawing-chad-further-into-sudans-conflict/"
-      },
-      {
-        "text": "issafrica.org",
-        "url": "https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions"
-      },
-      {
-        "text": "rfi.fr",
-        "url": "https://www.rfi.fr/fr/afrique/20260513-tchad-de-nouvelles-frappes-enregistr%C3%A9es-%C3%A0-la-fronti%C3%A8re-soudanaise-font-craindre-le-pire"
-      },
-      {
-        "text": "reliefweb.int",
-        "url": "https://reliefweb.int/report/chad/core-emergency-situation-chad-update-arrivals-sudan-17-may-2026"
-      }
-    ],
-    "materialised": null
+    "served_from": "live",
+    "generated_at": "2026-11-07T09:00:00Z"
   },
-  "round": 1,
-  "group_view_if_round2": null,
-  "already_answered": true,
   "mask_options": [
-    "known",
-    "pseudonym",
-    "anonymous"
+    {
+      "id": "known",
+      "label": "named to ACAPS"
+    },
+    {
+      "id": "pseudonym",
+      "label": "nickname to peers"
+    },
+    {
+      "id": "anonymous",
+      "label": "no identity kept",
+      "note": "you will not receive personal feedback on this answer"
+    }
   ],
-  "mask_note": "Distinctive wording can be recognised by peers even under a pseudonym.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T09:00:00Z",
   "stances": [
     "estimate",
     "outside_my_expertise",
     "not_enough_evidence"
   ],
-  "source_tags": [
-    "saw",
-    "read",
-    "heard"
-  ],
-  "accuracy_prompt": "Is this something you saw, read, or heard?",
-  "elicitation": "What share of this panel will put the probability above 0.5?",
-  "rating_hidden_until_submission": false,
-  "blind": false,
-  "probe_flow": {
-    "max_steps": 3,
-    "bank": {
-      "trigger_rank": {
-        "id": "trigger_rank",
-        "kind": "rank",
-        "question": "Which of these would move the situation most?",
-        "help": "Order them. The one you put first is the one you would watch.",
-        "options": [
-          {
-            "value": "T3",
-            "label": "Renewed proxy mobilisation and cross-border armed group activity"
-          },
-          {
-            "value": "T1",
-            "label": "Expansion of cross-border attacks and insecurity"
-          },
-          {
-            "value": "T2",
-            "label": "Attacks on strategic infrastructure in Chad"
-          }
-        ]
-      },
-      "trigger_hinge": {
-        "id": "trigger_hinge",
-        "kind": "choice",
-        "question": "Which of these matters most for what happens next?",
-        "options": [
-          {
-            "value": "T3",
-            "label": "Renewed proxy mobilisation and cross-border armed group activity"
-          },
-          {
-            "value": "T1",
-            "label": "Expansion of cross-border attacks and insecurity"
-          },
-          {
-            "value": "T2",
-            "label": "Attacks on strategic infrastructure in Chad"
-          },
-          {
-            "value": "something_else",
-            "label": "Something not listed",
-            "dk": true
-          }
-        ],
-        "follow_up": {
-          "when": "something_else",
-          "id": "trigger_hinge_other",
-          "kind": "text",
-          "question": "What is it?",
-          "limit": 240
-        }
-      },
-      "minority_why": {
-        "id": "minority_why",
-        "kind": "text",
-        "question": "You expect to land apart from this panel. What do you know that they may not?",
-        "help": "The gap between your own estimate and your guess at theirs is the reason this is being asked.",
-        "limit": 240
-      },
-      "what_would_move": {
-        "id": "what_would_move",
-        "kind": "text",
-        "question": "What would move you, either way?",
-        "help": "One thing you would need to see.",
-        "limit": 240
-      },
-      "evidence_seen": {
-        "id": "evidence_seen",
-        "kind": "text",
-        "question": "What are you seeing that supports that?",
-        "help": "In the last 30 days, and only what you would stand behind.",
-        "limit": 240
-      },
-      "holding_back": {
-        "id": "holding_back",
-        "kind": "text",
-        "question": "What is holding this back?",
-        "help": "The reason it has not happened already.",
-        "limit": 240
-      },
-      "watch_indicator": {
-        "id": "watch_indicator",
-        "kind": "text",
-        "question": "What would you watch to know it had started?",
-        "help": "One observable thing, as early as you can make it.",
-        "limit": 240
-      },
-      "counterfactual": {
-        "id": "counterfactual",
-        "kind": "text",
-        "question": "What would have to be true for this not to happen?",
-        "help": "The strongest reason it does not, in one line.",
-        "limit": 240
-      },
-      "alternative_driver": {
-        "id": "alternative_driver",
-        "kind": "choice",
-        "question": "What is driving this most, as you see it?",
-        "help": "ACAPS frames it as: Escalating cross-border insecurity linked to the Sudan conflict increases protection risks and humanitarian ne",
-        "options": [
-          {
-            "value": "Food security",
-            "label": "Food security"
-          },
-          {
-            "value": "Health",
-            "label": "Health"
-          },
-          {
-            "value": "WASH",
-            "label": "WASH"
-          },
-          {
-            "value": "Shelter",
-            "label": "Shelter"
-          },
-          {
-            "value": "Displacement",
-            "label": "Displacement"
-          },
-          {
-            "value": "Nutrition",
-            "label": "Nutrition"
-          },
-          {
-            "value": "as_titled",
-            "label": "As framed above"
-          },
-          {
-            "value": "cannot_say",
-            "label": "Cannot say",
-            "dk": true
-          }
-        ]
-      },
-      "rationale_rebuttal": {
-        "id": "rationale_rebuttal",
-        "kind": "choice",
-        "question": "ACAPS writes this. Does it match what you see?",
-        "help": "Since early 2026, the conflict in Sudan has evolved from a humanitarian crisis affecting Chad into a direct security threat to eastern border areas.",
-        "options": [
-          {
-            "value": "partly",
-            "label": "Partly"
-          },
-          {
-            "value": "disagree",
-            "label": "Does not match"
-          },
-          {
-            "value": "agree",
-            "label": "Matches"
-          }
-        ],
-        "follow_up": {
-          "when": [
-            "partly",
-            "disagree"
-          ],
-          "id": "rationale_rebuttal_why",
-          "kind": "text",
-          "question": "What is wrong or missing in it?",
-          "limit": 240
-        }
-      },
-      "vulnerability_check": {
-        "id": "vulnerability_check",
-        "kind": "choice",
-        "question": "Is this still true where you work, over the last 30 days?",
-        "help": "Before the Sudan conflict escalated, eastern Chad already faced high levels of poverty, food insecurity, weak infrastructure, and limited access to basic services.",
-        "options": [
-          {
-            "value": "improved",
-            "label": "Better than that now"
-          },
-          {
-            "value": "worse",
-            "label": "Worse than that now"
-          },
-          {
-            "value": "still_true",
-            "label": "Still true"
-          },
-          {
-            "value": "cannot_say",
-            "label": "Cannot say",
-            "dk": true
-          }
-        ]
-      },
-      "exposure_sanity": {
-        "id": "exposure_sanity",
-        "kind": "choice",
-        "question": "How many people would you expect this to reach?",
-        "help": "Answer before ACAPS's own figure is shown.",
-        "reveal_after": "ACAPS expects >500,000.",
-        "options": [
-          {
-            "value": "<20,000",
-            "label": "<20,000"
-          },
-          {
-            "value": "20,000-100,000",
-            "label": "20,000-100,000"
-          },
-          {
-            "value": "100,000-250,000",
-            "label": "100,000-250,000"
-          },
-          {
-            "value": "250,000-500,000",
-            "label": "250,000-500,000"
-          },
-          {
-            "value": ">500,000",
-            "label": ">500,000"
-          },
-          {
-            "value": "cannot_say",
-            "label": "Cannot say",
-            "dk": true
-          }
-        ]
-      }
+  "mask_note": "In a panel of eight a distinctive reason may identify you to colleagues.",
+  "likelihood_words": [
+    {
+      "id": "very_unlikely",
+      "label": "very unlikely",
+      "range": "under 10 %",
+      "midpoint": 0.05
     },
-    "rules": [
-      {
-        "step": 2,
-        "when": {
-          "gap_at_least": 0.25
-        },
-        "probe": "minority_why",
-        "why": "They expect to sit apart from the panel, which is the view worth hearing."
-      },
-      {
-        "step": 2,
-        "when": {
-          "confidence_at_most": 2
-        },
-        "probe": "what_would_move",
-        "why": "Low confidence: what would change it is more useful than what it is."
-      },
-      {
-        "step": 2,
-        "when": {
-          "probability_at_least": 0.75
-        },
-        "probe": "evidence_seen",
-        "why": "High conviction: ask what they are seeing that supports it."
-      },
-      {
-        "step": 2,
-        "when": {
-          "probability_at_most": 0.25
-        },
-        "probe": "holding_back",
-        "why": "Low estimate with conviction: ask what is holding it back."
-      },
-      {
-        "step": 2,
-        "otherwise": true,
-        "probe": "trigger_hinge"
-      },
-      {
-        "step": 3,
-        "after": "trigger_hinge",
-        "when": {
-          "answered": true
-        },
-        "probe": "watch_indicator",
-        "why": "They named the hinge; ask what would show it starting."
-      },
-      {
-        "step": 3,
-        "after": "minority_why",
-        "probe": "alternative_driver"
-      },
-      {
-        "step": 3,
-        "after": "what_would_move",
-        "probe": "vulnerability_check"
-      },
-      {
-        "step": 3,
-        "after": "evidence_seen",
-        "probe": "exposure_sanity"
-      },
-      {
-        "step": 3,
-        "after": "holding_back",
-        "probe": "alternative_driver"
-      },
-      {
-        "step": 3,
-        "otherwise": true,
-        "probe": "counterfactual"
-      }
+    {
+      "id": "unlikely",
+      "label": "unlikely",
+      "range": "10 to 35 %",
+      "midpoint": 0.22
+    },
+    {
+      "id": "even",
+      "label": "even",
+      "range": "35 to 65 %",
+      "midpoint": 0.5
+    },
+    {
+      "id": "likely",
+      "label": "likely",
+      "range": "65 to 90 %",
+      "midpoint": 0.78
+    },
+    {
+      "id": "very_likely",
+      "label": "very likely",
+      "range": "over 90 %",
+      "midpoint": 0.95
+    }
+  ],
+  "optional": {
+    "confidence": [
+      "not sure",
+      "fairly sure",
+      "sure"
     ],
-    "note": "Steps 2 and 3 are chosen on your device from your own answers. Nothing is sent until you seal."
+    "note_prompt": "What are we missing?",
+    "note_prompt_alternate": "What is the strongest reason this would NOT happen?",
+    "source_tags": [
+      "saw",
+      "read",
+      "heard"
+    ],
+    "trigger_pick_prompt": "Which trigger would move your view most?"
   },
-  "probe_note": "These follow the scored question and are never aggregated into it.",
-  "served_from": "live",
-  "generated_at": "2026-11-07T16:52:39+00:00"
+  "mask_default": null,
+  "correction_allowed_until": "2026-11-09T09:00:00Z",
+  "round": 1,
+  "group_view_if_round2": null,
+  "evidence_shown": false,
+  "acaps_band_shown": false
 }

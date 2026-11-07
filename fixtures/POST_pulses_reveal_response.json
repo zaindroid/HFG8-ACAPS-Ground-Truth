@@ -7,16 +7,13 @@
     "max": 0.9,
     "iqr": 0.2
   },
-  "minority_rationales": [
-    "Border raids have slowed since mid-September; the pressure is displacement, not attacks."
-  ],
   "weighted_mean": 0.69,
   "sp_experiment": {
     "answer": "yes",
     "method": "Prelec 2017 / Palley & Soll peer-prediction weighting",
-    "label": "experimental"
+    "label": "experimental",
+    "elicitation": "what share of this panel will say likely or very likely?"
   },
-  "dissent_index": 0.31,
   "distribution": [
     {
       "bucket": "0.0-0.2",
@@ -90,5 +87,26 @@
     }
   ],
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T09:00:00Z",
+  "disagreement": [
+    {
+      "position": "lower",
+      "n": 2,
+      "summary": "Two experts expect the pressure to be displacement rather than attacks and put the chance below even."
+    }
+  ],
+  "missing_evidence": [
+    {
+      "theme": "night-time militia movements near Adré",
+      "n": 3
+    },
+    {
+      "theme": "registration backlog at Adré transit site",
+      "n": 1
+    }
+  ],
+  "verification_queue_count": 4,
+  "reveal_status": "revealed",
+  "revealed_reason": "deadline",
+  "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
 }

@@ -1,0 +1,37 @@
+{
+  "panels": [
+    {
+      "risk_id": "R1043",
+      "panel_id": "PAN-TCD",
+      "n": 8,
+      "n_resolved": 0,
+      "panel_brier": null,
+      "acaps_band_brier": null,
+      "status": "open"
+    },
+    {
+      "risk_id": "R1018",
+      "panel_id": "PAN-NER",
+      "n": 7,
+      "n_resolved": 3,
+      "panel_brier": 0.19,
+      "acaps_band_brier": 0.24,
+      "status": "resolved"
+    }
+  ],
+  "divergence": [
+    {
+      "risk_id": "R1043",
+      "panel": 0.69,
+      "acaps": 0.78
+    },
+    {
+      "risk_id": "R1050",
+      "panel": 0.35,
+      "acaps": 0.3
+    }
+  ],
+  "note": "Panel-level only. No per-expert scores exist outside the consent-gated calibration programme.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T09:00:00Z"
+}
