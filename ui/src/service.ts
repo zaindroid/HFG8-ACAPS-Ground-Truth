@@ -42,11 +42,16 @@ export type Draft = {
   decided_at: string | null;
 };
 export type Board = {
-  super_estimators: {
-    pseudonym: string;
+  // v3.4 scores panels, not people: /analyst/board became /committee/scoring and the
+  // per-expert rows went with it, deliberately -- "scores are for forecasts, not people".
+  panels: {
+    risk_id: string;
+    panel_id: string;
     n: number;
-    mean_brier: number;
-    weight: number;
+    n_resolved: number;
+    panel_brier: number | null;
+    acaps_band_brier: number | null;
+    status: string;
   }[];
   divergence: { risk_id: string; panel: number; acaps: number }[];
 };

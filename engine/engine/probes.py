@@ -20,6 +20,8 @@ across a panel without anyone coordinating it.
 from __future__ import annotations
 
 import hashlib
+import json
+from pathlib import Path
 
 PROBE_SLOTS = 2        # the minute allows the core plus two, no more
 TEXT_LIMIT = 240
@@ -88,96 +90,148 @@ def _off_theme_need(risk: dict, expert_themes: list[str]) -> list[str]:
     return [need for need in PRIORITY_NEEDS if need not in mine][:6]
 
 
+def deadline_text(risk: dict) -> str:
+    """The horizon as a date. "Within six months" is not something anyone forecasts against."""
+    from datetime import date, timedelta
+
+    months = int(risk.get("horizon_months") or 6)
+    return (date.today() + timedelta(days=round(months * 30.44))).strftime("%d %B %Y")
+
+
+def band_base_rate(risk: dict) -> tuple[int, float] | None:
+    """How often this probability band has actually resolved yes, from the export itself.
+
+    Used to confront an estimate with the record, never to correct it: an expert sitting
+    well off the base rate may be the one seeing what the base rate cannot.
+    """
+    from . import data
+
+    band = (risk.get("probability_acaps") or "").strip()
+    if not band:
+        return None
+    resolved = [r for r in data.resolved_risks()
+                if (r.get("probability_acaps") or "").strip() == band]
+    if len(resolved) < 10:
+        return None
+    hit = sum(1 for r in resolved if r["status"].lower() == "materialised")
+    return len(resolved), hit / len(resolved)
+
+
+# One question per expertise, naming the thing that expertise actually decides.
+SECTOR_QUESTIONS = {
+    "displacement": ("Which area runs out of absorption capacity first?",
+                     "Sites, registration and services, not arrival numbers."),
+    "conflict": ("Whose next move decides this?",
+                 "The actor the others react to."),
+    "food": ("If the border closes for a month, which market fails first?",
+             "Where supply has no second route."),
+    "access": ("Which route closes first if this escalates?",
+               "The one whose loss cuts off the most people."),
+    "political": ("Which decision in the capital would change this most?",
+                  "One that could plausibly be taken this quarter."),
+    "economic": ("What price moves first, and by how much?",
+                 "The one that moves before the headline indicators do."),
+}
+
+
 def build_bank(risk: dict, expert: dict) -> list[dict]:
-    """The six probes, every one generated from a field the export already carries."""
+    """Questions built from this record: its own triggers, horizon, wording and history.
+
+    A prompt that would read identically for any risk is not worth an expert's minute, so
+    nothing here is generic: the triggers are named, the deadline is a date, the base rate
+    is this band's own, and the sector question is the one this expert can answer.
+    """
     themes = expert.get("theme_tags") or []
     triggers = trigger_order(risk, expert.get("id", ""))
-    title = risk.get("title", "this risk")
+    regions = [r for r in (risk.get("regions") or []) if r]
+    by = deadline_text(risk)
+    base = band_base_rate(risk)
     bank: list[dict] = []
 
-    if triggers:
+    if len(triggers) >= 2:
+        # Decomposition. One probability hides which link the expert doubts, and the
+        # weakest link is the part an analyst can go and check.
         bank.append({
-            "id": "trigger_rank",
-            "kind": "rank",
-            "question": "Which of these would move the situation most?",
-            "help": "Order them. The one you put first is the one you would watch.",
-            "options": [{"value": t.get("id") or t["title"], "label": t["title"]}
-                        for t in triggers[:4]],
-        })
-        # Asked as a forced choice between named alternatives, not as "is X the hinge?".
-        # A yes/no about a proposition collects agreement from anyone unsure, and the rate
-        # of yes then looks like a finding.
-        bank.append({
-            "id": "trigger_hinge",
+            "id": "weakest_link",
             "kind": "choice",
-            "question": "Which of these matters most for what happens next?",
-            "options": ([{"value": t.get("id") or t["title"], "label": t["title"]}
-                         for t in triggers[:4]]
-                        + [{"value": "something_else", "label": "Something not listed",
-                            "dk": True}]),
-            "follow_up": {
-                "when": "something_else",
-                "id": "trigger_hinge_other",
-                "kind": "text",
-                "question": "What is it?",
-                "limit": TEXT_LIMIT,
-            },
+            "question": f"Several things must line up for this by {by}. Which is least likely?",
+            "help": "The one you would bet against.",
+            "options": [{"value": t.get("id") or t["title"], "label": t["title"]}
+                        for t in triggers[:4]]
+            + [{"value": "all_plausible", "label": "All are plausible", "dk": True}],
+        })
+        # Conditional. Two experts can agree on a number and disagree completely about
+        # what drives it; this is where that shows.
+        bank.append({
+            "id": "conditional",
+            "kind": "choice",
+            "question": f'If "{triggers[0]["title"]}" happens, where does your estimate go?',
+            "help": "Assume it happens within two months.",
+            "options": [{"value": "much_higher", "label": "Much higher"},
+                        {"value": "higher", "label": "Higher"},
+                        {"value": "unchanged", "label": "Unchanged, already priced in"},
+                        {"value": "lower", "label": "Lower"}],
         })
 
-    bank.append({
-        "id": "minority_why",
-        "kind": "text",
-        "question": "You expect to land apart from this panel. What do you know that they may not?",
-        "help": "The gap between your own estimate and your guess at theirs is the reason this is being asked.",
-        "limit": TEXT_LIMIT,
-    })
-    bank.append({
-        "id": "what_would_move",
-        "kind": "text",
-        "question": "What would move you, either way?",
-        "help": "One thing you would need to see.",
-        "limit": TEXT_LIMIT,
-    })
-    bank.append({
-        "id": "evidence_seen",
-        "kind": "text",
-        "question": "What are you seeing that supports that?",
-        "help": "In the last 30 days, and only what you would stand behind.",
-        "limit": TEXT_LIMIT,
-    })
-    bank.append({
-        "id": "holding_back",
-        "kind": "text",
-        "question": "What is holding this back?",
-        "help": "The reason it has not happened already.",
-        "limit": TEXT_LIMIT,
-    })
-    if triggers:
+    if base:
+        count, rate = base
         bank.append({
-            "id": "watch_indicator",
+            "id": "base_rate_challenge",
             "kind": "text",
-            "question": "What would you watch to know it had started?",
-            "help": "One observable thing, as early as you can make it.",
+            "question": (f"Of {count} resolved risks ACAPS rated "
+                         f"{risk.get('probability_acaps')}, {round(rate * 100)}% happened. "
+                         "What makes this one different?"),
+            "help": "If nothing does, say so. That is an answer.",
             "limit": TEXT_LIMIT,
         })
+
+    # Pre-mortem: standing in a future where it already failed surfaces reasons that
+    # "what could go wrong" does not.
     bank.append({
-        "id": "counterfactual",
+        "id": "premortem",
         "kind": "text",
-        "question": "What would have to be true for this not to happen?",
-        "help": "The strongest reason it does not, in one line.",
+        "question": f"It is {by} and this did not happen. What stopped it?",
+        "help": "One line, written as though you already knew.",
         "limit": TEXT_LIMIT,
     })
+    bank.append({
+        "id": "surprise",
+        "kind": "text",
+        "question": f"What would genuinely surprise you by {by}?",
+        "help": "Not the worst case. The thing you would not have predicted.",
+        "limit": TEXT_LIMIT,
+    })
+    # An observable with a deadline can be checked; an opinion cannot.
+    bank.append({
+        "id": "observable_7d",
+        "kind": "text",
+        "question": "Name one thing checkable within seven days that would move your estimate.",
+        "help": "Something an analyst could go and look at.",
+        "limit": TEXT_LIMIT,
+    })
+    # A rise in recorded incidents is ambiguous between escalation and coverage, and
+    # people on the ground are the only ones who can separate the two.
+    bank.append({
+        "id": "reporting_or_real",
+        "kind": "choice",
+        "question": "Recorded incidents here have risen. Escalation, or better reporting?",
+        "options": [{"value": "escalation", "label": "Real escalation"},
+                    {"value": "reporting", "label": "Mostly better reporting"},
+                    {"value": "both", "label": "Both, about equally"},
+                    {"value": "cannot_say", "label": "Cannot say", "dk": True}],
+    })
 
-    needs = _off_theme_need(risk, themes)
-    if needs:
+    sector = next((SECTOR_QUESTIONS[t] for t in themes if t in SECTOR_QUESTIONS), None)
+    if sector:
+        question, help_text = sector
         bank.append({
-            "id": "alternative_driver",
-            "kind": "choice",
-            "question": "What is driving this most, as you see it?",
-            "help": f"ACAPS frames it as: {title[:110]}",
-            "options": ([{"value": "as_titled", "label": "As framed above"}]
-                        + [{"value": n, "label": n} for n in needs]
-                        + [{"value": "cannot_say", "label": "Cannot say", "dk": True}]),
+            "id": "sector_specific",
+            "kind": "choice" if regions else "text",
+            "question": question,
+            "help": help_text,
+            **({"options": [{"value": r, "label": r} for r in regions[:4]]
+                + [{"value": "cannot_say", "label": "Cannot say", "dk": True}]}
+               if regions else {"limit": TEXT_LIMIT}),
         })
 
     rationale = _first_sentence(risk.get("rationale", ""))
@@ -212,18 +266,51 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
                         {"value": "cannot_say", "label": "Cannot say", "dk": True}],
         })
 
-    if risk.get("exposure") in EXPOSURE_BANDS:
-        bank.append({
-            "id": "exposure_sanity",
-            "kind": "choice",
-            "question": "How many people would you expect this to reach?",
-            "help": "Answer before ACAPS's own figure is shown.",
-            "reveal_after": f"ACAPS expects {risk['exposure']}.",
-            "options": ([{"value": b, "label": b} for b in EXPOSURE_BANDS]
-                        + [{"value": "cannot_say", "label": "Cannot say", "dk": True}]),
-        })
-
+    bank.append({
+        "id": "minority_why",
+        "kind": "text",
+        "question": "You expect to land apart from this panel. What do they not know?",
+        "help": "The gap between your estimate and your guess at theirs is why this is asked.",
+        "limit": TEXT_LIMIT,
+    })
     return bank
+
+
+# --- where a card's questions come from -----------------------------------------------
+# Three sources, in order. A reviewed set wins because a person has read it. A live model
+# call comes next, and only when LLM_BASE_URL is set. The deterministic bank is last and
+# always available, so the card never depends on a network the venue may not have.
+
+REVIEWED = Path(__file__).resolve().parents[2] / "data" / "generated-questions.json"
+
+
+def _reviewed_for(risk_id: str, expert_id: str) -> list[dict]:
+    """Questions written by a model and checked by a person, committed to the repo.
+
+    Keyed by risk and expert, falling back to a set written for the expert's expertise so
+    a new panel member is not dropped back to the generic bank.
+    """
+    try:
+        store = json.loads(REVIEWED.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    sets = store.get("sets", {})
+    return sets.get(f"{risk_id}:{expert_id}") or []
+
+
+def bank_for(risk: dict, expert: dict, evidence: list[dict] | None = None) -> list[dict]:
+    reviewed = _reviewed_for(risk.get("risk_id", ""), expert.get("id", ""))
+    if reviewed:
+        return reviewed
+    try:
+        from . import question_gen
+        written = question_gen.generate(risk, expert, evidence)
+        if written:
+            return written
+    except Exception:
+        # A generator failure must never cost the expert their card.
+        pass
+    return build_bank(risk, expert)
 
 
 def _rotate_options(probe: dict, seed: int) -> dict:
@@ -291,7 +378,7 @@ def select(risk: dict, expert: dict, slots: int = PROBE_SLOTS) -> list[dict]:
     remove. Across a panel the hash still spreads the bank; it just does so without anyone
     talking to anyone.
     """
-    bank = build_bank(risk, expert)
+    bank = bank_for(risk, expert)
     if not bank:
         return []
     seed = _digest(expert.get("id", ""), risk.get("risk_id", ""))
@@ -311,7 +398,7 @@ def select(risk: dict, expert: dict, slots: int = PROBE_SLOTS) -> list[dict]:
     return [_rotate_options(probe, seed) for probe in chosen]
 
 
-def card_flow(risk: dict, expert: dict) -> dict:
+def card_flow(risk: dict, expert: dict, evidence: list[dict] | None = None) -> dict:
     """Everything the card needs to walk three steps without calling home.
 
     The bank is rotated per expert for option order; the rules decide which probe each step
@@ -319,7 +406,8 @@ def card_flow(risk: dict, expert: dict) -> dict:
     without sending a partial answer anywhere.
     """
     seed = _digest(expert.get("id", ""), risk.get("risk_id", ""))
-    bank = [_rotate_options(probe, seed) for probe in build_bank(risk, expert)]
+    bank = [_rotate_options(probe, seed)
+            for probe in bank_for(risk, expert, evidence)]
     return {
         "max_steps": 3,
         "bank": {probe["id"]: probe for probe in bank},
@@ -332,7 +420,7 @@ def card_flow(risk: dict, expert: dict) -> dict:
 def accepted_ids(risk: dict, expert: dict) -> set[str]:
     """Every probe id this card could legitimately reach, follow-ups included."""
     ids: set[str] = set()
-    for probe in build_bank(risk, expert):
+    for probe in bank_for(risk, expert):
         ids.add(probe["id"])
         if probe.get("follow_up"):
             ids.add(probe["follow_up"]["id"])

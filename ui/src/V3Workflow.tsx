@@ -325,7 +325,7 @@ export function CommitteeScoring() {
               mock && sampleDataEnabled()
                 ? sampleBoard
                 : mock
-                  ? (await import("../../fixtures/GET_analyst_board.json"))
+                  ? (await import("../../fixtures/GET_committee_scoring.json"))
                       .default
                   : await endpoint.board(),
             );
@@ -343,20 +343,32 @@ export function CommitteeScoring() {
         <div className="table-wrap">
           <table>
             <thead>
+              {/* Panels, not people: v3.4 scores the forecast, and a per-expert
+                  leaderboard is the thing it deliberately removed. */}
               <tr>
-                <th>Pseudonym</th>
-                <th>Resolved forecasts</th>
-                <th>Mean Brier score</th>
-                <th>Secondary weight</th>
+                <th>Panel</th>
+                <th>Risk</th>
+                <th>Resolved</th>
+                <th>Panel Brier</th>
+                <th>ACAPS band Brier</th>
               </tr>
             </thead>
             <tbody>
-              {value.super_estimators.map((item) => (
-                <tr key={item.pseudonym}>
-                  <td>{item.pseudonym}</td>
-                  <td>{item.n}</td>
-                  <td>{item.mean_brier.toFixed(2)}</td>
-                  <td>{item.weight.toFixed(2)}×</td>
+              {value.panels.map((panel) => (
+                <tr key={`${panel.panel_id}-${panel.risk_id}`}>
+                  <td>{panel.panel_id}</td>
+                  <td>{panel.risk_id}</td>
+                  <td>{panel.n_resolved}</td>
+                  <td>
+                    {panel.panel_brier === null
+                      ? panel.status
+                      : panel.panel_brier.toFixed(2)}
+                  </td>
+                  <td>
+                    {panel.acaps_band_brier === null
+                      ? "—"
+                      : panel.acaps_band_brier.toFixed(2)}
+                  </td>
                 </tr>
               ))}
             </tbody>

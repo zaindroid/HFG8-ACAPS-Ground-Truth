@@ -2,7 +2,7 @@ import risk from "../../fixtures/GET_risks_R1043.json";
 import result from "../../fixtures/GET_pulses_result.json";
 import draft from "../../fixtures/POST_pulses_draft_response.json";
 import ledger from "../../fixtures/GET_ledger.json";
-import board from "../../fixtures/GET_analyst_board.json";
+import board from "../../fixtures/GET_committee_scoring.json";
 import historicalRisks from "./data/demo-risks.json";
 import { hasWorkspaceSession } from "./workspace-session";
 import type {
@@ -109,8 +109,8 @@ export const sampleCalibration: Calibration = {
 };
 export const sampleBoard: Board = {
   ...board,
-  super_estimators: board.super_estimators.map((e, i) =>
-    i === 0 ? { ...e, n: 5, mean_brier: meanBrier } : e,
+  panels: board.panels.map((panel, index) =>
+    index === 0 ? { ...panel, n_resolved: 5, panel_brier: meanBrier } : panel,
   ),
   divergence: [{ risk_id: risk.risk_id, panel: sampleResult.mean, acaps: 0.7 }],
 };

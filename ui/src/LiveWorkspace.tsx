@@ -260,8 +260,10 @@ export function GroupChart({
           Secondary weighted mean: {percent(result.weighted_mean)}.
         </p>
         <h3>Minority reasons</h3>
-        {result.minority_rationales.length ? (
-          result.minority_rationales.map((reason, i) => <p key={i}>{reason}</p>)
+        {result.disagreement.length ? (
+          result.disagreement.map((reason: { summary?: string } | string, i: number) => (
+            <p key={i}>{typeof reason === "string" ? reason : reason.summary}</p>
+          ))
         ) : (
           <p>No minority reasons supplied.</p>
         )}

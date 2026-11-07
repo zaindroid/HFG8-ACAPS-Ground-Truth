@@ -3,7 +3,7 @@ import { endpoint } from "./service";
 import type { EvidenceRecord } from "./Evidence";
 import cardFixture from "../../fixtures/GET_e_token.json";
 import resultFixture from "../../fixtures/GET_pulses_result.json";
-import sealFixture from "../../fixtures/POST_e_token_answer_response.json";
+import sealFixture from "../../fixtures/POST_e_token_confirm_response.json";
 export type Mask = "known" | "pseudonym" | "anonymous";
 export type Result = Omit<typeof resultFixture, "integrity_notes">;
 export type Card = Omit<
@@ -59,7 +59,8 @@ export async function sealAnswer(
   token: string,
   answer: Answer,
 ): Promise<typeof sealFixture> {
-  if (!mock) return endpoint.answer(token, answer);
+  if (!mock)
+    return (await endpoint.answer(token, answer)) as typeof sealFixture;
   await new Promise((resolve) => setTimeout(resolve, 300));
   // Fixture receipt only: this milestone does not implement cryptographic sealing.
   return structuredClone(sealFixture);
