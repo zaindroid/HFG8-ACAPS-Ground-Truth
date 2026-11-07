@@ -104,6 +104,53 @@ def test_the_crisis_line_names_the_country_and_no_province():
 
 
 # -- the first contact ---------------------------------------------------------
+# -- closing the loop: the thank-you, never the expert's own answer --------------
+FEEDBACK = {
+    "group_mean": 0.62, "answered_share": 0.75, "acaps_band": "High",
+    "analyst_decision": "accepted",
+    # A caller that still passes the expert's own answer must not get it printed.
+    "your_answer": {"probability": 0.81},
+    "impact": {"text": "Thank you. Most of the panel answered, and your answer was part of it. "
+                       "ACAPS used the panel's input in its update."},
+}
+
+
+def test_closing_the_loop_never_shows_the_experts_own_answer():
+    for channel in ("email", "whatsapp", "signal", "sms", "teams", "call"):
+        for languages in (["en"], ["fr"]):
+            body = messages.closing_the_loop(_contact(channel_pref=channel, languages=languages),
+                                             FEEDBACK, channel=channel, risk=RISK, token="tok")
+            assert "0.81" not in body
+            assert "You said" not in body and "Vous avez dit" not in body
+
+
+def test_closing_the_loop_by_email_carries_the_impact_message_and_the_band():
+    body = messages.closing_the_loop(_contact(), FEEDBACK, channel="email", risk=RISK,
+                                     token="tok")
+    assert body.startswith(FEEDBACK["impact"]["text"])
+    assert "ACAPS rates this High." in body
+    assert "/e/tok/feedback" in body
+
+
+def test_closing_the_loop_without_an_impact_message_is_group_only():
+    feedback = {k: v for k, v in FEEDBACK.items() if k != "impact"}
+    body = messages.closing_the_loop(_contact(), feedback, channel="email", risk=RISK,
+                                     token="tok")
+    assert body.startswith("Most of the panel answered.")
+    assert "The group view is around 0.62." in body
+    assert "0.81" not in body
+
+
+def test_closing_the_loop_on_chat_and_sms_is_only_the_crisis_line_and_the_link():
+    for channel in ("whatsapp", "signal", "sms", "teams"):
+        body = messages.closing_the_loop(_contact(channel_pref=channel), FEEDBACK,
+                                         channel=channel, risk=RISK, token="tok")
+        messages.assert_lock_screen_safe(body, RISK)
+        assert messages.crisis_line(RISK) in body
+        assert body.endswith("/e/tok/feedback")
+        assert "Thank you" not in body and "0.62" not in body
+
+
 def test_first_contact_carries_the_charter_the_reason_and_the_opt_out():
     _, body = messages.first_contact(_contact(), PULSE, RISK, "tok", "email")
     assert "Alex, ACAPS Risk Radar" in body

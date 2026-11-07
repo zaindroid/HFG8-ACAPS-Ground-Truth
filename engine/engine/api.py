@@ -2377,15 +2377,18 @@ async def inbound(channel: str, body: dict = Body(default_factory=dict)):
 
 @api.post("/reach/pulses/{pulse_id}/close-the-loop", tags=["reach"])
 def close_the_loop(pulse_id: str):
-    """The message every expert who answered gets within 24 hours of the reveal: the group view,
-    their own answer, ACAPS's band and what the analyst did. This is where the band first
-    appears, which is what lets the card promise it is hidden."""
+    """The message every expert who answered gets within 24 hours of the reveal: the thank-you
+    from `engine.impact` (what the panel's input changed), ACAPS's band and what the analyst did,
+    in full by email. Chat and SMS carry only the crisis-level line and the link. No channel
+    carries the expert's own answer; that stays behind `/e/{token}/feedback?show_mine=true`."""
     result = STORE.results.get(pulse_id)
     if not result:
         raise HTTPException(409, "reveal the round before closing the loop on it")
     pulse = STORE.pulses.get(pulse_id) or {}
     risk = data.get_risk(pulse.get("risk_id") or "") or {}
     entry = next((e for e in STORE.ledger if e["pulse_id"] == pulse_id), None)
+    panel = _panel_size(pulse_id)
+    impact = _impact(pulse_id, result["n"])
     sent = []
     for token, (token_pulse, expert_id) in sorted(STORE.tokens.items(),
                                                   key=lambda item: item[1][1]):
@@ -2394,23 +2397,24 @@ def close_the_loop(pulse_id: str):
         contact = REACH.book.get(expert_id)
         if not contact:
             continue
-        mine = STORE.find_answer(pulse_id, expert_id, None)
-        panel = _panel_size(pulse_id)
+        channel = channel_lib.resolve(contact.effective_channel())
         text = message_lib.closing_the_loop(contact, {
             "group_mean": result["mean"],
             "answered_share": (result["n"] / panel) if panel else None,
-            "your_answer": {"probability": mine.probability} if mine else None,
+            "impact": impact,
             "acaps_band": risk.get("probability_acaps"),
             "analyst_decision": (entry or {}).get("decision") or "has not decided yet",
-        })
-        delivery = REACH.send_feedback(pulse_id, expert_id, text)
+        }, channel=channel, risk=risk, token=token)
+        if channel not in message_lib.FULL_TEXT_CHANNELS:
+            message_lib.assert_lock_screen_safe(text, risk)
+        delivery = REACH.send_feedback(pulse_id, expert_id, text, channel=channel)
         sent.append({"expert_id": expert_id, "channel": delivery.channel, "body": text})
     return envelope({
         "pulse_id": pulse_id, "sent": sent, "n_sent": len(sent),
         "transport_note": channel_lib.TRANSPORT_NOTE,
-        "note": ("Only the experts who answered. An answer with no identity kept gets the group "
-                 "view without their own figure in it, because the service cannot tell which "
-                 "answer was theirs."),
+        "note": ("Only the experts who answered. No message carries the expert's own answer; "
+                 "they can ask for it from their own link. Email carries the full text; chat "
+                 "and SMS carry only the crisis-level line and the link."),
     })
 
 

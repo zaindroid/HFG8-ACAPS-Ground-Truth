@@ -110,13 +110,15 @@ class Reach:
             token=token, body=body, subject=subject,
         ))
 
-    def send_feedback(self, pulse_id: str, expert_id: str, text: str) -> Delivery:
+    def send_feedback(self, pulse_id: str, expert_id: str, text: str,
+                      channel: str | None = None) -> Delivery:
         """The loop-closing message, after the reveal. Not a pulse, so the 7-day cap does not
         apply to it: it is the thing we promised in return for answering, and withholding it to
         respect a cadence rule would be the rule eating its own purpose."""
         contact = self.book.require(expert_id)
         return self.deliver(Delivery(
-            pulse_id=pulse_id, expert_id=expert_id, channel=contact.effective_channel(),
+            pulse_id=pulse_id, expert_id=expert_id,
+            channel=channel or channels_mod.resolve(contact.effective_channel()),
             kind="feedback", scheduled_for=contacts_mod.now(), body=text,
             subject=messages_mod.FEEDBACK_SUBJECT,
         ))

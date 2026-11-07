@@ -160,18 +160,32 @@ def test_closing_the_loop_goes_only_to_the_experts_who_answered(seeded):
     reveal_now(client, pulse_id)
     body = client.post(f"/api/reach/pulses/{pulse_id}/close-the-loop").json()
     assert body["n_sent"] >= 1
+    channels = set()
     for message in body["sent"]:
-        # The band appears here and nowhere earlier, which is what lets the card promise it is
-        # hidden until after submission. In the reader's own language, including the first line:
-        # a French message with an English opening sentence is how a template leaks.
-        french = "L'avis du groupe" in message["body"]
-        if french:
-            assert "ACAPS evalue ce risque : High" in message["body"]
-            assert "a repondu" in message["body"]
-            assert "Most of the panel" not in message["body"]
+        channels.add(message["channel"])
+        if message["channel"] == "email":
+            # The band appears here and nowhere earlier, which is what lets the card promise it
+            # is hidden until after submission. In the reader's own language, including the
+            # first line: a French message with an English opening sentence is how a template
+            # leaks.
+            french = "L'avis du groupe" in message["body"]
+            if french:
+                assert "ACAPS evalue ce risque : High" in message["body"]
+                assert "a repondu" in message["body"]
+                assert "Most of the panel" not in message["body"]
+            else:
+                assert "ACAPS rates this High" in message["body"]
+                # The thank-you from engine.impact, not a personal comparison.
+                assert message["body"].startswith("Thank you.")
+                assert "your answer was part of it" in message["body"]
         else:
-            assert "ACAPS rates this High" in message["body"]
-            assert "The group view is around" in message["body"]
+            # Chat and SMS: the crisis-level line and the link, nothing a preview could leak.
+            assert "/feedback" in message["body"]
+            assert "High" not in message["body"]
+            assert "group view" not in message["body"].lower()
+        # Never the expert's own answer, on any channel.
+        assert "You said" not in message["body"]
+        assert "Vous avez dit" not in message["body"]
     assert "only the experts who answered" in body["note"].lower()
 
 

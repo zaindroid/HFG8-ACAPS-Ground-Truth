@@ -4,47 +4,47 @@
     {
       "expert_id": "X-syn-01",
       "channel": "email",
-      "body": "About half the panel answered. The group view is around 0.65. You said 0.85. ACAPS rates this High. The analyst accepted."
+      "body": "Thank you. About half the panel answered, and your answer was part of it. ACAPS used the panel's input in its update: Accepted. The panel and the export agree on direction; the spread is in the ledger with the minority reasons. The update informed Brief the Ouaddai field office before the weekly planning call for ACAPS analysts and the Chad response team, due 2026-12-01. ACAPS expects more than 500,000 people to be exposed to this risk (Risk List). It sits within Displacement from Sudan to Chad, which ACAPS rates High severity, 7.1 out of 10 (INFORM, Nov 2026). The risk materialised. ACAPS rates this High. The full view: https://sealed-signals.zaindroid.me/e/c2d65b6070014b2c/feedback"
     },
     {
       "expert_id": "X-syn-02",
       "channel": "whatsapp",
-      "body": "About half the panel answered. The group view is around 0.65. You said 0.78. ACAPS rates this High. The analyst accepted."
+      "body": "How the panel saw it, on cross-border security in Chad: https://sealed-signals.zaindroid.me/e/f320713900d94a00/feedback"
     },
     {
       "expert_id": "X-syn-03",
       "channel": "sms",
-      "body": "Environ la moitie du panel a repondu. L'avis du groupe est autour de 0.65. Vous avez dit 0.78. ACAPS evalue ce risque : High. Decision de l'analyste : accepted."
+      "body": "L'avis du panel sur cross-border security in Chad est disponible : https://sealed-signals.zaindroid.me/e/8a3144484d664a97/feedback"
     },
     {
       "expert_id": "X-syn-04",
       "channel": "signal",
-      "body": "About half the panel answered. The group view is around 0.65. ACAPS rates this High. The analyst accepted."
+      "body": "How the panel saw it, on cross-border security in Chad: https://sealed-signals.zaindroid.me/e/5cf60c28bae745bf/feedback"
     },
     {
       "expert_id": "X-syn-05",
-      "channel": "teams",
-      "body": "About half the panel answered. The group view is around 0.65. You said 0.50. ACAPS rates this High. The analyst accepted."
+      "channel": "email",
+      "body": "Thank you. About half the panel answered, and your answer was part of it. ACAPS used the panel's input in its update: Accepted. The panel and the export agree on direction; the spread is in the ledger with the minority reasons. The update informed Brief the Ouaddai field office before the weekly planning call for ACAPS analysts and the Chad response team, due 2026-12-01. ACAPS expects more than 500,000 people to be exposed to this risk (Risk List). It sits within Displacement from Sudan to Chad, which ACAPS rates High severity, 7.1 out of 10 (INFORM, Nov 2026). The risk materialised. ACAPS rates this High. The full view: https://sealed-signals.zaindroid.me/e/57e3cad4f73f4226/feedback"
     },
     {
       "expert_id": "X-syn-06",
       "channel": "call",
-      "body": "About half the panel answered. The group view is around 0.65. You said 0.30. ACAPS rates this High. The analyst accepted."
+      "body": "How the panel saw it, on cross-border security in Chad: https://sealed-signals.zaindroid.me/e/c62ea7676cd94c68/feedback"
     },
     {
       "expert_id": "X-syn-07",
       "channel": "email",
-      "body": "Environ la moitie du panel a repondu. L'avis du groupe est autour de 0.65. ACAPS evalue ce risque : High. Decision de l'analyste : accepted."
+      "body": "Environ la moitie du panel a repondu. L'avis du groupe est autour de 0.65. ACAPS evalue ce risque : High. Decision de l'analyste : accepted. La vue complete : https://sealed-signals.zaindroid.me/e/ba6340ccd50049bc/feedback"
     },
     {
       "expert_id": "X-syn-08",
       "channel": "email",
-      "body": "About half the panel answered. The group view is around 0.65. ACAPS rates this High. The analyst accepted."
+      "body": "Thank you. About half the panel answered, and your answer was part of it. ACAPS used the panel's input in its update: Accepted. The panel and the export agree on direction; the spread is in the ledger with the minority reasons. The update informed Brief the Ouaddai field office before the weekly planning call for ACAPS analysts and the Chad response team, due 2026-12-01. ACAPS expects more than 500,000 people to be exposed to this risk (Risk List). It sits within Displacement from Sudan to Chad, which ACAPS rates High severity, 7.1 out of 10 (INFORM, Nov 2026). The risk materialised. ACAPS rates this High. The full view: https://sealed-signals.zaindroid.me/e/9120ebfdac7045dc/feedback"
     }
   ],
   "n_sent": 8,
   "transport_note": "No message left this machine. Every channel composes the real body and records it in the outbox; `transport: recorded` says so on each one. Replace Reach.deliver with a provider to send for real.",
-  "note": "Only the experts who answered. An answer with no identity kept gets the group view without their own figure in it, because the service cannot tell which answer was theirs.",
+  "note": "Only the experts who answered. No message carries the expert's own answer; they can ask for it from their own link. Email carries the full text; chat and SMS carry only the crisis-level line and the link.",
   "served_from": "live",
-  "generated_at": "2026-11-07T22:14:26+00:00"
+  "generated_at": "2026-11-07T23:11:39+00:00"
 }

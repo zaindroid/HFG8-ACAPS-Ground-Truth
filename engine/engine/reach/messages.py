@@ -205,35 +205,70 @@ def how_many_answered(language: str, share: float | None) -> str:
     return "A minority of the panel answered"
 
 
-def closing_the_loop(contact, feedback: dict) -> str:
-    """Within 24 hours of the reveal: the group view, their own answer, the band, the decision.
+# Channels whose body may carry the full loop-closing text. Every other channel shows its whole
+# body in a notification preview, so it carries the crisis-level line and the link and nothing else.
+FULL_TEXT_CHANNELS = ("email",)
 
-    This is the first and only place an expert sees ACAPS's band, which is why the card can
-    promise it is hidden (section 6a)."""
+
+def _feedback_link(token: str | None) -> str | None:
+    return f"{_link(token)}/feedback" if token else None
+
+
+def closing_the_loop(contact, feedback: dict, channel: str = "email", risk: dict | None = None,
+                     token: str | None = None) -> str:
+    """After the reveal: what the panel's input changed, never the expert's own answer.
+
+    The expert's own answer is never in this message, on any channel. Put beside the result it
+    reads as a verdict on a person; the expert can ask for it from their own link
+    (`/e/{token}/feedback?show_mine=true`), and private calibration is opt-in.
+
+    Email carries the full text: the thank-you from `engine.impact` (`feedback["impact"]["text"]`)
+    when there is one (it already says what the analyst did), otherwise a group-only line; then
+    ACAPS's band -- the first place an expert sees it, which is what lets the card promise it is
+    hidden -- and, without an impact text, the analyst's decision.
+    The impact text is composed in English only, so a French reader gets the French group-only
+    line instead of an English paragraph.
+
+    Chat and SMS (anything not in `FULL_TEXT_CHANNELS`) carry only the crisis-level line and the
+    link: no band, no group figure, no severity number, so the preview is safe to show to whoever
+    is holding the phone."""
     language = language_of(contact)
     french = language == "fr"
+    link = _feedback_link(token)
+    if channel not in FULL_TEXT_CHANNELS:
+        subject = crisis_line(risk or {})
+        if french:
+            return (f"L'avis du panel sur {subject} est disponible : {link}" if link else
+                    f"L'avis du panel sur {subject} est disponible depuis votre lien.")
+        return (f"How the panel saw it, on {subject}: {link}" if link else
+                f"How the panel saw it, on {subject}, is on your own link.")
     mean = feedback.get("group_mean")
-    yours = (feedback.get("your_answer") or {}).get("probability")
     band = feedback.get("acaps_band") or "not published"
     decision = feedback.get("analyst_decision") or "not decided yet"
+    impact_text = ((feedback.get("impact") or {}).get("text") or "").strip()
     n_text = how_many_answered(language, feedback.get("answered_share"))
     parts = []
     if french:
         parts.append(f"{n_text}.")
         if mean is not None:
             parts.append(f"L'avis du groupe est autour de {mean:.2f}.")
-        if yours is not None:
-            parts.append(f"Vous avez dit {yours:.2f}.")
         parts.append(f"ACAPS evalue ce risque : {band}.")
         parts.append(f"Decision de l'analyste : {decision}.")
+        if link:
+            parts.append(f"La vue complete : {link}")
     else:
-        parts.append(f"{n_text}.")
-        if mean is not None:
-            parts.append(f"The group view is around {mean:.2f}.")
-        if yours is not None:
-            parts.append(f"You said {yours:.2f}.")
-        parts.append(f"ACAPS rates this {band}.")
-        parts.append(f"The analyst {decision}.")
+        if impact_text:
+            # The impact text already says what the analyst did with the panel's input.
+            parts.append(impact_text)
+            parts.append(f"ACAPS rates this {band}.")
+        else:
+            parts.append(f"{n_text}.")
+            if mean is not None:
+                parts.append(f"The group view is around {mean:.2f}.")
+            parts.append(f"ACAPS rates this {band}.")
+            parts.append(f"The analyst {decision}.")
+        if link:
+            parts.append(f"The full view: {link}")
     attribution = feedback.get("attribution_note")
     if attribution:
         parts.append(attribution)
