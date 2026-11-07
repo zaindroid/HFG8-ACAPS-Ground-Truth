@@ -10,7 +10,7 @@ export function PortalHeader() {
           <span className="brand-mark">
             <LockKeyhole size={19} />
           </span>
-          Sealed Signals
+          sealed signals
         </a>
         <span className="portal-purpose">Expert validation workspace</span>
         <button

@@ -39,6 +39,7 @@ import "./draft-summary.css";
 import "./panel-visuals.css";
 import "./desk-flow.css";
 import "./desk-layout.css";
+import "./brand-bridge.css";
 
 const MockWorkspace = lazy(() =>
   import("./Workspace").then((m) => ({ default: m.Workspace })),
