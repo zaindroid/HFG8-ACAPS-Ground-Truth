@@ -2304,9 +2304,27 @@ if UI_DIST.exists():
         survive a reload or a shared link. StaticFiles(html=True) alone does not do this: it falls
         back to 404.html, and serves index.html only for a directory path."""
 
+        @staticmethod
+        def _cache(response):
+            """index.html must not be cached; the hashed assets should be, for ever.
+
+            Vite names every bundle after its own contents, so `index-BJAbMz0I.js` can never mean
+            two different things and is safe to keep. index.html is the one file that changes name
+            for nothing and points at those names, so a browser holding yesterday's copy asks for
+            assets this build no longer contains -- a blank page, on somebody else's laptop, with
+            nothing in our logs to show it. Starlette sets neither header, which is how a deploy
+            can be live and invisible at the same time."""
+            content_type = response.headers.get("content-type", "")
+            if content_type.startswith("text/html"):
+                response.headers["cache-control"] = "no-cache, must-revalidate"
+            else:
+                response.headers.setdefault("cache-control",
+                                            "public, max-age=31536000, immutable")
+            return response
+
         async def get_response(self, path: str, scope):  # type: ignore[override]
             try:
-                return await super().get_response(path, scope)
+                return self._cache(await super().get_response(path, scope))
             except StarletteHTTPException as exc:
                 if exc.status_code != 404:
                     raise
