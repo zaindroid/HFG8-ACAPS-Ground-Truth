@@ -1,4 +1,18 @@
-# Sealed Signals — master prompt v3.1 (team of 3)
+# Sealed Signals — master prompt v3.3 (team of 3)
+
+> **v3.3, Sat 7 Nov afternoon — Reach: experts never sign up; one screen; elicitation designed to measure bias and the
+> knowledge gap without confronting anyone.** New section 6e (Reach module in the analyst portal: contacts, channels,
+> magic links everywhere, inbound parsing, call scheduling, learned preferences), rewritten section 8 item 1 (the expert
+> screen: one screen, four items, no scrolling), and section 6d extended with seed questions, meta-knowledge, test-retest
+> and response-time measures. Routes under /reach/* and /inbound/*. Everything flows into the same Answer record, with the
+> same masks, commitments and credentials, whatever the channel.
+
+> **v3.2, Sat 7 Nov afternoon — build the full hardening stack, each piece with its exact guarantee.** Team capacity is
+> not the constraint; precision of claims is. Everything below is built, visible in the product, flagged on by default
+> where it cannot break the demo, and described everywhere with its "guarantees / does not" sentence from
+> docs/sealed-signals/trust-design.md. New in v3.2: section 6c (post-quantum registry and attestations, blind-signed
+> credentials, zero-knowledge membership, timestamp anchoring) and section 6d (per-expert response-pattern reports).
+> The core loop and the alert engine still come first in build order; hardening is built in parallel by extra agents.
 
 > **v3.1, Sat 7 Nov midday — the Risk Alert Engine runs on ACAPS's own monthly data.** We verified the ACAPS API with a
 > registered token (data/acaps-api/README.md). `risk-list/` is published history (stale, no R1043); `crises/`,
@@ -198,6 +212,15 @@ ShiftEvent    id, crisis_id, risk_id|null, month_from, month_to, metric ("index"
               before, after, delta, rank_this_month (1 = largest move), n_crises_this_month, rule_hit (str), pulse_id|null, status ("proposed"|"pulsed"|"dismissed")
 QuestionContract  risk_id, event (one sentence), location, horizon_deadline (date), resolution_source, adjudication_rule,
               frozen_at   # must exist before a pulse can be scored
+Credential    token_id (nullifier), issued_for_panel, spent_on_pulse|null, scheme ("rsa-blind-rfc9474"|"semaphore"|"hmac")
+Attestation   risk_id, outcome, resolved_at, commitment_root, signature (ML-DSA-65), key_id, anchor_receipt|null
+AnchorRoot    day, merkle_root, submitted_at, status ("pending"|"anchored"), receipt|null
+PatternReport pseudonym, n_pulses, calibration, overconfidence, extremity, agreement_with_acaps, round2_shift, source_mix{},
+              abstention_rate, seed_accuracy, perceived_vs_actual_gap, meta_accuracy, test_retest_delta, median_latency_s, sentences[]
+Contact       expert_id, display_name (registry only), org_type, geo_tags[], theme_tags[], languages[], channel_pref, hour_pref, tz,
+              consent_note, status ("invited"|"answered_once"|"active"|"paused"), paused_until|null
+Delivery      pulse_id, channel, sent_at, delivered_at|null, answered_at|null, entered_on_behalf (bool)
+SeedItem      id, risk_id, question, options[], known_answer, source_record
 Score         expert_internal_id, risk_id, brier, resolved_at, weight_after        # committee-side only
 OutcomeReport pulse_id, group_mean, outcome, analyst_decision_summary              # sent to everyone who answered
 Calibration   expert_internal_id, n_resolved, mean_brier, overconfidence (−1..1), note   # private, opt-in, after 5 resolutions
@@ -223,6 +246,13 @@ POST /experts/apply               {geo_tags, theme_tags, affiliation_tag, langua
 POST /experts/{id}/approve        committee approval (needs 2 admins) → status approved, credential issued
 GET  /panels/match?risk_id=       the 8 best-matched approved experts + composition check
 GET  /integrity/{pulse_id}        moderator-only: integrity notes (descriptive) + evidence
+GET  /committee/patterns/{pseudonym} · GET /me/{token}/patterns    section 6d reports
+GET  /registry/status             {encryption: "ML-KEM-768 hybrid"|"off", key_holder, access_log_count}
+GET  /committee/access-log        registry reads (who, when, why)
+POST /credentials/issue           committee: blind-sign a batch of tokens for an approved expert (FF_BLIND)
+POST /e/{token}/answer            accepts `credential` (blind-signed token) or `zk_proof` with the Answer; rejects reuse
+GET  /ledger/{risk_id}/attestation  ML-DSA-65 signature, public key id, anchor receipt
+GET  /anchors                     daily roots with status anchored / pending and receipts
 POST /risks/{risk_id}/contract    freeze the QuestionContract (required before resolve)
 GET  /pulses/{id}/outcome-report  the group outcome report sent to all who answered
 POST /pulses                      {risk_id, reason:"analyst", question?} → Pulse
@@ -311,6 +341,83 @@ per crisis; `crises/` for names, drivers, admin-1 areas, connected crises. Cache
 Tests: the Mar→Apr 2026 cached editions must yield TCD005 as rank 1 with delta 0.8; a month with no moves yields no
 events; a dismissed event never pulses; the same edition diffed twice yields no duplicate events.
 
+## 6c. Hardening stack (Lane A or a parallel agent; every item built, flagged, and visible)
+
+| # | Mechanism | Build | Where it shows | Guarantee we state | Does not |
+| --- | --- | --- | --- | --- | --- |
+| 1 | **Post-quantum registry encryption** (`FF_PQ`, default on) | ML-KEM-768 hybrid (`kyber-py` or `liboqs-python`) wraps the AES-256-GCM key that encrypts the expert-id ↔ identity map at rest; key held by the committee service | Registry page: lock line "identity map encrypted with ML-KEM-768 hybrid, key held by the committee" | Long-horizon confidentiality of the identity map against harvest-now-decrypt-later | Confidentiality from an administrator with the key; anything about answers |
+| 2 | **Post-quantum outcome attestations** (`FF_PQ`) | ML-DSA-65 (`dilithium-py`) signs each resolved ledger entry (risk_id, outcome, resolved_at, round commitment root); public key published on the ledger; `verify` checks hash and signature | Ledger row: "attested, ML-DSA-65, verify" | The outcome record was issued by ACAPS's committee key and not altered since | Truth of the outcome; anything about who answered |
+| 3 | **Blind-signed single-use credentials** (`FF_BLIND`, default on) | RSA blind signatures (RFC 9474, `cryptography`): on approval the committee signs a blinded token per pulse allowance; the expert unblinds client-side and spends one token per answer; server verifies signature and rejects reuse (nullifier) | Expert card for the `anonymous` mask: "answered with a one-time vetted credential"; committee view: tokens issued / spent, never linked | A vetted panel member answered, unlinkable to the approval by ACAPS | Protection against timing or network-metadata correlation; re-identification by distinctive wording |
+| 4 | **Zero-knowledge group membership** (`FF_ZK`, default off until stable) | Semaphore v4 group per panel; the card generates a proof in the browser ("member of panel P answered pulse Q", nullifier per pulse); server verifies | Round view: "proof verified" per answer | Membership without identity, double-answer prevention | Reputation portability; not required for the pilot design |
+| 5 | **Timestamp anchoring** (`FF_ANCHOR`, default on, degrades to "pending") | Daily Merkle root of all commitments submitted to OpenTimestamps (Bitcoin calendar servers); receipt stored; ledger shows "anchored / pending" | Ledger: anchor status per day; Verify shows the root and receipt | Independent proof the commitments existed by that time | Anything else; no tokens, no chain logic, no cost |
+| 6 | **Registry access log** | Every read of the identity map is logged (who, when, why) and shown to the committee | Committee view: access log | ACAPS access is defined and visible | Prevention of access by an authorised admin |
+
+Rules for all six: deterministic fallbacks so the demo never blocks (pending anchor, software signer, HMAC credential when
+a flag is off); the README and the UI state which path ran; every sentence about them on stage uses the "guarantee / does
+not" wording. Tests: encrypt/decrypt round trip; attestation verify passes and fails on a flipped byte; blind token
+verifies, reuse rejected, unlinkable (server cannot match token to approval); ZK proof verifies, nullifier rejects a second
+answer; anchor pending → anchored transition; a registry read appears in the log.
+
+## 6e. Reach: experts never sign up (analyst portal module; Lane A builds, Lane B shows)
+
+The analyst's address book is the registry. The expert's first contact is a question. The channel adapts to the expert.
+
+- **Contacts**: name, organisation type (affiliation tag), geo and theme tags, languages, preferred channel and hour
+  (learned from the first reply, editable by the analyst), consent note, status (invited → answered once → active →
+  paused). Added by the analyst from existing contacts or imported from a CSV. No account, no password, no portal for the
+  expert, ever. Credentials, masks and keys are created at committee approval, server-side.
+- **Channels** (all built, all carrying the same magic link): email (plain text, < 2 KB, personal sender name, reply
+  template at the bottom), WhatsApp and Signal (message with the link and the reply template; voice notes accepted),
+  SMS (numeric reply "70 4"), scheduled call (ICS invite to the expert and the analyst; answer entered by the analyst as
+  "entered on behalf of, with consent"), partner API (org credential posts answers for its own experts). Send time =
+  08:00 in the expert's time zone; never Friday afternoon locally.
+- **Magic link**: one token per expert per pulse, in every message. Opens the one-screen card (section 8). Answers from
+  any channel resolve to the same token, so the record is identical whether they typed in the card, replied by email,
+  sent a voice note or spoke to the analyst.
+- **Inbound parsing** (`POST /inbound/email`, `/inbound/whatsapp`, `/inbound/sms`, `/inbound/voice`): tolerant parser for
+  a probability (0–100, "70 %", "seventy", "soixante-dix", five-word scale), confidence (1–5 or "sure / not sure"),
+  the panel question, the free line, abstention phrases ("outside my area", "pas mon domaine"), mask words
+  ("anonymous", "nickname", "fine to name me"), "pause" words. Voice notes are transcribed and confirmed back in one line
+  ("Got it: 70 %, confidence 4. Reply 'no' to correct."). Unparseable replies go to the analyst, never dropped.
+- **Cadence and respect**: hard cap one pulse per expert per 7 days; "pause me" for 30 days by one word; reminders at most
+  once, after 24 h, with social proof ("6 of 8 have answered"); 48-hour window; reveal happens at k ≥ 5 regardless.
+- **Closing the loop** (automatic, in the expert's language and channel): within 24 h of the reveal, "7 of 8 answered;
+  group 0.69; you said 0.80; the analyst kept High and added your note on Adré to the triggers"; on resolution, the
+  outcome report; yearly, a private thank-you with early access to the global risk analysis. No ranking anywhere.
+- **Honesty box** records the channel mix and the share of answers entered on behalf of experts.
+
+Routes: `GET/POST /reach/contacts`, `POST /reach/contacts/import`, `POST /reach/pulses/{id}/send {channel_override?}`,
+`GET /reach/pulses/{id}/delivery` (sent / delivered / answered per channel, counts only), `POST /reach/calls/schedule`,
+`POST /inbound/{channel}`, `POST /reach/preferences/{expert_id}` (analyst-editable learned preferences).
+
+## 6d. Per-expert response-pattern reports (descriptive, private, committee-side)
+
+From data already stored, per pseudonym, after at least 3 pulses: calibration and overconfidence (Brier vs stated
+confidence), extremity (share of answers at ≤ 0.1 or ≥ 0.9), agreement-with-ACAPS after reveal, round-2 shift size
+(anchoring susceptibility), source-tag mix (saw / read / heard), abstention rate, answer latency, co-movement partners.
+
+Measures that come from the card itself, invisibly (section 8, item 1): all computed server-side, never shown as a
+judgement to the expert, and disclosed in the one-paragraph terms the analyst sends with the first contact ("some items
+help us calibrate").
+- **Seed questions** (Cooke's classical model): about one pulse in three carries one short factual item whose answer ACAPS
+  already knows from its data ("roughly how many Sudanese arrivals per day did ACAPS record in late September: under 100,
+  100–300, over 300?"). Performance on seed items = *actual* knowledge of the context; stated confidence = *perceived*.
+  The gap between the two is the knowledge-gap measure, per pseudonym, as a sentence.
+- **Meta-knowledge item** ("what share of the panel will say likely?"): peer-prediction accuracy identifies experts without
+  a track record (Prelec; Martinie, Wilkening & Howe 2020) and feeds the surprisingly-popular experiment.
+- **Test–retest**: occasionally the same judgement is asked in a different form two pulses apart (five words vs a number);
+  the difference is a reliability measure.
+- **Response time and edit count** on the card: very fast extreme answers and heavy slider editing are noted, not judged.
+- **Overclaiming foil** (`FF_FOIL`, off by default; requires ACAPS's explicit consent and disclosure): one in ten seed
+  items refers to a plausible but non-existent report; "yes, I saw it" measures overclaiming (Paulhus). We ship it
+  behind a flag and recommend ACAPS decide; it is never on in the demo.
+All of it produces sentences for the committee and, opt-in, for the expert as feedback; never a score, never public,
+never a gate.
+Output: sentences with the numbers ("moves toward ACAPS's band in round 2 on 4 of 5 pulses"), shown to the committee and,
+opt-in, to the expert as feedback. Never a score, never public, never used to approve or remove in the pilot, never on free
+text. Route `GET /committee/patterns/{pseudonym}` and `GET /me/{token}/patterns`. Tests: seeded anchoring-prone,
+extreme, and well-calibrated synthetic experts produce the expected sentences; a benign expert produces none.
+
 ## 6a. Integrity layer (Lane A builds, Lane B shows on the desk only, Lane C explains)
 
 Expert-facing, the only two changes to the card:
@@ -357,21 +464,36 @@ software and sensitivity test of the pipeline; it says nothing about real expert
 
 ## 8. UI (Lane B) — three screens
 
-1. **Expert card** `/e/:token` — phone first, looks like a message from a colleague: evidence line, risk title,
-   "Still High?" toggle, probability slider with words, "What will the panel say?" slider, one text line (≤240), mask picker
-   (badge / nickname / ghost) with a one-line note that distinctive rationales can be recognised by peers, big **Submit**
-   button, "Submitted. You'll get the group outcome when this resolves." No countdown in the product (the jury exercise
-   adds one). Two extra choices beside the slider: "outside my expertise" and "not enough evidence". ACAPS's rating is
-   hidden until after submission. The "what are we missing" line carries the accuracy prompt and the saw/read/heard tag.
-   Round 2 is optional and asynchronous, opened only when there is new evidence or meaningful disagreement; it shows
-   ACAPS's rating, the anonymised distribution and a "changed my mind" toggle. Primary channel: email magic link.
+1. **Expert screen** `/e/:token` — one screen, no scrolling, no header chrome, phone first; it must complete in under
+   60 seconds with at most five taps. Looks like a note from a colleague, not a survey.
+   - Line 1 (two sentences): who is asking and why now, in plain words, with the alert evidence ("ACAPS's severity for
+     Displacement from Sudan to Chad rose 6.1 → 6.9 in April, the largest move of 123 crises.").
+   - Item A, likelihood: five words (very unlikely · unlikely · even · likely · very likely) as large tap targets, with
+     an optional number field for those who think in percentages. ACAPS's band is not shown.
+   - Item B, confidence: three words (not sure · fairly sure · sure).
+   - Item C, panel: "Most of the panel will say…" three options (unlikely · even · likely).
+   - Item D, one line: "What are we missing?" with the saw / read / heard tag; optional.
+   - Occasionally, in place of D or added below it, one seed item or one trigger pick (section 6d), always one tap.
+   - Always visible, small: "Outside my area" and "Not enough evidence".
+   - Mask: shown once on the first answer (badge · nickname · ghost, with the one-line limit), then remembered; one small
+     link "change how you appear".
+   - Submit → one line: "Thanks. ACAPS currently rates this High. You'll hear how the group saw it within a day." Then
+     nothing else; no dashboard, no history page for the expert.
+   - No timer in the product (the jury exercise adds one). No progress bar. No emoji. Large type, high contrast, works on
+     a 2G connection (text only, < 50 KB).
+   - Round 2, when opened: the same screen with the anonymised spread drawn as five bars and one question: "Still your
+     answer?" (keep · revise), plus one optional line.
+   Primary channel: email magic link; identical content by WhatsApp, Signal, SMS or a call (section 6e).
 2. **Analyst desk** `/desk` — projector-friendly: live envelope tray (SSE), Reveal button, distribution chart (ACAPS line,
    panel dots, SP highlight), Chad map with agreement by region, digest with cited reasons, draft card with
    Accept / Edit / Reject (with the "what decision, for whom, by when" fields and a rationale box), committee-only
    scoring view, an **Alerts** page (the engine's ranked ShiftEvents for the current month with "Run engine", "Replay April
    2026", Approve pulse / Dismiss, the rule that fired, the edition's reliability), an "Ask the panel" button per risk,
    and an **integrity notes** panel per round: descriptive sentences with evidence (section 6a), no verdict colours.
-   Crisis pages show the monthly severity series as a small line chart with the shift marked. Plus a
+   Crisis pages show the monthly severity series as a small line chart with the shift marked. **Committee view**:
+   applications, approvals (two admins), credential batches issued / spent (counts only), registry status with the
+   encryption line, access log, per-expert pattern reports as sentences. **Ledger**: attestation line and anchor status per
+   entry; Verify shows hash match, signature check and anchor receipt, each with its one-line meaning. Plus a
    **Radar** view: the live Risk List from the ACAPS API as a table and map with a "source: ACAPS API / CSV" badge, and a
    committee view for expert applications (approve needs two admins).
 3. **Public ledger** `/ledger` — per risk: sealed-at, group probability, ACAPS rating, outcome, **Verify** (turns green),
@@ -443,10 +565,22 @@ honesty box → question contract + resolve + committee-side scoring + outcome r
 loop behind its flag only if stable. Keep `fixtures/` true to real responses (regenerate them from the running API).
 Milestones: API with seeded data Sat 10:00 · full loop Sat 18:00 · proof.png Sat 20:00 · polish Sun.
 
+### Lane A2 — Hardening agent (runs in parallel with Lane A; same branch, folders engine/hardening/ and engine/tests/hardening/)
+Build section 6c items 1, 2, 3, 5, 6 first, then 4; then section 6d. Keep every fallback working with the flag off.
+Deliver `docs/sealed-signals/privacy-engineering.md` updated with what is now built and the test evidence.
+
+### Lane A3 — Reach agent (parallel; folders engine/reach/, engine/inbound/, engine/tests/reach/)
+Build section 6e: contacts, channels with the magic link in every message, inbound parsers (email, WhatsApp, SMS, voice
+with confirmation), call scheduling, learned preferences, cadence caps, loop-closing messages, delivery counts. Then the
+seed items and the measures of section 6d that come from the card. Tests: every parser phrase in English and French; the
+weekly cap; a paused expert never receives; an on-behalf answer is marked; a voice note round-trips to a confirmed number.
+
 ### Lane B — Frontend (three screens + demo stage)
-Build section 8 in `ui/` against `fixtures/` from the first hour (`VITE_MOCK=1`), then the live API. The expert card is the
-hero (rating hidden until submission, stances, accuracy prompt, source tag): test it on two real phones over the venue Wi-Fi by Saturday 18:00; QR flow
-for the jury. Analyst desk on a projector with the integrity panel and the Radar view; public ledger with the honesty box.
+Build section 8 in `ui/` against `fixtures/` from the first hour (`VITE_MOCK=1`), then the live API. The expert screen is
+the hero (one screen, five taps, rating hidden, stances, saw/read/heard): test it on two real phones over the venue Wi-Fi
+by Saturday 18:00; QR flow for the jury. Analyst desk with the Reach module (contacts, send pulse per channel, delivery
+counts, call scheduling, "pulse as it will look" preview per channel), the Alerts page, the Radar and crisis pages, the
+committee view; public ledger with the honesty box.
 Milestones: expert card mock Sat 12:00 · desk + ledger mock Sat 16:00 · live API Sat 20:00 · stage polish Sun.
 
 ### Lane C — Research, impact, pitch (no code; docs + slides)
@@ -470,6 +604,9 @@ Milestones: expert card mock Sat 12:00 · desk + ledger mock Sat 16:00 · live A
 7. **README narrative** (section 0 + why + limits), and the one-paragraph submission description.
 8. **More features**: a ranked list of what to add after the hackathon (voice-first on device, machine panel member,
    hardware notary, anticipatory triggers, French/Arabic), each with the stakeholder it serves.
+8a. **Hardening narrative**: one slide listing the six mechanisms of section 6c and the pattern reports of 6d, each with
+   its guarantee and its limit, in the trust-design wording; a second slide "what we did not do and why" (no public
+   scores, no auto-decisions, no blockchain logic).
 9. **Honesty and limits narrative**: one slide on hidden-rating first rounds, descriptive integrity notes, the honesty box
    and the group outcome report, with sources (Tversky & Kahneman on anchoring; Tetlock / Good Judgment Project on
    calibration; Prelec, Seung & McCoy 2017 and Palley & Soll on peer-prediction methods, experiment only; Pennycook &

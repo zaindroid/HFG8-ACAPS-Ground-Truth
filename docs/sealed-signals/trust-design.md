@@ -46,13 +46,17 @@ Lane C verifies every citation above before it goes on a slide.
 | Commit-and-reveal: SHA-256 of the answer plus a salt, with a timestamp, stored before anyone sees the answer; all answers opened together | Yes | An answer cannot be changed after submission; the time is verifiable; peers cannot see each other inside a round; ACAPS can prove "the panel said this before it happened" | Confidentiality from the operator (application access controls do that); truth of the answer |
 | Masks: known / pseudonym / anonymous; pseudonym = HMAC of an internal id; restricted identity registry with logged access; anonymous answers stored without identity | Yes | Confidentiality from peers and the public, with defined, logged ACAPS access | Anonymity from ACAPS itself; protection against re-identification of a dissenter by their distinctive wording in a panel of 8 (the card says so) |
 | Aggregates only above n = 5 | Yes | A disclosure rule that keeps individual answers out of public views | An anonymity guarantee |
-| Blind-signed single-use credentials | Repo page, phase 2 | Anonymity from ACAPS where a context requires it | Needs a threat model: issuance timing, network metadata, revocation, scoring |
-| Zero-knowledge group membership | Repo page, research | "A vetted member of this panel answered" without saying which | Reputation portability; not in the pilot |
-| Timestamp anchoring of commitment roots (OpenTimestamps) | Repo page, research | Independent proof of timing | Anything else; no tokens, no chain logic |
-| Post-quantum encryption of the identity registry (ML-KEM) and signed outcome attestations (ML-DSA) | Repo page, research | Long-horizon confidentiality of the identity map | A user-facing feature |
+| Blind-signed single-use credentials (RSA blind signatures, RFC 9474; one token per answer, reuse rejected) | Yes, `FF_BLIND` | A vetted panel member answered, unlinkable by ACAPS to the approval | Timing or network-metadata correlation; re-identification by distinctive wording |
+| Zero-knowledge group membership (Semaphore v4, proof generated in the browser, nullifier per pulse) | Yes, `FF_ZK` (off until stable) | "A vetted member of this panel answered" without saying which; no double answers | Reputation portability |
+| Timestamp anchoring of daily commitment roots (OpenTimestamps) | Yes, `FF_ANCHOR`, shows pending until confirmed | Independent proof the commitments existed by that time | Anything else; no tokens, no chain logic, no cost |
+| Post-quantum: ML-KEM-768 hybrid encryption of the identity registry; ML-DSA-65 signatures on outcome attestations | Yes, `FF_PQ` | Long-horizon confidentiality of the identity map; outcome records provably issued by the committee key and unaltered | Confidentiality from an administrator who holds the key; truth of the outcome |
 
-We do not use a blockchain. We use one idea from that world, the sealed envelope you can check later, and we say
-precisely what it proves.
+We do not run a blockchain. We use two ideas from that world and say precisely what each proves: the sealed envelope
+you can check later (commitments), and a public timestamp (anchoring of daily roots on Bitcoin via OpenTimestamps).
+
+Per-expert response-pattern reports (calibration, overconfidence, extremity, agreement after reveal, round-2 shift,
+source mix, abstention) are descriptive sentences for the committee and, opt-in, for the expert. Never a score, never
+public, never a reason to approve or remove anyone in the pilot.
 
 ## 4. Who can learn what
 
