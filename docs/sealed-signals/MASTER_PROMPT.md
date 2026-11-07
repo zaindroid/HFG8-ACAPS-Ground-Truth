@@ -181,6 +181,39 @@ Three design consequences, all already in v3.4: the question horizon is six mont
 horizon (Aisha, Pierre); alerts and pulses are filtered by the countries a person covers (Jose); every ledger entry
 lists what fed into it and what is not known (Emily).
 
+## 0c. The jury sheet (handed out Saturday evening; every lane reads this)
+
+Scores 1 to 10 per criterion; total = A Concept ×4 (40 %) + B Prototype ×2 (20 %) + C Technology feasibility ×1.5
+(future-proof, ethics, security, legal side of AI) + D Product potential ×1.5 + E Business feasibility ×0.5 + F Wow
+×0.5. The sheet's own challenge check: "the brief's must-haves are easy to use, expert-controlled anonymity and public
+anonymity; weigh them under A and B." Consequences: the live demo is inside the three minutes (B is 20 % and asks "does
+it work"); the three must-haves are named in the jury's words on slide 2 and shown working in the demo (card, mask
+picker, ledger); ethics, security and legal are labelled on slide 3; slide 6 carries one sentence of business model.
+Full mapping and the Q&A answers: docs/sealed-signals/judging-checklist.md. Lane B: the mask picker and the ledger's
+"never an individual" line must be visible without explanation. Lane A: `make demo` runs the full loop in under
+75 seconds.
+
+## 0d. Repository standard (enforced at every merge)
+
+1. Root files: `CLAUDE.md` (project context), `README.md` (problem, five-step solution, the must-haves by the
+   organisers' name with code paths, architecture, technology table, run, evidence, real vs synthetic, what we do not
+   claim, pilot), `AGENTS.md` (file map and the test or command behind each claim), `SUBMISSION.md`, `CHANGELOG.md`.
+   Every code path in them stays true; if a module moves, update the table in the same commit.
+2. Evidence: `scripts/capture_evidence.sh` writes `docs/evidence/make-check.txt`, `make-demo.txt`, `tree.txt`; Lane B
+   adds `docs/evidence/screens/` (three screens at 375 px and 1920 px) and `phones.md` (measured time and taps);
+   Lane A adds `sensitivity.png`. Regenerated from a clean clone at the Sunday freeze.
+3. Tests are named by the behaviour they prove (`test_link_click_never_commits`, `test_reveal_refused_before_deadline`,
+   `test_public_ledger_never_returns_individual`, `test_replay_apr2026_tcd005_rank1`, `test_blind_token_reuse_rejected`,
+   `test_pattern_sentence_never_names_pseudonym`).
+4. Every module has a top docstring saying what it does, what it guarantees and what it does not, in the trust-design
+   wording. Every feature flag is documented in `engine/engine/hardening/flags.py` with its fallback.
+5. No dead code, no TODO, no placeholder text on the submitted branch. Unfinished work is deleted or moved behind a
+   flag that is documented as off.
+6. The organisers' files stay unchanged (`docs/challenge/`, `data/`, `references/`, `notebooks/`); ours sit beside them.
+7. Submission: `demo` contains `main`'s history. Sunday 10:30 freeze: all lanes merged into `demo`, `make check` green,
+   evidence captured, README tables true, tag `v1.0`. One pull request `demo` → `main` with `SUBMISSION.md` as the
+   description, merged before 11:30; the submission form links to `main`.
+
 ## 1a. Who can learn what (replaces every "sealed" or "nothing leaves the device" claim)
 
 | Party | Before reveal | After reveal | Ever |
@@ -707,17 +740,15 @@ Professional, minimal, modern. The jury should think "this already exists in pro
 - README: paragraph from section 0, architecture diagram, run instructions, what is synthetic vs live, limits, team.
 - Pitch rehearsed twice with the QR step (jury becomes the panel); fallback `make demo` pre-loads 8 synthetic answers.
 
-## 9a. The three minutes (Lane C owns demo-script.md; these beats are fixed)
+## 9a. The three minutes (Lane C owns demo-script.md; deck in pitch/sealed-signals-slides.html; six slides, fixed)
 
-0:00 the gap, in one sentence (section 0); 0:15 the alert engine diffs April 2026 live, TCD005 rank 1 of 123, the analyst
-approves the pulse; 0:40 the pulse leaves the Reach module as an email, a WhatsApp message and an SMS at once (delivery
-counts only); the jury scans the QR and answers on the one-screen card (60-second exercise timer, product has none);
-1:45 reveal at the deadline: four columns, spread, unattributed disagreement, coverage gap; 2:10 cited draft, Skeptic
-marks, analyst accepts with "what decision, for whom, by when"; 2:30 ledger entry with the honesty box; one click on
-Verify: "matches: these answers existed at this time and were not changed; it proves timing, not truth"; 2:45 the
-outcome report that every expert receives; 2:50 "easier to contribute to, easier to scrutinise, easier to trace; ready
-for a supervised pilot of this workflow". Crypto gets the Verify click and nothing else; the stack is on the repo page
-and in Q&A. Personas slide directly after the spine line.
+0:00 slide 1, the problem (20 s) · 0:20 slide 2, the solution and the three must-haves in the jury's words (25 s) ·
+0:45 live demo from the product (75 s): approve the April alert, send the pulse, the jury scans and answers on the card,
+reveal, draft with Skeptic marks, accept with "what decision, for whom, by when", ledger, one click on Verify · 2:00
+slide 3, how it is built, ethics, security and legal badges (20 s) · 2:20 slide 4, the card against six biases and the
+agent loop (20 s) · 2:40 slide 5, why people can trust it (10 s) · 2:50 slide 6, it runs, it is different, opportunity
+and model (10 s) · close on the spine line. Fallback slides B if the demo fails. Q&A answers in judging-checklist.md.
+Nothing is said on stage about a path that is off.
 
 ## 10. Lanes
 

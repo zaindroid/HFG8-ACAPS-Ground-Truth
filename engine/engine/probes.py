@@ -1,21 +1,16 @@
-"""The adaptive half of the expert card.
+"""The follow-up questions that come after the card's scored core.
 
-Two rules hold the whole design together.
+Guarantees. The scored core never varies, so the group view aggregates one quantity and
+the question contract stays frozen; probe answers reach themes and coverage and never the
+published probability. A card is decided by the risk record and this expert's own answers,
+so it is fixed when the link is issued and holds no channel through which a peer's view
+could reach it. Every card carries at least one of the mitigations ACAPS names in its 2016
+bias brief, whatever the expert answered.
 
-**The scored question never varies.** Probability, panel share, confidence and stance are the
-frozen core: identical wording, identical order, asked of everyone. They are what the group
-view aggregates and what Brier scores, so question-contract.md stays satisfied and the mean
-stays a mean of one quantity. Probes sit after the core and feed themes, coverage and
-minority reasons only. Nothing here touches a number that is published or scored.
-
-**A card reads nothing about other experts.** Every choice below comes from the risk record
-and from the expert's own profile, so the card is fully determined once the link is issued,
-before anyone has answered. That is not a policy against herding, it is the absence of a
-channel for it: there is no value a peer could set that would change what this card asks.
-
-Probes are selected from a fixed bank, generated from fields the export already carries. The
-selection is a hash of the expert and risk ids, so it is reproducible, loggable and even
-across a panel without anyone coordinating it.
+Does not guarantee. That an expert reads the question as written, that routing by keyword
+is the routing a person would choose, or that a generated question is a good one; a model
+writes them analyst-side and a person can overrule the routing. Rotating option order
+spreads primacy across a panel rather than removing it.
 """
 from __future__ import annotations
 
@@ -23,16 +18,9 @@ import hashlib
 import json
 from pathlib import Path
 
-PROBE_SLOTS = 2        # the minute allows the core plus two, no more
+PROBE_SLOTS = 2        # the core plus two; the minute allows no more
 TEXT_LIMIT = 240
 
-# The humanitarian sectors the export itself uses, so "something other than conflict" is
-# offered as a real option rather than left for the expert to volunteer against the framing.
-PRIORITY_NEEDS = [
-    "Protection", "Food security", "Health", "WASH", "Shelter",
-    "Displacement", "Nutrition", "Livelihoods", "Humanitarian access", "Education",
-]
-EXPOSURE_BANDS = ["<20,000", "20,000-100,000", "100,000-250,000", "250,000-500,000", ">500,000"]
 
 
 def _digest(*parts: str) -> int:
@@ -77,17 +65,26 @@ def trigger_order(risk: dict, expert_id: str) -> list[dict]:
     return triggers[offset:] + triggers[:offset]
 
 
-def _off_theme_need(risk: dict, expert_themes: list[str]) -> list[str]:
-    """Sector options that do not restate the expert's own speciality.
 
-    A conflict analyst asked to choose among conflict framings will choose one. The point of
-    this probe is to make room for the answer their expertise does not predict.
-    """
-    own = {t.lower() for t in expert_themes}
-    alias = {"conflict": "Protection", "displacement": "Displacement", "food": "Food security",
-             "access": "Humanitarian access", "political": "Protection", "economic": "Livelihoods"}
-    mine = {alias.get(t, "") for t in own}
-    return [need for need in PRIORITY_NEEDS if need not in mine][:6]
+
+# What a question is for, rather than which question it is. Rules target these, so a
+# reviewed set written by a model routes exactly like the built-in bank.
+DECOMPOSITION = "decomposition"
+CONDITIONAL = "conditional"
+PREMORTEM = "premortem"
+BASE_RATE = "base_rate"
+MINORITY = "minority"
+OBSERVABLE = "observable"
+PROVENANCE = "provenance"
+CONTEXT = "context"
+
+# The mitigations ACAPS's own bias brief names: devil's advocacy, an anchor to the record,
+# and room for the informed minority. One of these is on every card.
+DEBIASING = (PREMORTEM, BASE_RATE, MINORITY)
+
+
+def role_of(probe: dict) -> str:
+    return probe.get("role") or CONTEXT
 
 
 def deadline_text(risk: dict) -> str:
@@ -153,6 +150,7 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
         # weakest link is the part an analyst can go and check.
         bank.append({
             "id": "weakest_link",
+            "role": DECOMPOSITION,
             "kind": "choice",
             "question": f"Several things must line up for this by {by}. Which is least likely?",
             "help": "The one you would bet against.",
@@ -164,6 +162,7 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
         # what drives it; this is where that shows.
         bank.append({
             "id": "conditional",
+            "role": CONDITIONAL,
             "kind": "choice",
             "question": f'If "{triggers[0]["title"]}" happens, where does your estimate go?',
             "help": "Assume it happens within two months.",
@@ -177,10 +176,12 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
         count, rate = base
         bank.append({
             "id": "base_rate_challenge",
+            "role": BASE_RATE,
             "kind": "text",
-            "question": (f"Of {count} resolved risks ACAPS rated "
-                         f"{risk.get('probability_acaps')}, {round(rate * 100)}% happened. "
-                         "What makes this one different?"),
+            # Deliberately does not name the band: round one hides ACAPS's rating, and a
+            # question that quotes it hands back the anchor.
+            "question": (f"Of {count} resolved risks in this probability band, "
+                         f"{round(rate * 100)}% happened. What makes this one different?"),
             "help": "If nothing does, say so. That is an answer.",
             "limit": TEXT_LIMIT,
         })
@@ -189,6 +190,7 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
     # "what could go wrong" does not.
     bank.append({
         "id": "premortem",
+            "role": PREMORTEM,
         "kind": "text",
         "question": f"It is {by} and this did not happen. What stopped it?",
         "help": "One line, written as though you already knew.",
@@ -196,6 +198,7 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
     })
     bank.append({
         "id": "surprise",
+            "role": PREMORTEM,
         "kind": "text",
         "question": f"What would genuinely surprise you by {by}?",
         "help": "Not the worst case. The thing you would not have predicted.",
@@ -204,6 +207,7 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
     # An observable with a deadline can be checked; an opinion cannot.
     bank.append({
         "id": "observable_7d",
+            "role": OBSERVABLE,
         "kind": "text",
         "question": "Name one thing checkable within seven days that would move your estimate.",
         "help": "Something an analyst could go and look at.",
@@ -213,6 +217,7 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
     # people on the ground are the only ones who can separate the two.
     bank.append({
         "id": "reporting_or_real",
+            "role": PROVENANCE,
         "kind": "choice",
         "question": "Recorded incidents here have risen. Escalation, or better reporting?",
         "options": [{"value": "escalation", "label": "Real escalation"},
@@ -226,6 +231,7 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
         question, help_text = sector
         bank.append({
             "id": "sector_specific",
+            "role": CONTEXT,
             "kind": "choice" if regions else "text",
             "question": question,
             "help": help_text,
@@ -238,6 +244,7 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
     if rationale:
         bank.append({
             "id": "rationale_rebuttal",
+            "role": CONTEXT,
             "kind": "choice",
             "question": "ACAPS writes this. Does it match what you see?",
             "help": rationale,
@@ -257,6 +264,7 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
     if vulnerability:
         bank.append({
             "id": "vulnerability_check",
+            "role": CONTEXT,
             "kind": "choice",
             "question": "Is this still true where you work, over the last 30 days?",
             "help": vulnerability,
@@ -268,6 +276,7 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
 
     bank.append({
         "id": "minority_why",
+            "role": MINORITY,
         "kind": "text",
         "question": "You expect to land apart from this panel. What do they not know?",
         "help": "The gap between your estimate and your guess at theirs is why this is asked.",
@@ -345,57 +354,29 @@ def _rotate_options(probe: dict, seed: int) -> dict:
 # rule set and the expert's own inputs.
 
 def flow_rules() -> list[dict]:
-    """Ordered. First match wins; `otherwise` closes each step."""
-    return [
-        # Step 2 -- read from the core the expert has just given.
-        {"step": 2, "when": {"gap_at_least": 0.25}, "probe": "minority_why",
-         "why": "They expect to sit apart from the panel, which is the view worth hearing."},
-        {"step": 2, "when": {"confidence_at_most": 2}, "probe": "what_would_move",
-         "why": "Low confidence: what would change it is more useful than what it is."},
-        {"step": 2, "when": {"probability_at_least": 0.75}, "probe": "evidence_seen",
-         "why": "High conviction: ask what they are seeing that supports it."},
-        {"step": 2, "when": {"probability_at_most": 0.25}, "probe": "holding_back",
-         "why": "Low estimate with conviction: ask what is holding it back."},
-        {"step": 2, "otherwise": True, "probe": "trigger_hinge"},
+    """Ordered; the first match wins. Rules name a role, never a question.
 
-        # Step 3 -- read from the answer to step 2.
-        {"step": 3, "after": "trigger_hinge", "when": {"answered": True},
-         "probe": "watch_indicator",
-         "why": "They named the hinge; ask what would show it starting."},
-        {"step": 3, "after": "minority_why", "probe": "alternative_driver"},
-        {"step": 3, "after": "what_would_move", "probe": "vulnerability_check"},
-        {"step": 3, "after": "evidence_seen", "probe": "exposure_sanity"},
-        {"step": 3, "after": "holding_back", "probe": "alternative_driver"},
-        {"step": 3, "otherwise": True, "probe": "counterfactual"},
-    ]
+    Routing on a literal id meant a reviewed set, whose ids are its own, matched nothing
+    and the card silently skipped to submit. Roles are the contract between a rule and
+    whatever bank is in play.
 
-
-def select(risk: dict, expert: dict, slots: int = PROBE_SLOTS) -> list[dict]:
-    """Pick this expert's probes.
-
-    Spread by hash rather than by what the panel has already covered: reading the round would
-    make one expert's card depend on another's answer, which is the channel sealing exists to
-    remove. Across a panel the hash still spreads the bank; it just does so without anyone
-    talking to anyone.
+    Step 2 reads the core the expert has just given. Step 3 is always a debiasing role
+    they have not already seen, so the mitigations ACAPS names do not depend on where the
+    sliders happened to sit: at the defaults nobody would otherwise meet one.
     """
-    bank = bank_for(risk, expert)
-    if not bank:
-        return []
-    seed = _digest(expert.get("id", ""), risk.get("risk_id", ""))
-    chosen: list[dict] = []
-    index = seed % len(bank)
-    stride = 1 + (seed % (len(bank) - 1 or 1))
-    guard = 0
-    while len(chosen) < min(slots, len(bank)) and guard < len(bank) * 4:
-        probe = bank[index % len(bank)]
-        if probe["id"] not in {c["id"] for c in chosen}:
-            chosen.append(probe)
-        index += stride
-        guard += 1
-    # An open question answered after two closed ones inherits their options as a frame, so
-    # it goes first when it is drawn at all.
-    chosen.sort(key=lambda probe: 0 if probe["kind"] == "text" else 1)
-    return [_rotate_options(probe, seed) for probe in chosen]
+    return [
+        {"step": 2, "when": {"gap_at_least": 0.25}, "role": MINORITY,
+         "why": "They expect to sit apart from the panel, which is the view worth hearing."},
+        {"step": 2, "when": {"confidence_at_most": 2}, "role": CONDITIONAL,
+         "why": "Low confidence: what would change it is worth more than what it is."},
+        {"step": 2, "when": {"probability_at_least": 0.75}, "role": DECOMPOSITION,
+         "why": "High conviction: ask which link of their own chain is weakest."},
+        {"step": 2, "when": {"probability_at_most": 0.25}, "role": DECOMPOSITION,
+         "why": "Low estimate held firmly: the same question, from the other side."},
+        {"step": 2, "otherwise": True, "role": DECOMPOSITION},
+        {"step": 3, "roles": list(DEBIASING), "otherwise": True,
+         "why": "Devil's advocacy, the record, or the minority view: every card gets one."},
+    ]
 
 
 def card_flow(risk: dict, expert: dict, evidence: list[dict] | None = None) -> dict:
@@ -412,6 +393,7 @@ def card_flow(risk: dict, expert: dict, evidence: list[dict] | None = None) -> d
         "max_steps": 3,
         "bank": {probe["id"]: probe for probe in bank},
         "rules": flow_rules(),
+        "debiasing_roles": list(DEBIASING),
         "note": "Steps 2 and 3 are chosen on your device from your own answers. "
                 "Nothing is sent until you seal.",
     }
