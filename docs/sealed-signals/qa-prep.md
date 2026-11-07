@@ -19,7 +19,8 @@ Lane C, 2026-11-07. Short answers for the questions the v6 deck is most likely t
 | Is it really anonymous? | No. The expert picks a mask per answer: named to ACAPS, nickname to peers, or no identity kept. Masks protect from peers and the public, not from ACAPS. We say pseudonymised. |
 | Will experts really answer in a minute? | We measured card time on two phones over venue Wi-Fi (in the README). We do not claim real-expert response rates before the pilot. Retention in week 8 is a pilot measure. |
 | Why six channels? | Experts in the field use what they already have. Every channel resolves to the same record and mask. Channel preference is a hypothesis until the pilot. |
-| Is the bias design evidence-based? | Each item maps to a known effect: anchoring (Tversky and Kahneman), false precision and forced guessing, consider-the-opposite (Lord, Lepper and Preston). The accuracy-prompt link is looser; see `citations.md`. We have not tested these on real experts. |
+| Is the bias design evidence-based? | Each item maps to a known effect: anchoring (Tversky and Kahneman), false precision and forced guessing, consider-the-opposite (Lord, Lepper and Preston). The accuracy-prompt link is looser: that work tested news sharing, not expert forecasts, so we say inspired by. We have not tested any of this on real experts. |
+| Does the surprisingly-popular method work with 8 experts? | Not shown. The 2017 Nature paper used large samples, and its authors say the claims are theoretical and not guaranteed in practice. It is a labelled experiment on the desk; the equal-weight mean is the primary number. |
 | Do you score or profile experts? | Never as a person. Calibration only with consent, the expert sees it first, and it is off at any time. Pattern reports describe panels. No leaderboard. |
 
 ## Analysts and verification
