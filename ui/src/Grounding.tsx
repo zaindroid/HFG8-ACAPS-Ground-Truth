@@ -1,7 +1,8 @@
 import type { Draft, Result } from "./service";
 import { validResult } from "./service";
 import type { EvidenceRecord } from "./Evidence";
-import { ArrowRight, UsersRound, ChartNoAxesCombined } from "lucide-react";
+import { UsersRound, ChartNoAxesCombined } from "lucide-react";
+import { SeverityVisual } from "./SeverityVisual";
 export function DraftRecommendation({
   draft,
   current,
@@ -99,28 +100,37 @@ export function DraftNarrative({
                 <ChartNoAxesCombined size={18} aria-hidden="true" />
                 <div>
                   <span>Observed severity</span>
-                  <strong>
-                    {edition.before}
-                    <ArrowRight size={18} aria-hidden="true" />
-                    {edition.after}
-                  </strong>
-                  <p>
-                    {edition.month_from?.replace(/(\D+)(\d+)/, "$1 $2")} →{" "}
-                    {edition.month_to?.replace(/(\D+)(\d+)/, "$1 $2")} · index
-                    out of 10
-                  </p>
+                  <SeverityVisual
+                    before={edition.before!}
+                    after={edition.after!}
+                    from={edition.month_from}
+                    to={edition.month_to}
+                  />
                 </div>
               </div>
             )}
           </div>
           <p className="draft-facts-caption">
-            The forecast estimates what may happen. Severity describes the
-            crisis already observed.
+            Forecast = what may happen. Severity = what has been observed.
           </p>
         </section>
       )}
-      {/* Open by default: the summary above puts the recommendation first, but the
-          analyst still has to be able to read the wording they are approving. */}
+      <div className="draft-plain-summary">
+        <h3>What this means</h3>
+        {hasPanel && (
+          <p>
+            Experts estimate a{" "}
+            <strong>{Math.round(result!.mean * 100)}% chance</strong> of the
+            defined event. This is an average forecast, not a vote count.
+          </p>
+        )}
+        {edition && (
+          <p>
+            ACAPS recorded a change in severity. It provides context for the
+            review, not a probability of what happens next.
+          </p>
+        )}
+      </div>
       <details className="draft-wording">
         <summary>Read the drafted wording</summary>
         <div className="draft-text">
@@ -136,7 +146,14 @@ export function DraftNarrative({
                         ? "Observed indicator"
                         : "Source claim"}
                   </span>
-                  {claim.text}
+                  {hasPanel && /:mean$/.test(claim.evidence_ref)
+                    ? `The average expert estimate is ${Math.round(result!.mean * 100)}%, based on ${result!.n_estimates ?? result!.n} forecasts.`
+                    : edition &&
+                        claim.evidence_kind === "indicator" &&
+                        claim.numbers.includes(edition.before!) &&
+                        claim.numbers.includes(edition.after!)
+                      ? `ACAPS recorded severity of ${edition.before} before this edition and ${edition.after} afterward, on a scale from 0 to 10.`
+                      : claim.text}
                 </p>
               ))
           ) : (

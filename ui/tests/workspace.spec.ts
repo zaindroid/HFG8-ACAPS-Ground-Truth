@@ -7,6 +7,7 @@ async function draftReady(page: Page) {
   await expect(
     page.getByRole("button", { name: "Reveal round 1" }),
   ).toBeDisabled();
+  await page.getByText("Round tools", { exact: true }).click();
   await page.getByRole("button", { name: "Load answers" }).click();
   await page.getByRole("button", { name: "Reveal round 1" }).click();
   await expect(
@@ -22,9 +23,6 @@ test("approval gates public ledger, verification is labelled and both screens fi
     page.getByRole("heading", { name: "No approved group views yet" }),
   ).toBeVisible();
   await draftReady(page);
-  await page
-    .getByText("Question, panel and supporting details", { exact: true })
-    .click();
   await expect(
     page.getByText("Other regions withheld", { exact: false }),
   ).toBeVisible();
@@ -130,6 +128,7 @@ test("rejection does not publish; editing preserves selected probability after n
   ).toBeVisible();
   await page.getByRole("link", { name: "Analyst desk", exact: true }).click();
   await page.getByRole("button", { name: "Reset round" }).click();
+  await page.getByText("Round tools", { exact: true }).click();
   await page.getByRole("button", { name: "Load answers" }).click();
   await page.getByRole("button", { name: "Reveal round 1" }).click();
   await page.getByRole("button", { name: "Prepare draft" }).click();

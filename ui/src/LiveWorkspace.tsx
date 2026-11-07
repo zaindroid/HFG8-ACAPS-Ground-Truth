@@ -1,3 +1,4 @@
+import { ResponseCards } from "./ResponseCards";
 import { EvidenceLine } from "./Evidence";
 import { PanelVisuals } from "./PanelVisuals";
 import { Journey, DecisionSnapshot } from "./Journey";
@@ -632,19 +633,30 @@ function LiveDesk() {
                       {pulse.id} · Round {pulse.round} · {pulse.n_answers}{" "}
                       sealed answers
                     </p>
-                    <div className="envelope-tray">
-                      {Array.from(
-                        { length: Math.min(10, Math.max(5, pulse.n_answers)) },
-                        (_, i) => (
-                          <span
-                            className={`envelope ${i < pulse.n_answers ? "filled" : ""}`}
-                            key={i}
-                          >
-                            <LockKeyhole size={22} />
-                          </span>
-                        ),
-                      )}
-                    </div>
+                    {group && validResult(group) ? (
+                      <ResponseCards
+                        total={group.n}
+                        count={group.n}
+                        revealed
+                        result={group}
+                      />
+                    ) : (
+                      <div className="envelope-tray">
+                        {Array.from(
+                          {
+                            length: Math.min(10, Math.max(5, pulse.n_answers)),
+                          },
+                          (_, i) => (
+                            <span
+                              className={`envelope ${i < pulse.n_answers ? "filled" : ""}`}
+                              key={i}
+                            >
+                              <LockKeyhole size={22} />
+                            </span>
+                          ),
+                        )}
+                      </div>
+                    )}
                     <div className="panel-actions">
                       <button
                         className="primary"
@@ -943,7 +955,7 @@ function LiveDesk() {
                 )}
             </div>
             <aside className="desk-side">
-              <Section title="ACAPS edition evidence">
+              <Section title="Why this risk was flagged">
                 {pulse?.evidence.length ? (
                   pulse.evidence.map((e, i) => (
                     <EvidenceLine key={i} value={e} />
@@ -952,8 +964,8 @@ function LiveDesk() {
                   <p>No pulse evidence loaded.</p>
                 )}
               </Section>
-              <details className="desk-support">
-                <summary>Question, panel and supporting details</summary>
+              <section className="desk-support dashboard-context">
+                <h2>Question and panel context</h2>
                 <div>
                   <QuestionContractPanel
                     key={selected}
@@ -994,7 +1006,7 @@ function LiveDesk() {
                     )}
                   </Section>
                 </div>
-              </details>
+              </section>
             </aside>
           </div>
         </>

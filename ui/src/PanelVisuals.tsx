@@ -1,18 +1,25 @@
-import { useEffect, useState } from "react";
-import {
-  MapPin,
-  LockKeyhole,
-  Check,
-  ArrowRight,
-  UsersRound,
-} from "lucide-react";
+import { ForecastComparison } from "./ForecastComparison";
+import { useEffect, useState, lazy, Suspense } from "react";
+const ExpertMap = lazy(() =>
+  import("./ExpertMap").then((m) => ({ default: m.ExpertMap })),
+);
+import { LockKeyhole, Check, ArrowRight, UsersRound } from "lucide-react";
 import { mock } from "./api";
 import { endpoint, type Result, type Draft, type Pulse } from "./service";
 import type { Match } from "./v2-types";
 import matched from "../../fixtures/GET_panels_match.json";
-import { GroupChart } from "./LiveWorkspace";
 import { DraftRecommendation, DraftNarrative } from "./Grounding";
 
+const specialtyColour = (name: string) =>
+  (
+    ({
+      conflict: "#285e58",
+      displacement: "#547b9b",
+      access: "#8b703b",
+      political: "#786887",
+      food: "#648351",
+    }) as Record<string, string>
+  )[name.toLowerCase()] || "#417d79";
 const label = (name: string) =>
   name.replaceAll("_", " ").replace(/^./, (c) => c.toUpperCase());
 function Bars({
@@ -31,6 +38,7 @@ function Bars({
             <span
               style={{
                 width: `${Math.min(100, (row.count / Math.max(1, row.max || total)) * 100)}%`,
+                background: specialtyColour(row.label),
               }}
             />
           </div>
@@ -117,7 +125,7 @@ export function PanelVisuals({
           {current ? (
             <>
               <LockKeyhole size={15} aria-hidden="true" />
-              Response {arrived} sealed ·{" "}
+              Response {arrived} received ·{" "}
               {current.region || current.geo_tags.join(", ")} ·{" "}
               {current.theme_tags.join(", ")}
             </>
@@ -129,48 +137,9 @@ export function PanelVisuals({
       <div className="panel-visual-grid">
         <div>
           <h3>Where the panel is based</h3>
-          <div className="location-lanes">
-            {regions.map((region) => {
-              const experts = panel.experts
-                .map((e, i) => ({ e, i }))
-                .filter(
-                  ({ e }) =>
-                    (e.region || e.geo_tags.join(", ") || "Not supplied") ===
-                    region,
-                );
-              return (
-                <div key={region}>
-                  <span>
-                    <MapPin size={13} aria-hidden="true" />
-                    {region}
-                  </span>
-                  <div>
-                    {experts.map(({ e, i }) => (
-                      <span
-                        key={e.pseudonym}
-                        className={
-                          arrived === undefined || i < arrived
-                            ? "location-dot received"
-                            : "location-dot"
-                        }
-                        aria-label={`${e.pseudonym}: ${arrived === undefined ? "selected" : i < arrived ? "sealed" : "waiting"}`}
-                      >
-                        <span className="sr-only">{e.pseudonym}</span>
-                      </span>
-                    ))}
-                  </div>
-                  <small>
-                    {
-                      experts.filter(
-                        ({ i }) => arrived === undefined || i < arrived,
-                      ).length
-                    }{" "}
-                    / {experts.length}
-                  </small>
-                </div>
-              );
-            })}
-          </div>
+          <Suspense fallback={<p role="status">Loading location map…</p>}>
+            <ExpertMap experts={panel.experts} arrived={arrived} />
+          </Suspense>
         </div>
         <div>
           <h3>
@@ -233,11 +202,15 @@ export function AnalysisWalkthrough({
   draft,
   pulse,
   reference,
+  onContinue,
+  hasDecision = false,
 }: {
   result: Result;
   draft: Draft;
   pulse: Pulse;
   reference: string;
+  onContinue: () => void;
+  hasDecision?: boolean;
 }) {
   const [step, setStep] = useState(0);
   const steps = [
@@ -254,7 +227,11 @@ export function AnalysisWalkthrough({
   ).length;
   const pending = result.missing_themes.length - checked;
   return (
-    <section className="analysis-walkthrough" aria-label="Analysis walkthrough">
+    <section
+      id="analysis-walkthrough"
+      className="analysis-walkthrough"
+      aria-label="Analysis walkthrough"
+    >
       <div className="analysis-intro">
         <div>
           <span>After the reveal</span>
@@ -276,6 +253,7 @@ export function AnalysisWalkthrough({
           </button>
         ))}
       </nav>
+      <ForecastComparison result={result} reference={reference} />
       <div className="analysis-step-content" key={step}>
         {step === 0 && (
           <>
@@ -288,7 +266,10 @@ export function AnalysisWalkthrough({
               {Math.round(result.spread.max * 100)}%. These dots represent
               grouped forecasts, not named experts.
             </p>
-            <GroupChart result={result} reference={reference} />
+            <p>
+              The comparison stays visible as you review coverage, evidence and
+              the decision.
+            </p>
           </>
         )}
         {step === 1 && (
@@ -364,14 +345,13 @@ export function AnalysisWalkthrough({
               themes={result.missing_themes}
               evidence={pulse.evidence}
             />
-            <div className="analyst-choice-preview">
-              <span>Accept</span>
-              <span>Edit</span>
-              <span>Reject</span>
-              <small>
-                Available on the current round. This replay saves no decision.
-              </small>
-            </div>
+            <p>
+              Next, review the actual round and{" "}
+              {hasDecision
+                ? "its recorded decision"
+                : "choose Accept, Edit or Reject with your rationale"}
+              .
+            </p>
           </>
         )}
       </div>
@@ -384,10 +364,17 @@ export function AnalysisWalkthrough({
         </span>
         <button
           className="primary"
-          disabled={step === steps.length - 1}
-          onClick={() => setStep((s) => s + 1)}
+          onClick={() =>
+            step === steps.length - 1 ? onContinue() : setStep((s) => s + 1)
+          }
         >
-          {step === 2 ? "Prepare draft preview" : "Next step"}
+          {step === steps.length - 1
+            ? hasDecision
+              ? "Review recorded decision"
+              : "Continue to decision"
+            : step === 2
+              ? "Prepare draft preview"
+              : "Next step"}
           <ArrowRight size={14} aria-hidden="true" />
         </button>
       </div>

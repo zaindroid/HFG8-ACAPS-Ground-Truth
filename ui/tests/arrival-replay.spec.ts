@@ -6,6 +6,7 @@ test("arrivals replay incrementally, pause, reveal and return without changing t
   page,
 }) => {
   await page.goto("/desk");
+  await page.getByText("Round tools", { exact: true }).click();
   await page.getByRole("button", { name: "Load answers", exact: true }).click();
   await page
     .getByRole("button", { name: "Reveal round 1", exact: true })
@@ -42,6 +43,9 @@ test("arrivals replay incrementally, pause, reveal and return without changing t
   await expect(
     analysis.getByRole("heading", { name: "From answers to a decision" }),
   ).toBeVisible();
+  await expect(
+    analysis.getByRole("region", { name: "Expert forecast versus ACAPS" }),
+  ).toBeVisible();
   await analysis.getByRole("button", { name: "Next step" }).click();
   await expect(analysis.locator(".regional-comparison")).toContainText(
     "Ouaddaï",
@@ -63,12 +67,15 @@ test("arrivals replay incrementally, pause, reveal and return without changing t
     path: test.info().outputPath("analysis-preview.png"),
     fullPage: true,
   });
-  await page.getByRole("button", { name: "Return to current round" }).click();
+  await analysis.getByRole("button", { name: "Continue to decision" }).click();
   await expect(
     page.getByRole("region", { name: "Decision at a glance" }),
   ).toContainText("69%");
   await expect(tray.locator(".filled")).toHaveCount(8);
-  await page.getByRole("button", { name: "Prepare draft" }).click();
+  await expect(page.locator(".response-card.revealed")).toHaveCount(8);
+  await expect(
+    page.getByRole("button", { name: "Accept draft", exact: true }),
+  ).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "Keep probability High" }),
   ).toBeVisible();

@@ -112,6 +112,7 @@ test("sample reset opens a fresh analyst round without losing history", async ({
   await expect(
     page.getByRole("button", { name: "Reveal round 1" }),
   ).toBeDisabled();
+  await page.getByText("Round tools", { exact: true }).click();
   await page.getByRole("button", { name: "Load answers" }).click();
   await page.getByRole("button", { name: "Reveal round 1" }).click();
   await page.getByRole("button", { name: "Prepare draft" }).click();
@@ -119,7 +120,7 @@ test("sample reset opens a fresh analyst round without losing history", async ({
   await expect(
     page
       .locator(".draft-text")
-      .getByText("The equal-weight panel mean is 0.69", { exact: false }),
+      .getByText("The average expert estimate is 69%", { exact: false }),
   ).toBeVisible();
   await page.getByLabel("Decision note").fill("Synthetic review completed.");
   await page

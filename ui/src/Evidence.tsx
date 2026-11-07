@@ -1,4 +1,5 @@
 import { safeUrl } from "./service";
+import { SeverityVisual } from "./SeverityVisual";
 export type EvidenceRecord = {
   source: string;
   url: string;
@@ -30,7 +31,31 @@ export function EvidenceLine({ value: e }: { value: EvidenceRecord }) {
       <a href={safeUrl(e.url)} target="_blank" rel="noreferrer">
         {e.source}
       </a>
-      <p>{evidenceSummary(e).slice(e.source.length + 2)}</p>
+      {e.metric === "index" &&
+      typeof e.before === "number" &&
+      typeof e.after === "number" ? (
+        <>
+          <h3>
+            The crisis severity index{" "}
+            {e.after > e.before
+              ? "increased"
+              : e.after < e.before
+                ? "decreased"
+                : "stayed the same"}
+          </h3>
+          <SeverityVisual
+            before={e.before}
+            after={e.after}
+            from={e.month_from}
+            to={e.month_to}
+          />
+          <p>
+            Why it matters: this change triggered a review by the expert panel.
+          </p>
+        </>
+      ) : (
+        <p>{evidenceSummary(e).slice(e.source.length + 2)}</p>
+      )}
       {e.month_from && e.month_to && (
         <small>
           {e.month_from} → {e.month_to}
@@ -41,7 +66,10 @@ export function EvidenceLine({ value: e }: { value: EvidenceRecord }) {
       )}
       {typeof e.rank_this_month === "number" && (
         <small>
-          Change rank {e.rank_this_month} of {e.n_crises_this_month} crises
+          {e.rank_this_month === 1
+            ? "Largest recorded change"
+            : `Change ranked ${e.rank_this_month}`}{" "}
+          among {e.n_crises_this_month} crises in this comparison
         </small>
       )}
     </div>

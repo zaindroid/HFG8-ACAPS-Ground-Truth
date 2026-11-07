@@ -76,9 +76,6 @@ test("Radar filters, country map, source badge and matching work", async ({
     ).violations,
   ).toEqual([]);
   await page.getByRole("link", { name: "Review risk" }).click();
-  await page
-    .getByText("Question, panel and supporting details", { exact: true })
-    .click();
   await page.getByRole("button", { name: "Preview matched panel" }).click();
   await expect(
     page.getByText("Composition check: passes", { exact: false }),
@@ -125,11 +122,9 @@ test("integrity is desk-only and the public ledger includes honesty and resolved
   page,
 }) => {
   await page.goto("/desk");
+  await page.getByText("Round tools", { exact: true }).click();
   await page.getByRole("button", { name: "Load answers" }).click();
   await page.getByRole("button", { name: "Reveal round 1" }).click();
-  await page
-    .getByText("Question, panel and supporting details", { exact: true })
-    .click();
   await expect(
     page.getByRole("heading", { name: "Integrity notes" }),
   ).toBeVisible();

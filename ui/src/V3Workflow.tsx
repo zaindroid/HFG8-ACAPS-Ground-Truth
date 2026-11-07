@@ -84,77 +84,100 @@ export function QuestionContractPanel({
     onFrozen(null);
   }, [riskId, onFrozen]);
   return (
-    <Section title="Question contract">
+    <Section title="Question being forecast">
       <p className="panel-caption">
-        Freeze the event, location, horizon and resolution rule before scoring.
-        R1043 starts from the example for analyst confirmation. Changing a
-        frozen question requires a new version; earlier forecasts keep their
-        original contract.
+        Agree what must happen, where and by when before scoring the forecasts.
       </p>
-      <form
-        className="contract-form"
-        onSubmit={async (e) => {
-          e.preventDefault();
-          setBusy(true);
-          setError("");
-          try {
-            const saved = mock
-              ? { ...value, frozen_at: new Date().toISOString() }
-              : await endpoint.contract(riskId, value);
-            if (
-              saved.risk_id !== riskId ||
-              !saved.frozen_at ||
-              !Number.isFinite(Date.parse(saved.frozen_at)) ||
-              (
-                [
-                  "event",
-                  "location",
-                  "horizon_deadline",
-                  "resolution_source",
-                  "adjudication_rule",
-                ] as const
-              ).some((key) => saved[key] !== value[key])
-            )
-              throw new Error(
-                "The API did not confirm this frozen contract. Scoring remains disabled; Lane A must return the versioned contract and frozen_at.",
-              );
-            setFrozen(true);
-            onFrozen(saved);
-          } catch (e) {
-            setError((e as Error).message);
-            onFrozen(null);
-          } finally {
-            setBusy(false);
-          }
-        }}
-      >
-        <fieldset disabled={frozen || busy}>
-          {(
-            [
-              ["event", "Event definition"],
-              ["location", "Location"],
-              ["horizon_deadline", "Horizon deadline"],
-              ["resolution_source", "Resolution source"],
-              ["adjudication_rule", "Adjudication rule"],
-            ] as const
-          ).map(([key, label]) => (
-            <div key={key}>
-              <label htmlFor={`contract-${key}`}>{label}</label>
-              <input
-                id={`contract-${key}`}
-                required
-                type={key === "horizon_deadline" ? "date" : "text"}
-                value={value[key]}
-                maxLength={700}
-                onChange={(e) => setValue({ ...value, [key]: e.target.value })}
-              />
-            </div>
-          ))}
-          <button type="submit">
-            {busy ? "Freezing contract…" : "Freeze question contract"}
-          </button>
-        </fieldset>
-      </form>
+      <div className="question-at-glance">
+        <p>{value.event || "Define the event this panel will forecast."}</p>
+        <dl>
+          <div>
+            <dt>Where</dt>
+            <dd>{value.location || "Not defined"}</dd>
+          </div>
+          <div>
+            <dt>By when</dt>
+            <dd>{value.horizon_deadline || "Not defined"}</dd>
+          </div>
+          <div>
+            <dt>How the outcome is checked</dt>
+            <dd>{value.resolution_source || "Not defined"}</dd>
+          </div>
+          <div>
+            <dt>Question status</dt>
+            <dd>{frozen ? "Confirmed" : "Awaiting analyst confirmation"}</dd>
+          </div>
+        </dl>
+      </div>
+      <details className="question-editor">
+        <summary>Edit question and resolution rules</summary>
+        <form
+          className="contract-form"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            setBusy(true);
+            setError("");
+            try {
+              const saved = mock
+                ? { ...value, frozen_at: new Date().toISOString() }
+                : await endpoint.contract(riskId, value);
+              if (
+                saved.risk_id !== riskId ||
+                !saved.frozen_at ||
+                !Number.isFinite(Date.parse(saved.frozen_at)) ||
+                (
+                  [
+                    "event",
+                    "location",
+                    "horizon_deadline",
+                    "resolution_source",
+                    "adjudication_rule",
+                  ] as const
+                ).some((key) => saved[key] !== value[key])
+              )
+                throw new Error(
+                  "The API did not confirm this frozen contract. Scoring remains disabled; Lane A must return the versioned contract and frozen_at.",
+                );
+              setFrozen(true);
+              onFrozen(saved);
+            } catch (e) {
+              setError((e as Error).message);
+              onFrozen(null);
+            } finally {
+              setBusy(false);
+            }
+          }}
+        >
+          <fieldset disabled={frozen || busy}>
+            {(
+              [
+                ["event", "Event definition"],
+                ["location", "Location"],
+                ["horizon_deadline", "Horizon deadline"],
+                ["resolution_source", "Resolution source"],
+                ["adjudication_rule", "Adjudication rule"],
+              ] as const
+            ).map(([key, label]) => (
+              <div key={key}>
+                <label htmlFor={`contract-${key}`}>{label}</label>
+                <input
+                  id={`contract-${key}`}
+                  required
+                  type={key === "horizon_deadline" ? "date" : "text"}
+                  value={value[key]}
+                  maxLength={700}
+                  onChange={(e) =>
+                    setValue({ ...value, [key]: e.target.value })
+                  }
+                />
+              </div>
+            ))}
+            <button type="submit">
+              {busy ? "Freezing contract…" : "Freeze question contract"}
+            </button>
+          </fieldset>
+        </form>
+      </details>
       {error && <p role="alert">{error}</p>}
       {frozen && (
         <p role="status">

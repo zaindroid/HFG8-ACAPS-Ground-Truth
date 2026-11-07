@@ -337,7 +337,7 @@ test("API pulse, SSE, reveal, checked draft, decision and resolution", async ({
     page.getByRole("button", { name: "Resolve risk and score forecasts" }),
   ).toBeDisabled();
   await page
-    .getByText("Question, panel and supporting details", { exact: true })
+    .getByText("Edit question and resolution rules", { exact: true })
     .click();
   await page.getByRole("button", { name: "Freeze question contract" }).click();
   await expect(
@@ -683,7 +683,7 @@ test("v3 aggregate stays primary and mismatched outcome reports are withheld", a
     page.getByText(result.minority_rationales[0], { exact: true }),
   ).toBeVisible();
   await page
-    .getByText("Question, panel and supporting details", { exact: true })
+    .getByText("Edit question and resolution rules", { exact: true })
     .click();
   await page.getByRole("button", { name: "Open group outcome report" }).click();
   await expect(page.locator(".outcome-report")).toContainText(
@@ -723,7 +723,7 @@ test("a successful status without a frozen contract cannot unlock scoring", asyn
   await page.goto("/desk");
   await page.getByRole("button", { name: "Ask panel", exact: true }).click();
   await page
-    .getByText("Question, panel and supporting details", { exact: true })
+    .getByText("Edit question and resolution rules", { exact: true })
     .click();
   await page.getByRole("button", { name: "Freeze question contract" }).click();
   await expect(page.getByRole("alert")).toContainText(

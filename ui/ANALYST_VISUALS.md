@@ -16,3 +16,9 @@ Location dots, expertise bars and transitions use short motion and honour reduce
 The current backend metric named `moved_before_acaps` counts correct classifications when the mapped ACAPS band was wrong; the panel table labels this **Correct when band missed**, avoiding a timing claim.
 
 Validation: mock build, browser replay checks at phone/desktop/projector sizes, pause/resume, reveal gating, the four review steps, current-round restoration, accessibility, local page JavaScript errors and horizontal overflow. Existing sample/journey checks and targeted API checks cover the surrounding flow. This does not implement v3.3 Reach, seed questions, private pattern reports or hardening services.
+
+## Flow corrections after browser review
+
+The last analysis step now has an active handoff to the actual decision panel. The forecast-versus-ACAPS chart stays visible at every analysis step. Cards flip on reveal and show grouped probability bands, without linking them to expert profiles. The source provides grouped bins, not exact individual forecasts. Country-level panel locations are mapped; region details remain in the roster. Specialties have separate muted colours with labels and counts.
+
+The main simulation toolbar has only the applicable controls; the expert-card link and redundant replay/load buttons were removed from that toolbar. Question context is visible by default, while editing resolution rules is a separate disclosure. Severity uses a moving marker when it enters view and an explicit replay control; reduced-motion settings suppress motion. The original draft and source evidence remain inspectable.
