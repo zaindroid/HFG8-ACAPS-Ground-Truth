@@ -63,13 +63,13 @@ function PortalHeader() {
   return (
     <header className="public-header">
       <a className="sealed-wordmark" href="/">
-        Sealed Signals<span>Expert validation for risk analysis</span>
+        <span className="public-brand-icon"><LockKeyhole size={21} aria-hidden="true" /></span>
+        <span className="public-brand-name">sealed signals<small>Expert validation for risk analysis</small></span>
       </a>
       <nav aria-label="Portal navigation">
-        <ProductLink to="/alerts">Risk alerts</ProductLink>
-        <ProductLink to="/desk">Analyst desk</ProductLink>
-        <ProductLink to="/ledger">Public ledger</ProductLink>
-        <a href="/e/demo">Expert card</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#latest-signal">Latest signal</a>
+        <a href="https://www.acaps.org/en/" target="_blank" rel="noreferrer">ACAPS website <ArrowUpRight size={13} aria-hidden="true" /></a>
       </nav>
       <DemoLoginButton />
     </header>
@@ -107,50 +107,45 @@ export function PublicHome() {
       <a className="skip-link" href="#public-content">
         Skip to content
       </a>
+      <PortalHeader />
+      <div className="public-utility"><span>Home / Ground Truth prototype</span><span>Based on ACAPS published risk data</span></div>
       {/* A landmark, not a bare paragraph: role="note" is not one, so the banner
           sat outside every landmark and tripped the page's own axe check. */}
       <aside className="prototype-banner" aria-label="Prototype notice">
         Prototype for the ACAPS Ground Truth challenge. Not an ACAPS service.
         Expert panels and their answers are synthetic.
       </aside>
-      <PortalHeader />
       <main id="public-content" className="public-home">
         <section className="public-hero">
           <div className="public-hero-copy">
             <h1>
-              One question.
-              <br />
-              Independent judgement.
+              <span>See the signal.</span>
+              <span>Test the <em>story.</em></span>
             </h1>
             <p>
-              When ACAPS severity data shifts, Sealed Signals asks a small panel
-              of humanitarian experts whether the analysis still holds. Answers
-              are sealed until the round opens, aggregated as a group view, and
-              published with their own limitations.
+              When the numbers change, analysts need a clear way to test what
+              they mean. Sealed Signals brings independent expert judgement
+              into the review and keeps a trace of the decision.
             </p>
-            <p>Easier to contribute to, easier to scrutinise, easier to trace. An expert review inside ACAPS’s existing analysis workflow.</p>
             <ProductLink to="/workspace">
               <span className="public-primary">
-                Open the workspace <ArrowRight size={18} aria-hidden="true" />
+                Open the analyst workspace <ArrowRight size={18} aria-hidden="true" />
               </span>
             </ProductLink>
+            <small className="public-hero-footnote">Demo prototype · synthetic expert panel · no ACAPS account needed</small>
           </div>
-          <div className="public-feature-static">
-            <p>Latest alert · Chad</p>
-            <h2>Displacement from Sudan to Chad</h2>
-            <p className="public-feature-figure">
-              <span className="num">6.1</span> &rarr;{" "}
-              <strong className="num">6.9</strong>
-            </p>
-            <p>
-              INFORM severity, March to April 2026. The largest deterioration of
-              123 crises that month, and the question that round put to the
-              panel.
-            </p>
+          <div id="latest-signal" className="public-feature-static">
+            <p>Featured signal / Eastern Chad</p>
+            <h2>When severity rises, what should change?</h2>
+            <div className="public-feature-chart" role="img" aria-label="INFORM Severity increased from 6.1 in March to 6.9 in April 2026">
+              <svg viewBox="0 0 420 148" preserveAspectRatio="none" aria-hidden="true"><path d="M20 112 C80 108 112 104 155 97 S235 91 279 72 S360 49 400 30"/><circle cx="20" cy="112" r="6"/><circle cx="400" cy="30" r="7"/></svg>
+              <div><span>March 2026 <strong>6.1</strong></span><span>April 2026 <strong>6.9</strong></span></div>
+            </div>
+            <p>INFORM Severity · largest deterioration among 123 crises that month. The analyst decides whether to ask the panel.</p>
           </div>
         </section>
 
-        <section className="public-research">
+        <section id="how-it-works" className="public-research">
           <div className="public-section-heading">
             <div>
               <p>How it works</p>

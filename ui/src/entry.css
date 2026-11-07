@@ -619,3 +619,186 @@ main.login-redirect {
   color: var(--muted);
   margin: 0;
 }
+
+/* Public entry: an editorial bridge into the ACAPS analysis context. */
+.public-header {
+  min-height: 96px;
+  padding: 15px max(32px, calc((100vw - 1280px) / 2));
+  gap: 32px;
+  border-bottom: 1px solid #d8dee1;
+}
+.public-header .sealed-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+  color: #111820;
+  font-size: 28px;
+  letter-spacing: -1.4px;
+  line-height: .9;
+}
+.public-header .sealed-wordmark .public-brand-icon {
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 45px;
+  margin: 0;
+  border: 3px solid #0099bd;
+  border-radius: 50% 50% 48% 48%;
+  color: #004f76;
+  transform: rotate(-8deg);
+}
+.public-header .sealed-wordmark .public-brand-icon svg { transform: rotate(8deg); }
+.public-header .sealed-wordmark .public-brand-name { margin: 0; font-size: inherit; font-weight: 600; color: inherit; }
+.public-header .sealed-wordmark small { display: block; margin-top: 7px; color: #657179; font-size: 10px; font-weight: 500; letter-spacing: .03em; }
+.public-header nav { gap: 8px 30px; }
+.public-header nav a {
+  display: inline-flex;
+  gap: 5px;
+  color: #26313a;
+  font-family: Impact, "Arial Narrow", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+}
+.public-header nav a:hover { color: #0099bd; }
+.public-header .public-login,
+.public-workspace-entry .public-login {
+  border: 0;
+  border-radius: 0;
+  background: #0099bd;
+  color: white;
+  font-family: Impact, "Arial Narrow", sans-serif;
+  font-size: 16px;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+.public-header .public-login:hover,
+.public-workspace-entry .public-login:hover { background: #007ea1; }
+.public-utility {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px max(32px, calc((100vw - 1280px) / 2));
+  background: #f2f4f5;
+  color: #187da0;
+  font-size: 11px;
+}
+.prototype-banner {
+  padding: 8px 24px;
+  background: #e8f2f5;
+  border-bottom: 0;
+  color: #235a6f;
+  font-size: 11px;
+  text-align: center;
+}
+main.public-home { max-width: none; }
+.public-hero {
+  grid-template-columns: minmax(0, 1fr) minmax(390px, 510px);
+  gap: clamp(40px, 6vw, 96px);
+  min-height: 650px;
+  padding: 90px max(32px, calc((100vw - 1080px) / 2)) 90px;
+  background: #fcfdfd url("/contours.svg") center top / 620px 420px repeat;
+}
+.public-hero h1 {
+  max-width: 620px;
+  margin-bottom: 30px;
+  color: #090d10;
+  font-family: Impact, "Arial Narrow", sans-serif;
+  font-size: clamp(58px, 6.2vw, 98px);
+  font-weight: 400;
+  letter-spacing: -.025em;
+  line-height: .96;
+  text-transform: uppercase;
+}
+.public-hero h1 span { display: block; }
+.public-hero h1 em { font-style: normal; color: #0099bd; }
+.public-hero-copy > p {
+  max-width: 33ch;
+  margin: 0 0 34px;
+  color: #26343b;
+  font-size: 20px;
+  line-height: 1.65;
+}
+.public-primary {
+  min-height: 54px;
+  padding: 13px 23px;
+  border: 0;
+  border-radius: 0;
+  background: #0099bd;
+  font-family: Impact, "Arial Narrow", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: .025em;
+  text-transform: uppercase;
+}
+.public-primary:hover { background: #007ea1; }
+.public-hero-footnote { display: block; margin-top: 15px; color: #53656e; font-size: 11px; }
+.public-feature-static {
+  align-self: center;
+  min-height: 510px;
+  padding: 38px 42px;
+  border: 0;
+  border-radius: 0;
+  background: #004d76;
+  color: white;
+}
+.public-feature-static > p:first-child {
+  margin-bottom: 20px;
+  color: #b6eaf3;
+  font-family: Impact, "Arial Narrow", sans-serif;
+  font-size: 14px;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+.public-feature-static h2 {
+  max-width: 12ch;
+  margin-bottom: 28px;
+  color: white;
+  font-family: Impact, "Arial Narrow", sans-serif;
+  font-size: clamp(31px, 3vw, 44px);
+  font-weight: 400;
+  line-height: 1.08;
+  text-transform: uppercase;
+}
+.public-feature-chart {
+  padding: 18px 22px 16px;
+  background: #f5f9fa;
+  color: #004d76;
+}
+.public-feature-chart svg { display: block; width: 100%; height: 142px; overflow: visible; }
+.public-feature-chart svg path { fill: none; stroke: #0099bd; stroke-width: 5; }
+.public-feature-chart svg circle { fill: #004d76; stroke: white; stroke-width: 3; }
+.public-feature-chart > div { display: flex; justify-content: space-between; gap: 20px; font-size: 11px; text-transform: uppercase; }
+.public-feature-chart strong { display: block; margin-top: 4px; font-size: 27px; }
+.public-feature-static > p:last-child { max-width: 43ch; margin-top: 22px; color: #e3f2f6; font-size: 14px; line-height: 1.5; }
+.public-research { padding-inline: max(32px, calc((100vw - 1080px) / 2)); }
+.public-section-heading h2 { font-family: Impact, "Arial Narrow", sans-serif; font-size: 42px; font-weight: 400; text-transform: uppercase; }
+.portal-steps article { border-top-color: #0099bd; }
+.portal-steps article > p:first-child { color: #007ea1; }
+.public-workspace-entry { padding-inline: max(32px, calc((100vw - 1080px) / 2)); background: #f1f5f6; }
+@media (max-width: 1050px) {
+  .public-hero { grid-template-columns: minmax(0, 1fr) minmax(330px, 440px); gap: 34px; padding: 56px 32px; }
+  .public-feature-static { min-height: 0; }
+}
+@media (max-width: 760px) {
+  .public-header { min-height: 0; padding: 16px 20px; gap: 14px; }
+  .public-header .sealed-wordmark { font-size: 22px; }
+  .public-header .sealed-wordmark .public-brand-icon { width: 31px; height: 36px; border-width: 2px; }
+  .public-header .sealed-wordmark small { font-size: 8px; }
+  .public-header nav { order: 3; width: 100%; justify-content: space-between; gap: 8px; }
+  .public-header nav a { min-height: 34px; font-size: 12px; }
+  .public-header .public-login { margin-left: auto; padding: 9px 12px; min-height: 39px; font-size: 13px; }
+  .public-utility { padding: 9px 20px; }
+  .public-utility span:last-child { display: none; }
+  .prototype-banner { padding: 8px 20px; text-align: left; }
+  .public-hero { grid-template-columns: 1fr; min-height: 0; gap: 34px; padding: 48px 20px 50px; }
+  .public-hero h1 { font-size: clamp(50px, 12vw, 70px); }
+  .public-hero-copy > p { font-size: 17px; }
+  .public-feature-static { padding: 27px 25px; }
+  .public-feature-static h2 { font-size: 35px; }
+  .public-feature-chart svg { height: 105px; }
+  .public-research, .public-workspace-entry { padding: 42px 20px; }
+  .public-section-heading h2 { font-size: 34px; }
+}
