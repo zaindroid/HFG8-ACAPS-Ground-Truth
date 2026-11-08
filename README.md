@@ -8,6 +8,31 @@ Team: Zain Ul Haq (backend), Saleeta Qadir (frontend), Sho Izuno (research and p
 `AGENTS.md` maps the repository and says how to verify each claim. Test output, the demo transcript and screenshots
 are under `docs/evidence/`.
 
+## Try it, without installing anything
+
+It is deployed: **<https://sealed-signals.zaindroid.me>**. `/version` reports the commit it is running, so you can
+check that the thing you are reading and the thing you are using are the same.
+
+| Open this | And you are looking at |
+| --- | --- |
+| `/ask` | The whole loop an analyst clicks through: pick the risk, see which vetted experts can speak to it and on which channel, send each one their own single-use link, with a QR code each and three more for the seats in the room |
+| `/desk?risk_id=R1043&pulse_id=P-0001` | The analyst desk on the demo round: panel coverage, the forecast against ACAPS's band, the evidence and the draft |
+| `/api/demo/links` | The synthetic invitations. Open any `card_url` and you are on an expert's card with no login, exactly as an expert would be |
+| `/ledger` | The public record, with a Verify action that recomputes the commitment in your own browser |
+| `/trust` | All eight hardening mechanisms, each with its flag state, what it guarantees and what it does not |
+| `/audit` | The process chain in plain words, rechecked in your browser rather than taken on trust |
+| `/api/trust/status` | The same mechanism wording as JSON, which is where every surface in the product reads it from |
+
+The demo round stays sealed until its deadline, which is the point of it. To see the revealed group view, open it
+early and accept that the record says so:
+
+```
+curl -X POST https://sealed-signals.zaindroid.me/api/pulses/P-0001/reveal \
+  -H 'content-type: application/json' -d '{"force": true}'
+```
+
+That writes `revealed_reason: "analyst_before_deadline"` into the published result, and leaves it there.
+
 ## 1. The problem
 
 ACAPS rates humanitarian risks (probability, impact, triggers) for more than a hundred crises. In the Risk Radar export

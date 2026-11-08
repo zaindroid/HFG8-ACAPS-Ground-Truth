@@ -2,6 +2,11 @@
 
 Start with `README.md`. This file says where each part lives and which test or command checks it.
 
+The product is deployed at <https://sealed-signals.zaindroid.me>, so most claims below can be checked against a
+running instance instead of only against the source. `GET /version` returns the commit it was built from; `GET
+/api/trust/status` returns every hardening mechanism with its flag state and its own "guarantees" and "does not"
+sentence, which is the single place those sentences are written and the one every other surface reads.
+
 ## Layout
 
 | Path | What it is |
