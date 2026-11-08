@@ -1,10 +1,11 @@
 import { sampleDataEnabled, sampleResult } from "./demo-data";
-import { endpoint } from "./service";
+import { endpoint, type TrustStatus } from "./service";
 import type { EvidenceRecord } from "./Evidence";
 import cardFixture from "../../fixtures/GET_e_token.json";
 import resultFixture from "../../fixtures/GET_pulses_result.json";
 import draftFixture from "../../fixtures/POST_e_token_answer_response.json";
 import confirmFixture from "../../fixtures/POST_e_token_confirm_response.json";
+import trustFixture from "../../fixtures/GET_trust_status.json";
 export type Mask = "known" | "pseudonym" | "anonymous";
 /** The confirmation screen's payload. Nothing is committed when this comes back: that is the
  *  point of the two steps, and it is why a link click cannot answer for anybody. */
@@ -62,6 +63,15 @@ export type Answer = {
   probe_answers?: Record<string, string | string[]>;
 };
 export const mock = import.meta.env.VITE_MOCK === "1";
+/** The public home states the stack rather than describing it, so fixture mode has to be able to
+ *  state it too. Without this seam the landing page falls back to its engine-unreachable notice
+ *  in every fixture-mode run -- including the ones the evidence screenshots come from -- and the
+ *  first screen of the product would be a sentence about an engine that is not answering. */
+export async function getTrustStatus(): Promise<TrustStatus> {
+  if (!mock) return endpoint.trust();
+  return structuredClone(trustFixture) as unknown as TrustStatus;
+}
+
 export async function getCard(token: string): Promise<Card> {
   if (!mock) return endpoint.card(token);
   await new Promise((resolve) => setTimeout(resolve, 200));

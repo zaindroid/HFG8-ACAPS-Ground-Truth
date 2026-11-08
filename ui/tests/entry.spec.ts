@@ -3,13 +3,29 @@ import { reachSubmit } from "./expert-flow";
 import AxeBuilder from "@axe-core/playwright";
 import { submitCard } from "./card-flow";
 
-test("public entry exposes research and Login opens the workspace without credentials", async ({
+test("public entry states the stack from the engine, including the mechanism it has not built, and Login opens the workspace without credentials", async ({
   page,
 }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "One question.Independent judgement.",
+    "Commit.Reveal.Verify.",
   );
+  // The landing page renders /trust/status rather than a written-out copy of it, so the first
+  // screen cannot claim more than the engine does. The test that proves it is the card for the
+  // one mechanism we did not finish: it has to appear, say its flag is off, and say why.
+  const cards = page.locator(".stack-grid article");
+  await expect(cards).toHaveCount(6);
+  const membership = cards.filter({ hasText: "Zero-knowledge group membership" });
+  await expect(membership).toContainText("FF_ZK off");
+  await expect(membership).toContainText(
+    "the Groth16 proof check itself is NOT implemented in this build",
+  );
+  await expect(membership).toContainText(
+    "needs the proof verifier this build does not have",
+  );
+  await expect(
+    page.locator(".stack-rows").getByText("OpenTimestamps calendar"),
+  ).toBeVisible();
   // ACAPS is credited as the data source, never imitated: one outbound link, in the footer, and
   // a banner saying what this is. No reproduction of their navigation.
   await expect(
