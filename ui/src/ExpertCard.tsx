@@ -285,6 +285,11 @@ export function ExpertCard({ token }: { token: string }) {
                   label="Copy commitment"
                 />
               </div>
+              {receipt.sealed_on_device && (
+                <p className="help e2e-line">
+                  Encrypted on this device with post-quantum cryptography.
+                </p>
+              )}
               <p className="help">{receipt.band_note}</p>
               {receipt.correction_allowed_until && (
                 <p className="help">

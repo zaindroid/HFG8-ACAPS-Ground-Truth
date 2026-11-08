@@ -5,11 +5,17 @@ import cardFixture from "../../fixtures/GET_e_token.json";
 import resultFixture from "../../fixtures/GET_pulses_result.json";
 import draftFixture from "../../fixtures/POST_e_token_answer_response.json";
 import confirmFixture from "../../fixtures/POST_e_token_confirm_response.json";
+import answerKeyFixture from "../../fixtures/GET_answer_key.json";
+import { seal, type AnswerKey, type Route } from "./e2e";
 export type Mask = "known" | "pseudonym" | "anonymous";
 /** The confirmation screen's payload. Nothing is committed when this comes back: that is the
  *  point of the two steps, and it is why a link click cannot answer for anybody. */
 export type AnswerDraft = typeof draftFixture;
-export type SealReceipt = typeof confirmFixture;
+export type SealReceipt = typeof confirmFixture & {
+  /** Set by this client, not the engine: true when the draft and the confirmation both left this
+   *  device encrypted to the engine's answer key. */
+  sealed_on_device?: boolean;
+};
 /** What round 2 shows: the anonymised spread and the unattributed disagreement summary. Not the
  *  ACAPS band -- that first appears in the feedback message after the reveal. */
 export type GroupView = {
@@ -91,6 +97,32 @@ export async function getCard(token: string): Promise<Card> {
         : null,
   });
 }
+let answerKey: Promise<AnswerKey | null> | null = null;
+/** The engine's answer key, fetched once per page. Null when the engine has switched end-to-end
+ *  encryption off or cannot serve the key: the body then goes plain and the card says nothing
+ *  about encryption, rather than claiming what did not happen. */
+function getAnswerKey(): Promise<AnswerKey | null> {
+  if (!answerKey)
+    answerKey = (
+      mock
+        ? Promise.resolve(structuredClone(answerKeyFixture) as AnswerKey)
+        : endpoint.answerKey()
+    )
+      .then((key) => (key.enabled ? key : null))
+      .catch(() => {
+        answerKey = null;
+        return null;
+      });
+  return answerKey;
+}
+/** The body as it leaves the device: an envelope when there is a key, the plain body otherwise.
+ *  Fixture mode runs the same encryption, so the code path is exercised, and then drops it. */
+async function outgoing<T>(body: T, token: string, route: Route) {
+  const key = await getAnswerKey();
+  if (!key) return { body, encrypted: false };
+  return { body: await seal(body, token, route, key), encrypted: true };
+}
+let draftEncrypted = false;
 /** Step one of two. Validates the answer, prices a word into a number, and returns the line the
  *  confirmation screen repeats back. Commits nothing, which is what makes a link click, a mail
  *  scanner or a link preview harmless. The old single call cast this response to the receipt
@@ -99,7 +131,9 @@ export async function draftAnswer(
   token: string,
   answer: Answer,
 ): Promise<AnswerDraft> {
-  if (!mock) return endpoint.answer(token, answer);
+  const sent = await outgoing(answer, token, "draft");
+  draftEncrypted = sent.encrypted;
+  if (!mock) return endpoint.answer(token, sent.body);
   await new Promise((resolve) => setTimeout(resolve, 200));
   return structuredClone(draftFixture);
 }
@@ -108,7 +142,10 @@ export async function confirmAnswer(
   token: string,
   confirmToken: string,
 ): Promise<SealReceipt> {
-  if (!mock) return endpoint.confirm(token, confirmToken);
+  const sent = await outgoing({ confirm_token: confirmToken }, token, "confirm");
+  const sealed_on_device = draftEncrypted && sent.encrypted;
+  if (!mock)
+    return { ...(await endpoint.confirm(token, sent.body)), sealed_on_device };
   await new Promise((resolve) => setTimeout(resolve, 200));
-  return structuredClone(confirmFixture);
+  return { ...structuredClone(confirmFixture), sealed_on_device };
 }

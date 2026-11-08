@@ -43,6 +43,11 @@ test("expert card fits, supports keyboard sliders and seals selected mask", asyn
   await expect(
     page.getByText("Fixture receipt · not a live seal"),
   ).toBeVisible();
+  // Fixture mode still runs the browser encryption against the fixture key, so this line only
+  // appears when both the draft and the confirmation were actually sealed on the device.
+  await expect(
+    page.getByText("Encrypted on this device with post-quantum cryptography."),
+  ).toBeVisible();
   await expect(page.getByText("pseudonym", { exact: true })).toBeVisible();
 });
 test("round two and empty invitation render meaningful states", async ({

@@ -115,7 +115,7 @@ export function Trust() {
   return (
     <Frame
       title="Trust and privacy engineering"
-      subtitle="What each mechanism guarantees, and what it does not. Six mechanisms, and the panel-level pattern reports."
+      subtitle="What each mechanism guarantees, and what it does not. Seven mechanisms, and the panel-level pattern reports."
     >
       {error && (
         <section className="workspace-panel">
@@ -128,7 +128,7 @@ export function Trust() {
 
       {state && (
         <>
-          <Section title="The six mechanisms">
+          <Section title="The seven mechanisms">
             <div className="mechanism-grid">
               {state.trust.mechanisms.map((mechanism) => (
                 <MechanismCard key={mechanism.id} mechanism={mechanism} />

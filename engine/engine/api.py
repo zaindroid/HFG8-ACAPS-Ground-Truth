@@ -33,6 +33,7 @@ from . import hardening as hardening_mod
 from .hardening import (anchors as anchor_lib, calibration as calibration_lib,
                         flags as ff, patterns as pattern_lib)
 from . import impact as impact_lib
+from .hardening import e2e as e2e_lib
 from . import scan as scan_lib
 from . import store
 from .store import Expert, Store, TooFew, now, pseudonym_for, round_verify_hash
@@ -997,6 +998,21 @@ def _open_round(token: str, round_wanted: int = 1) -> tuple[str, str, dict]:
     return pulse_id, expert_id, pulse
 
 
+def _opened(body: dict, token: str, route: str) -> dict:
+    """An end-to-end encrypted body is decrypted here and the route continues with it exactly as
+    with a plain one; an envelope that does not open is refused (hardening/e2e.py)."""
+    try:
+        return e2e_lib.open_body(body, token, e2e_lib.ROUTES[route])
+    except e2e_lib.EnvelopeError as exc:
+        raise HTTPException(400, str(exc)) from exc
+
+
+@api.get("/answer-key", tags=["expert"])
+def answer_key():
+    """The engine's public key for end-to-end encrypted answers, and whether the card uses it."""
+    return envelope(e2e_lib.public_key())
+
+
 @api.post("/e/{token}/answer", status_code=200, tags=["expert"])
 def answer(token: str, body: dict = Body(default_factory=dict)):
     """A draft, and only a draft (section 5, v3.4).
@@ -1004,6 +1020,7 @@ def answer(token: str, body: dict = Body(default_factory=dict)):
     This is the route a link click, a mail scanner or a link preview can reach, so it commits
     nothing: it validates the answer, prices a word into the band midpoint, and returns the one
     line the confirmation screen repeats back with a token to confirm it."""
+    body = _opened(body, token, "draft")
     pulse_id, expert_id, pulse = _open_round(token, int(body.get("round", 1)))
     risk = data.get_risk(pulse["risk_id"]) or {}
     if STORE.answered(pulse_id, expert_id):
@@ -1043,6 +1060,7 @@ def answer(token: str, body: dict = Body(default_factory=dict)):
 @api.post("/e/{token}/confirm", status_code=201, tags=["expert"])
 async def confirm(token: str, body: dict = Body(default_factory=dict)):
     """The commit. The first valid confirmation per expert per pulse counts."""
+    body = _opened(body, token, "confirm")
     pulse_id, expert_id, pulse = _open_round(token)
     confirm_token = (body.get("confirm_token") or "").strip()
     pending = STORE.pending.get(confirm_token)
@@ -1095,6 +1113,7 @@ def correct_answer(token: str, body: dict = Body(default_factory=dict)):
     """A correction, allowed until the deadline printed on the card. Every version is kept and
     the committee sees them, so a changed view is visible as a change rather than as the only
     answer that ever existed."""
+    body = _opened(body, token, "correct")
     resolved = STORE.resolve_token(token)
     if not resolved:
         raise HTTPException(404, "this link is not valid; ask the analyst for a new one")

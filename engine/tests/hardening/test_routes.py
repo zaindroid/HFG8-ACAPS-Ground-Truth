@@ -13,7 +13,7 @@ from engine.hardening import credentials as credentials_mod
 def test_trust_status_carries_all_six_mechanisms_with_their_wording(seeded):
     client, _ = seeded
     body = client.get("/api/trust/status").json()
-    assert len(body["mechanisms"]) == 6
+    assert len(body["mechanisms"]) == 7
     for mechanism in body["mechanisms"]:
         assert mechanism["guarantees"] and mechanism["does_not"]
     assert body["flags"]["FF_ZK"] is False
