@@ -1,0 +1,102 @@
+import { test } from "./workspace-session";
+import { expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
+import result from "../../fixtures/GET_pulses_result.json" with { type: "json" };
+// Read from the fixture, never retyped: the last set of hard-coded percentages in
+// these specs still said 69 % long after the engine had stopped producing it.
+const meanPercent = `${Math.round(result.mean * 100)}%`;
+const meanTwoDp = result.mean.toFixed(2);
+
+test("April alert leads to a human panel request and a readable desk", async ({
+  page,
+}, info) => {
+  await page.goto("/alerts");
+  await expect(
+    page.getByRole("heading", { name: "Alerts", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Replay April" }).click();
+  await expect(page.locator(".shift-row")).toHaveCount(9);
+  await expect(
+    page.getByRole("img", { name: /Severity increased from 6.1/ }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("index delta >= 0.5", { exact: true }),
+  ).toBeVisible();
+  await page.screenshot({
+    path: info.outputPath("alerts.png"),
+    fullPage: true,
+  });
+  expect(
+    (
+      await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+        .analyze()
+    ).violations,
+  ).toEqual([]);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await page.getByRole("button", { name: "Ask experts", exact: true }).click();
+  await expect(
+    page.getByRole("link", { name: "Open analyst desk" }),
+  ).toHaveAttribute("href", /pulse_id=P-0001/);
+  await page.reload();
+  await expect(
+    page.getByRole("link", { name: "Open analyst desk" }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "Open analyst desk" }).click();
+  await expect(
+    page.getByRole("region", { name: "Decision at a glance" }),
+  ).toContainText("Sealed");
+  await page.getByRole("button", { name: "Load answers", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Reveal round 1", exact: true })
+    .click();
+  await expect(
+    page.getByRole("region", { name: "Decision at a glance" }),
+  ).toContainText(meanPercent);
+  await expect(
+    page.getByRole("region", { name: "Decision at a glance" }),
+  ).toContainText("30–85%");
+  await page.screenshot({ path: info.outputPath("desk.png"), fullPage: true });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+});
+
+test("current editions can be empty and dismissal requires a note", async ({
+  page,
+}) => {
+  await page.goto("/alerts");
+  await page.getByRole("button", { name: "Run current editions" }).click();
+  await expect(
+    page.getByRole("heading", { name: "No shifts crossed the rules" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Replay April" }).click();
+  await page.getByRole("button", { name: "Dismiss", exact: true }).click();
+  await expect(
+    page.getByRole("button", { name: "Save dismissal" }),
+  ).toBeDisabled();
+  await page
+    .getByLabel("Why dismiss this change?")
+    .fill("Covered by the scheduled assessment.");
+  await page.getByRole("button", { name: "Save dismissal" }).click();
+  await expect(
+    page.getByText("This change was dismissed", { exact: true }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(
+    page.getByText("This change was dismissed", { exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole("navigation", { name: "Main navigation" })
+    .getByText("More", { exact: true })
+    .click();
+  await expect(
+    page.getByRole("link", { name: "Calibration", exact: true }),
+  ).toBeVisible();
+});

@@ -1,8 +1,9 @@
 {
   "pulse_id": "P-0001",
-  "group_mean": 0.69,
+  "group_mean": 0.6517,
   "outcome": "materialised",
-  "analyst_decision_summary": "Rating kept at High; the panel's note on refugee arrivals was added to the triggers.",
+  "analyst_decision_summary": "accepted: Accepted. The panel and the export agree on direction; the spread is in the ledger with the minority reasons.",
+  "note": "Sent to everyone who answered, whatever mask they chose.",
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T17:56:29+00:00"
 }

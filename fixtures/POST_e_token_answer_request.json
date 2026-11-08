@@ -1,11 +1,18 @@
 {
-  "mask": "pseudonym",
+  "mask": "anonymous",
   "stance": "estimate",
-  "probability": 0.8,
-  "confidence": 4,
+  "likelihood_word": "likely",
+  "probability": 0.7,
+  "confidence": "fairly sure",
   "panel_share_yes": 0.65,
-  "missing": "Militia movements near Adré at night are not in any report yet.",
-  "source_tag": "heard",
+  "source_tag": "saw",
   "round": 1,
-  "changed_mind": false
+  "trigger_pick": "T2",
+  "missing": "Camp capacity in Ouaddai is already past what the sites were planned for.",
+  "against": "Registration could stay flat if the border stays quiet.",
+  "changed_mind": false,
+  "probe_answers": {
+    "evidence_seen": "Two sites reported new arrivals last Thursday.",
+    "exposure_sanity": "250,000-500,000"
+  }
 }

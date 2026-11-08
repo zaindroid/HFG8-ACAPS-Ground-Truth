@@ -1,64 +1,77 @@
 {
-  "id": "D-0001",
+  "id": "D-f6ed8984",
   "risk_id": "R1043",
   "pulse_id": "P-0001",
   "proposed_probability": "High",
   "proposed_level": "High",
-  "rationale_md": "The panel's weighted probability is 0.78, consistent with the current High rating (panel aggregate, n=8). Three experts report night-time militia movement near Adré not yet in public reporting (panel aggregate). ACLED shows 21 events in the last 7 days against a 90-day baseline of 6.4 (https://acleddata.com). UNHCR weekly arrivals rose to 4,800 (https://data.unhcr.org/en/situations/sudansituation).",
-  "citations": [
-    {
-      "text": "ACLED events, 7-day vs 90-day",
-      "url": "https://acleddata.com"
-    },
-    {
-      "text": "UNHCR Sudan situation, Chad arrivals",
-      "url": "https://data.unhcr.org/en/situations/sudansituation"
-    }
-  ],
-  "status": "accepted",
-  "decided_by": "analyst",
-  "decided_at": "2026-11-07T10:05:00Z",
-  "note": "Panel confirms; adding Adré night movements to triggers.",
-  "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z",
+  "acaps_probability": "High",
+  "acaps_level": "High",
+  "rationale_md": "The panel's equal-weight mean is 0.65 (n=8), which supports the current High rating. Proposed: High.\n\nAnswers range 0.30-0.85 (IQR 0.28). The weighted mean is 0.67, shown as a secondary number only.\n\nDisagreement, kept in: Two experts put the chance below the panel mean; their notes are about access and conflict.\n\nDisagreement, kept in: One expert puts the chance above the panel mean; the subject of their note is not summarised here, because in a panel of eight it would name them.\n\nRaised by 2: Night-time militia movement near Adre is not in any public reporting yet. (single-source).\n\nRaised by 2: Camp capacity in Ouaddai is already past what the sites were planned for. (corroborated).\n\nRaised by 1: held in the verification queue (one expert) (not checked).\n\nExpansion of cross-border attacks and insecurity - 40% complete puts the trigger 'Expansion of cross-border attacks and insecurity' at 40% complete. (https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026)\n\nAttacks on strategic infrastructure in Chad - 10% complete puts the trigger 'Attacks on strategic infrastructure in Chad' at 10% complete. (https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions)\n\nRenewed proxy mobilisation and cross-border armed group activity - 20% complete puts the trigger 'Renewed proxy mobilisation and cross-border armed group activity' at 20% complete. (https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions)\n\nIntegrity note (shared_origin): Two 'what are we missing' entries may share an origin (near-identical wording).\n\nSurprisingly-popular (experimental): yes. Actual share above 0.5 0.6667 against a predicted 0.6417.\n\nProbability band to number is an assumption of this build, not an ACAPS mapping: {'Very Low': 0.05, 'Low': 0.25, 'Medium': 0.5, 'High': 0.75, 'Very High': 0.95}.",
   "claims": [
     {
       "claim_id": "C1",
-      "text": "The panel's weighted probability is 0.78 (n=8), consistent with the current High rating.",
+      "text": "The panel's equal-weight mean probability is 0.65 (n=8), against the current ACAPS rating of High.",
       "evidence_kind": "panel",
-      "evidence_ref": "P-0001:weighted_probability",
+      "evidence_ref": "P-0001:mean",
       "numbers": [
-        0.78,
-        8
+        0.6517,
+        8.0
       ]
     },
     {
       "claim_id": "C2",
-      "text": "Three experts report night-time militia movement near Adré not yet in public reporting.",
+      "text": "Panel answers run from 0.30 to 0.85 (IQR 0.28), so the group is genuinely split.",
+      "evidence_kind": "panel",
+      "evidence_ref": "P-0001:spread",
+      "numbers": [
+        0.3,
+        0.85,
+        0.28
+      ]
+    },
+    {
+      "claim_id": "M1",
+      "text": "2 experts raise: Night-time militia movement near Adre is not in any public reporting yet.",
       "evidence_kind": "panel",
       "evidence_ref": "P-0001:missing_themes[0]",
       "numbers": [
-        3
+        2.0
       ]
     },
     {
-      "claim_id": "C3",
-      "text": "ACLED shows 21 conflict events in the last 7 days against a 90-day baseline of 6.4.",
-      "evidence_kind": "indicator",
-      "evidence_ref": "acled_events",
+      "claim_id": "M2",
+      "text": "2 experts raise: Camp capacity in Ouaddai is already past what the sites were planned for.",
+      "evidence_kind": "panel",
+      "evidence_ref": "P-0001:missing_themes[1]",
       "numbers": [
-        21,
-        6.4
+        2.0
       ]
     },
     {
-      "claim_id": "C4",
-      "text": "UNHCR weekly arrivals rose to 4,800 against a baseline of 2,100.",
+      "claim_id": "E1",
+      "text": "Expansion of cross-border attacks and insecurity - 40% complete puts the trigger 'Expansion of cross-border attacks and insecurity' at 40% complete.",
       "evidence_kind": "indicator",
-      "evidence_ref": "unhcr_arrivals",
+      "evidence_ref": "trigger_completion:T1",
       "numbers": [
-        4800,
-        2100
+        40.0
+      ]
+    },
+    {
+      "claim_id": "E2",
+      "text": "Attacks on strategic infrastructure in Chad - 10% complete puts the trigger 'Attacks on strategic infrastructure in Chad' at 10% complete.",
+      "evidence_kind": "indicator",
+      "evidence_ref": "trigger_completion:T2",
+      "numbers": [
+        10.0
+      ]
+    },
+    {
+      "claim_id": "E3",
+      "text": "Renewed proxy mobilisation and cross-border armed group activity - 20% complete puts the trigger 'Renewed proxy mobilisation and cross-border armed group activity' at 20% complete.",
+      "evidence_kind": "indicator",
+      "evidence_ref": "trigger_completion:T3",
+      "numbers": [
+        20.0
       ]
     }
   ],
@@ -68,8 +81,7 @@
       "verdict": "supported",
       "checks": [
         "aggregate exists, n>=5",
-        "numbers match cited value",
-        "evidence present on pulse"
+        "numbers match cited value"
       ]
     },
     {
@@ -77,24 +89,45 @@
       "verdict": "supported",
       "checks": [
         "aggregate exists, n>=5",
+        "numbers match cited value"
+      ]
+    },
+    {
+      "claim_id": "M1",
+      "verdict": "supported",
+      "checks": [
+        "aggregate exists, n>=5",
+        "numbers match cited value"
+      ]
+    },
+    {
+      "claim_id": "M2",
+      "verdict": "supported",
+      "checks": [
+        "aggregate exists, n>=5",
+        "numbers match cited value"
+      ]
+    },
+    {
+      "claim_id": "E1",
+      "verdict": "supported",
+      "checks": [
         "numbers match cited value",
         "evidence present on pulse"
       ]
     },
     {
-      "claim_id": "C3",
+      "claim_id": "E2",
       "verdict": "supported",
       "checks": [
-        "aggregate exists, n>=5",
         "numbers match cited value",
         "evidence present on pulse"
       ]
     },
     {
-      "claim_id": "C4",
+      "claim_id": "E3",
       "verdict": "supported",
       "checks": [
-        "aggregate exists, n>=5",
         "numbers match cited value",
         "evidence present on pulse"
       ]
@@ -102,15 +135,27 @@
   ],
   "missing_checks": [
     {
-      "theme": "night-time militia movement near Adré",
-      "status": "uncorroborated"
+      "theme": "Night-time militia movement near Adre is not in any public reporting yet.",
+      "status": "single-source"
     },
     {
-      "theme": "camp capacity in Ouaddaï",
+      "theme": "Camp capacity in Ouaddai is already past what the sites were planned for.",
       "status": "corroborated"
     },
     {
-      "theme": "seasonal access after rains",
+      "theme": "held in the verification queue (one expert)",
+      "status": "not checked"
+    },
+    {
+      "theme": "held in the verification queue (one expert)",
+      "status": "not checked"
+    },
+    {
+      "theme": "held in the verification queue (one expert)",
+      "status": "not checked"
+    },
+    {
+      "theme": "held in the verification queue (one expert)",
       "status": "not checked"
     }
   ],
@@ -120,5 +165,72 @@
     "overall": 0.96,
     "flagged_claim_ids": []
   },
-  "repair_rounds": 0
+  "repair_rounds": 0,
+  "citations": [
+    {
+      "text": "Expansion of cross-border attacks and insecurity - 40% complete",
+      "url": "https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026"
+    },
+    {
+      "text": "Attacks on strategic infrastructure in Chad - 10% complete",
+      "url": "https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions"
+    },
+    {
+      "text": "africacenter.org",
+      "url": "https://africacenter.org/wp-content/uploads/2026/04/Chad-Risks-Instability.pdf"
+    },
+    {
+      "text": "acleddata.com",
+      "url": "https://acleddata.com/update/africa-overview-april-2026"
+    },
+    {
+      "text": "globalinitiative.net",
+      "url": "https://globalinitiative.net/analysis/how-border-criminal-economies-are-drawing-chad-further-into-sudans-conflict/"
+    }
+  ],
+  "status": "accepted",
+  "decided_by": "analyst",
+  "decided_at": "2026-11-07T17:56:29+00:00",
+  "note": "Accepted. The panel and the export agree on direction; the spread is in the ledger with the minority reasons.",
+  "generator": "deterministic-template",
+  "generated_at": "2026-11-07T17:56:29+00:00",
+  "served_from": "live",
+  "ledger_entry": {
+    "risk_id": "R1043",
+    "pulse_id": "P-0001",
+    "sealed_at": "2026-11-07T17:56:27+00:00",
+    "group_probability": 0.6517,
+    "acaps_probability": "High",
+    "acaps_level": "High",
+    "proposed_probability": "High",
+    "decision": "accepted",
+    "outcome": null,
+    "resolved_at": null,
+    "verify_hash": "6f25f50ef53b1e86a08214be941df7ad9446144c22f25648a166f4e01d20f0b4",
+    "honesty": {
+      "n": 8,
+      "agreement": 0.6517,
+      "spread": [
+        0.3,
+        0.85
+      ],
+      "coverage_gaps": [],
+      "claims_corroborated": 7,
+      "claims_total": 7,
+      "claims_in_verification_queue": 5,
+      "panel_hit_rate": null,
+      "misses": 0,
+      "caveat": "First round for this panel, so there is no track record to weigh it against. Experts are synthetic in this build. The band-to-number mapping is an assumption.",
+      "decision_use": {
+        "what_decision": "Brief the Ouaddai field office before the weekly planning call",
+        "for_whom": "ACAPS analysts and the Chad response team",
+        "by_when": "2026-12-01"
+      },
+      "panel_view_rejected": false,
+      "analyst_rationale": null,
+      "relayed_share": 0.125,
+      "corrections": 1,
+      "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
+    }
+  }
 }

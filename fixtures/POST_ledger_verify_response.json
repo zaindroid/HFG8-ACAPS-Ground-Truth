@@ -1,7 +1,29 @@
 {
   "valid": true,
-  "sealed_at": "2026-11-07T09:03:12Z",
+  "sealed_at": "2026-11-07T17:56:27+00:00",
+  "checked": "sha256 of this round's sorted answer commitments, recomputed now",
+  "checked_means": "The sealed set has not changed since it was published.",
+  "n_commitments": 8,
+  "attestation": null,
+  "attestation_verification": null,
+  "attestation_means": "No attestation yet: this risk is not resolved, so there is no outcome to sign.",
   "anchor": null,
+  "anchor_root": {
+    "day": "2026-11-07",
+    "merkle_root": "37fc680b9e528a486af7a278b0647dbd393d7a15f40b580cac2d86778639e7a4",
+    "n_commitments": 58,
+    "submitted_at": null,
+    "status": "pending",
+    "receipt": null,
+    "calendar": null,
+    "anchored_at": null,
+    "note": "",
+    "means": "Computed from this day's commitments and not submitted yet, so it proves nothing outside this service.",
+    "guarantees": "Independent proof the commitments existed by that time, once the status reads anchored",
+    "does_not": "Anything else; no tokens, no chain logic, no cost. A pending root proves nothing yet"
+  },
+  "anchor_means": "Computed from this day's commitments and not submitted yet, so it proves nothing outside this service.",
+  "note": "Three separate checks, three separate meanings. The hash proves the set is unchanged. The signature proves who issued the outcome record. The anchor proves timing, and only once its status reads anchored.",
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T17:56:29+00:00"
 }

@@ -1,22 +1,22 @@
 {
   "pulse_id": "P-0001",
   "n": 8,
-  "mean": 0.69,
+  "n_estimates": 6,
+  "mean": 0.6517,
   "spread": {
     "min": 0.3,
-    "max": 0.9,
-    "iqr": 0.2
+    "max": 0.85,
+    "iqr": 0.28
   },
-  "minority_rationales": [
-    "Border raids have slowed since mid-September; the pressure is displacement, not attacks."
-  ],
-  "weighted_mean": 0.69,
+  "weighted_mean": 0.6654,
   "sp_experiment": {
     "answer": "yes",
     "method": "Prelec 2017 / Palley & Soll peer-prediction weighting",
-    "label": "experimental"
+    "label": "experimental",
+    "actual_share_above_0_5": 0.6667,
+    "predicted_share": 0.6417
   },
-  "dissent_index": 0.31,
+  "dissent_index": 0.28,
   "distribution": [
     {
       "bucket": "0.0-0.2",
@@ -28,7 +28,7 @@
     },
     {
       "bucket": "0.4-0.6",
-      "count": 2
+      "count": 1
     },
     {
       "bucket": "0.6-0.8",
@@ -36,59 +36,131 @@
     },
     {
       "bucket": "0.8-1.0",
-      "count": 2
+      "count": 1
     }
   ],
   "agreement_by_region": [
     {
-      "region": "Ouaddaï",
-      "n": 4,
-      "mean": 0.85
+      "region": "Ouaddai",
+      "n": 2,
+      "mean": 0.815
+    },
+    {
+      "region": "Sila",
+      "n": 2,
+      "mean": 0.4
     },
     {
       "region": "Wadi Fira",
-      "n": 3,
-      "mean": 0.6
+      "n": 1,
+      "mean": null
     },
     {
-      "region": "N'Djamena",
+      "region": "unattributed",
       "n": 1,
       "mean": null
     }
   ],
   "missing_themes": [
     {
-      "theme": "night-time militia movement near Adré",
-      "count": 3,
+      "theme": "Night-time militia movement near Adre is not in any public reporting yet.",
+      "count": 2,
+      "text_withheld": false,
+      "in_queue": false,
       "origin": "many",
       "corroboration": "single-source"
     },
     {
-      "theme": "camp capacity in Ouaddaï",
+      "theme": "Camp capacity in Ouaddai is already past what the sites were planned for.",
       "count": 2,
+      "text_withheld": false,
+      "in_queue": false,
       "origin": "many",
       "corroboration": "corroborated"
     },
     {
-      "theme": "seasonal access after rains",
+      "theme": "held in the verification queue (one expert)",
       "count": 1,
+      "text_withheld": true,
+      "in_queue": true,
+      "origin": "single",
+      "corroboration": "not checked"
+    },
+    {
+      "theme": "held in the verification queue (one expert)",
+      "count": 1,
+      "text_withheld": true,
+      "in_queue": true,
+      "origin": "single",
+      "corroboration": "not checked"
+    },
+    {
+      "theme": "held in the verification queue (one expert)",
+      "count": 1,
+      "text_withheld": true,
+      "in_queue": true,
+      "origin": "single",
+      "corroboration": "not checked"
+    },
+    {
+      "theme": "held in the verification queue (one expert)",
+      "count": 1,
+      "text_withheld": true,
+      "in_queue": true,
       "origin": "single",
       "corroboration": "not checked"
     }
   ],
-  "revealed_at": "2026-11-07T10:00:00Z",
-  "integrity_notes": [
+  "abstentions": [
     {
-      "kind": "coverage_gap",
-      "text": "Trigger T2 (new refugee influx) has no panel member tagged displacement.",
-      "evidence": "panel tags: conflict x5, political x3"
+      "stance": "outside_my_expertise",
+      "count": 1
     },
     {
-      "kind": "shared_origin",
-      "text": "Two 'what are we missing' entries may share an origin (near-identical wording).",
-      "evidence": "similarity 0.93"
+      "stance": "not_enough_evidence",
+      "count": 1
     }
   ],
+  "disagreement": [
+    {
+      "position": "lower",
+      "n": 2,
+      "summary": "Two experts put the chance below the panel mean; their notes are about access and conflict.",
+      "written_from": "themes",
+      "distance_from_mean": 0.3517
+    },
+    {
+      "position": "higher",
+      "n": 1,
+      "summary": "One expert puts the chance above the panel mean; the subject of their note is not summarised here, because in a panel of eight it would name them.",
+      "written_from": "themes",
+      "distance_from_mean": 0.1983
+    }
+  ],
+  "missing_evidence": [
+    {
+      "theme": "Night-time militia movement near Adre is not in any public reporting yet.",
+      "n": 2
+    },
+    {
+      "theme": "Camp capacity in Ouaddai is already past what the sites were planned for.",
+      "n": 2
+    },
+    {
+      "theme": "4 raised by one expert each, held for verification",
+      "n": 4,
+      "in_queue": true
+    }
+  ],
+  "number_note": "3 estimates were exact percentages and 3 were one of the five words; for those the mean uses the band midpoint, which is an assumption.",
+  "relayed_share": 0.125,
+  "corrections": 1,
+  "revealed_at": "2026-11-07T17:56:29+00:00",
+  "verify_hash": "6f25f50ef53b1e86a08214be941df7ad9446144c22f25648a166f4e01d20f0b4",
+  "reveal_status": "revealed",
+  "revealed_reason": "analyst_before_deadline",
+  "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering.",
+  "verification_queue_count": 5,
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T17:56:29+00:00"
 }

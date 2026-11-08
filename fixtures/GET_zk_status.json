@@ -1,0 +1,17 @@
+{
+  "enabled": false,
+  "scheme": "semaphore-shaped (sha256 tree, per-pulse nullifier)",
+  "groups": [
+    {
+      "panel_id": "PAN-TCD",
+      "root": "e5c996bdb839e5fe279ca5a8c1355188d8022de0a1dd7ee072171398680de8ce",
+      "size": 12
+    }
+  ],
+  "n_nullifiers_used": 0,
+  "proof_verifier": "not implemented in this build",
+  "guarantees": "Double-answer prevention by nullifier, enforced server-side",
+  "does_not": "Membership without identity -- that needs the proof verifier this build does not have; reputation portability; not required for the pilot design",
+  "served_from": "live",
+  "generated_at": "2026-11-07T17:56:31+00:00"
+}

@@ -1,0 +1,27 @@
+{
+  "datasets": [
+    {
+      "dataset": "inform-severity-index",
+      "months": [
+        "Mar2026",
+        "Apr2026",
+        "Oct2026",
+        "Nov2026"
+      ],
+      "latest": "Nov2026",
+      "source": "cache"
+    },
+    {
+      "dataset": "humanitarian-access",
+      "months": [
+        "Nov2026"
+      ],
+      "latest": "Nov2026",
+      "source": "cache"
+    }
+  ],
+  "token_present": false,
+  "note": "Cached editions ship in data/acaps-api/ so this runs with no network. Set ACAPS_API_TOKEN to fetch live.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T17:56:28+00:00"
+}

@@ -1,0 +1,64 @@
+{
+  "crisis_id": "TCD005",
+  "crisis_name": "Displacement from Sudan to Chad",
+  "iso3": [
+    "TCD"
+  ],
+  "drivers": [
+    "International Displacement"
+  ],
+  "adm1_name": [
+    "Ennedi Est",
+    "Wadi Fira",
+    "Ouaddaï",
+    "Sila"
+  ],
+  "connected_crises": [
+    "SDN001"
+  ],
+  "active": true,
+  "linked_risks": [
+    "R1043"
+  ],
+  "suggested_risks": [
+    "R1066"
+  ],
+  "series": [
+    {
+      "month": "Mar2026",
+      "index": 6.1,
+      "category": "High"
+    },
+    {
+      "month": "Apr2026",
+      "index": 6.9,
+      "category": "High"
+    },
+    {
+      "month": "Oct2026",
+      "index": 7.1,
+      "category": "High"
+    },
+    {
+      "month": "Nov2026",
+      "index": 7.1,
+      "category": "High"
+    }
+  ],
+  "access": {
+    "Nov2026": 3.0
+  },
+  "latest": {
+    "crisis_id": "TCD005",
+    "month": "Nov2026",
+    "index": 7.1,
+    "category": "High",
+    "human_impact": 7.577888320551717,
+    "conditions": 7.582545022923913,
+    "people_in_need": 7.165090045847826,
+    "reliability": "Very High",
+    "last_updated": "2026-10-27"
+  },
+  "served_from": "live",
+  "generated_at": "2026-11-07T17:56:28+00:00"
+}

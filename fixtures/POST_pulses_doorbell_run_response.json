@@ -1,17 +1,334 @@
 {
+  "threshold": 40,
   "shifts": [
     {
+      "risk_id": "R1055",
+      "country": "Sudan",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1055 - T0649",
+      "title": "Further aid cuts in eastern Chad",
+      "completion_rate": 90,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1051",
+      "country": "Sudan",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1051 - T0637",
+      "title": "Extension or enforcement of goods bans",
+      "completion_rate": 80,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1061",
+      "country": "Palestine",
+      "trigger_id": "T3",
+      "acaps_trigger_id": "R1061 - T0662",
+      "title": "Further increase in \"Yellow Line\" expansion activity",
+      "completion_rate": 70,
+      "acaps_probability": "High"
+    },
+    {
+      "risk_id": "R1051",
+      "country": "Sudan",
+      "trigger_id": "T3",
+      "acaps_trigger_id": "R1051 - T0639",
+      "title": "Rapid price increases or market stock-outs",
+      "completion_rate": 70,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1052",
+      "country": "Sudan",
+      "trigger_id": "T3",
+      "acaps_trigger_id": "R1052 - T0642",
+      "title": "External pressure or sanctions increase",
+      "completion_rate": 70,
+      "acaps_probability": "Low"
+    },
+    {
+      "risk_id": "R1055",
+      "country": "Sudan",
+      "trigger_id": "T3",
+      "acaps_trigger_id": "R1055 - T0651",
+      "title": "Increase in returns through West Darfur entry points",
+      "completion_rate": 70,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1067",
+      "country": "Afghanistan",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1067 - T0671",
+      "title": "Expanded ITA disarmament order or offensive in the north of Afghanistan",
+      "completion_rate": 60,
+      "acaps_probability": "High"
+    },
+    {
+      "risk_id": "R1046",
+      "country": "Madagascar",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1046 - T0627",
+      "title": "Rainfall deficits and above average precipitation affecting agricultural production",
+      "completion_rate": 60,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1047",
+      "country": "Mozambique",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1047 - T0628",
+      "title": "Below-average rainfall and rising temperatures in southern and central regions",
+      "completion_rate": 60,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1047",
+      "country": "Mozambique",
+      "trigger_id": "T3",
+      "acaps_trigger_id": "R1047 - T0630",
+      "title": "Delayed onset and irregular distribution of rains",
+      "completion_rate": 60,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1037",
+      "country": "South Sudan",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1037 - T0603",
+      "title": "Cancellation of the December 2026 elections",
+      "completion_rate": 60,
+      "acaps_probability": "High"
+    },
+    {
+      "risk_id": "R1048",
+      "country": "Sudan",
+      "trigger_id": "T2",
+      "acaps_trigger_id": "R1048 - T0632",
+      "title": "Expanded RSF-SPLM-N operational coordination",
+      "completion_rate": 60,
+      "acaps_probability": "High"
+    },
+    {
+      "risk_id": "R1051",
+      "country": "Sudan",
+      "trigger_id": "T2",
+      "acaps_trigger_id": "R1051 - T0638",
+      "title": "Disruption of Al Na’am/Abyei market routes",
+      "completion_rate": 60,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1053",
+      "country": "Sudan",
+      "trigger_id": "T2",
+      "acaps_trigger_id": "R1053 - T0644",
+      "title": "Expansion of RSF drone supply networks",
+      "completion_rate": 60,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1054",
+      "country": "Sudan",
+      "trigger_id": "T3",
+      "acaps_trigger_id": "R1054 - T0648",
+      "title": "Drone capability expansion through external supply",
+      "completion_rate": 60,
+      "acaps_probability": "Low"
+    },
+    {
+      "risk_id": "R1066",
+      "country": "Chad, Niger, Cameroon, Nigeria",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1066 - T0669",
+      "title": "Retaliatory violence following the killing of senior ISWAP leader Abu-Bilal al-Minuki",
+      "completion_rate": 50,
+      "acaps_probability": "Very High"
+    },
+    {
+      "risk_id": "R1042",
+      "country": "Mali",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1042 - T0616",
+      "title": "Expansion of coordinated JNIM–FLA operations",
+      "completion_rate": 50,
+      "acaps_probability": "High"
+    },
+    {
+      "risk_id": "R1047",
+      "country": "Mozambique",
+      "trigger_id": "T2",
+      "acaps_trigger_id": "R1047 - T0629",
+      "title": "Above-average rainfall in northern provinces",
+      "completion_rate": 50,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1061",
+      "country": "Palestine",
+      "trigger_id": "T2",
+      "acaps_trigger_id": "R1061 - T0661",
+      "title": "Breakdown of post-conflict governance negotiations",
+      "completion_rate": 50,
+      "acaps_probability": "High"
+    },
+    {
+      "risk_id": "R1049",
+      "country": "Sudan",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1049 - T0634",
+      "title": "RSF encirclement of Al Obeid",
+      "completion_rate": 50,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1049",
+      "country": "Sudan",
+      "trigger_id": "T2",
+      "acaps_trigger_id": "R1049 - T0635",
+      "title": "Sustained drone or artillery attacks on Al Obeid",
+      "completion_rate": 50,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1052",
+      "country": "Sudan",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1052 - T0640",
+      "title": "SAF moves to integrate or restrict allied groups",
+      "completion_rate": 50,
+      "acaps_probability": "Low"
+    },
+    {
+      "risk_id": "R1054",
+      "country": "Sudan",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1054 - T0646",
+      "title": "Drone strikes directly hit Merowe Dam or grid infrastructure",
+      "completion_rate": 50,
+      "acaps_probability": "Low"
+    },
+    {
+      "risk_id": "R1055",
+      "country": "Sudan",
+      "trigger_id": "T2",
+      "acaps_trigger_id": "R1055 - T0650",
+      "title": "Expansion of refugee relocation from border areas",
+      "completion_rate": 50,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1067",
+      "country": "Afghanistan",
+      "trigger_id": "T3",
+      "acaps_trigger_id": "R1067 - T0673",
+      "title": "Cross border conflicts.",
+      "completion_rate": 40,
+      "acaps_probability": "High"
+    },
+    {
       "risk_id": "R1043",
-      "indicator": "acled_events",
-      "value": 21,
-      "baseline": 6.4,
-      "z": 2.9,
-      "url": "https://acleddata.com"
+      "country": "Chad",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1043 - T0618",
+      "title": "Expansion of cross-border attacks and insecurity",
+      "completion_rate": 40,
+      "acaps_probability": "High"
+    },
+    {
+      "risk_id": "R1066",
+      "country": "Chad, Niger, Cameroon, Nigeria",
+      "trigger_id": "T2",
+      "acaps_trigger_id": "R1066 - T0670",
+      "title": "Expansion of military counteroffensives and emergency security measures",
+      "completion_rate": 40,
+      "acaps_probability": "Very High"
+    },
+    {
+      "risk_id": "R1042",
+      "country": "Mali",
+      "trigger_id": "T2",
+      "acaps_trigger_id": "R1042 - T0617",
+      "title": "Intensification of military operations and retaliatory violence",
+      "completion_rate": 40,
+      "acaps_probability": "High"
+    },
+    {
+      "risk_id": "R1072",
+      "country": "Mozambique",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1072 - T0685",
+      "title": "Increased FADM pressure in northern Cabo Delgado",
+      "completion_rate": 40,
+      "acaps_probability": "High"
+    },
+    {
+      "risk_id": "R1072",
+      "country": "Mozambique",
+      "trigger_id": "T2",
+      "acaps_trigger_id": "R1072 - T0686",
+      "title": "July–November hunting season increases the concentration of high-value targets in remote areas",
+      "completion_rate": 40,
+      "acaps_probability": "High"
+    },
+    {
+      "risk_id": "R1038",
+      "country": "Niger",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1038 - T0608",
+      "title": "Increased frequency of direct clashes between JNIM and ISSP in western Niger",
+      "completion_rate": 40,
+      "acaps_probability": "High"
+    },
+    {
+      "risk_id": "R1038",
+      "country": "Niger",
+      "trigger_id": "T2",
+      "acaps_trigger_id": "R1038 - T0609",
+      "title": "Increased targeting of civilians in contested areas",
+      "completion_rate": 40,
+      "acaps_probability": "High"
+    },
+    {
+      "risk_id": "R1048",
+      "country": "Sudan",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1048 - T0631",
+      "title": "RSF advances north from Baw",
+      "completion_rate": 40,
+      "acaps_probability": "High"
+    },
+    {
+      "risk_id": "R1049",
+      "country": "Sudan",
+      "trigger_id": "T3",
+      "acaps_trigger_id": "R1049 - T0636",
+      "title": "Sharp decline in commercial or aid flows",
+      "completion_rate": 40,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1053",
+      "country": "Sudan",
+      "trigger_id": "T1",
+      "acaps_trigger_id": "R1053 - T0643",
+      "title": "Repeated drone attacks on Port Sudan or corridor infrastructure",
+      "completion_rate": 40,
+      "acaps_probability": "Medium"
+    },
+    {
+      "risk_id": "R1054",
+      "country": "Sudan",
+      "trigger_id": "T2",
+      "acaps_trigger_id": "R1054 - T0647",
+      "title": "Longer or more frequent power outages",
+      "completion_rate": 40,
+      "acaps_probability": "Low"
     }
   ],
-  "pulses_fired": [
-    "P-0001"
-  ],
+  "pulses_fired": [],
+  "n_shifts": 36,
+  "note": "Signal is the ACAPS trigger completion rate. Pass fire=true to open pulses.",
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T17:56:29+00:00"
 }

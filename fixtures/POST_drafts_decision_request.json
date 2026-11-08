@@ -1,4 +1,9 @@
 {
   "action": "accept",
-  "note": "Panel confirms; adding Adré night movements to triggers."
+  "note": "Accepted. The panel and the export agree on direction; the spread is in the ledger with the minority reasons.",
+  "decision_use": {
+    "what_decision": "Brief the Ouaddai field office before the weekly planning call",
+    "for_whom": "ACAPS analysts and the Chad response team",
+    "by_when": "2026-12-01"
+  }
 }

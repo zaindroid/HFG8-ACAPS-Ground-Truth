@@ -1,8 +1,8 @@
 # Integrity layer and honesty
 
-Lane C. Revised for master prompt v3 (7 Nov). Maps each design element in master prompt sections 6 and 6a to its research source, says what the source does and does not support, and records the mentor's words on honesty.
+Lane C. Revised for master prompt v3.4 (8 Nov). Maps each design element in master prompt sections 6 and 6a to its research source, says what the source does and does not support, and records the mentor's words on honesty.
 
-v3 principle: the integrity layer **describes, it does not diagnose**. No automatic penalty, no automatic switch of the number, no verdict colours. The analyst reads the notes and decides.
+v3 principle, kept in v3.4: the integrity layer **describes, it does not diagnose**. v3.4 adds: **no measurement is hidden in a pulse**, and the committee reads about panels, never about a person. No automatic penalty, no automatic switch of the number, no verdict colours. The analyst reads the notes and decides.
 
 Verification: each citation was looked up on 6-7 Nov 2026 (bibliographic record or abstract, through search). We did not read every full paper. Status: **verified** (record found and matches), **corrected** (found, but the wording we were given was wrong), **design** (our own choice, no source claimed).
 
@@ -18,17 +18,17 @@ Our answer in one line: we cannot remove bias, so we describe it to the analyst,
 
 | # | Design element (v3) | What it does | Research source | Status |
 |---|---|---|---|---|
-| 1 | Rating hidden until after submission | Round 1 does not show the ACAPS rating. We avoid displaying the anchor. We cannot guarantee independent judgement. | Tversky and Kahneman 1974 (anchoring); Dalkey and Helmer 1963 (Delphi, independent first round) | verified |
-| 2 | Round 2 optional and asynchronous | Opens only with new evidence or real disagreement. The shift from round 1 is logged as an integrity note. | Dalkey and Helmer 1963 | verified |
+| 1 | Rating, evidence and severity line hidden until after submission | The pulse shows event, place, threshold and deadline first. ACAPS's rating and the severity-change line appear only in the feedback after the reveal. We avoid displaying the anchor. We cannot guarantee independent judgement. | Tversky and Kahneman 1974 (anchoring; ACAPS's brief calls it the anchoring effect); Dalkey and Helmer 1963 (Delphi, independent first round) | verified |
+| 2 | Round 2 optional and asynchronous | Opens only with new evidence or real disagreement. Shows the anonymised spread only. The shift is logged as a descriptive note. | Dalkey and Helmer 1963 | verified |
 | 3 | Accuracy prompt and source tag | One line asks whether the point was seen, read or heard | Pennycook et al. 2021 (accuracy nudge); the source tag itself is ours | verified / design |
 | 4 | Equal-weight mean as the primary number | Plain average of probabilities, with min, max, IQR and minority reasons beside it | Simple averaging is the standard baseline in the forecasting literature; our choice for the pilot | design |
 | 5 | Weighted mean (secondary) | Weights start equal, shrink toward the prior, capped at 2 times the median. No extremizing. | Calibrated-weighting practice in Mellers et al. 2015; shrinkage and cap are ours | verified / design |
 | 6 | Surprisingly popular (experiment, labelled) | Compares the share who say yes with the panel's guess of that share, with a fixed question | Prelec, Seung and McCoy 2017; Palley and Satopaa 2023 for peer-prediction weighting | verified, one citation corrected |
 | 7 | Scoring | Brier per forecast on resolved questions, after a frozen question contract. Committee-side. Stances "outside my expertise" and "not enough evidence" and all free text are never scored. | Brier 1950; Tetlock 2005; Tetlock and Gardner 2015 | verified |
-| 8 | Convergence note (herding) | Notes when round 2 answers move toward the mean with no new reasons | Lorenz et al. 2011 | verified |
-| 9 | Co-movement note (independence) | Notes pairs that agree beyond what shared evidence explains. Composition caps at panel build: at most 3 of 8 from one affiliation type. | Lorenz et al. 2011 (influence reduces independence); caps are ours | design |
-| 10 | News-driven note (recency) | Notes when the panel moves with news volume while hard indicators are flat | Tversky and Kahneman 1973 (availability) | verified |
-| 11 | Coverage gap | Compares panel tags with the risk's triggers; public as a caveat in the honesty box | Delphi expert-selection practice; rule is ours | design |
+| 8 | Convergence note (ACAPS: groupthink) | "Round-2 answers moved toward the mean on n of m; k gave a new reason." The analyst decides which round to use and records why. | Lorenz et al. 2011 | verified |
+| 9 | Co-movement note (ACAPS: false consensus) | "These pseudonyms moved together on m of p pulses", shown only at m of 3 or more and p of 4 or more, with the reminder that shared expertise and shared sources look the same. Composition cap: at most 3 of 8 from one affiliation type. | Lorenz et al. 2011; the cap is ours | design |
+| 10 | News-driven note (ACAPS: availability cascade, recency) | "The panel's view moved while ACAPS's indices were flat." We cannot tell headlines from field evidence by timing, and the note says so. | Tversky and Kahneman 1973 | verified |
+| 11 | Coverage gap (ACAPS: absence of evidence) | Compares panel tags with the risk's triggers; public as a caveat in the honesty box | Delphi expert-selection practice; rule is ours | design |
 | 12 | Shared origin | Near-identical wording counts once: "these claims may share an origin" | Our design | design |
 | 13 | Corroboration (Skeptic) | Checks each claim against the ACAPS API, ReliefWeb and ACLED. Unchecked claims go to a verification queue. Absence from the databases is not evidence of falsity. | Our design | design |
 | 14 | Honesty box | See section 4 | Brier 1950; the mentor for the principle | verified / mentor |
@@ -79,6 +79,22 @@ Our answer in one line: we cannot remove bias, so we describe it to the analyst,
 - Tversky, A. and Kahneman, D. (1973). Availability: A heuristic for judging frequency and probability. *Cognitive Psychology* 5(2): 207-232. DOI 10.1016/0010-0285(73)90033-9.
 - Supports: people judge likelihood by how easily examples come to mind. News volume is a proxy for that. The note says "the panel moved with news volume while hard indicators were flat". It does not say the panel was biased.
 
+### 3.9 Pattern reports and the calibration programme (master prompt 6d, v3.4)
+- Pattern reports are about panels. After at least 3 pulses the committee reads sentences such as "answers became more similar after the reveal on 2 of 4 pulses" or "this panel has no access expert". Affiliation-level sentences appear only where the affiliation has 3 or more members on the panel, and are descriptive, never causal. No sentence names a person or a pseudonym.
+- Individual calibration is a separate programme (`FF_CALIBRATION`, off). The expert is told exactly what is measured, opts in by one reply, and sees the report first and alone. A report needs 20 items; forecast calibration (Brier over resolved pulses) needs 5 resolutions. The committee sees an individual report only if the expert opts in a second time, and never as a weight.
+- Basis: scoring forecasts against resolved outcomes and feeding calibration back to forecasters is the practice in 3.3. We found no source validating response-time, edit-count or overclaiming-foil measures as indicators of anything about a person, and v3.4 removed them. The foils are also a form of deception, which we recommend against.
+- Cautions: a pseudonym is not anonymity, so any per-pseudonym record is personal data and needs consent. Numeric confidence on comparable items is what makes a calibration curve meaningful; a handful of resolved questions is not.
+- Reporting lines: "calibration is measured only with consent, and the expert sees it before we do"; "the committee reads about panels, not people".
+
+### 3.10 Consider the opposite
+- Lord, C. G., Lepper, M. R. and Preston, E. (1984). Considering the opposite: A corrective strategy for social judgment. *Journal of Personality and Social Psychology* 47(6): 1231-1243. DOI 10.1037/0022-3514.47.6.1231. Record: [CAUSEweb](https://causeweb.org/cause/node/7638).
+- Supports: asking people to consider the opposite reduced biased assimilation and biased hypothesis testing in two experiments, and worked better than instructions to be fair and unbiased.
+- Does not support: any size of effect on expert forecasts; the experiments used student participants on social issues. The optional card line "strongest reason this would NOT happen" is adapted from it, and from ACAPS's own mitigation of confirmation bias (devil's advocacy).
+
+### 3.11 ACAPS's own sources
+- ACAPS (March 2016). *Technical brief: Cognitive biases.* It presents a selection of 38 biases that apply to the humanitarian world and mitigation strategies. PDF: [acaps.org](https://www.acaps.org/fileadmin/Technical_notes/acaps_technical_brief_cognitive_biases_march_2016.pdf). Verified from the brief's own text in search; we did not read the full list, and the bias names in master prompt 0b should be checked against the PDF before they go on a slide.
+- ACAPS analysis workflow poster (Design, Acquire, Analyse, Communicate): quoted in master prompt 0b. We could not find the poster on a public page in our search, so its step numbers and wording are taken from the master prompt and should be checked against acaps.org/en/methodology before a slide.
+
 ## 4. The honesty box (public, on every ledger entry)
 
 - n, agreement, spread (min, max)
@@ -87,6 +103,8 @@ Our answer in one line: we cannot remove bias, so we describe it to the analyst,
 - the panel's hit rate and number of misses, or "no resolved questions yet"
 - one caveat line
 - **what decision this could inform, for whom, by when** (set by the analyst)
+- the channel mix and the share of relayed answers ("extended panel")
+- one standing line: "in a panel of eight, a distinctive reason may identify its author to colleagues; experts were told this before answering"
 - **when the analyst rejected the panel view: that fact and the analyst's reason**
 
 Not public: any note about a person; the integrity notes themselves. Those stay on the analyst's desk.
@@ -115,10 +133,11 @@ Caveat line templates (for Lane A):
 - Aggregates with 5 or more contributions are a disclosure rule, not an anonymity guarantee.
 - A small panel can lean one way. We cap composition and show coverage gaps. We cannot prove independence.
 - The seeded detector tests show the code produces the intended note. They are not a claim about sensitivity or specificity.
+- Pseudonymised is not anonymous. The registry is restricted and every read is logged; answers with no identity kept carry no identity link.
 - The bias literature is mostly lab work on non-experts. Effects on vetted experts are unknown.
 - The sensitivity test on 104 resolved risks uses synthetic panels. It says nothing about real experts and makes no timing claim.
 
-## 7. Open questions for the team
+## 7. Decisions recorded
 
-- **Q1 (Lane A):** Master prompt 6a still says that on suspected herding "the aggregate then uses round 1 (`used_round`)". The v3 changelog says no automatic fallback. Which holds? This file follows the changelog: describe, analyst decides.
-- **Q2 (Lane A):** Which peer-prediction method does the experiment implement, and which citation goes with it?
+- Convergence after the reveal: the analyst reads the note and decides which round to use and records why. There is no automatic fallback to round 1 (master prompt 6a, v3.4).
+- Peer-prediction weighting is cited to Palley and Satopaa 2023, not Palley and Soll 2019 (see 3.5). The surprisingly-popular result is an experiment, shown as such, and never sets the number.

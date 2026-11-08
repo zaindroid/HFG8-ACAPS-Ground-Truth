@@ -3,73 +3,244 @@
     {
       "risk_id": "R1043",
       "pulse_id": "P-0001",
-      "sealed_at": "2026-11-07T09:03:12Z",
-      "group_probability": 0.78,
+      "sealed_at": "2026-11-07T17:56:27+00:00",
+      "group_probability": 0.6517,
       "acaps_probability": "High",
       "acaps_level": "High",
+      "proposed_probability": "High",
+      "decision": "accepted",
       "outcome": null,
       "resolved_at": null,
-      "verify_hash": "8d2f0e4c1a9b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d",
+      "verify_hash": "6f25f50ef53b1e86a08214be941df7ad9446144c22f25648a166f4e01d20f0b4",
       "honesty": {
         "n": 8,
-        "agreement": 0.69,
+        "agreement": 0.6517,
         "spread": [
           0.3,
-          0.9
-        ],
-        "coverage_gaps": [
-          "no panel member tagged displacement"
-        ],
-        "claims_corroborated": 1,
-        "claims_total": 3,
-        "claims_in_verification_queue": 1,
-        "panel_hit_rate": null,
-        "misses": 0,
-        "caveat": "First round for this panel; no track record yet. One raised claim is single-source.",
-        "decision_use": {
-          "what_decision": "Pre-position shelter and cash in Ouaddaï",
-          "for_whom": "NGO preparedness lead, eastern Chad",
-          "by_when": "2026-11-20"
-        },
-        "panel_view_rejected": false,
-        "analyst_rationale": null
-      }
-    },
-    {
-      "risk_id": "R0987",
-      "pulse_id": "P-0000",
-      "sealed_at": "2026-05-02T08:00:00Z",
-      "group_probability": 0.72,
-      "acaps_probability": "Medium",
-      "acaps_level": "Medium",
-      "outcome": "materialised",
-      "resolved_at": "2026-10-20T00:00:00Z",
-      "verify_hash": "1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809",
-      "honesty": {
-        "n": 7,
-        "agreement": 0.81,
-        "spread": [
-          0.5,
           0.85
         ],
         "coverage_gaps": [],
-        "claims_corroborated": 2,
-        "claims_total": 2,
-        "claims_in_verification_queue": 0,
-        "panel_hit_rate": 0.8,
-        "misses": 1,
-        "caveat": "Panel of 7; one expert paused.",
+        "claims_corroborated": 7,
+        "claims_total": 7,
+        "claims_in_verification_queue": 5,
+        "panel_hit_rate": null,
+        "misses": 0,
+        "caveat": "First round for this panel, so there is no track record to weigh it against. Experts are synthetic in this build. The band-to-number mapping is an assumption.",
         "decision_use": {
-          "what_decision": "Extend food distribution contract",
-          "for_whom": "WFP country office",
-          "by_when": "2026-06-01"
+          "what_decision": "Brief the Ouaddai field office before the weekly planning call",
+          "for_whom": "ACAPS analysts and the Chad response team",
+          "by_when": "2026-12-01"
+        },
+        "panel_view_rejected": false,
+        "analyst_rationale": null,
+        "relayed_share": 0.125,
+        "corrections": 1,
+        "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
+      }
+    },
+    {
+      "risk_id": "R0033",
+      "pulse_id": "P-0002",
+      "sealed_at": "2026-11-07T17:56:28+00:00",
+      "group_probability": 0.65,
+      "acaps_probability": "Medium",
+      "acaps_level": "Medium",
+      "proposed_probability": "High",
+      "decision": "rejected",
+      "outcome": "materialised",
+      "resolved_at": "2026-10-20T09:00:00+00:00",
+      "verify_hash": "1d1013329af0f066cbc437bd3a31e885dec6d73a625bc5f679dce35d97980b76",
+      "honesty": {
+        "n": 9,
+        "agreement": 0.65,
+        "spread": [
+          0.15,
+          0.95
+        ],
+        "coverage_gaps": [],
+        "claims_corroborated": 3,
+        "claims_total": 3,
+        "claims_in_verification_queue": 7,
+        "panel_hit_rate": 1.0,
+        "misses": 0,
+        "caveat": "First round for this panel, so there is no track record to weigh it against. Experts are synthetic in this build. The band-to-number mapping is an assumption.",
+        "decision_use": {
+          "what_decision": "Flag the deterioration in the weekly note",
+          "for_whom": "Regional analysts",
+          "by_when": "2026-10-15"
         },
         "panel_view_rejected": true,
-        "analyst_rationale": "Panel mean 0.72 rejected on 2026-05-02: indicators flat; the risk later materialised. Recorded as a miss for the analyst, not the panel."
+        "analyst_rationale": "Rejected: the panel read the displacement figures as a trend, and the registration backlog at the time explains most of the jump. Published with the decision.",
+        "relayed_share": 0.0,
+        "corrections": 0,
+        "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
+      },
+      "attestation": {
+        "scheme": "ML-DSA-65",
+        "key_id": "83c1ae5ed579ac54",
+        "signature": "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",
+        "commitment_root": "ef67cda08c1957d5dd4aa2ba2311552ee64d0f8e9fdf92de45dd177c2b253d0c"
       }
+    },
+    {
+      "risk_id": "R0978",
+      "pulse_id": "P-0006",
+      "sealed_at": "2026-11-07T17:56:28+00:00",
+      "group_probability": 0.6687,
+      "acaps_probability": "Medium",
+      "acaps_level": "Medium",
+      "proposed_probability": "High",
+      "decision": "accepted",
+      "outcome": "materialised",
+      "resolved_at": "2026-11-07T17:56:28+00:00",
+      "verify_hash": "1024555bdf773e3227781bcf12b2be84f3f31ae068586b14b679a5e600bfb748",
+      "honesty": {
+        "n": 9,
+        "agreement": 0.6687,
+        "spread": [
+          0.15,
+          0.95
+        ],
+        "coverage_gaps": [],
+        "claims_corroborated": 6,
+        "claims_total": 6,
+        "claims_in_verification_queue": 7,
+        "panel_hit_rate": null,
+        "misses": 0,
+        "caveat": "First round for this panel, so there is no track record to weigh it against. Experts are synthetic in this build. The band-to-number mapping is an assumption.",
+        "decision_use": {
+          "what_decision": "Weekly risk review for the country team",
+          "for_whom": "ACAPS analyst, Nigeria, Niger",
+          "by_when": "2026-11-07"
+        },
+        "panel_view_rejected": false,
+        "analyst_rationale": null,
+        "relayed_share": 0.0,
+        "corrections": 0,
+        "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
+      },
+      "synthetic": true
+    },
+    {
+      "risk_id": "R0094",
+      "pulse_id": "P-0005",
+      "sealed_at": "2026-11-07T17:56:28+00:00",
+      "group_probability": 0.6056,
+      "acaps_probability": "Medium",
+      "acaps_level": "Medium",
+      "proposed_probability": "Medium",
+      "decision": "rejected",
+      "outcome": "not_materialised",
+      "resolved_at": "2026-11-07T17:56:28+00:00",
+      "verify_hash": "305eefa4141f85dd331f3478b8b440c992b6feca875b71c8136d3f5cb05513a9",
+      "honesty": {
+        "n": 9,
+        "agreement": 0.6056,
+        "spread": [
+          0.2,
+          0.95
+        ],
+        "coverage_gaps": [],
+        "claims_corroborated": 3,
+        "claims_total": 3,
+        "claims_in_verification_queue": 7,
+        "panel_hit_rate": null,
+        "misses": 0,
+        "caveat": "First round for this panel, so there is no track record to weigh it against. Experts are synthetic in this build. The band-to-number mapping is an assumption.",
+        "decision_use": {
+          "what_decision": "Weekly risk review for the country team",
+          "for_whom": "ACAPS analyst, Cameroon",
+          "by_when": "2026-11-07"
+        },
+        "panel_view_rejected": true,
+        "analyst_rationale": "Indicators were flat that month and the panel sat above them; recorded here so the miss is the analyst's, not the panel's.",
+        "relayed_share": 0.0,
+        "corrections": 0,
+        "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
+      },
+      "synthetic": true
+    },
+    {
+      "risk_id": "R0301",
+      "pulse_id": "P-0004",
+      "sealed_at": "2026-11-07T17:56:28+00:00",
+      "group_probability": 0.6375,
+      "acaps_probability": "High",
+      "acaps_level": "High",
+      "proposed_probability": "High",
+      "decision": "accepted",
+      "outcome": "materialised",
+      "resolved_at": "2026-11-07T17:56:28+00:00",
+      "verify_hash": "5af9081bddcf3678d01d7251c8aa77852541d43d517c05d2dd24a1525bc27a39",
+      "honesty": {
+        "n": 9,
+        "agreement": 0.6375,
+        "spread": [
+          0.15,
+          0.95
+        ],
+        "coverage_gaps": [],
+        "claims_corroborated": 3,
+        "claims_total": 3,
+        "claims_in_verification_queue": 7,
+        "panel_hit_rate": null,
+        "misses": 0,
+        "caveat": "First round for this panel, so there is no track record to weigh it against. Experts are synthetic in this build. The band-to-number mapping is an assumption.",
+        "decision_use": {
+          "what_decision": "Weekly risk review for the country team",
+          "for_whom": "ACAPS analyst, Mali",
+          "by_when": "2026-11-07"
+        },
+        "panel_view_rejected": false,
+        "analyst_rationale": null,
+        "relayed_share": 0.0,
+        "corrections": 0,
+        "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
+      },
+      "synthetic": true
+    },
+    {
+      "risk_id": "R0089",
+      "pulse_id": "P-0003",
+      "sealed_at": "2026-11-07T17:56:28+00:00",
+      "group_probability": 0.6188,
+      "acaps_probability": "Medium",
+      "acaps_level": "Medium",
+      "proposed_probability": "Medium",
+      "decision": "rejected",
+      "outcome": "not_materialised",
+      "resolved_at": "2026-11-07T17:56:28+00:00",
+      "verify_hash": "1780cdd73e00d4c790a362150ad650c3edf23c22d330bfdb4592e00aed7bc47e",
+      "honesty": {
+        "n": 9,
+        "agreement": 0.6188,
+        "spread": [
+          0.2,
+          0.95
+        ],
+        "coverage_gaps": [],
+        "claims_corroborated": 3,
+        "claims_total": 3,
+        "claims_in_verification_queue": 7,
+        "panel_hit_rate": null,
+        "misses": 0,
+        "caveat": "First round for this panel, so there is no track record to weigh it against. Experts are synthetic in this build. The band-to-number mapping is an assumption.",
+        "decision_use": {
+          "what_decision": "Weekly risk review for the country team",
+          "for_whom": "ACAPS analyst, Mali",
+          "by_when": "2026-11-07"
+        },
+        "panel_view_rejected": true,
+        "analyst_rationale": "Indicators were flat that month and the panel sat above them; recorded here so the miss is the analyst's, not the panel's.",
+        "relayed_share": 0.0,
+        "corrections": 0,
+        "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering."
+      },
+      "synthetic": true
     }
   ],
   "k_min": 5,
+  "note": "Group views only. No names, and nothing about any individual.",
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T17:56:29+00:00"
 }

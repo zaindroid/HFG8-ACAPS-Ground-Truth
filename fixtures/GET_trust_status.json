@@ -1,0 +1,144 @@
+{
+  "flags": {
+    "FF_PQ": true,
+    "FF_BLIND": true,
+    "FF_ZK": false,
+    "FF_ANCHOR": true,
+    "FF_CALIBRATION": false
+  },
+  "mechanisms": [
+    {
+      "number": 1,
+      "id": "pq_registry",
+      "name": "Post-quantum registry encryption",
+      "flag": "FF_PQ",
+      "enabled": true,
+      "build": "ML-KEM-768 for key establishment, hybrid with X25519; AES-256-GCM at rest over the expert-id to identity map; the key is held by the committee service",
+      "where_it_shows": "Registry page: the lock line",
+      "guarantees": "Long-horizon confidentiality of the identity map against harvest-now-decrypt-later",
+      "does_not": "Confidentiality from an administrator with the key; anything about answers"
+    },
+    {
+      "number": 2,
+      "id": "pq_attestation",
+      "name": "Post-quantum outcome attestations",
+      "flag": "FF_PQ",
+      "enabled": true,
+      "build": "ML-DSA-65 signs each resolved ledger entry (risk_id, outcome, resolved_at, round commitment root); the public key is published on the ledger",
+      "where_it_shows": "Ledger row: attested, ML-DSA-65, verify",
+      "guarantees": "The outcome record was issued by the committee key and has not been altered since",
+      "does_not": "Truth of the outcome; anything about who answered"
+    },
+    {
+      "number": 3,
+      "id": "blind_credentials",
+      "name": "Blind-signed single-use credentials",
+      "flag": "FF_BLIND",
+      "enabled": true,
+      "build": "RSA blind signatures (RFC 9474 RSABSSA-SHA384-PSS-Deterministic): the committee signs a blinded token per pulse allowance, the expert unblinds it and spends one token per answer; the server verifies the signature and rejects reuse by nullifier",
+      "where_it_shows": "Expert card under the anonymous mask; committee view: tokens issued and spent, never linked",
+      "guarantees": "A vetted panel member answered, unlinkable by the committee to the approval",
+      "does_not": "Protection against timing or network-metadata correlation; re-identification by distinctive wording"
+    },
+    {
+      "number": 4,
+      "id": "zk_membership",
+      "name": "Zero-knowledge group membership",
+      "flag": "FF_ZK",
+      "enabled": false,
+      "build": "Semaphore-v4-shaped group per panel with a per-pulse nullifier. The group root and the nullifier registry are built and enforced; the Groth16 proof check itself is NOT implemented in this build, which is why the flag ships off",
+      "where_it_shows": "Round view: the proof line, which says what was and was not checked",
+      "guarantees": "Double-answer prevention by nullifier, enforced server-side",
+      "does_not": "Membership without identity -- that needs the proof verifier this build does not have; reputation portability; not required for the pilot design"
+    },
+    {
+      "number": 5,
+      "id": "anchoring",
+      "name": "Timestamp anchoring",
+      "flag": "FF_ANCHOR",
+      "enabled": true,
+      "build": "A daily Merkle root of that day's commitments is submitted to an OpenTimestamps calendar; the receipt is stored and the status stays pending until the calendar returns a Bitcoin-confirmed proof",
+      "where_it_shows": "Ledger: anchor status per day; Verify shows the root and the receipt",
+      "guarantees": "Independent proof the commitments existed by that time, once the status reads anchored",
+      "does_not": "Anything else; no tokens, no chain logic, no cost. A pending root proves nothing yet"
+    },
+    {
+      "number": 6,
+      "id": "access_log",
+      "name": "Registry access log",
+      "flag": null,
+      "enabled": true,
+      "build": "Every read of the identity map is logged with who, when and why",
+      "where_it_shows": "Committee view: access log",
+      "guarantees": "Committee access to identities is defined and visible",
+      "does_not": "Prevention of access by an authorised administrator"
+    }
+  ],
+  "registry": {
+    "encryption": "ML-KEM-768 + X25519 hybrid, AES-256-GCM",
+    "suite": "ML-KEM-768 + X25519 hybrid, AES-256-GCM",
+    "key_id": "b8bb44d6acf1ffde",
+    "key_holder": "committee service (this process, in the pilot)",
+    "key_seed_source": "COMMITTEE_KEY",
+    "n_identities": 9,
+    "access_log_count": 2,
+    "lock_line": "Identity map encrypted with ML-KEM-768 + X25519 hybrid, AES-256-GCM, key held by the committee.",
+    "guarantees": "Long-horizon confidentiality of the identity map against harvest-now-decrypt-later",
+    "does_not": "Confidentiality from an administrator with the key; anything about answers"
+  },
+  "attestation_key": {
+    "scheme": "ML-DSA-65",
+    "key_id": "83c1ae5ed579ac54",
+    "public_key": "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",
+    "note": "FIPS 204 ML-DSA-65 verification key. Anyone holding it can check an attestation without this service."
+  },
+  "credentials": {
+    "scheme": "rsa-blind-rfc9474",
+    "issuer": {
+      "key_id": "ee92bafb718acc3d",
+      "bits": 2048,
+      "hash": "sha384",
+      "salt_length": 0,
+      "note": "Generated at process start: `cryptography` has no seeded RSA keygen, so a restart publishes a new issuer and retires every token signed by the old one."
+    },
+    "n_batches": 18,
+    "n_issued": 36,
+    "n_spent": 3,
+    "n_unlinkable_issued": 1,
+    "linked": false,
+    "linkage_note": "1 of 36 tokens were blinded by the card and are unlinkable to their approval. The other 35 came from the demo path and are not.",
+    "guarantees": "A vetted panel member answered, unlinkable by the committee to the approval",
+    "does_not": "Protection against timing or network-metadata correlation; re-identification by distinctive wording"
+  },
+  "anchors": {
+    "days": 1,
+    "anchored": 0,
+    "pending": 1
+  },
+  "zk": {
+    "enabled": false,
+    "scheme": "semaphore-shaped (sha256 tree, per-pulse nullifier)",
+    "groups": [
+      {
+        "panel_id": "PAN-TCD",
+        "root": "e5c996bdb839e5fe279ca5a8c1355188d8022de0a1dd7ee072171398680de8ce",
+        "size": 12
+      }
+    ],
+    "n_nullifiers_used": 0,
+    "proof_verifier": "not implemented in this build",
+    "guarantees": "Double-answer prevention by nullifier, enforced server-side",
+    "does_not": "Membership without identity -- that needs the proof verifier this build does not have; reputation portability; not required for the pilot design"
+  },
+  "calibration": {
+    "enrolled": 0,
+    "reports_available": 0,
+    "switched_off": 0,
+    "shared_with_committee": 0,
+    "disclosure_version": "2026-11-07.1",
+    "min_items": 20,
+    "means": "Counts only. A report belongs to the expert, and reaches the committee only if that expert says yes a second time."
+  },
+  "served_from": "live",
+  "generated_at": "2026-11-07T17:56:29+00:00"
+}

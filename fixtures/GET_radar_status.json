@@ -1,8 +1,39 @@
 {
+  "risk_list": {
+    "source": "csv",
+    "fetched_at": "2026-11-07T10:16:19+00:00",
+    "n": 139,
+    "n_active": 28,
+    "api_n": 214,
+    "api_last_update": null,
+    "note": "The published risk-list endpoint is history and does not carry R1000+ ids, so the active risk list comes from the CSV export instead."
+  },
+  "editions": [
+    {
+      "dataset": "inform-severity-index",
+      "month": "Nov2026",
+      "source": "cache",
+      "fetched_at": "2026-11-07T12:07:34+00:00"
+    },
+    {
+      "dataset": "humanitarian-access",
+      "month": "Nov2026",
+      "source": "cache",
+      "fetched_at": "2026-11-07T12:07:34+00:00"
+    }
+  ],
+  "token_present": false,
+  "probability_assumption": {
+    "Very Low": 0.05,
+    "Low": 0.25,
+    "Medium": 0.5,
+    "High": 0.75,
+    "Very High": 0.95
+  },
   "source": "csv",
-  "fetched_at": "2026-11-07T09:00:00Z",
   "n_risks": 139,
+  "n_active": 28,
   "live_available": false,
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T17:56:28+00:00"
 }

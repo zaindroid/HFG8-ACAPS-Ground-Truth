@@ -1,0 +1,7 @@
+!package-lock.json
+test-results/
+playwright-report/
+.npm-cache/
+test-results-live/
+.vite/
+test-results-scaffold/

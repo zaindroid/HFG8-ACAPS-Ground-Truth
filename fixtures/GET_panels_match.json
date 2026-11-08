@@ -1,101 +1,152 @@
 {
   "risk_id": "R1043",
+  "panel_id": "PAN-TCD",
+  "k_min": 5,
   "experts": [
     {
-      "pseudonym": "synthetic-0",
-      "match": 0.95,
+      "expert_id": "X-syn-06",
+      "pseudonym": "dry-oryx",
+      "theme_tags": [
+        "conflict",
+        "displacement"
+      ],
       "geo_tags": [
         "TCD"
       ],
-      "theme_tags": [
-        "displacement"
-      ]
+      "affiliation_tag": "un",
+      "region": "Sila",
+      "match": 1.0,
+      "synthetic": true
     },
     {
-      "pseudonym": "synthetic-1",
-      "match": 0.88,
+      "expert_id": "X-d94cf1cd",
+      "pseudonym": "far-dune",
+      "theme_tags": [
+        "displacement",
+        "access"
+      ],
       "geo_tags": [
         "TCD"
       ],
+      "affiliation_tag": "ngo",
+      "region": "Ouaddai",
+      "match": 0.6667,
+      "synthetic": true
+    },
+    {
+      "expert_id": "X-guest-01",
+      "pseudonym": "wide-harmattan",
       "theme_tags": [
         "conflict"
-      ]
-    },
-    {
-      "pseudonym": "synthetic-2",
-      "match": 0.81,
+      ],
       "geo_tags": [
         "TCD"
       ],
-      "theme_tags": [
-        "displacement"
-      ]
+      "affiliation_tag": "guest",
+      "region": "stage",
+      "match": 0.6667,
+      "synthetic": true
     },
     {
-      "pseudonym": "synthetic-3",
-      "match": 0.74,
-      "geo_tags": [
-        "TCD"
-      ],
+      "expert_id": "X-guest-02",
+      "pseudonym": "wide-heron",
       "theme_tags": [
         "conflict"
-      ]
-    },
-    {
-      "pseudonym": "synthetic-4",
-      "match": 0.67,
+      ],
       "geo_tags": [
         "TCD"
       ],
-      "theme_tags": [
-        "displacement"
-      ]
+      "affiliation_tag": "guest",
+      "region": "stage",
+      "match": 0.6667,
+      "synthetic": true
     },
     {
-      "pseudonym": "synthetic-5",
-      "match": 0.6,
-      "geo_tags": [
-        "TCD"
-      ],
+      "expert_id": "X-guest-03",
+      "pseudonym": "dry-baobab",
       "theme_tags": [
         "conflict"
-      ]
-    },
-    {
-      "pseudonym": "synthetic-6",
-      "match": 0.53,
+      ],
       "geo_tags": [
         "TCD"
       ],
-      "theme_tags": [
-        "displacement"
-      ]
+      "affiliation_tag": "guest",
+      "region": "stage",
+      "match": 0.6667,
+      "synthetic": true
     },
     {
-      "pseudonym": "synthetic-7",
-      "match": 0.46,
+      "expert_id": "X-syn-01",
+      "pseudonym": "long-ibis",
+      "theme_tags": [
+        "conflict",
+        "access"
+      ],
       "geo_tags": [
         "TCD"
       ],
+      "affiliation_tag": "ngo",
+      "region": "Ouaddai",
+      "match": 0.6667,
+      "synthetic": true
+    },
+    {
+      "expert_id": "X-syn-02",
+      "pseudonym": "tall-ibis",
       "theme_tags": [
-        "conflict"
-      ]
+        "conflict",
+        "political"
+      ],
+      "geo_tags": [
+        "TCD"
+      ],
+      "affiliation_tag": "un",
+      "region": "Ouaddai",
+      "match": 0.6667,
+      "synthetic": true
+    },
+    {
+      "expert_id": "X-syn-03",
+      "pseudonym": "dry-dune",
+      "theme_tags": [
+        "displacement",
+        "food"
+      ],
+      "geo_tags": [
+        "TCD"
+      ],
+      "affiliation_tag": "ngo",
+      "region": "Wadi Fira",
+      "match": 0.6667,
+      "synthetic": true
     }
   ],
   "composition": {
     "max_per_affiliation": 3,
-    "ok": true,
-    "geo_spread": [
-      "TCD",
-      "SDN",
-      "FRA"
-    ],
+    "per_affiliation": {
+      "un": 2,
+      "ngo": 3,
+      "guest": 3
+    },
     "theme_cover": [
       "conflict",
       "displacement"
     ],
-    "gaps": []
+    "themes_wanted": [
+      "conflict",
+      "displacement"
+    ],
+    "themes_uncovered": [],
+    "gaps": [],
+    "geo_spread": [
+      "Ouaddai",
+      "Sila",
+      "Wadi Fira",
+      "stage"
+    ],
+    "ok": true
   },
+  "n_approved_available": 13,
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T17:56:29+00:00"
 }

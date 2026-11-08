@@ -2,17 +2,64 @@
   "pulse_id": "P-0001",
   "integrity_notes": [
     {
-      "kind": "coverage_gap",
-      "text": "Trigger T2 (new refugee influx) has no panel member tagged displacement.",
-      "evidence": "panel tags: conflict x5, political x3"
-    },
-    {
       "kind": "shared_origin",
       "text": "Two 'what are we missing' entries may share an origin (near-identical wording).",
-      "evidence": "similarity 0.93"
+      "evidence": "similarity 0.97"
+    }
+  ],
+  "probe_summary": [],
+  "missing_themes": [
+    {
+      "theme": "Night-time militia movement near Adre is not in any public reporting yet.",
+      "count": 2,
+      "text_withheld": false,
+      "in_queue": false,
+      "origin": "many",
+      "corroboration": "single-source"
+    },
+    {
+      "theme": "Camp capacity in Ouaddai is already past what the sites were planned for.",
+      "count": 2,
+      "text_withheld": false,
+      "in_queue": false,
+      "origin": "many",
+      "corroboration": "corroborated"
+    },
+    {
+      "theme": "held in the verification queue (one expert)",
+      "count": 1,
+      "text_withheld": true,
+      "in_queue": true,
+      "origin": "single",
+      "corroboration": "not checked"
+    },
+    {
+      "theme": "held in the verification queue (one expert)",
+      "count": 1,
+      "text_withheld": true,
+      "in_queue": true,
+      "origin": "single",
+      "corroboration": "not checked"
+    },
+    {
+      "theme": "held in the verification queue (one expert)",
+      "count": 1,
+      "text_withheld": true,
+      "in_queue": true,
+      "origin": "single",
+      "corroboration": "not checked"
+    },
+    {
+      "theme": "held in the verification queue (one expert)",
+      "count": 1,
+      "text_withheld": true,
+      "in_queue": true,
+      "origin": "single",
+      "corroboration": "not checked"
     }
   ],
   "moderator_only": true,
+  "note": "Descriptions, not diagnoses. Nothing here penalises an expert automatically.",
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T17:56:29+00:00"
 }

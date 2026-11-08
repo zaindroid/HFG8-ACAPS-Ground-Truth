@@ -1,0 +1,20 @@
+{
+  "expert_id": "X-d94cf1cd",
+  "status": "approved",
+  "approvals": [
+    "admin-a",
+    "admin-b"
+  ],
+  "approvals_required": 2,
+  "credential_issued": true,
+  "credential_batch": {
+    "batch_id": "B-98c39759",
+    "n_issued": 3,
+    "scheme": "rsa-blind-rfc9474",
+    "unlinkable": false,
+    "note": "Demo path: the server ran the client side of the blinding, so it held the token id for an instant. The signatures are real RFC 9474 signatures; the unlinkability claim does not apply to this path. Send `blinded` for that."
+  },
+  "note": "Approved experts can be matched to a panel.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T17:56:29+00:00"
+}

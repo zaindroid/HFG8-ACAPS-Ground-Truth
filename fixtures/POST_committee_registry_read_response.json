@@ -1,0 +1,17 @@
+{
+  "expert_id": "X-d94cf1cd",
+  "identity": {
+    "email": "applicant@example.invalid",
+    "name": "Applicant (synthetic)",
+    "organisation": "Eastern Chad protection NGO (synthetic)"
+  },
+  "logged": {
+    "who": "committee-admin",
+    "why": "duplicate application check before approval",
+    "expert_id": "X-d94cf1cd",
+    "at": "2026-11-07T17:56:29+00:00"
+  },
+  "note": "This read is now in the committee access log, permanently.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T17:56:29+00:00"
+}

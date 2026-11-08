@@ -7,3 +7,9 @@ pandas>=2.2
 numpy>=1.26
 matplotlib>=3.8
 pytest>=8
+# Hardening stack (MASTER_PROMPT 6c). cryptography carries AES-GCM, X25519 and the RSA-PSS verify
+# that checks a blind signature; kyber-py and dilithium-py are pure-Python FIPS 203/204, ~70 KB
+# together, which is why they are here rather than liboqs with its native build.
+cryptography>=43,<51
+kyber-py>=1.2,<2
+dilithium-py>=1.5,<2

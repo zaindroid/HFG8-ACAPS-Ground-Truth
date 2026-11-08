@@ -1,0 +1,584 @@
+import { EvidenceLine, evidenceSummary } from "./Evidence";
+import { PortalHeader } from "./PortalHeader";
+import { useEffect, useState, type FormEvent } from "react";
+import * as Slider from "@radix-ui/react-slider";
+import {
+  BadgeCheck,
+  Check,
+  Fingerprint,
+  LockKeyhole,
+  ShieldCheck,
+  UserRound,
+} from "lucide-react";
+import {
+  getCard,
+  draftAnswer,
+  confirmAnswer,
+  mock,
+  type Card,
+  type Mask,
+  type Answer,
+  type AnswerDraft,
+} from "./api";
+import { CopyButton } from "./LiveWorkspace";
+import { safeUrl, validResult } from "./service";
+import { en } from "./locales/en";
+
+function Probability({
+  id,
+  label,
+  help,
+  value,
+  change,
+}: {
+  id: string;
+  label: string;
+  help: string;
+  value: number;
+  change: (value: number) => void;
+}) {
+  return (
+    <div className="question">
+      <div className="question-heading">
+        <span className="field-label" id={`${id}-label`}>
+          {label}
+        </span>
+        <output>
+          {value}
+          <span>%</span>
+        </output>
+      </div>
+      <p className="help" id={`${id}-help`}>
+        {help}
+      </p>
+      <Slider.Root
+        className="slider"
+        min={0}
+        max={100}
+        step={1}
+        value={[value]}
+        onValueChange={([value]) => change(value)}
+        aria-labelledby={`${id}-label`}
+        aria-describedby={`${id}-help`}
+      >
+        <Slider.Track className="track">
+          <Slider.Range className="range" />
+        </Slider.Track>
+        <Slider.Thumb className="thumb" aria-label={label} />
+      </Slider.Root>
+      <div className="scale">
+        <span>0% · Very unlikely</span>
+        <span>100% · Very likely</span>
+      </div>
+    </div>
+  );
+}
+export function ExpertCard({ token }: { token: string }) {
+  const [card, setCard] = useState<Card | null>(null),
+    [error, setError] = useState(""),
+    [reload, setReload] = useState(0);
+  const [probability, setProbability] = useState(50),
+    [panel, setPanel] = useState(50),
+    [confidence, setConfidence] = useState(3),
+    [source, setSource] = useState<Answer["source_tag"]>(null),
+    [missing, setMissing] = useState(""),
+    [mask, setMask] = useState<Mask>("anonymous"),
+    [stance, setStance] = useState<Answer["stance"]>("estimate"),
+    [changed, setChanged] = useState(false);
+  const [busy, setBusy] = useState(false),
+    // Two states, because v3.4 made answering two steps: a draft, which commits nothing and can
+    // be read back and corrected on screen, and the receipt that only a confirmation produces.
+    [draft, setDraft] = useState<AnswerDraft | null>(null),
+    [receipt, setReceipt] = useState<Awaited<
+      ReturnType<typeof confirmAnswer>
+    > | null>(null),
+    [submitError, setSubmitError] = useState("");
+  useEffect(() => {
+    let active = true;
+    setError("");
+    setCard(null);
+    getCard(token)
+      .then((value) => {
+        if (active) {
+          setCard(value);
+        }
+      })
+      .catch((e) => {
+        if (active) setError(e.message);
+      });
+    document.title = "Expert pulse | Sealed Signals";
+    return () => {
+      active = false;
+    };
+  }, [token, reload]);
+  const blind = card?.round !== 2; // Round one remains blind even if an older API includes a rating.
+  /** Step one. Submit opens the confirmation screen; nothing is recorded yet, which is what
+   *  makes a link click or a mail scanner harmless. */
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    if (busy || receipt || draft) return;
+    setBusy(true);
+    setSubmitError("");
+    try {
+      setDraft(
+        await draftAnswer(token, {
+          stance,
+          // This card asks for an exact percentage, so it sends one and no word. The engine
+          // accepts either; with only a word it uses that band's midpoint and says so.
+          likelihood_word: null,
+          probability: stance === "estimate" ? probability / 100 : null,
+          panel_share_yes: stance === "estimate" ? panel / 100 : null,
+          confidence: stance === "estimate" ? confidence : null,
+          round: card?.round || 1,
+          source_tag: source,
+          mask,
+          missing: missing.trim(),
+          changed_mind: !blind && changed,
+        }),
+      );
+    } catch (e) {
+      setSubmitError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  /** Step two: the commitment. */
+  async function confirm() {
+    if (busy || receipt || !draft) return;
+    setBusy(true);
+    setSubmitError("");
+    try {
+      setReceipt(await confirmAnswer(token, draft.confirm_token));
+    } catch (e) {
+      setSubmitError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <>
+      <a className="skip-link" href="#expert-content">
+        Skip to expert card
+      </a>
+      {location.pathname === "/expert" ? (
+        <PortalHeader />
+      ) : (
+        <header className={`site-header ${mock ? "expert-demo-header" : ""}`}>
+          <a className="brand" href={mock ? "/workspace" : "/"}>
+            <span className="brand-mark">
+              <LockKeyhole size={19} />
+            </span>
+            Sealed Signals
+          </a>
+          {mock ? (
+            <nav aria-label="Demo navigation">
+              <a href="/workspace">All pages</a>
+              <a href="/stage">Stage</a>
+              <a href="/calibration">Calibration</a>
+            </nav>
+          ) : (
+            <span className="header-note">Independent expert perspective</span>
+          )}
+        </header>
+      )}
+      <main id="expert-content">
+        <aside className="intro">
+          <p className="eyebrow">Expert pulse </p>
+          <h1>Your view, before the rating.</h1>
+          <p>
+            Forecast the risk before seeing the panel. Your chosen mask applies
+            to this answer.
+          </p>
+          <div className="trust">
+            <ShieldCheck size={20} />
+            <span>
+              One validation layer among others.
+              <br />
+              An ACAPS analyst decides what changes.
+            </span>
+          </div>
+        </aside>
+        <section className="card" aria-label="Expert response card">
+          {error ? (
+            <div className="state" role="alert">
+              <h2>We couldn’t open this card.</h2>
+              <p>{error}</p>
+              <button onClick={() => setReload((v) => v + 1)}>Try again</button>
+            </div>
+          ) : !card ? (
+            <div className="state" role="status">
+              Opening your expert card…
+            </div>
+          ) : draft && !receipt ? (
+            <div className="state confirm-step">
+              <h2>Is this right?</h2>
+              <p className="confirm-line">{draft.summary}</p>
+              <p className="help">{draft.number_note}</p>
+              <p className="help">{draft.message}</p>
+              {submitError && (
+                <p className="error" role="alert">
+                  {submitError}
+                </p>
+              )}
+              <div className="confirm-actions">
+                <button type="button" onClick={confirm} disabled={busy}>
+                  {busy ? "Recording…" : "Confirm"}
+                </button>
+                <button
+                  type="button"
+                  className="secondary"
+                  onClick={() => setDraft(null)}
+                  disabled={busy}
+                >
+                  Go back and change it
+                </button>
+              </div>
+            </div>
+          ) : receipt ? (
+            <div className="state receipt" role="status">
+              <span className="success-mark">
+                <Check size={28} />
+              </span>
+              <h2>{en.sealed}</h2>
+              <p>
+                {receipt.message} Your answer uses the{" "}
+                <strong>{mask}</strong> mask. Only a group view with at least
+                five answers can be published.
+              </p>
+              <div className="receipt-box">
+                <span>
+                  {mock
+                    ? "Fixture receipt · not a live seal"
+                    : "API commitment receipt"}
+                </span>
+                <time>
+                  {new Date(receipt.committed_at).toLocaleString("en-GB", {
+                    timeZone: "UTC",
+                  })}{" "}
+                  UTC
+                </time>
+                <span>Commitment</span>
+                <code>{receipt.commitment}</code>
+                <CopyButton
+                  value={receipt.commitment}
+                  label="Copy commitment"
+                />
+              </div>
+              <p className="help">{receipt.band_note}</p>
+              {receipt.correction_allowed_until && (
+                <p className="help">
+                  You can change your answer until{" "}
+                  {new Date(receipt.correction_allowed_until).toLocaleString(
+                    "en-GB",
+                    { timeZone: "UTC" },
+                  )}{" "}
+                  UTC. Every version is kept.
+                </p>
+              )}
+              {mask === "anonymous" && (
+                <p>
+                  Anonymous answers have no identity link and cannot be claimed
+                  later. A group outcome report is sent to panel members.
+                </p>
+              )}
+            </div>
+          ) : (
+            <>
+              <div className="card-top">
+                <span>
+                  {card.risk.country} / {card.risk.risk_id}
+                </span>
+                <span>Respond in your own time</span>
+              </div>
+              <div className="risk-context">
+                <div className="risk-meta">
+                  <span>Round {card.round}</span>
+                  <span>Next {card.risk.horizon_months} months</span>
+                  {blind ? (
+                    <span className="blind-badge">
+                      Rating hidden until after submission
+                    </span>
+                  ) : (
+                    <span className="rating">
+                      ACAPS probability:{" "}
+                      {card.risk.probability_acaps || "Not supplied"}
+                    </span>
+                  )}
+                </div>
+                <h2>{card.risk.title}</h2>
+                {card.pulse.evidence?.length ? (
+                  <details className="evidence">
+                    <summary>
+                      {evidenceSummary(card.pulse.evidence[0])}
+                    </summary>
+                    {card.pulse.evidence.map((e, i) => (
+                      <EvidenceLine key={i} value={e} />
+                    ))}
+                  </details>
+                ) : (
+                  <p className="help">
+                    The alert evidence behind this question appears once your
+                    answer is in, with ACAPS&rsquo;s own rating.
+                  </p>
+                )}
+              </div>
+              {!blind && (
+                <section className="group-view">
+                  <h3>How the panel answered</h3>
+                  {card.group_view_if_round2 &&
+                  validResult(card.group_view_if_round2) ? (
+                    <>
+                      <p>
+                        {card.group_view_if_round2.n} synthetic answers ·
+                        Equal-weight mean{" "}
+                        {Math.round(card.group_view_if_round2.mean * 100)}%
+                      </p>
+                      <div
+                        className="distribution"
+                        aria-label="Panel probability distribution"
+                      >
+                        {card.group_view_if_round2.distribution.map((b) => (
+                          <div key={b.bucket}>
+                            <span className="bar-space">
+                              <span
+                                style={{
+                                  height: `${(b.count / card.group_view_if_round2!.n) * 100}%`,
+                                }}
+                              />
+                            </span>
+                            <span>
+                              {b.bucket
+                                .split("-")
+                                .map((v) => Math.round(Number(v) * 100))
+                                .join("–")}
+                              %
+                            </span>
+                            <strong>{b.count}</strong>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <p>
+                      Group view withheld until at least five answers are
+                      confirmed.
+                    </p>
+                  )}
+                </section>
+              )}
+              <form onSubmit={submit}>
+                <fieldset disabled={busy}>
+                  <div
+                    className="question stance-picker"
+                    role="group"
+                    aria-label="Your response"
+                  >
+                    <span className="field-label">Your response</span>
+                    {(
+                      [
+                        ["estimate", "Give an estimate"],
+                        ["outside_my_expertise", "Outside my expertise"],
+                        ["not_enough_evidence", "Not enough evidence"],
+                      ] as const
+                    ).map(([value, label]) => (
+                      <button
+                        type="button"
+                        key={value}
+                        aria-pressed={stance === value}
+                        onClick={() => setStance(value)}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                  {stance === "estimate" && (
+                    <>
+                      <Probability
+                        id="probability"
+                        label={en.probability}
+                        help="Give your own estimate before considering anyone else’s."
+                        value={probability}
+                        change={setProbability}
+                      />
+                      <div className="question confidence-field">
+                        <label htmlFor="confidence">
+                          How confident are you in this estimate?
+                        </label>
+                        <select
+                          id="confidence"
+                          value={confidence}
+                          onChange={(e) =>
+                            setConfidence(Number(e.target.value))
+                          }
+                        >
+                          {[
+                            "Very uncertain",
+                            "Somewhat uncertain",
+                            "Moderately confident",
+                            "Confident",
+                            "Very confident",
+                          ].map((label, i) => (
+                            <option key={label} value={i + 1}>
+                              {i + 1} · {label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <Probability
+                        id="panel"
+                        label={en.panel}
+                        help="What share of this panel will put the probability above 0.5?"
+                        value={panel}
+                        change={setPanel}
+                      />
+                    </>
+                  )}
+                  {stance !== "estimate" && (
+                    <p className="abstention-note">
+                      Your response will be recorded without a probability or
+                      confidence score. Abstentions are never scored.
+                    </p>
+                  )}
+                  <div className="question">
+                    <label htmlFor="missing">
+                      What are we missing?{" "}
+                      <span className="optional">Optional</span>
+                    </label>
+                    <p className="help" id="accuracy-prompt">
+                      {card.optional?.accuracy_prompt ||
+                        "Is this something you saw, read, or heard?"}
+                    </p>
+                    <div
+                      className="source-picker"
+                      role="group"
+                      aria-label="Source of your observation"
+                    >
+                      {(["saw", "read", "heard"] as const).map((tag) => (
+                        <button
+                          type="button"
+                          key={tag}
+                          aria-pressed={source === tag}
+                          onClick={() =>
+                            setSource((v) => (v === tag ? null : tag))
+                          }
+                        >
+                          {tag === "saw"
+                            ? "I saw it"
+                            : tag === "read"
+                              ? "I read it"
+                              : "I heard it"}
+                        </button>
+                      ))}
+                    </div>
+                    <textarea
+                      id="missing"
+                      aria-describedby="accuracy-prompt missing-help"
+                      maxLength={240}
+                      rows={2}
+                      value={missing}
+                      onChange={(e) => setMissing(e.target.value)}
+                      placeholder="A signal, a local shift, a different perspective…"
+                    />
+                    <p className="help" id="missing-help">
+                      Leave out names and identifying details.
+                    </p>
+                    <span className="char-count">{missing.length}/240</span>
+                  </div>
+                  {!blind && (
+                    <label className="changed">
+                      <input
+                        type="checkbox"
+                        checked={changed}
+                        onChange={(e) => setChanged(e.target.checked)}
+                      />{" "}
+                      I changed my mind after seeing the panel
+                    </label>
+                  )}
+                  <div className="question mask-question">
+                    <span className="field-label" id="mask-label">
+                      Choose your mask for this answer
+                    </span>
+                    <div
+                      className="masks"
+                      role="group"
+                      aria-labelledby="mask-label"
+                    >
+                      {(["known", "pseudonym", "anonymous"] as Mask[])
+                        .filter((m) =>
+                          card.mask_options.some((option) => option.id === m),
+                        )
+                        .map((m, i) => {
+                          const Icon = [BadgeCheck, UserRound, Fingerprint][i];
+                          return (
+                            <button
+                              type="button"
+                              key={m}
+                              aria-pressed={mask === m}
+                              onClick={() => setMask(m)}
+                            >
+                              <Icon size={19} />
+                              <strong>{en.masks[m][0]}</strong>
+                              <span>{en.masks[m][1]}</span>
+                            </button>
+                          );
+                        })}
+                    </div>
+                    <p className="help">
+                      {mask === "known"
+                        ? "ACAPS can associate this answer with your invitation."
+                        : mask === "pseudonym"
+                          ? "Peers see a nickname, not your identity."
+                          : "No pseudonym is shown. Your answer counts only in the aggregate."}{" "}
+                      Public output is group-only.{" "}
+                      {/* The engine holds this sentence once, in hardening/flags.py, and the
+                          honesty box on the ledger carries the same words. Keeping a second
+                          copy here is how the product ends up making two different promises. */}
+                      {card.mask_note}
+                      {mask === "anonymous" &&
+                        " You will not receive personal feedback on this answer, and it cannot be claimed later."}
+                    </p>
+                    <details className="privacy-detail">
+                      <summary>Who can see what?</summary>
+                      <p>
+                        Peers do not see answers before the round opens. After
+                        reveal, peers may see pseudonymous reasons only when
+                        that mask was chosen. Public output contains aggregates,
+                        never individual answers or reasons.
+                      </p>
+                      <p>
+                        The pilot uses a restricted identity registry with
+                        logged access. Anonymous answers have no identity link.
+                        The server stores the committed value; access controls,
+                        rather than cryptography, restrict early staff access. A
+                        commitment does not hide the answer from the operator.
+                      </p>
+                      <p>
+                        At least five contributions is a disclosure rule, not an
+                        anonymity guarantee. Distinctive reasons may still
+                        identify a contributor to peers.
+                      </p>
+                    </details>
+                  </div>
+                  {submitError && (
+                    <p role="alert" className="error-box">
+                      {submitError} Your inputs are kept here.
+                    </p>
+                  )}
+                  <button type="submit" className="seal-button">
+                    <LockKeyhole size={18} />
+                    {busy ? "Submitting…" : "Submit"}
+                  </button>
+                  <p className="seal-note">
+                    A commitment records timing and consistency. The operator
+                    can access the stored answer; it does not provide
+                    confidentiality from the server.
+                  </p>
+                </fieldset>
+              </form>
+            </>
+          )}
+        </section>
+      </main>
+    </>
+  );
+}

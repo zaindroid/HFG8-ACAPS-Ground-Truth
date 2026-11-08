@@ -1,31 +1,53 @@
 {
-  "id": "P-0001",
+  "id": "P-0007",
   "risk_id": "R1043",
   "panel_id": "PAN-TCD",
-  "fired_at": "2026-11-07T09:00:00Z",
-  "reason": "doorbell",
+  "fired_at": "2026-11-07T17:56:29+00:00",
+  "reason": "analyst",
   "round": 1,
   "evidence": [
     {
-      "source": "ACLED",
-      "indicator": "acled_events",
-      "value": 21,
-      "baseline": 6.4,
-      "z": 2.9,
-      "url": "https://acleddata.com"
+      "source": "Expansion of cross-border attacks and insecurity - 40% complete",
+      "indicator": "trigger_completion:T1",
+      "value": 40,
+      "baseline": null,
+      "z": null,
+      "url": "https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026",
+      "note": "Expansion of cross-border attacks and insecurity"
     },
     {
-      "source": "UNHCR",
-      "indicator": "unhcr_arrivals",
-      "value": 4800,
-      "baseline": 2100,
-      "z": 2.2,
-      "url": "https://data.unhcr.org/en/situations/sudansituation"
+      "source": "Attacks on strategic infrastructure in Chad - 10% complete",
+      "indicator": "trigger_completion:T2",
+      "value": 10,
+      "baseline": null,
+      "z": null,
+      "url": "https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions",
+      "note": "Attacks on strategic infrastructure in Chad"
+    },
+    {
+      "source": "Renewed proxy mobilisation and cross-border armed group activity - 20% complete",
+      "indicator": "trigger_completion:T3",
+      "value": 20,
+      "baseline": null,
+      "z": null,
+      "url": "https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions",
+      "note": "Renewed proxy mobilisation and cross-border armed group activity"
     }
   ],
-  "question": "ACAPS rates this High. Do you still agree? What are we missing?",
-  "expires_at": "2026-11-08T09:00:00Z",
+  "question": {
+    "event": "More than 50,000 new arrivals from Sudan registered by UNHCR in Ouaddaï and Wadi Fira",
+    "location": "Ouaddaï and Wadi Fira, eastern Chad",
+    "threshold": "> 50,000 newly registered arrivals (cumulative from 1 November 2026)",
+    "deadline": "2027-03-31",
+    "text": "Will more than 50,000 new arrivals from Sudan be registered in Ouaddaï and Wadi Fira by 31 March 2027?",
+    "source": "question_contract",
+    "frozen_at": "2026-11-07T17:56:27+00:00",
+    "resolution_source": "UNHCR registration figures for eastern Chad, as reported to ACAPS"
+  },
+  "asked_by": "Alex, ACAPS Risk Radar",
+  "expires_at": "2026-11-08T17:56:29+00:00",
+  "reveal_status": "open",
   "n_answers": 0,
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T17:56:29+00:00"
 }

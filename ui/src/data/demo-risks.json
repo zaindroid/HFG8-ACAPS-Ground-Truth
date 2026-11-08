@@ -1,0 +1,122 @@
+[
+  {
+    "risk_id": "R0990",
+    "title": "Unsafe return of Afghan nationals from Pakistan causes food, shelter and livelihood shortage upon their arrival at Afghanistan along with risk of persecution.",
+    "country_iso": "AFG",
+    "country": "Afghanistan",
+    "probability_acaps": "Medium",
+    "impact_acaps": 4,
+    "level": "Medium",
+    "status": "Materialised",
+    "horizon_months": 6,
+    "triggers": [],
+    "sources": [
+      {
+        "text": "ACAPS Risk Radar export snapshot",
+        "url": "https://www.acaps.org/en/countries"
+      }
+    ],
+    "served_from": "synthetic-ui-example",
+    "generated_at": "2026-11-07T09:00:00Z",
+    "risk_type": "New emerging risk",
+    "probability_assumed_number": 0.5,
+    "trend": "Deteriorated",
+    "materialised": "Impact"
+  },
+  {
+    "risk_id": "R0369",
+    "title": "An increase in paramilitary and National Liberation Army violence in areas previously held by the Revolutionary Armed Forces of Colombia lead to displacement and access constraints.",
+    "country_iso": "COL",
+    "country": "Colombia",
+    "probability_acaps": "Medium",
+    "impact_acaps": 3,
+    "level": "Medium",
+    "status": "Materialised",
+    "horizon_months": 6,
+    "triggers": [],
+    "sources": [
+      {
+        "text": "ACAPS Risk Radar export snapshot",
+        "url": "https://www.acaps.org/en/countries"
+      }
+    ],
+    "served_from": "synthetic-ui-example",
+    "generated_at": "2026-11-07T09:00:00Z",
+    "risk_type": "New emerging risk",
+    "probability_assumed_number": 0.5,
+    "trend": null,
+    "materialised": null
+  },
+  {
+    "risk_id": "R0954",
+    "title": "Protests against agricultural exports from Ukraine intensify across the European Union block Ukraine’s border leading to further economic strain.",
+    "country_iso": "UKR",
+    "country": "Ukraine",
+    "probability_acaps": "Medium",
+    "impact_acaps": 1,
+    "level": "Medium",
+    "status": "Materialised",
+    "horizon_months": 6,
+    "triggers": [],
+    "sources": [
+      {
+        "text": "ACAPS Risk Radar export snapshot",
+        "url": "https://www.acaps.org/en/countries"
+      }
+    ],
+    "served_from": "synthetic-ui-example",
+    "generated_at": "2026-11-07T09:00:00Z",
+    "risk_type": "Marked deterioration in an existing crisis",
+    "probability_assumed_number": 0.5,
+    "trend": "Deteriorated",
+    "materialised": "Hazard"
+  },
+  {
+    "risk_id": "R0525",
+    "title": "The Southern Transitional Council push for an independence of the south results in local fighting, leading to displacements and increased needs for the affected",
+    "country_iso": "YEM",
+    "country": "Yemen",
+    "probability_acaps": "Low",
+    "impact_acaps": 4,
+    "level": "Medium",
+    "status": "Not materialised",
+    "horizon_months": 6,
+    "triggers": [],
+    "sources": [
+      {
+        "text": "ACAPS Risk Radar export snapshot",
+        "url": "https://www.acaps.org/en/countries"
+      }
+    ],
+    "served_from": "synthetic-ui-example",
+    "generated_at": "2026-11-07T09:00:00Z",
+    "risk_type": "New emerging risk",
+    "probability_assumed_number": 0.25,
+    "trend": null,
+    "materialised": null
+  },
+  {
+    "risk_id": "R0105",
+    "title": "Deterioration of food security due to COVID-19 and economic crisis",
+    "country_iso": "HTI",
+    "country": "Haiti",
+    "probability_acaps": "High",
+    "impact_acaps": 3,
+    "level": "High",
+    "status": "Not materialised",
+    "horizon_months": 6,
+    "triggers": [],
+    "sources": [
+      {
+        "text": "ACAPS Risk Radar export snapshot",
+        "url": "https://www.acaps.org/en/countries"
+      }
+    ],
+    "served_from": "synthetic-ui-example",
+    "generated_at": "2026-11-07T09:00:00Z",
+    "risk_type": null,
+    "probability_assumed_number": 0.75,
+    "trend": null,
+    "materialised": null
+  }
+]

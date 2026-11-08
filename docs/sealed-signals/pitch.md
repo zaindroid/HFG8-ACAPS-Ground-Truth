@@ -1,45 +1,40 @@
 # Pitch
 
-Lane C. Revised for master prompt v3 (7 Nov). Three minutes, eight slides. Timing and stage actions are in `demo-script.md`. This file holds the slide text, the speaker notes and the submission paragraph. Slides are built from `slides/index.html`.
+Lane C. Revised for master prompt v3.4 (8 Nov). The deck is `pitch/sealed-signals-slides.html`. The timed script is `demo-script.md`. The submission text is in `SUBMISSION.md` and the paragraph in `README.md`. This page holds only what those do not: the deck map, the order to cut in, the numbers to say, and the wording to avoid.
 
-Style: white background, one accent colour (deep teal), large type, one idea per slide, no emoji, no stock photos, no gradients.
+## Deck map (positions in the file)
 
-## Slide text
+| Slides | Use |
+|---|---|
+| 1 | Title |
+| 2 to 7 | The three minutes, in order: problem, solution and the three must-haves, how it is built, the card against six biases, why people can trust it, it runs and is different |
+| 8 | Close: the spine line |
+| 9 to 15 | Q&A: alert engine screen, Reach, psychology layer, agentic verification, proof it runs, comparison with an email thread, a survey tool and a prediction market, pilot |
+| 16 to 18 | Q&A: personas and ACAPS's workflow; the cryptographic ledger; scoring and calibration |
+| 19, 20 | Fallback if the live demo fails: the reveal, then the cited draft and the public record |
+| 21 | Backup: the sensitivity test, labelled as a software test |
+| 22 to 24 | Written-submission versions of the card, trust and comparison slides |
 
-1. **Problem.** Headline: "47 %". Line: "of Medium-rated ACAPS risks materialised. A coin flip." Small: "27 of 58 resolved Medium risks. High-rated: 32 of 38 (84 %). Source: ACAPS Risk Radar export."
-2. **What ACAPS told us.** Four short lines, quoted or paraphrased as recorded: "Experts are informed professionals, not sources on the ground." "Experts apply; a committee approves." "There is no platform. Risk Radar is a dataset and an API." "We will get things wrong, like a prediction market; the point is honesty about it."
-3. **The loop.** Eight stages in one row: analyst trigger (phase 2: indicator doorbell), matched panel, committed answers, integrity notes, cited draft, analyst decision, ledger with honesty box, scoring. Caption: "The machine rings the doorbell, the panel answers, the analyst decides, the ledger remembers."
-4. **Demo.** QR code and the text "Scan. You are the Chad panel. About a minute." (The 60-second countdown is part of the jury exercise only.) Small: "Risk R1043, eastern Chad. Synthetic experts are labelled."
-5. **Sensitivity test (backup slide).** The sensitivity chart. Caption: "Tests the software on 104 resolved risks with synthetic panels. Says nothing about real experts. No claim about timing." (Numbers from Lane A's sensitivity output.)
-6. **Integrity and honesty.** Four lines: "Rating hidden until submission (anchoring)." "Equal-weight mean with spread and minority reasons." "Notes for the analyst that describe, not judge." "Honesty box: limits, misses, the decision it could inform." Footer: "One validation layer among others. Commitments prove timing, not secrecy from the operator."
-7. **Impact and stakeholders.** Five names: analysts, experts, readers, committee, affected people. Line per group, one phrase each. Footer: "Better probability, earlier decision, anticipatory funds, pre-positioned aid. Evidence strongest for floods and drought; conflict is the open test."
-8. **Ready for a supervised pilot of this workflow.** Pilot: "Two months, one committee, eight experts, one country. Measures: panel mean vs ACAPS Probability band on questions that resolve, minutes saved per update, experts still answering in week 8." Team: names to be filled in.
+## Numbers to say, and where they come from
 
-## Speaker notes
-
-- Slide 1 (0:00): Say the numbers, then the point. "A donor cannot act on a coin flip."
-- Slide 2: skip when time is short. The quotes go on the slide; read at most the last one.
-- Slide 3: do not read the eight stages. Point at the row; name only the ones the demo shows.
-- Slide 4 (0:25): the QR. The live minute starts here.
-- Slide 5: backup. Use it in Q&A if asked about evidence. Say "synthetic" in the same breath.
-- Slide 6: bring in only if asked about bias. Backup slide.
-- Slide 7: backup for Q and A.
-- Slide 8 (2:55): the close. Mentor quote first, then the tagline.
-
-The 3-minute pitch uses slides 1, 4 and 8 on screen, and the live product in between. Slides 2, 3, 5, 6 and 7 are for the written submission, Q and A and the committee, and for a longer slot if the schedule changes.
-
-## Submission description (one paragraph, for the repo form)
-
-Sealed Signals is the Risk Radar platform ACAPS does not have: the live Risk List from the ACAPS API, with an expert loop, descriptive integrity notes and a public audit trail on top. An ACAPS analyst (or, in phase 2, an indicator doorbell) sends a one-minute question to the eight best-matched vetted experts. Experts answer on their phone behind a mask they choose, with ACAPS's rating hidden until after submission. Answers are committed with a timestamp, opened together, summarised as an equal-weight mean with spread and minority reasons, annotated with integrity notes the analyst reads, turned into a cited draft the analyst accepts, edits or rejects, and published as a group view on a ledger with an honesty box that states what fed into it, its limits and its misses. When the risk resolves, forecasts are scored committee-side and every panel member gets the group outcome report. Nothing publishes itself. The demo uses synthetic experts and the real ACAPS Risk Radar export. It is ready for a supervised pilot of this workflow.
+- 47 %: 27 of 58 resolved Medium-rated risks materialised. 84 %: 32 of 38 High. [ACAPS Risk Radar export]
+- 123 crises diffed between the March and April 2026 editions. TCD005, displacement from Sudan to Chad: index 6.1 to 6.9. The largest deterioration of the month (by absolute change it is second, because PAK007 improved by 0.9; the engine reports both ranks). [cached ACAPS editions, checked 7 Nov]
+- October to November 2026 produces no alert. A quiet month says nothing.
+- Sensitivity test: synthetic panels, 104 resolved risks, a software test. No timing claim.
 
 ## Lines to avoid
 
 - "Revolutionary", "AI-powered", "game-changing". Say what it does.
-- "Accurate experts". We have no real expert data.
-- "Sealed", "nobody can read it", "nothing leaves the device". v3 states who can learn what.
-- "Proof" for the synthetic test. Say "sensitivity test".
-- "Earlier than ACAPS". The export has no structured rating history.
-- "Pilot-ready Monday". Say "ready for a supervised pilot of this workflow".
-- Crypto names (OpenTimestamps, ML-KEM, ML-DSA, hardware notary) in the three minutes.
-- "Saves lives". We claim a better probability. See `impact.md` part 3.
-- Any claim that a feature runs when its flag is off.
+- "Accurate experts". There is no real expert data.
+- "Anonymous" about ACAPS's own access. Say "pseudonymised to ACAPS, with every access logged".
+- "Sealed" or "nobody can read it" without "proves timing, not secrecy from the operator".
+- "Proof" for the synthetic test. "Earlier than ACAPS". "Pilot-ready Monday".
+- "Quantum-proof", "unhackable", "anchored" while the receipt is pending, "signed by ACAPS" while the key is a demo key.
+- "Saves lives". We claim a better-stated probability. The chain to funding and mortality is in `impact.md` part 3 with its weak links.
+- Any sentence that implies we measure an expert without consent.
+- Persona quotes as evidence of channel preference or willingness to be calibrated. They are design hypotheses.
+- Crypto names in the three minutes, except the Verify click.
+
+## Corrections owed to the deck
+
+Open in `proposals.md` (P30, P31): the pilot length differs from the organisers' brief, and slide 13 says phone timing was measured before `docs/evidence/phones.md` exists. The alert screen (slide 9) and the example risks on slides 18, 20 and 23 were corrected on 8 Nov.

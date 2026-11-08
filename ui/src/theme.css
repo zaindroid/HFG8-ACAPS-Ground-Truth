@@ -1,0 +1,16 @@
+:root {
+  font-family: Inter, Arial, sans-serif;
+  color: #202927;
+  background: #fff;
+  font-synthesis: none;
+  --accent: #285e58;
+  --accent-soft: #edf4f2;
+  --muted: #596662;
+  --border: #dce4e0;
+  --good: #2b6950;
+  --warning: #876125;
+  --critical: #a13939;
+  --radius: 16px;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}

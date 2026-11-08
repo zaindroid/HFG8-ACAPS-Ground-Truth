@@ -1,0 +1,50 @@
+{
+  "panels": [
+    {
+      "panel_id": "PAN-MLI",
+      "n_pulses": 3,
+      "n_pulses_revealed": 3,
+      "n_experts": 8,
+      "never_per_person": true,
+      "never": "Never about a person. Never a score. Never public. Never a reason to approve or remove anyone in the pilot. Free text is counted, never quoted.",
+      "sentences": [
+        "Round-2 answers moved toward the mean on 3 of 3 pulses; 3 of those revisions came with a new written reason.",
+        "The spread stayed close to 0.80 over the last 3 revealed rounds.",
+        "2 of 27 answers were abstentions (‘outside my area’ or ‘not enough evidence’), which are real answers here and are never scored.",
+        "14 of 25 free-text lines were tagged ‘read’."
+      ],
+      "by_affiliation": [
+        {
+          "affiliation_tag": "ngo",
+          "n": 3,
+          "sentence": "ngo-affiliated answers sat at or below the panel mean on all 3 pulses."
+        },
+        {
+          "affiliation_tag": "merged",
+          "n": 5,
+          "sentence": "5 panel members are in affiliation groups below n = 3 and are merged; no sentence is written about them."
+        }
+      ],
+      "note": "Descriptive sentences about this panel. An empty list is the honest output when nothing stands out."
+    }
+  ],
+  "not_yet": [
+    {
+      "panel_id": "PAN-CMR",
+      "n_pulses_revealed": 1
+    },
+    {
+      "panel_id": "PAN-NGA",
+      "n_pulses_revealed": 1
+    },
+    {
+      "panel_id": "PAN-TCD",
+      "n_pulses_revealed": 1
+    }
+  ],
+  "min_pulses": 3,
+  "min_per_affiliation": 3,
+  "never": "Never about a person. Never a score. Never public. Never a reason to approve or remove anyone in the pilot. Free text is counted, never quoted.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T17:56:31+00:00"
+}

@@ -1,6 +1,6 @@
 # Impact: who gains, what changes, why it matters
 
-Lane C. Status: complete, revised for master prompt v3 (7 Nov). v3 changes reflected here: commitments instead of secrecy, equal-weight mean as the headline number, analyst-triggered pulses, descriptive integrity notes, scoring of forecasts not people, no countdown in the product, synthetic results as a sensitivity test.
+Lane C. Status: complete, revised for master prompt v3.4 (8 Nov). v3 changes reflected here: commitments instead of secrecy, equal-weight mean as the headline number, analyst-triggered pulses, descriptive integrity notes, scoring of forecasts not people, no countdown in the product, synthetic results as a sensitivity test.
 
 Labels used in this file:
 - **[data]** computed from `data/risk-radar-export.csv` by us.
@@ -11,8 +11,8 @@ Labels used in this file:
 ## 0. What the mentor told us (primary evidence)
 
 1. Experts are "not sources on the ground". They are well-informed professionals who already track crises: think-tank analysts, journalists, researchers, early-warning practitioners. [mentor]
-2. Expertise is geographic and thematic. An earthquake expert outside Venezuela is still the right person for a Venezuela earthquake. Experts tag themselves at sign-up. [mentor]
-3. There is a gateway. Experts apply. ACAPS approves on credentials and track of work. It is "a trust system that builds over time". A committee of several ACAPS admins decides. The Risk Radar manager sits in France. [mentor]
+2. Expertise is geographic and thematic. An earthquake expert outside Venezuela is still the right person for a Venezuela earthquake. Experts' tags are recorded for the panel. [mentor] Design change since the interview (v3.3): experts never sign up on a portal. The analyst adds them from existing contacts and the committee approves them; credentials and masks are created at approval, server-side.
+3. There is a gateway. ACAPS approves on credentials and track of work. It is "a trust system that builds over time". A committee of several ACAPS admins decides. The Risk Radar manager sits in France. [mentor]
 4. His open question: a panel could lean one way, or be packed to steer funding. [mentor]
 5. "We will get things wrong, like a prediction market; the point is honesty about it." [mentor]
 6. Products never change automatically. The app is one validation layer among others. ACAPS must minimise bias and state limitations and what fed into each product. [mentor]
@@ -31,10 +31,10 @@ Five groups. For each: today, with Sealed Signals, what they get, how they want 
 
 Persona link: none of the four personas. They are the product's moderators and the ones who must stay in charge.
 
-**Today.** Each analyst tracks the parameters of their countries daily, scores risks by hand against simple thresholds, and updates weekly. [mentor] To check a view they call one or two experts or chat with peers. The answer is not recorded in a way anyone can score later. [brief]
+**Today.** Each analyst tracks the parameters of their countries daily, scores risks by hand against simple thresholds, and updates weekly. [mentor] To check a view they call one or two experts or chat with peers. Those checks between scheduled reviews are not structured, time-stamped or auditable, so nobody can score them later. [brief, our reading]
 
 **With Sealed Signals.**
-- The analyst sends a one-minute question for a risk with one click. (Phase 2: a doorbell reads indicators the analyst picked from a menu for that risk and suggests a pulse.)
+- Each month the Risk Alert Engine compares ACAPS's own monthly severity and access editions for every crisis, links the result to the analyst's active risks, and proposes a ranked list of shifts with the rule that fired. The analyst approves a pulse or dismisses it with a note. The analyst can also ask the panel on any risk with one click. No model is involved in the alerts.
 - A matched panel of up to 8 vetted experts answers in a minute each. Answers are committed with a timestamp and opened together.
 - The analyst receives one screen: the equal-weight mean, spread and minority reasons, missing themes, descriptive integrity notes, and a cited draft update built from a fixed template. The analyst accepts, edits or rejects. Nothing publishes itself.
 
@@ -54,20 +54,20 @@ Persona link: none of the four personas. They are the product's moderators and t
 
 ### 1.2 Vetted experts (analysts, journalists, researchers, early-warning practitioners)
 
-Persona link: closest to Pierre (field MEAL officer who wants a method and has no time) and Jose (regional head who wants an easy way to give quality feedback to headquarters). [brief]
+Persona link (design hypotheses from ACAPS's personas, `personas.md`, not evidence): Jose, emergency specialist in a UN regional office who covers Sudan, is the expert the Chad pulse is built for. Pierre, a field MEAL officer, is the field expert for whom the voice-note and "outside my area" paths exist. Emily can be a panel member on health and nutrition. Every channel and cadence below is marked assumed, to verify in the pilot.
 
 **Today.** Their knowledge reaches ACAPS through informal calls and chats. It is used once and not credited. They get nothing back. Earlier expert pools lost participation after launch. [brief] We do not yet know why in ACAPS's own experience (question 6).
 
 **With Sealed Signals.**
-- They apply with geographic and thematic tags. The ACAPS committee approves on credentials and track of work. [mentor]
-- A pulse arrives by email magic link. No login. One card, about a minute. There is no countdown in the product.
-- ACAPS's rating is hidden until after they submit, so their first number is their own. They give a probability, a confidence, a guess of what share of the panel will put it above 0.5, one line on what is missing, and a tag: saw, read or heard. They can instead choose "outside my expertise" or "not enough evidence". Those are never scored.
-- They choose a mask per answer: known to ACAPS, pseudonym to peers, or anonymous. The card warns that a distinctive reason can be recognised by peers on a small panel.
-- Round 2 is optional and asynchronous. It opens only when there is new evidence or real disagreement. It shows ACAPS's rating and the anonymised group, and asks whether they changed their mind.
+- First contact is a personal note from the analyst, by name: why this expert, a one-line charter (what we ask, how often, what we store, who sees what), and "reply STOP at any time". The question follows in the same message. STOP is honoured within the hour. [assumed channel: email first, then WhatsApp, Signal, SMS, Teams or a scheduled call; to verify in the pilot]
+- The card opens with the event, place, threshold and deadline. One input is required: a likelihood, a five-word scale with its percentage range printed under each word. Everything else is optional: confidence, one line on what is missing, a tag (saw, read or heard), the strongest reason it would not happen, a guess of what share of the panel will put the likelihood above 0.5. "Outside my expertise" and "not enough evidence" are real answers and are never scored.
+- No severity line and no ACAPS rating before submission, so the first answer is the expert's own. Opening the link commits nothing: an explicit submit and a confirmation screen do. The expert can correct the answer until the deadline. There is no countdown in the product.
+- The mask is chosen per answer, with no default: named to ACAPS, nickname to peers, or no identity kept. The product says pseudonymised, never anonymous, and warns that a distinctive reason can be recognised by colleagues on a small panel.
+- All answers are revealed together at the deadline, never when five are in. With fewer than five at the deadline the panel is "insufficient": nothing is revealed and the analyst is told. Round 2 is optional and asynchronous, opens only with new evidence or real disagreement, and shows the anonymised spread only.
 
 **What they get.**
-- A group outcome report when the risk resolves: the group mean, the outcome and what the analyst decided. Everyone who answered gets it.
-- A private calibration view, opt-in, after 5 resolutions. Before that there is too little data to say anything.
+- A thank-you built from the record only ("what your minute changed"): what the analyst decided, which decision it informed, for whom, by when. After the reveal and again on resolution, with the outcome. Everyone who answered gets it. Never a personal score or a ranking.
+- Calibration only with consent: a separate programme, off by default, with a disclosure of what is measured, one-reply opt-in, and the report goes to the expert first and alone.
 - Evidence that their view was heard: the ledger shows the group view and, later, the outcome.
 - No streaks, no engagement counts. Scores belong to forecasts, are held committee-side, and never decide who is approved or removed.
 - A reason to come back that is not a gamified one: the question is relevant to a place they follow.
@@ -79,10 +79,11 @@ Persona link: closest to Pierre (field MEAL officer who wants a method and has n
 
 **What would make them stop.**
 - A card that takes more than a minute or asks for a login.
-- Any sign that their answer could be traced back when they chose a mask. We tell them plainly who can learn what (master prompt section 1a): ACAPS admins see answers with the mask chosen, the identity registry is restricted and logged, and `anonymous` answers are stored without identity.
+- Any sign that their answer could be traced back when they chose a mask. We tell them plainly who can learn what (master prompt section 1a): ACAPS admins see answers with the mask chosen, the identity registry is restricted and every read is logged, and answers with no identity kept carry no identity link. Pseudonymised, not anonymous.
 - Being asked too often. Cap: one pulse per expert per 7 days.
 - Hearing nothing back. The group outcome report answers this.
 - A panel they see as stacked, or an app that feels like a chatbot.
+- Anything measured about them without consent. v3.4 removed hidden measurement from the pulse; the committee reads sentences about panels (three or more pulses, never a person), and individual calibration is a separate, consent-gated programme.
 
 ### 1.3 ACAPS readers (UN agencies, INGOs, donors such as ECHO, FCDO and CERF, insurers)
 
@@ -119,6 +120,7 @@ Persona link: none. This is the gatekeeper the mentor named. [mentor]
 - The committee sees panel composition against rules: no more than 3 of 8 from one affiliation tag, geographic spread, theme cover.
 - It sees coverage gaps (a conflict risk with no conflict expert) and decides who to invite.
 - It can pause an expert. Removing an expert never alters past ledger entries.
+- It holds the key to the identity registry (encrypted at rest, every read logged and shown to the committee), issues blind-signed credentials in batches, and signs outcome attestations. Each carries a stated limit: an authorised admin can still read the registry, and the log shows that they did.
 
 **What they get.** An audit trail of who was admitted, when and by whom; a defence against a packed panel; a reliable way to grow the pool by tag rather than by contact lists.
 
@@ -156,30 +158,31 @@ Persona link: indirect. Aisha's 150-person team and Pierre's deployments act on 
 
 ## Part 2. Before and after
 
-### 2.1 Today: how a risk is made and kept current
+### 2.1 Today: ACAPS's own method, and where the gap is
 
-We could not find a numbered six-step list published by ACAPS. The 2019 methodology brief and the mentor give us the pieces below, which we group into six steps. Treat the grouping as ours. Confirm it with Alex before the pitch.
+Source: ACAPS risk methodology as shipped in the organisers' pack (`docs/risk-methodology.md`), which states a six-step analytical process, and ACAPS's analysis workflow poster (Design, Acquire, Analyse, Communicate) as quoted in master prompt section 0b. We did not find the poster itself on a public page in our search; the quotations come from the master prompt. Ratings are set by expert judgement, not calculated (ACAPS risk methodology brief, 2019).
 
-| Step | What happens today | Source |
+| ACAPS step | What happens today | Where Sealed Signals touches it |
 |---|---|---|
-| 1. Monitor | Analysts track their countries' parameters daily | [mentor] |
-| 2. Identify | A hazard that could trigger a new crisis or a sharp worsening is named, with triggers | ACAPS risk methodology brief, 2019 |
-| 3. Rate | Probability and impact are set by expert judgement on a five-point scale, with simple thresholds. Not calculated. | ACAPS risk methodology brief, 2019; [mentor] |
-| 4. Consult | An analyst calls one or two experts or chats with peers. Not recorded or scored. | [brief] |
-| 5. Publish and update | Published on the website and through the API. Updated weekly by hand. | [mentor] |
-| 6. Close | The risk is marked materialised or not materialised, with a description | [data: Status, Hazard materialisation fields] |
+| 1 Monitor | Analysts track their countries' parameters daily [mentor] | Risk Alert Engine: month-over-month diff of ACAPS's own severity and access editions |
+| 2 Identify | Events that could lead to deterioration are named, with triggers | Trigger pick on the card: which trigger would move the expert's view most |
+| 3 Assess | Probability and impact set by judgement on a five-point scale | The pulse: an equal-weight panel view beside the ACAPS band, ACAPS rating hidden until submission |
+| 4 Prioritise | Overall risk level set | Analyst accepts, edits or rejects the cited draft |
+| 5 Disseminate | Website and API; updated weekly by hand [mentor] | Public ledger with honesty box, beside the ACAPS rating |
+| 6 Review | Developments monitored, assessments updated, risks closed as materialised or not | Resolution against a frozen question contract; panel-level scoring; thank-you to every expert |
 
-What is missing: no structured way to ask a wider trusted group; no record of who was right; no platform on top of the dataset and API; no public statement of what fed into each rating.
+The gap, stated exactly: ACAPS has a documented methodology and peer review for its scheduled products. Ad-hoc expert checks between scheduled reviews are not structured, time-stamped or auditable. We do not say there is no record. We add a structured, time-stamped, auditable way to run those checks, and a public platform on the API that ACAPS does not have. [mentor]
 
 ### 2.2 After: the loop
 
 Eight stages, each with one owner. Only the analyst's decision changes a rating.
 
 ```
- ANALYST TRIGGER ─> MATCHED PANEL ─> COMMITTED ANSWERS ─> INTEGRITY NOTES
- (phase 2:         up to 8 vetted     rating hidden until     descriptive, for the
- indicator         experts by         submission, mask per    analyst only
- doorbell)         geo + theme tag    answer, about a minute        │
+ ALERT ENGINE ──> MATCHED PANEL ──> COMMITTED ANSWERS ──> INTEGRITY NOTES
+ ACAPS monthly    up to 8 vetted     rating hidden until      descriptive, for the
+ editions, ranked experts by         submission, mask per     analyst only
+ shifts; analyst  geo + theme tag    answer, about a minute        │
+ approves
                                                                     v
  SCORING  <──  LEDGER with  <──  ANALYST DECISION  <──  CITED DRAFT
  Brier,        HONESTY BOX       accept / edit /         fixed template, every
@@ -193,7 +196,7 @@ The same loop in Mermaid, for GitHub and slides:
 
 ```mermaid
 flowchart LR
-  A[Analyst trigger] --> B[Matched panel]
+  A[Alert engine, analyst approves] --> B[Matched panel]
   B --> C[Committed answers]
   C --> D[Integrity notes]
   D --> E[Cited draft]
@@ -207,12 +210,12 @@ flowchart LR
 
 | Today | With Sealed Signals | Who gains |
 |---|---|---|
-| Analyst notices a shift by reading, then looks for someone to ask | The analyst sends a one-minute question to a matched panel with one click. Phase 2: an indicator doorbell, using indicators the analyst picks per risk, suggests a pulse (7-day count at 3 times the 90-day baseline, or z of 2 or more). | Analysts |
+| Analyst notices a shift by reading, then looks for someone to ask | The engine diffs ACAPS's own monthly severity and access editions for every crisis, ranks the moves, links them to active risks and shows the rule that fired. The analyst approves a pulse or dismisses it. Arithmetic on ACAPS data, no model. | Analysts |
 | One or two experts, by phone | Up to 8 matched experts, ACAPS rating hidden until they submit, about a minute each | Analysts, experts |
-| Answers live in a chat | Answers are committed with a timestamp, so they cannot be changed afterwards and peers cannot see each other early. They are opened together. This does not hide them from the operator. | Readers, experts |
+| Expert answers live in an email thread or a chat | Answers are committed with a timestamp, so they cannot be changed afterwards and peers cannot see each other early. They are opened together. This does not hide them from the operator. | Readers, experts |
 | Rating set by judgement alone | Panel number sits next to the rating. The analyst still decides. | Readers |
 | Weekly manual rewrite | A cited draft from a fixed template. Every sentence names its aggregate, indicator or source. The analyst edits. Unsupported claims go to a queue. | Analysts |
-| No record of who was right | Brier score per forecast on resolved questions, held committee-side. Group outcome report to everyone who answered. Private calibration, opt-in, after 5 resolutions. | Experts, committee |
+| Checks between reviews are not structured, time-stamped or auditable | Brier score per forecast on resolved questions, panel-level, with the frozen question contract. Thank-you to everyone who answered. Individual calibration only with consent. | Experts, committee |
 | No stated basis | Honesty box on every entry: what fed in, limits, misses, what decision it could inform, and when the analyst rejected the panel view | Readers |
 | Dataset and API only | A platform on the API with the loop on top | All |
 
@@ -223,7 +226,7 @@ We have not measured this. These are the saved steps we expect, to be timed in t
 - No chasing replies: pulses expire and the analyst sees who answered.
 - A draft with citations replaces a blank page.
 - Disagreement is shown, not summarised away.
-- The closing record of right and wrong builds without extra entry.
+- The closing record of hits and misses builds without extra entry.
 
 Pilot measure: minutes per weekly update with and without the draft, for the same analyst on comparable risks.
 
@@ -292,11 +295,11 @@ Facts from the export [data, R1043 record]:
 - Update of 30 Sep 2026: more than 400 Sudanese refugees per day crossing by 25 Sep, about 20 times the earlier rate; more than 55,000 arrivals since the start of 2026.
 - The first trigger (T0618) is expansion of cross-border attacks around Adré, Tine and other border localities.
 
-A figure we could not confirm: the master prompt says "over a million Sudanese refugees in eastern Chad since 2023". The UNHCR figures we found were about 800,000 to 870,000 registered arrivals by mid-2025, so a million may be right for late 2026 but we have no source. Use "more than 800,000 registered by mid-2025 (UNHCR)" or confirm a newer figure before saying a million.
+Refugee figure, updated 7 Nov 2026: UNHCR registers 1,425,743 Sudanese refugees in Chad (data date 2026-11-02; [UNHCR Operational Data Portal, Chad](https://data.unhcr.org/en/country/tcd)). This is the national total for Sudanese refugees. It includes people who arrived before April 2023 and is not an eastern-Chad-only figure. The master prompt line "over a million Sudanese refugees in eastern Chad since 2023" is therefore too loose: use "about 1.4 million Sudanese refugees registered in Chad (UNHCR, 2 Nov 2026)". The earlier "800,000 to 870,000 by mid-2025" figure is out of date.
 
 **What the loop would do (illustrative):**
 
-1. Trigger: the R1043 analyst sees more cross-border incidents and sends a pulse. (Phase 2 would suggest it from indicators the analyst picked. The eastern Chad replay shows phase 2 only.)
+1. Alert: replaying the April 2026 edition, the engine ranks crisis TCD005 (Displacement from Sudan to Chad) first of 123 for the rise in its INFORM Severity Index (6.1 to 6.9; Human Impact 6.0 to 7.6) [data: cached ACAPS editions, checked 7 Nov]. The analyst has confirmed the link between TCD005 and R1043 and approves a pulse. Note: TCD005 is the displacement crisis; R1043 is about cross-border insecurity. The alert is a nearby signal, not a measurement of R1043 itself, and the pulse says so.
 2. Panel: up to 8 experts tagged for Chad or neighbouring Sudan and conflict or displacement answer in about a minute each, with the ACAPS rating hidden until they submit.
 3. Suppose the equal-weight mean is 0.74, the range is 0.45 to 0.90, and one minority reason says displacement is the larger risk. ACAPS's High maps to 0.7 (a stated assumption). **These numbers are illustrative.**
 4. Analyst receives a cited draft: probability 0.74 (High), with one claim in the verification queue. Absence from the checked databases is not evidence the claim is false.
@@ -314,6 +317,15 @@ A figure we could not confirm: the master prompt says "over a million Sudanese r
 The point is the flip: with this ratio, a Medium rating sitting at 0.45 to 0.5 gives no answer, and a 0.1 error in p changes the decision. We do not claim these costs are real. We claim that calibration decides which side of the line a planner lands on. That is why the product scores every forecast.
 
 What would have to be true for impact: (a) the panel is better calibrated than the rating alone; (b) a donor or agency changes timing because of it; (c) a funding mechanism exists for a conflict-driven risk. The pilot can test (a) and part of (b). It cannot test (c).
+
+### 3.4a The alert signal for R1043 (ACAPS monthly data) [data]
+
+Checked by us in the cached editions (`data/acaps-api/`), 7 Nov 2026:
+- TCD005 "Displacement from Sudan to Chad" (Ennedi Est, Wadi Fira, Ouaddai, Sila; connected to SDN001): INFORM Severity Index 6.1 (edition last updated 28 Feb) to 6.9 (29 Apr), category High both months; Human Impact 6.04 to 7.57; Conditions of affected people 6.52 to 7.55; People in need 7.04 to 7.11; Reliability Very High.
+- The +0.8 is the largest **rise** among the 123 crises present in both editions. By absolute change it ranks second: PAK007 fell by 0.9. Say "largest rise", not "largest move".
+- The November edition (updated 27 Oct) shows TCD005 at 7.1.
+- Under our reading of the rules (index rise of 0.5 or more, or any component moving by 1.0 or more in either direction, or a category change), 9 of 123 crises would have fired between March and April, and 0 of 122 between October and November. Two month pairs is too few to call a typical rate, and Lane A's code defines the rule, not us. Use this only as a rough sense of analyst workload.
+- Timing: R1043 was entered into the Risk Radar on 2 June 2026 [data: "Date entered" in its trigger text]. The April edition would have fired the rule about five weeks earlier. We do not turn this into a claim that ACAPS was late: analysts may have known, the engine and the risk are different products, and the export has no structured rating history. We say "this is what the engine would have proposed".
 
 ### 3.5 What we will not claim
 

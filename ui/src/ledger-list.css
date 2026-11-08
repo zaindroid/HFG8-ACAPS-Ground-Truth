@@ -1,0 +1,110 @@
+.ledger-columns,
+.ledger-record > summary {
+  display: grid;
+  grid-template-columns: minmax(170px, 2fr) 0.7fr 0.8fr 1.2fr 0.6fr 1fr 20px;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 18px;
+}
+.ledger-columns {
+  font-size: 12px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.ledger-record {
+  border-bottom: 1px solid var(--border);
+  margin: 0;
+}
+.ledger-record > summary {
+  list-style: none;
+  cursor: pointer;
+  min-height: 64px;
+  font-size: 13px;
+  background: white;
+}
+.ledger-record > summary::-webkit-details-marker {
+  display: none;
+}
+.ledger-record > summary:hover {
+  background: #f6faf8;
+}
+.ledger-row-identity {
+  display: grid;
+  gap: 5px;
+}
+.ledger-row-identity strong {
+  font-size: 14px;
+  font-weight: 500;
+}
+.ledger-row-identity > span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.ledger-row-probability {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--accent);
+}
+.ledger-row-outcome {
+  text-transform: capitalize;
+}
+.ledger-col-check {
+  font-size: 12px;
+  color: var(--muted);
+}
+.ledger-record[open] > summary {
+  background: var(--accent-soft);
+}
+.ledger-record[open] > summary > svg {
+  transform: rotate(180deg);
+}
+.ledger-record-detail {
+  padding: 16px 0;
+}
+.ledger-record-detail > .workspace-panel {
+  margin: 0;
+  padding: 20px;
+}
+.ledger-record-detail .ledger-stats {
+  margin: 16px 0;
+  padding: 0;
+}
+.ledger-record-detail .ledger-stats strong {
+  font-size: 24px;
+}
+.ledger-record-detail .honesty-box {
+  padding: 18px;
+  margin: 16px 0;
+}
+.ledger-record-detail .honesty-grid {
+  gap: 12px;
+}
+.ledger-record-detail .verification-trail {
+  margin: 16px 0;
+}
+@media (max-width: 650px) {
+  .ledger-columns,
+  .ledger-record > summary {
+    grid-template-columns: minmax(90px, 1.4fr) 0.7fr 1.2fr 18px;
+    gap: 10px;
+    padding: 12px 8px;
+  }
+  .ledger-col-acaps,
+  .ledger-col-count,
+  .ledger-col-check {
+    display: none;
+  }
+  .ledger-record > summary {
+    font-size: 12px;
+  }
+  .ledger-row-probability {
+    font-size: 17px;
+  }
+  .ledger-record-detail > .workspace-panel {
+    padding: 16px 12px;
+  }
+}

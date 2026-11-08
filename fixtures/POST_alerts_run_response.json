@@ -1,0 +1,16 @@
+{
+  "month_from": "Oct2026",
+  "month_to": "Nov2026",
+  "n_crises": 122,
+  "events": [],
+  "rules": {
+    "index": 0.5,
+    "human_impact": 1.0,
+    "conditions": 1.0,
+    "people_in_need": 1.0,
+    "access": 1.0
+  },
+  "note": "No crisis moved enough to trip a rule between these two editions.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T17:56:28+00:00"
+}

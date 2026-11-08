@@ -1,0 +1,13 @@
+{
+  "pulse_id": "P-0009",
+  "reveal_status": "insufficient_panel",
+  "n": 3,
+  "k_min": 5,
+  "held_for_confirmation": 0,
+  "attempted_at": "2026-11-07T17:56:29+00:00",
+  "revealed_reason": "analyst_before_deadline",
+  "message": "3 answers counted; this round needs 5. The answers are kept and nothing is revealed, to anyone.",
+  "means": "An insufficient panel is a result about us, not about the risk: too few of the eight answered to say anything about the question.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T17:56:29+00:00"
+}

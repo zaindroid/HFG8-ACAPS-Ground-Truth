@@ -1,0 +1,12 @@
+{
+  "enabled": false,
+  "enrolled": 0,
+  "reports_available": 0,
+  "switched_off": 0,
+  "shared_with_committee": 0,
+  "disclosure_version": "2026-11-07.1",
+  "min_items": 20,
+  "means": "Counts only. A report belongs to the expert, and reaches the committee only if that expert says yes a second time.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T17:56:31+00:00"
+}

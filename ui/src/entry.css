@@ -1,0 +1,621 @@
+.public-header {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 24px max(24px, calc((100vw - 1280px) / 2));
+  border-bottom: 1px solid var(--border);
+}
+.acaps-wordmark {
+  font-size: 35px;
+  font-weight: 600;
+  letter-spacing: -2px;
+  text-decoration: none;
+  line-height: 1;
+  color: var(--accent);
+}
+.acaps-wordmark span {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+.public-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 26px;
+  margin-left: auto;
+}
+.public-header nav a {
+  font-size: 13px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.public-login {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  background: var(--accent);
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  min-height: 44px;
+}
+main.public-home {
+  display: block;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 1440px;
+}
+.public-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  padding: 64px 64px 72px;
+  align-items: center;
+}
+.public-hero h1 {
+  font-size: clamp(44px, 4.6vw, 68px);
+  line-height: 1.08;
+  font-weight: 500;
+  letter-spacing: -3px;
+  margin: 0 0 28px;
+}
+.public-hero-copy > p {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 36ch;
+  margin: 0 0 32px;
+}
+.public-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 48px;
+  padding: 14px 20px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.public-primary:hover {
+  background: #204e49;
+  color: white;
+}
+.public-feature {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.public-feature img {
+  display: block;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  background: var(--accent-soft);
+}
+.public-feature > div {
+  padding: 26px;
+}
+.public-feature p {
+  color: var(--muted);
+  font-size: 12px;
+}
+.public-feature h2 {
+  font-size: 24px;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  margin: 12px 0 22px;
+}
+.public-feature span {
+  color: var(--accent);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.public-research {
+  border-top: 1px solid var(--border);
+  padding: 56px 64px 72px;
+}
+.public-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+}
+.public-section-heading p {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.public-section-heading h2 {
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  font-weight: 500;
+  margin: 0;
+}
+.public-section-heading > a {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+  min-height: 44px;
+}
+.public-source {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 22px 0;
+}
+.public-report-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+.public-report-grid article {
+  border-top: 2px solid var(--accent);
+  padding: 24px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.public-report-grid article > p {
+  color: var(--muted);
+  font-size: 13px;
+}
+.public-report-grid time {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 12px 0;
+}
+.public-report-grid h3 {
+  font-size: 23px;
+  line-height: 1.45;
+  font-weight: 500;
+  margin: 0 0 28px;
+}
+.public-report-grid h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+.public-report-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin-top: auto;
+  font-size: 13px;
+}
+.public-workspace-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  padding: 56px 64px;
+}
+.public-workspace-entry h2 {
+  font-size: 25px;
+  font-weight: 500;
+  margin: 14px 0;
+}
+.public-workspace-entry p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.public-workspace-entry > a {
+  flex-shrink: 0;
+}
+.public-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  border-top: 1px solid var(--border);
+  padding: 40px max(24px, calc((100vw - 1280px) / 2));
+  background: #f8faf9;
+}
+.public-footer p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 18px 0 0;
+}
+.public-footer > div + div {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.public-footer > div + div a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 13px;
+}
+.public-footer p.public-disclaimer {
+  grid-column: 1/-1;
+  font-size: 11px;
+  max-width: 100%;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+main.login-redirect {
+  display: block;
+  max-width: 640px;
+  margin: 64px auto;
+}
+.workspace-welcome {
+  display: flex;
+  gap: 20px;
+  padding: 28px;
+  background: var(--accent-soft);
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+.workspace-welcome h2 {
+  font-size: 21px;
+  font-weight: 500;
+  margin: 0 0 10px;
+}
+.workspace-welcome p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.workspace-entry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.workspace-entry-card {
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-decoration: none;
+}
+.workspace-entry-card h2 {
+  font-size: 23px;
+  line-height: 1.3;
+  font-weight: 500;
+  color: #202927;
+}
+.workspace-entry-card p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.workspace-entry-card span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  margin-top: auto;
+  min-height: 44px;
+}
+.workspace-entry-card:hover {
+  border-color: var(--accent);
+  background: #fafcfb;
+}
+.workspace-research-links {
+  padding: 32px 0;
+}
+.workspace-research-links h2 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+.workspace-research-links > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+.workspace-research-links a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  font-size: 14px;
+}
+.demo-samples {
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #f8faf9;
+}
+.demo-samples h2 {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0 0 10px;
+}
+.demo-samples p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+.demo-samples .panel-actions {
+  margin-top: 16px;
+}
+.sample-invitations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+.sample-invitations a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+}
+.workspace td small {
+  display: block;
+  color: var(--muted);
+  margin-top: 5px;
+  font-size: 11px;
+}
+.portal-signout {
+  margin-left: 8px;
+  font-size: 12px;
+  min-height: 44px;
+}
+.site-header.expert-demo-header {
+  height: auto;
+  min-height: 96px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.expert-demo-header nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-left: auto;
+}
+.expert-demo-header nav a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+}
+@media (max-width: 650px) {
+  .site-header.expert-demo-header {
+    padding: 20px;
+  }
+  .expert-demo-header nav {
+    margin-left: 0;
+    width: 100%;
+    gap: 24px;
+  }
+}
+@media (max-width: 1050px) {
+  .public-header {
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .public-header nav {
+    order: 3;
+    width: 100%;
+    margin: 0;
+  }
+  .public-login {
+    margin-left: auto;
+  }
+  .public-hero {
+    padding: 48px 32px;
+    gap: 32px;
+  }
+  .public-research,
+  .public-workspace-entry {
+    padding: 40px 32px;
+  }
+  .public-feature img {
+    height: 240px;
+  }
+}
+@media (max-width: 650px) {
+  .public-header {
+    padding: 20px;
+    gap: 12px;
+  }
+  .acaps-wordmark {
+    font-size: 30px;
+  }
+  .public-header nav {
+    gap: 0 20px;
+  }
+  .public-header nav a {
+    font-size: 12px;
+  }
+  .public-hero {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+    gap: 32px;
+  }
+  .public-hero h1 {
+    font-size: 44px;
+    letter-spacing: -2px;
+  }
+  .public-feature img {
+    height: 240px;
+  }
+  .public-feature h2 {
+    font-size: 22px;
+  }
+  .public-research,
+  .public-workspace-entry {
+    padding: 40px 20px;
+  }
+  .public-section-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .public-section-heading h2 {
+    font-size: 30px;
+  }
+  .public-report-grid,
+  .public-footer,
+  .workspace-entry-grid {
+    grid-template-columns: 1fr;
+  }
+  .public-report-grid {
+    gap: 32px;
+  }
+  .public-report-grid h3 {
+    margin-bottom: 16px;
+  }
+  .public-workspace-entry {
+    align-items: start;
+    flex-direction: column;
+  }
+  .workspace-welcome {
+    padding: 22px;
+    gap: 14px;
+  }
+  .workspace-entry-card {
+    padding: 24px;
+  }
+}
+
+/* -- Sealed Signals portal entry -------------------------------------------
+   Replaces the ACAPS homepage replica. This is our own product surface: risk
+   alerts, expert validation and panel management. ACAPS is the data source and
+   is credited as such, not imitated. */
+
+.sealed-wordmark {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.8px;
+  text-decoration: none;
+  line-height: 1;
+  color: var(--accent);
+}
+.sealed-wordmark span {
+  display: block;
+  margin-top: 7px;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+.sealed-wordmark-plain {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 8px;
+}
+
+/* Says what this is before anyone reads a number off it. */
+.prototype-banner {
+  margin: 0;
+  padding: 9px 24px;
+  background: var(--accent-weak, #e6f0f0);
+  color: var(--accent, #0f5f63);
+  font-size: 12.5px;
+  text-align: center;
+  border-bottom: 1px solid rgba(15, 95, 99, 0.18);
+}
+
+/* The hero's right-hand panel: our own latest alert, not a borrowed article. */
+.public-feature-static {
+  border: 1px solid var(--line, #e2e6e8);
+  border-radius: 10px;
+  padding: 26px 28px;
+  background: #fff;
+  align-self: start;
+}
+.public-feature-static > p:first-child {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 6px;
+}
+.public-feature-static h2 {
+  font-size: 21px;
+  margin: 0 0 14px;
+  line-height: 1.25;
+}
+.public-feature-figure {
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--accent);
+  margin: 0 0 14px;
+  font-variant-numeric: tabular-nums;
+}
+.public-feature-static > p:last-child {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+  max-width: 44ch;
+}
+
+@media (max-width: 760px) {
+  .prototype-banner {
+    padding: 9px 16px;
+    text-align: left;
+  }
+  .public-feature-figure {
+    font-size: 34px;
+  }
+}
+
+/* The banner is a direct child of the page root, which lays its children out in a row; without
+   this it only spans as far as its own text. */
+.prototype-banner {
+  display: block;
+  width: 100%;
+  /* styles.css caps every <p> at 65ch for readable body text; a full-bleed banner is the exception. */
+  max-width: none;
+  box-sizing: border-box;
+}
+
+/* The four steps are their own thing, not publication cards. */
+.portal-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 28px 32px;
+  margin-top: 28px;
+}
+.portal-steps article {
+  border-top: 2px solid var(--accent, #0f5f63);
+  padding-top: 14px;
+}
+.portal-steps article > p:first-child {
+  font-size: 12px;
+  color: var(--accent, #0f5f63);
+  font-weight: 500;
+  margin: 0 0 6px;
+}
+.portal-steps h3 {
+  font-size: 17px;
+  line-height: 1.3;
+  margin: 0 0 10px;
+}
+.portal-steps article > p:last-child {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0;
+}

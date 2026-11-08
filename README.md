@@ -1,97 +1,142 @@
 # Sealed Signals
 
-Sealed Signals is the Risk Radar platform ACAPS does not have: the live Risk List from the ACAPS API, with an expert loop,
-descriptive integrity notes and a public audit trail on top. An ACAPS analyst (or, in phase 2, an indicator doorbell)
-sends a one-minute question to the eight best-matched vetted experts. Experts answer on their phone behind a mask they
-choose, with ACAPS's rating hidden until after submission. Answers are committed with a timestamp, opened together,
-summarised as an equal-weight mean with spread and minority reasons, annotated with integrity notes the analyst reads,
-turned into a cited draft the analyst accepts, edits or rejects, and published as a group view on a ledger with an honesty
-box that states what fed into it, its limits and its misses. When the risk resolves, forecasts are scored committee-side
-and every panel member gets the group outcome report. Nothing publishes itself.
+**Expert checks on ACAPS risk ratings that are easier to contribute to, easier to scrutinise, easier to trace.**
 
-*The machine rings the doorbell, the panel answers, the analyst decides, the ledger remembers.*
+Team submission to the ACAPS "Ground Truth" challenge, Hackathon for Good #8, The Hague, 6–8 November 2026.
+Team: Zain Ul Haq (backend), Saleeta Qadir (frontend), Sho Izuno (research and pitch).
 
-Challenge: ACAPS "Ground Truth", Hackathon for Good #8, The Hague, 6-8 Nov 2026. Demo risk: R1043, escalating cross-border insecurity in eastern Chad.
+`AGENTS.md` maps the repository and says how to verify each claim. Test output, the demo transcript and screenshots
+are under `docs/evidence/`.
 
-## Why
+## 1. The problem
 
-ACAPS rates risks on probability and impact. Among the 104 resolved risks in the Risk Radar export, 32 of 38 High-rated risks materialised (84 %), but only 27 of 58 Medium-rated risks did (47 %). A Medium rating is close to a coin flip, and a reader cannot tell how it was reached or how often the ratings are right.
+ACAPS rates humanitarian risks (probability, impact, triggers) for more than a hundred crises. In the Risk Radar export
+shared with the challenge, 27 of 58 resolved Medium-rated risks materialised (47 %, a coin flip) and 32 of 38 High-rated
+risks did (84 %). ACAPS has a documented methodology and peer review for its scheduled products. The expert checks
+between those reviews, by email and conversation, are not structured, not time-stamped and not auditable; experts will
+not sign up to a portal to change that; and nobody can see the bias in a panel or the record of its misses.
 
-What we learned from ACAPS on 6 Nov:
-- Experts are informed professionals who already track crises, not sources on the ground. They are matched on geography and theme, and a committee approves them.
-- 32 analysts track their countries daily, score risks by hand and update weekly.
-- There is no platform. Risk Radar is a dataset and an API.
-- A panel could lean one way. The tool must be one validation layer among others, products never change automatically, and ACAPS must say what fed into each product. In the mentor's words: "We will get things wrong, like a prediction market; the point is honesty about it."
+## 2. The solution in five steps
 
-Sealed Signals is our answer: a loop that asks the right people at the right moment, keeps a verifiable record of what they said and when, leaves the decision to the analyst, and publishes its own limits and misses.
+| Step | What happens | Which problem it answers |
+| --- | --- | --- |
+| 1 Alert | A deterministic diff of ACAPS's monthly INFORM severity and humanitarian-access editions finds the moves and ranks them across all crises, within each metric and direction. No model. It proposes; the analyst approves or dismisses. | Ratings go stale between reviews |
+| 2 Ask | The analyst freezes a question contract (event, place, threshold, deadline) and the eight best-matched vetted experts receive it by email, WhatsApp, Signal, SMS, Teams or a scheduled call. No sign-up, one magic link. | Experts never sign up |
+| 3 Answer | One screen, one required tap, mask chosen per answer. ACAPS's rating is hidden. The answer is committed with a salted SHA-256 hash and a timestamp on confirmation, and all answers are revealed together at the deadline. | Anchoring, herding, social pressure |
+| 4 Check | Equal-weight mean, spread, unattributed disagreement, missing evidence, descriptive bias notes. An Investigator, Skeptic and Judge turn the panel view into a cited draft; a checker rejects any number not exactly in a versioned record. | Bias nobody could see |
+| Country scan | The brief's own example, "What are the three biggest risks in Chad that might worsen humanitarian outcomes in the next six months?": experts tap up to three of the country's ACAPS risks and tracked crises, ACAPS's view hidden and the list shuffled per link; at the deadline the panel's ranking is drawn beside ACAPS's own, and a crisis with no Risk List entry that the panel ranks high is flagged for the analyst. | Knowledge that sits in people before it shows up in a report |
+| 5 Decide and record | The analyst accepts, edits or rejects, with "what decision, for whom, by when". The public ledger keeps the group view, an honesty box, a Verify action and the misses. Scored at panel level when the risk resolves; every expert receives a thank-you saying what their minute changed: the decision it informed, for whom, and ACAPS's own exposure figure, never a personal score. | No trail, no feedback, no misses |
 
-More: [impact](docs/sealed-signals/impact.md) | [integrity and honesty](docs/sealed-signals/bias-and-honesty.md) | [privacy engineering](docs/sealed-signals/privacy-engineering.md) | [question contract](docs/sealed-signals/question-contract.md) | [judging checklist](docs/sealed-signals/judging-checklist.md) | [demo script](docs/sealed-signals/demo-script.md) | [future work](docs/sealed-signals/future.md)
+Nothing publishes itself. Sealed Signals is one validation layer among others inside ACAPS's own analysis workflow.
 
-## How it works
+## 3. The must-haves of the brief, built
 
-```mermaid
-flowchart LR
-  A[Analyst trigger] --> B[Matched panel]
-  B --> C[Committed answers]
-  C --> D[Integrity notes]
-  D --> E[Cited draft]
-  E --> F[Analyst decision]
-  F --> G[Ledger with honesty box]
-  G --> H[Scoring and outcome report]
-  H -.-> B
-```
+| Must-have (organisers' wording) | Where it is in the product | Where it is in the code |
+| --- | --- | --- |
+| Easy to use | One screen at `/e/:token`, one required tap, under a minute, no account, any channel the expert already uses; a plain reply or a voice note also counts | `ui/src/ExpertCard.tsx`, `engine/engine/api.py` (`/e/{token}`), `engine/reach/` |
+| Expert-controlled anonymity | The mask is chosen per answer, with no default: named to ACAPS, nickname to peers, no identity kept; the limit is stated on the screen | `Answer.mask` in `engine/engine/store.py`; pseudonym = HMAC of an internal id; restricted identity registry with logged access |
+| Public anonymity | The public ledger and every public aggregate show n ≥ 5 and never an individual answer, name or pseudonym | `scripts/validate_fixtures.py` fails on any aggregate with n < 5; `GET /api/ledger` strips individuals |
 
-1. **Trigger.** The analyst sends a one-minute question for a risk. Phase 2: an indicator doorbell, using indicators the analyst picks from a menu for that risk, suggests a pulse.
-2. **Matched panel.** Up to 8 approved experts, picked by geographic and thematic tags, with no more than 3 from one affiliation type.
-3. **Committed answers.** One card, about a minute, magic link, no login. ACAPS's rating is hidden until after submission. The expert picks a mask: known, pseudonym or anonymous. Each answer is committed with a timestamp.
-4. **Integrity notes.** For the analyst only. Descriptions such as "round 2 answers moved toward the mean without new reasons" or "no displacement expert on this panel". They do not judge anyone and change nothing automatically.
-5. **Cited draft.** By default a fixed template: every sentence names its aggregate, indicator or source. Claims that cannot be checked go to a verification queue; absence from the databases we search is not evidence they are false.
-6. **Analyst decision.** Accept, edit or reject. Only this step changes a rating.
-7. **Ledger.** Group view next to the ACAPS rating, a Verify button, and an honesty box: contributors, agreement, spread, gaps, claims corroborated and queued, hit rate and misses, a caveat, the decision it could inform, and the analyst's reason when the panel view was rejected.
-8. **Scoring.** After a frozen question contract, forecasts are scored (Brier), committee-side. Everyone who answered receives the group outcome report. Calibration is private and opt-in after 5 resolutions.
+Should-haves: sustained engagement without engagement metrics (outcome report to every expert, one pulse a week at most,
+STOP by one word); short contributions (one screen); small trusted groups (eight per panel, committee-vetted,
+affiliation cap). Should-nots respected: no engagement metrics, no chatbot feel (the expert never talks to a model).
+Could-haves: agreement and disagreement by region on the desk and in the country scan; mobile and 2G-friendly expert screen; English and French
+parsing of replies. Can-have: AI behind the scenes only, model-optional, never expert-facing. No public super-estimator scoreboard,
+by design: forecasts are scored at panel level, every expert gets the outcome report, and individual calibration is
+private, consent-gated and seen by the expert first.
 
-Who can learn what: master prompt section 1a, reproduced in [privacy engineering](docs/sealed-signals/privacy-engineering.md). Commitments prove timing and consistency and stop peers anchoring on each other. They do not hide answers from the operator.
-
-## Run
+## 4. Architecture
 
 ```
-pip install -r engine/requirements.txt
-make seed && make dev        # API on :18000
-make ui                      # frontend on :5173
-make demo                    # full loop on R1043, offline
-make check                   # tests, UI build, fixture validation
+ACAPS API (live, cached in data/acaps-api/)            Risk Radar export (data/, 139 risks, 104 resolved)
+  inform-severity-index/<MonYYYY>, humanitarian-access/<MonYYYY>, crises/, risk-list/
+        |
+        v
+  Risk Alert Engine (engine/engine/alerts.py)  diff, rank, link to the active risk, propose
+        |  analyst approves (question contract frozen)
+        v
+  Reach (engine/reach/)  email, WhatsApp, Signal, SMS, Teams, call; magic link; inbound parsers; consent and STOP
+        |
+        v
+  Expert screen (ui/src/ExpertCard.tsx)  one tap, mask per answer, confirm -> salted SHA-256 commitment
+        |  reveal at the deadline
+        v
+  Aggregate (equal-weight mean, spread, unattributed disagreement) + descriptive integrity notes
+        |
+        v
+  Draft loop (engine/engine/draft.py)  Investigator -> Skeptic -> Judge, model-optional, every number checked
+        |  analyst accepts / edits / rejects, on record
+        v
+  Public ledger (ui/src/LedgerRecord.tsx)  honesty box, Verify (recomputes the commitment root), outcomes, misses
+        |
+        v
+  Resolve: panel-level Brier, outcome report to every expert, opt-in private calibration
 ```
 
-Lane A and Lane B own this section and the architecture detail.
+Technology, and where each piece does its work:
 
-## Synthetic and live
+| Piece | Where | What it does |
+| --- | --- | --- |
+| ACAPS API client with offline cache | `engine/engine/acaps.py`, `data/acaps-api/` | Live monthly editions with a token; cached editions without one; `GET /api/radar/status` says which |
+| Risk Alert Engine | `engine/engine/alerts.py` | Month-over-month diff per crisis, thresholds (index Δ ≥ 0.5, component Δ ≥ 1.0, category change, access Δ ≥ 1), rank across crises, replay of March→April 2026 |
+| Commit-and-reveal | `engine/engine/store.py` | `sha256(canonical_json(answer) + salt)` stored before anyone sees the answer; reveal at the deadline; Verify recomputes the round root |
+| Masks and registry | `engine/engine/hardening/registry.py` | Per-answer mask; HMAC pseudonyms; identity map encrypted with ML-KEM-768 hybrid key establishment and AES-256-GCM at rest; every read logged |
+| Blind-signed credentials | `engine/engine/hardening/credentials.py` | RSA blind signatures (RFC 9474); one-time token per answer; reuse rejected; unlinkable to the approval |
+| Attestations and anchoring | `engine/engine/hardening/attest.py`, `anchors.py` | ML-DSA-65 signatures on resolved ledger entries; daily Merkle root submitted to OpenTimestamps, shown as pending until confirmed |
+| Verification loop | `engine/engine/draft.py` | Deterministic template by default; Investigator, Skeptic, Judge behind `FF_AGENTS`; exact provenance, uncorroborated claims held in a queue |
+| Reach | `engine/reach/`, `engine/inbound/` | Channels, magic links, inbound parsers (numbers, five-word scale, abstention, mask words, STOP, English and French), voice-note confirmation, cadence caps |
+| Scoring and calibration | `engine/engine/hardening/calibration.py` | Frozen question contract before scoring; Brier at panel level; consent-gated calibration programme (`FF_CALIBRATION`, off) |
+| Country scan | `engine/engine/scan.py`, `ui/src/CountryScan.tsx` | Ranks a country's ACAPS risks and tracked crises by panel vote (3-2-1), beside ACAPS's order, with the same commit-and-reveal, deadline and anonymity rules |
+| Frontend | `ui/` | React and Vite; expert screen, analyst desk, public ledger, Risk Radar; Playwright tests |
 
-| Part | Status |
-|---|---|
-| ACAPS Risk Radar export (139 risks, 57 countries, 104 resolved) | Real ACAPS data, used under ACAPS terms |
-| Live Risk List through the ACAPS API | Live when a token is set; otherwise the CSV export is used. The badge on the Radar view says which. |
-| Experts, panels, answers | **Synthetic.** No real expert data is used, as the challenge requires. Labelled "synthetic" in the product. |
-| Indicator history for the Chad replay | Stored aggregated counts (`data/synthetic/indicators_chad.csv`), used only to show phase 2. Lane A to state whether the counts are real or generated. |
-| Sensitivity test on the 104 resolved risks | Real outcomes, synthetic panels, several scenarios (mixed accuracy, shared bias, correlated errors, pure noise). Tests the software and says nothing about real experts or timing. |
-| Draft update | Deterministic template by default. The agent loop (`FF_AGENTS`) is off unless stable. The demo states which ran. |
-| Other flags | Default to the offline path. We never claim a path that is off. |
+## 5. Run it
 
-## Limits
+```
+make install        # python and UI dependencies, from a clean clone
+make demo           # the full loop on R1043 with the synthetic panel, offline, under 60 s
+make dev            # API on :18000 and the built UI at /
+make check          # pytest, UI build, fixture validation
+```
 
-- Everything about expert behaviour is untested with real experts. The pilot is the first real test.
-- The sensitivity test checks the pipeline under assumptions. It does not show that real experts are accurate and makes no claim that the panel moves earlier than ACAPS. The export has no structured rating history.
-- Commitments give timing and consistency, not secrecy from the operator. ACAPS admins can see answers with the mask the expert chose. The identity registry is restricted and logged. `anonymous` answers are stored without identity and cannot be claimed later. Anonymity from ACAPS itself would need blind-signed credentials (phase 2).
-- An aggregate of 5 or more contributions is a disclosure rule, not an anonymity guarantee. On a small panel a distinctive reason can be recognised by peers; the card says so.
-- A small panel can lean one way. We cap composition, show coverage gaps in public and rely on a committee gateway. We cannot prove independence.
-- Integrity notes describe the data. Seeded tests show the code produces the intended note. They are not a claim about sensitivity or specificity.
-- The ACAPS risk status that resolves a question is set by ACAPS, which is also the rating under test. We disclose this.
-- Older imported ACAPS risks resolve over much longer periods than six months, so the 84 % and 47 % rates mix time frames.
-- Impact: anticipatory-action evidence on cost and speed comes mostly from floods, droughts and harsh winters. We do not claim the same for conflict risks. See the impact note.
+Optional: an ACAPS API token in `engine/.env` (`ACAPS_API_TOKEN`) makes the Radar and the alert engine live; without
+it the cached editions in `data/acaps-api/` are used and the UI says so. The engine refuses to start without
+`COMMITMENT_SALT` and `PSEUDONYM_KEY`; `make dev` loads `engine/.env.example`.
 
-## Team
+## 6. Evidence
 
-Zain Ul Haq (backend) | (frontend: name to add) | (research and pitch: name to add)
+`docs/evidence/make-check.txt` (test suite, UI build, fixture validation), `docs/evidence/make-demo.txt` (the offline
+loop transcript), `docs/evidence/screens/` (expert screen, desk, ledger at phone and desktop width),
+`docs/evidence/phones.md` (measured time and taps on two real phones), `docs/evidence/sensitivity.png`.
 
-## ACAPS data terms
+## 7. What is real and what is synthetic
 
-The Risk Radar export is shared by ACAPS for this challenge and is used under ACAPS's terms of use. Do not redistribute it outside this repository. No personal data of real experts is used.
+Real: the ACAPS Risk Radar export (139 risks, 104 resolved) and the ACAPS API editions (risk list, crises, countries,
+monthly INFORM severity and humanitarian access, cached for the demo). The April 2026 move for crisis TCD005,
+"Displacement from Sudan to Chad" (index 6.1 → 6.9, the largest deterioration of 123 crises that month), is real and drives the demo.
+Synthetic: every expert, panel and answer, labelled as synthetic in the UI. No real expert data is used anywhere.
+
+## 8. What we do not claim
+
+Commitments prove timing and consistency and block peer anchoring; they do not hide answers from the operator. Masks
+give confidentiality from peers and the public with defined, logged ACAPS access; they are pseudonymisation, not
+anonymity from ACAPS, and the product says so. Timestamp anchoring is a timestamp, not a blockchain product. The
+sensitivity test on the 104 resolved risks tests the pipeline under mixed-accuracy, shared-bias, correlated-error and
+no-advantage scenarios; it says nothing about real experts and makes no claim about timing against ACAPS. Scores are
+for forecasts, panel-level, never for people; nothing is measured about an expert without consent. Integrity notes
+describe patterns; they never diagnose a person.
+
+## 9. Pilot
+
+Ready for a supervised pilot of this workflow: one crisis (eastern Chad), one panel of eight real experts with consent
+from the analyst's own contacts, three months, ACAPS's Risk Radar manager as the analyst. Measured: experts still
+answering in week 8, minutes per weekly update, panel mean against the rating on questions that resolve. Usability now;
+forecast quality only when questions resolve.
+
+## 10. Documents
+
+`docs/sealed-signals/MASTER_PROMPT.md` (the specification, with changelog), `contracts.md`, `trust-design.md`,
+`privacy-engineering.md`, `reach-design.md` (the design as reviewed, superseded notes included), `question-contract.md`,
+`personas.md`, `judging-checklist.md`. The organisers' original files are unchanged under `docs/challenge/`, `data/`,
+`references/` and `notebooks/`. The pitch deck is `pitch/sealed-signals-slides.html`.
+
+ACAPS data is used under ACAPS's terms of use. Licence: see `LICENSE`.

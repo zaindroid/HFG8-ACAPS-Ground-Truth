@@ -1,0 +1,14 @@
+{
+  "encryption": "ML-KEM-768 + X25519 hybrid, AES-256-GCM",
+  "suite": "ML-KEM-768 + X25519 hybrid, AES-256-GCM",
+  "key_id": "b8bb44d6acf1ffde",
+  "key_holder": "committee service (this process, in the pilot)",
+  "key_seed_source": "COMMITTEE_KEY",
+  "n_identities": 9,
+  "access_log_count": 2,
+  "lock_line": "Identity map encrypted with ML-KEM-768 + X25519 hybrid, AES-256-GCM, key held by the committee.",
+  "guarantees": "Long-horizon confidentiality of the identity map against harvest-now-decrypt-later",
+  "does_not": "Confidentiality from an administrator with the key; anything about answers",
+  "served_from": "live",
+  "generated_at": "2026-11-07T17:56:29+00:00"
+}
