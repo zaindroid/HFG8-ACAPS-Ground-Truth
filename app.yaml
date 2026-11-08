@@ -1,18 +1,24 @@
 # Platform contract for zorc. Memory and node placement come from the deployment report, not from here.
-name: sealed-signals
+name: sealed-signals-ai
 kind: dockerfile
 port: 8080
 memory_mb: 512
 
 domains:
-  - sealed-signals.zaindroid.me
+  - sealed-signals-ai.zaindroid.me
 
 # No database: this pilot keeps its round in process and rebuilds it from engine/seeding.py on start.
 # The risk list is read from the committed ACAPS export. Nothing here is a system of record yet, and
 # declaring a Postgres we do not use would be worse than saying so.
 database: false
 redis: false
-ai: false
+# The expert card's follow-up questions are written per risk and per expert by
+# engine/engine/question_gen.py when a model is reachable. `ai: true` wires LLM_BASE_URL and
+# LLM_API_KEY to the platform's shared gateway, which picks a free provider and fails over between
+# them, so no provider key is ever held in this repo. Without those vars the generator is simply
+# absent and the reviewed question sets and the deterministic bank in probes.py answer instead --
+# which is why the gateway being down costs an expert nothing.
+ai: true
 
 dependencies:
   python: "3.12"
