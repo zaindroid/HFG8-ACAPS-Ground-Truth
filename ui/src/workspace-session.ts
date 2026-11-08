@@ -28,7 +28,7 @@ export function endDemoSession() {
 export function workspaceDestination(value: string | null) {
   if (
     !value ||
-    !/^\/(workspace|alerts|ask|radar|expert|calibration|desk|ledger|stage|apply|committee|e|me)(\/|\?|$)/.test(
+    !/^\/(workspace|alerts|ask|audit|radar|expert|calibration|desk|ledger|stage|apply|committee|e|me)(\/|\?|$)/.test(
       value,
     ) ||
     /[\\\r\n]/.test(value)
