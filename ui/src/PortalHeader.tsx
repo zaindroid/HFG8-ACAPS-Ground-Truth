@@ -6,6 +6,7 @@ import { endDemoSession } from "./workspace-session";
 const primary: [string, string][] = [
   ["/workspace", "Situation"],
   ["/alerts", "Alerts"],
+  ["/ask", "Ask experts"],
   ["/desk", "Analyst desk"],
   ["/expert", "Expert card"],
   ["/ledger", "Ledger"],
