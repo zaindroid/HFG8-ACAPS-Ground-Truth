@@ -10,6 +10,7 @@ import type fullRisk from "../../fixtures/GET_risks_R1043.json";
 import type resultFixture from "../../fixtures/GET_pulses_result.json";
 import type { Card, Answer, AnswerDraft, SealReceipt, Mask } from "./api";
 import type feedbackFixture from "../../fixtures/GET_e_token_feedback.json";
+import type { AnswerKey, Envelope } from "./e2e";
 export type Risk = Omit<
   typeof fullRisk,
   | "risk_type"
@@ -420,12 +421,13 @@ export const endpoint = {
   // Two calls since v3.4: POST /answer drafts and commits nothing -- it is the route a link
   // click or a mail scanner can reach -- and POST /confirm is the commitment. The single typed
   // response here described the receipt, which this route does not return.
-  answer: (token: string, body: Answer) =>
+  // Either body may arrive as an end-to-end encrypted envelope (e2e.ts); the engine opens it and
+  // carries on exactly as with the plain one.
+  answer: (token: string, body: Answer | Envelope) =>
     api<AnswerDraft>(`/e/${encodeURIComponent(token)}/answer`, body),
-  confirm: (token: string, confirmToken: string) =>
-    api<SealReceipt>(`/e/${encodeURIComponent(token)}/confirm`, {
-      confirm_token: confirmToken,
-    }),
+  confirm: (token: string, body: { confirm_token: string } | Envelope) =>
+    api<SealReceipt>(`/e/${encodeURIComponent(token)}/confirm`, body),
+  answerKey: () => api<AnswerKey>("/answer-key"),
   /** After the reveal, and the only place an expert sees ACAPS's band. */
   feedback: (token: string) =>
     api<typeof feedbackFixture>(`/e/${encodeURIComponent(token)}/feedback`),

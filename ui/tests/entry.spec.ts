@@ -16,7 +16,7 @@ test("public entry states the stack from the engine, including the mechanism it 
   // screen cannot claim more than the engine does. The test that proves it is the card for the
   // one mechanism we did not finish: it has to appear, say its flag is off, and say why.
   const cards = page.locator(".stack-grid article");
-  await expect(cards).toHaveCount(6);
+  await expect(cards).toHaveCount(7);
   const membership = cards.filter({
     hasText: "Zero-knowledge group membership",
   });

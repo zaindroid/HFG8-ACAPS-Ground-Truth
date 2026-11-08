@@ -13,6 +13,7 @@ DEFAULTS = {
     "FF_BLIND": True,    # blind-signed single-use credentials
     "FF_ZK": False,      # zero-knowledge group membership: off until stable (see zk.py)
     "FF_ANCHOR": True,   # timestamp anchoring, degrades to "pending"
+    "FF_E2E": True,      # the expert card encrypts its answer to the engine (see e2e.py)
     # The consent-gated calibration programme (section 6d). Off, and off is the point: it is
     # the only thing here that measures a person, and it does not run until an expert has read
     # the disclosure and said yes.
@@ -112,6 +113,17 @@ MECHANISMS = (
         "Committee view: access log",
         "Committee access to identities is defined and visible",
         "Prevention of access by an authorised administrator",
+    ),
+    Mechanism(
+        7, "e2e_answers", "End-to-end answer encryption", "FF_E2E",
+        "The expert card encrypts the answer in the browser: ML-KEM-768 hybrid with X25519, "
+        "HKDF-SHA256, AES-256-GCM, to a key pair only the engine holds; the token and route are "
+        "bound into the ciphertext",
+        "Expert card: the line under the receipt",
+        "The answer is readable only by the engine; a CDN, proxy or tunnel in between cannot read "
+        "it or alter it undetected",
+        "Hiding the answer from the operator of the engine; protecting a compromised device or "
+        "browser",
     ),
 )
 

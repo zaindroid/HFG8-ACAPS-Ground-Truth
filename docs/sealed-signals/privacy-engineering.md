@@ -23,6 +23,7 @@ and the UI render them from there rather than keeping a second copy. `GET /api/t
 | 4 | Semaphore-shaped group membership | `FF_ZK`, **off** | `hardening/zk.py` | `::test_nullifier_rejects_a_second_answer`, `::test_the_verdict_never_claims_the_proof_was_checked` — see section 5 |
 | 5 | Sigstore Rekor public timestamp of the daily commitment root | `FF_ANCHOR`, on | `hardening/anchors.py` | `::test_anchor_goes_pending_then_anchored`, `::test_an_unreachable_log_does_not_invent_an_anchor`, `::test_the_logged_entry_carries_only_the_root_and_a_valid_signature`, `::test_a_receipt_is_only_returned_for_a_commitment_in_that_root` |
 | 6 | Registry access log | always on | `hardening/registry.py` | `::test_a_registry_read_appears_in_the_log`, `::test_an_unattributed_read_is_refused`, `::test_counting_identities_is_not_a_read` |
+| 7 | End-to-end answer encryption: ML-KEM-768 + X25519 to the engine's key, HKDF-SHA256, AES-256-GCM, token and route as AAD; encrypted in the browser | `FF_E2E`, on | `hardening/e2e.py`, `ui/src/e2e.ts` | `test_e2e.py::test_draft_confirm_and_correct_round_trip_encrypted`, `::test_a_tampered_ciphertext_is_refused`, `::test_an_envelope_sealed_for_another_link_or_route_is_refused`, `::test_an_envelope_from_the_browser_module_opens_in_python` |
 
 Notes that matter more than the table:
 

@@ -186,6 +186,7 @@ def main() -> int:
         open_link = next(row for row in links if not row["answered"]
                          and row["pulse_id"] == pulse_id)
         capture("GET_e_token.json", client.get(f"/api/e/{open_link['token']}"))
+        capture("GET_answer_key.json", client.get("/api/answer-key"))
 
         # The card spends a credential it blinded itself, which is the path that earns the
         # unlinkability sentence -- so the fixture shows that one, not the demo fallback.

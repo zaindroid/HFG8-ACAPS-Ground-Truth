@@ -4,6 +4,7 @@
     "FF_BLIND": true,
     "FF_ZK": false,
     "FF_ANCHOR": true,
+    "FF_E2E": true,
     "FF_CALIBRATION": false,
     "FF_TEAMS": false,
     "FF_IVR": false
@@ -74,6 +75,17 @@
       "where_it_shows": "Committee view: access log",
       "guarantees": "Committee access to identities is defined and visible",
       "does_not": "Prevention of access by an authorised administrator"
+    },
+    {
+      "number": 7,
+      "id": "e2e_answers",
+      "name": "End-to-end answer encryption",
+      "flag": "FF_E2E",
+      "enabled": true,
+      "build": "The expert card encrypts the answer in the browser: ML-KEM-768 hybrid with X25519, HKDF-SHA256, AES-256-GCM, to a key pair only the engine holds; the token and route are bound into the ciphertext",
+      "where_it_shows": "Expert card: the line under the receipt",
+      "guarantees": "The answer is readable only by the engine; a CDN, proxy or tunnel in between cannot read it or alter it undetected",
+      "does_not": "Hiding the answer from the operator of the engine; protecting a compromised device or browser"
     }
   ],
   "registry": {
