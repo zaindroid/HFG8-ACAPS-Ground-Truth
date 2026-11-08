@@ -23,9 +23,13 @@ test("public entry states the stack from the engine, including the mechanism it 
   await expect(membership).toContainText(
     "needs the proof verifier this build does not have",
   );
-  await expect(
-    page.locator(".stack-rows").getByText("OpenTimestamps calendar"),
-  ).toBeVisible();
+  // The daily root moved from one public log to another after this page was written, and the
+  // page followed without being edited, because it prints what the engine says. If it ever
+  // stops doing that, this is the assertion that goes red.
+  await expect(cards.filter({ hasText: "Public timestamp" })).toContainText(
+    "entered into Sigstore Rekor",
+  );
+  await expect(page.locator(".stack-rows")).toContainText("0 anchored, 1 pending");
   // ACAPS is credited as the data source, never imitated: one outbound link, in the footer, and
   // a banner saying what this is. No reproduction of their navigation.
   await expect(

@@ -131,6 +131,12 @@ function StackReadout({
   status: TrustStatus | null;
   unreachable: boolean;
 }) {
+  // Every value on this panel is a string the engine chose. Naming a primitive here instead
+  // would have gone stale the day the daily root moved from one public log to another, and the
+  // page would have kept saying the old one in a confident typeface.
+  const anchoring = status?.mechanisms.find(
+    (mechanism) => mechanism.id === "anchoring",
+  );
   const rows = status
     ? [
         {
@@ -145,13 +151,15 @@ function StackReadout({
         },
         {
           label: "Answer credentials",
-          value: "RSA blind signatures, RFC 9474",
+          value: status.credentials.scheme,
           meta: `${status.credentials.n_issued} issued, ${status.credentials.n_spent} spent, reuse refused by nullifier`,
         },
         {
-          label: "Timestamp anchoring",
-          value: "OpenTimestamps calendar",
-          meta: `${status.anchors.anchored} anchored, ${status.anchors.pending} pending`,
+          label: anchoring ? anchoring.name : "Public timestamp",
+          value: `${status.anchors.anchored} anchored, ${status.anchors.pending} pending`,
+          meta: anchoring
+            ? anchoring.guarantees
+            : "A root proves nothing until the log returns its inclusion proof",
         },
         {
           label: "Membership proof",
@@ -296,9 +304,9 @@ export function PublicHome() {
             </p>
             <p>
               The resolved outcome is signed with ML-DSA-65 over the round&rsquo;s
-              commitment root, and the day&rsquo;s root goes to an OpenTimestamps
-              calendar. Checking any of it takes a hash function and this page, not
-              our word for it.
+              commitment root, and the day&rsquo;s root is entered into a public
+              append-only transparency log. Checking any of it takes a hash function
+              and this page, not our word for it.
             </p>
             <ProductLink to="/workspace">
               <span className="public-primary">
