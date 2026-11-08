@@ -3,40 +3,369 @@
     {
       "risk_id": "R1043",
       "title": "Escalating cross-border insecurity linked to the Sudan conflict increases protection risks and humanitarian needs in eastern Chad",
+      "risk_type": "Marked deterioration in an existing crisis",
       "country_iso": "TCD",
       "country": "Chad",
       "probability_acaps": "High",
+      "probability_assumed_number": 0.75,
       "impact_acaps": 4,
       "level": "High",
       "status": "Active",
+      "trend": "Deteriorated",
       "horizon_months": 6,
+      "rationale": "Since early 2026, the conflict in Sudan has evolved from a humanitarian crisis affecting Chad into a direct security threat to eastern border areas. Repeated drone strikes, cross-border incursions, and clashes involving fighters aligned with the Rapid Support Forces (RSF) and Sudanese Armed Forces (SAF) have already caused casualties on Chadian territory, including around Tine and other border regions. These incidents indicate a growing risk that the Sudan conflict could generate sustained military confrontations, proxy violence, or retaliatory attacks inside Chad. This risk is increasingly characterised by the possibility of sustained military confrontation on Chadian territory involving RSF, SAF-aligned groups, and associated proxy forces operating along the Chad–Sudan border.\r\n\r\nThis risk is driven by a convergence of security, economic, and political factors. The Chad–Sudan border has become a strategic corridor for the movement of fuel, arms, gold, and military supplies supporting groups involved in the Sudan conflict. Competition over these routes has transformed border areas into contested spaces where violence increasingly follows smuggling and supply networks. Recent attacks suggest a shift from incidental spillover to deliberate projection of force into Chadian territory.\r\n\r\nThe conflict is also aggravating existing vulnerabilities in Chad. Fractures within cross-border Zaghawa community networks, which remain influential within Chad’s security apparatus, have deepened as communities react to violence in Darfur and perceptions of Chad’s involvement in the conflict. Continued violence in Darfur, combined with Chad’s historical role in Sudanese proxy conflicts, increases the risk of elite defections, armed realignments, and renewed cross-border mobilisation. Historical patterns of proxy warfare between Chad and Sudan may also re-emerge, including support to armed groups and militias operating across the border, increasing the likelihood of retaliatory attacks and further regional destabilisation.\r\n\r\nOver the next one to three months, further RSF incursions, SAF-backed proxy activity, or competition over border corridors could increase cross-border violence, displacement, protection risks, and humanitarian needs in eastern Chad. Additional attacks or retaliations would likely worsen conditions in provinces already hosting large numbers of refugees and returnees, further straining regional services, humanitarian operations, and community relations. The risk is not limited to humanitarian spillover and increasingly involves the possibility of sustained confrontation on Chadian territory involving RSF, SAF-aligned groups, and associated proxy forces. ([Africa Center for Strategic Studies 09/03/2026](https://africacenter.org/wp-content/uploads/2026/04/Chad-Risks-Instability.pdf), [ACLED 08/04/2026](https://acleddata.com/update/africa-overview-april-2026), [Global Initiative 06/03/2026](https://globalinitiative.net/analysis/how-border-criminal-economies-are-drawing-chad-further-into-sudans-conflict/), [ISS Africa 03/04/2025](https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions), [RFI 13/05/2026](https://www.rfi.fr/fr/afrique/20260513-tchad-de-nouvelles-frappes-enregistr%C3%A9es-%C3%A0-la-fronti%C3%A8re-soudanaise-font-craindre-le-pire), [UNHCR 18/05/2026](https://reliefweb.int/report/chad/core-emergency-situation-chad-update-arrivals-sudan-17-may-2026), [UNFPA 15/05/2026](https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026))",
+      "vulnerability": "Before the Sudan conflict escalated, eastern Chad already faced high levels of poverty, food insecurity, weak infrastructure, and limited access to basic services. Refugee-hosting regions such as Ennedi Est, Ouaddai, Sila, and Wadi Fira have experienced sustained humanitarian pressure since 2023, with repeated refugee arrivals straining regional coping capacities, public services, and natural resources. Host communities in these areas also face chronic vulnerabilities linked to limited livelihood opportunities, climate shocks, water scarcity, and underdeveloped healthcare and education systems.\r\n\r\nInsecurity, logistical challenges, and major funding gaps continue to constrain humanitarian response capacity. Several refugee-hosting areas depend heavily on humanitarian assistance, while overcrowded sites continue to face inadequate access to shelter, water, sanitation, healthcare, and protection services. Limited funding has already reduced food assistance and cash support in some locations, increasing reliance on potentially harmful coping mechanisms among refugees and host communities.\r\n\r\nProtection risks are particularly high for women, children, and displaced populations. Overcrowding, limited lighting, long distances to water points, and weak service coverage increase exposure to gender-based violence, exploitation, and child protection risks. Repeated displacement and prolonged humanitarian needs have also reduced household resilience and increased tensions over access to resources and assistance in eastern Chad. ([UNHCR 18/05/2026](https://reliefweb.int/report/chad/core-emergency-situation-chad-update-arrivals-sudan-17-may-2026), [UNFPA 15/05/2026](https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026), [FEWS NET 21/05/2026](https://reliefweb.int/report/chad/chad-food-security-outlook-update-refugee-impacts-are-driving-income-and-consumption-toward-crisis-ipc-phase-3-april-september-2026), [RFI 19/04/2026](https://www.rfi.fr/fr/podcasts/reportage-afrique/20260418-guerre-au-soudan-pour-les-r%C3%A9fugi%C3%A9s-au-tchad-l-espoir-de-migrer-en-europe))",
+      "exposure": "",
       "triggers": [
         {
           "id": "T1",
-          "title": "Cross-border raids and militia activity in Ouaddaï",
-          "description": "Armed incursions from Darfur into border areas around Adré."
+          "acaps_trigger_id": "R1043 - T0618",
+          "title": "Expansion of cross-border attacks and insecurity",
+          "description": "Additional drone strikes, shelling, or armed incursions near the Chad–Sudan border, particularly around Adré, Tina, and other eastern border localities, increase civilian casualties, trigger further displacement into Chad, and constrain humanitarian operations in already fragile border areas. Continued insecurity may also disrupt cross-border trade and movement routes relied upon by refugees and host communities",
+          "completion_rate": 40,
+          "sources": [
+            {
+              "text": "reliefweb.int",
+              "url": "https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026"
+            },
+            {
+              "text": "rfi.fr",
+              "url": "https://www.rfi.fr/fr/afrique/20260513-tchad-de-nouvelles-frappes-enregistr%C3%A9es-%C3%A0-la-fronti%C3%A8re-soudanaise-font-craindre-le-pire"
+            },
+            {
+              "text": "reliefweb.int",
+              "url": "https://reliefweb.int/report/chad/chad-food-security-outlook-update-refugee-impacts-are-driving-income-and-consumption-toward-crisis-ipc-phase-3-april-september-2026"
+            }
+          ]
         },
         {
           "id": "T2",
-          "title": "New refugee influx",
-          "description": "Renewed fighting in Darfur drives further arrivals into eastern Chad."
+          "acaps_trigger_id": "R1043 - T0619",
+          "title": "Attacks on strategic infrastructure in Chad",
+          "description": "Threats by Sudanese actors against Chadian airports, border facilities, military positions, or transport infrastructure may materialise into direct attacks on strategic assets in eastern Chad. Any strike against airports such as Amdjarass, military installations, or critical transport corridors would increase the risk of direct confrontation between Chad and Sudanese armed actors, disrupt humanitarian and commercial operations, and further destabilise border regions",
+          "completion_rate": 10,
+          "sources": [
+            {
+              "text": "issafrica.org",
+              "url": "https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions"
+            },
+            {
+              "text": "acleddata.com",
+              "url": "https://acleddata.com/update/africa-overview-april-2026"
+            },
+            {
+              "text": "africacenter.org",
+              "url": "https://africacenter.org/wp-content/uploads/2026/04/Chad-Risks-Instability.pdf"
+            }
+          ]
         },
         {
           "id": "T3",
-          "title": "Escalation in Darfur",
-          "description": "RSF/SAF escalation in West and Central Darfur."
+          "acaps_trigger_id": "R1043 - T0620",
+          "title": "Renewed proxy mobilisation and cross-border armed group activity",
+          "description": "Historical patterns of proxy warfare between Chad and Sudan may re-emerge through the mobilisation, arming, or support of rebel groups and allied militias operating along the border. Increased involvement of SAF-aligned groups, RSF-linked actors, Darfuri armed factions, or Chadian rebel networks could expand the conflict beyond isolated border incidents and increase the likelihood of retaliatory attacks on Chadian territory.",
+          "completion_rate": 20,
+          "sources": [
+            {
+              "text": "issafrica.org",
+              "url": "https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions"
+            },
+            {
+              "text": "africacenter.org",
+              "url": "https://africacenter.org/wp-content/uploads/2026/04/Chad-Risks-Instability.pdf"
+            },
+            {
+              "text": "globalinitiative.net",
+              "url": "https://globalinitiative.net/analysis/how-border-criminal-economies-are-drawing-chad-further-into-sudans-conflict/"
+            }
+          ]
         }
       ],
       "sources": [
         {
-          "text": "ACAPS Risk List, Chad",
-          "url": "https://www.acaps.org/en/countries/chad"
+          "text": "africacenter.org",
+          "url": "https://africacenter.org/wp-content/uploads/2026/04/Chad-Risks-Instability.pdf"
+        },
+        {
+          "text": "acleddata.com",
+          "url": "https://acleddata.com/update/africa-overview-april-2026"
+        },
+        {
+          "text": "globalinitiative.net",
+          "url": "https://globalinitiative.net/analysis/how-border-criminal-economies-are-drawing-chad-further-into-sudans-conflict/"
+        },
+        {
+          "text": "issafrica.org",
+          "url": "https://issafrica.org/iss-today/urgent-au-action-could-defuse-rising-chad-sudan-tensions"
+        },
+        {
+          "text": "rfi.fr",
+          "url": "https://www.rfi.fr/fr/afrique/20260513-tchad-de-nouvelles-frappes-enregistr%C3%A9es-%C3%A0-la-fronti%C3%A8re-soudanaise-font-craindre-le-pire"
+        },
+        {
+          "text": "reliefweb.int",
+          "url": "https://reliefweb.int/report/chad/core-emergency-situation-chad-update-arrivals-sudan-17-may-2026"
         }
       ],
-      "served_from": "live",
-      "generated_at": "2026-11-07T09:00:00Z"
+      "materialised": null,
+      "expected_exposure": ">500,000",
+      "expected_impact": "Further escalation of cross-border violence linked to the Sudan conflict could expose eastern Chad to new levels of civilian casualties, trauma, and insecurity. Additional drone strikes, shelling, armed incursions, or proxy attacks in border areas such as Adré, Tine, and the surrounding areas may directly affect civilians, trigger new displacement, and increase protection risks in communities already hosting large numbers of refugees and returnees. Repeated exposure to violence and insecurity is also likely to increase psychological distress and trauma among affected populations.\r\n\r\nEscalating military activity could damage or disrupt critical infrastructure, including transport routes, border facilities, health centres, markets, telecommunications infrastructure, and humanitarian supply corridors. Further insecurity along the Chad–Sudan border may reduce civilian mobility, restrict trade, and hinder humanitarian operations. If border crossings tighten or close, people fleeing violence in Darfur will find it more difficult to reach safety, and the delivery of humanitarian assistance and essential goods into eastern Chad will be limited.\r\n\r\nDeteriorating security conditions may also increase public health risks. Displacement, overcrowding, disrupted health services, and reduced humanitarian access could contribute to disease outbreaks and weaken regional health systems’ response capacity. If violence expands or becomes sustained, humanitarian needs are likely to increase significantly across eastern Chad, particularly in border areas already facing limited service availability and weak coping capacities. ([UNHCR 18/05/2026](https://reliefweb.int/report/chad/core-emergency-situation-chad-update-arrivals-sudan-17-may-2026), [UNFPA 15/05/2026](https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-30-april-2026), [FEWS NET 21/05/2026](https://reliefweb.int/report/chad/chad-food-security-outlook-update-refugee-impacts-are-driving-income-and-consumption-toward-crisis-ipc-phase-3-april-september-2026), [RFI 13/05/2026](https://www.rfi.fr/fr/afrique/20260513-tchad-de-nouvelles-frappes-enregistr%C3%A9es-%C3%A0-la-fronti%C3%A8re-soudanaise-font-craindre-le-pire), [RFI 28/04/2026](https://www.rfi.fr/fr/afrique/20260428-tchad-les-affrontements-intercommunautaires-se-poursuivent-dans-l-est-du-pays))",
+      "priority_needs": [
+        "Protection",
+        "Food security",
+        "Livelihoods",
+        "Health"
+      ],
+      "rationale_update": "UPDATE 30/09/2026\r\nThe risk remains active, although no significant new cross-border attacks inside Chad were identified during the second half of September. Humanitarian pressure linked to the Sudan conflict has nevertheless increased sharply as fighting in Darfur and other parts of Sudan drives renewed displacement across the border. By 25 September, more than 400 Sudanese refugees were crossing into Chad each day, around 20 times the rate recorded in previous months, bringing arrivals since the beginning of 2026 to more than 55,000. The acceleration in arrivals is increasing pressure on already overstretched reception areas and services in eastern Chad, while funding constraints affect humanitarian organisations' capacity to provide shelter, food, and relocation assistance. Continued conflict in neighbouring Sudan therefore maintains the risk of further refugee arrivals and humanitarian deterioration in eastern Chad, while the potential for renewed cross-border security incidents remains, given the heightened military presence and tensions established along the border following the August strikes. ([UNHCR 25/09/2026](https://www.unhcr.org/news/briefing-notes/unhcr-its-fourth-year-sudan-conflict-drives-new-displacement-chad-funding-falls), [Reuters 25/09/2026](https://www.reuters.com/world/africa/number-sudanese-fleeing-chad-surges-20-fold-aid-runs-dry-un-says-2026-09-25/))\r\n\r\nUPDATE 13/09/2026\r\nThe risk deteriorated in August 2026 as cross-border violence increasingly affected Chadian territory and prompted stronger security measures. On 21 August, Chad accused Sudanese Armed Forces aircraft and drones of striking a convoy more than 100km inside Ennedi-Est province, prompting authorities to raise the regional alert level to its highest and deploy additional forces. On 28 August, an air strike near the border killed at least 12 people at a fuel market, further increasing civilian protection risks and concerns over escalation. ([Reuters 27/08/2026](https://www.reuters.com/world/africa/chad-accuses-sudan-cross-border-strike-raises-alert-level-2026-08-27/), [AJ 28/08/2026](https://www.aljazeera.com/news/2026/8/28/chad-accuses-sudan-of-deadly-air-strike-near-shared-border)). \r\n\r\n\r\nUPDATE 05/08/2026\r\nThe risk remains active after slightly deteriorating in July. Cross-border insecurity continues along eastern Chad, with new drone attacks reported on 21 July near Tiné amid intensified hostilities in Darfur. One strike in Indour hit a water point, causing livestock losses and possible human casualties, while another damaged an administrative vehicle in Bamina. Between 17 June and 17 July, 23 security incidents were recorded, killing 23 people, nearly half concentrated in Ouaddai and Wadi Fira. Chadian authorities have continued disarmament operations and movement controls in Sila, reflecting persistent concerns over cross-border armed activity. Humanitarian pressures have also increased. Despite the official border closure, 4,126 new refugees arrived in July, while protection conditions during displacement worsened. The proportion of households reporting at least one human rights violation during flight increased from 53% in June to 58% in July, with reported physical violence rising from 22% to 29%. More than 220,000 refugees remain stranded in insecure border areas awaiting relocation, increasing their exposure to insecurity and limited access to services. Over the coming months, further drone strikes, cross-border violence, or proxy mobilisation could further restrict safe movement across eastern Chad and increase protection risks for refugees, returnees, and host communities. The continued backlog of relocations, rainy season access constraints, and the potential suspension of WFP food assistance from September would likely amplify the humanitarian consequences of any further deterioration in border security. ([UNHCR 30/07/2026](https://reliefweb.int/report/chad/flash-updates-55-nouvel-afflux-de-refugies-soudanais-au-tchad), [UNHCR 02/08/2026](https://reliefweb.int/report/chad/projet-21-tchad-urgence-soudanaise-monitoring-aux-frontieres-tendances-cles-juillet-2026), [WFP 27/07/2026](https://reliefweb.int/report/chad/wfp-chad-country-brief-july-2026), [FEWS NET 04/08/2026](https://reliefweb.int/report/chad/tchad-mise-jour-des-messages-cles-retard-dinstallation-de-la-saison-dans-les-provinces-de-lest-deja-en-crise-phase-3-de-lipc-juillet-2026-janvier-2027), [ICG 23/07/2026](https://www.crisisgroup.org/vid/africa/chad/sudans-war-risks-fracturing-eastern-chad)). \r\n\r\n\r\n\r\nUPDATE 26/06/2026\r\nThe risk remains active and has slightly deteriorated. Recent reporting indicates that border insecurity continues to affect eastern Chad, with refugee arrivals from Sudan slowing in May likely because of insecurity around crossing points, including a 26 May drone strike in Al-Tina. This supports the risk logic that violence linked to the Sudan conflict is increasingly affecting Chadian border areas and limiting safe mobility rather than only generating humanitarian spillover. The humanitarian exposure remains high. As of 21 June, 932,771 Sudanese refugees had arrived in Chad since April 2023, while 400,914 Chadian returnees were also recorded. Most new arrivals remain concentrated in Ouaddaï, Wadi Fira, Sila, and Ennedi Est, including 234,499 in Wadi Fira and 509,637 in Ouaddaï. UNHCR also reports that 87% of registered people are women and children and 13% have specific needs.\r\nProtection risks are also increasing. Border monitoring between 1–15 June found that 63% of interviewed households fled Sudan because of insecurity, 42% reported human rights violations during flight, and 49% had family members still blocked in Sudan, mainly because of lack of transport means. In Wadi Fira, continued Zaghawa–Tama tensions and clashes have restricted movement and access to essential SRH and GBV services. UNFPA also reports a 90% funding gap, severely limiting life-saving SRH and protection services.\r\nOver the next one to three months, further drone strikes, cross-border violence, or proxy mobilisation could further restrict movement across the Chad–Sudan border, increase protection risks, and strain humanitarian operations in eastern Chad. The acceleration of refugee relocations from unstable border areas to safer inland sites shows that insecurity remains a direct operational concern. If insecurity persists, humanitarian actors may face greater access constraints while refugees, returnees, and host communities face worsening protection, health, and service-access risks.\r\n([UNFPA 16/06/2026](https://reliefweb.int/report/chad/unfpa-situation-report-chad-humanitarian-response-1-31-may-2026), [UNHCR 15/06/2026](https://reliefweb.int/report/chad/hcr-tchad-rapport-operationnel-hebdomadaire-du-15-avril-2026), [UNHCR 21/06/2026](https://reliefweb.int/report/chad/core-emergency-situation-chad-update-arrivals-sudan-21-june-2026), [UNHCR 17/06/2026](https://reliefweb.int/report/chad/p21-tchad-urgence-soudanaise-situation-de-protection-des-nouveaux-arrivants-01-15-juin-2026-fr))."
+    },
+    {
+      "risk_id": "R1062",
+      "title": "Continued attacks between Pakistan and Afghanistan increase protection risks, food security needs, and access constraints in Afghanistan’s border provinces",
+      "risk_type": "Marked deterioration in an existing crisis",
+      "country_iso": "AFG",
+      "country": "Afghanistan",
+      "probability_acaps": "Very High",
+      "probability_assumed_number": 0.95,
+      "impact_acaps": 4,
+      "level": "High",
+      "status": "Active",
+      "trend": "Deteriorated",
+      "horizon_months": 6,
+      "rationale": "Humanitarian needs, particularly related to protection, food security, and access, are increasing and are at high risk of deteriorating further along the Durand Line between Afghanistan and Pakistan given the conflict escalation and air strikes between the two countries. Hostilities have spiked since 28 June 2026 along Aghanistan’s border provinces, including Kunar, Paktia, and Paktika, when a Pakistani attack killed 28 civilians and wounded 49. Pakistani authorities stated that the strikes targeted the Tehrik-e Taliban Pakistan (TTP), which they held responsible for a deadly militant attack in Karachi that killed three security personnel. Pakistan has consistently accused Afghanistan of harbouring armed groups responsible for attacks on Pakistani security forces and civilians, including the TTP, which Islamabad accuses of operating from Afghan soil. Afghanistan has denied these allegations and threatened retaliation against Pakistan for the air strikes.\r\nThe latest attack comes as part of a series of tit-for-tat attacks between Afghanistan and Pakistan that started in February. After launching Operation Ghazab lil Haq on 21 February, Pakistani authorities declared open war against Afghanistan's Interim Taliban Authority. Despite a two-week ceasefire beginning on 8 April negotiated by China, these attacks have continued, forming a pattern of ‘coercive diplomacy’ between the two countries. This coercive diplomacy has seen fighting continue until it becomes less productive for either side, at which point they briefly return to negotiations until a new security incident restarts the cycle. This pattern is expected to persist in waves over the next three to six months rather than resolve into a stable ceasefire.\r\nThe current tension heightens protection risks for civilians in border-adjacent Afghan provinces (Khost, Kunar, Nangarhar, Nuristan, Paktia, and Paktika), including casualties and injuries from cross-border air strikes and ground attacks, as well as exposure to explosive remnants of war and unexploded ordnance in areas affected by shelling.\r\nDisplacement towards other regions of Afghanistan is expected to persist over the next three to six months. The closure of and restricted movement at the Torkham, Chaman, and other crossings along the Durand Line, whether from active conflict or checkpoint closures, could trap civilians in insecure areas or block access to services on the other side. Host communities already sheltering IDPs and returnees face added strain, raising the risk of tension and disputes over limited resources and services.\r\nThe closure of border crossings has also halted transit flows and delayed humanitarian and commercial supplies. Afghanistan is highly dependent on food imports, as domestic production cannot meet national demand. This dependence, combined with the depletion of harvest stocks in September and declining agricultural labour opportunities from the seasonal downturn in October, is likely to worsen food insecurity. As a result, market dependence is expected to increase, reducing household income and heightening the risk of food consumption gaps. ([CFR 18/03/2026](https://www.cfr.org/articles/why-are-the-afghan-taliban-and-pakistan-in-an-open-war), [The Guardian 29/06/2026](https://www.theguardian.com/world/2026/jun/29/pakistan-deadly-airstrikes-afghanistan-border), [HRW 15/07/2026](https://www.hrw.org/news/2026/07/15/pakistani-strikes-in-afghanistan-raise-civilian-casualty-concerns), [UNAMA 11/05/2026](https://unama.unmissions.org/sites/default/files/2026-05/English%20-%20UNAMA%20HRS%20paper%20on%20cross-border%20civilian%20casualties%20-%20Jan-Mar%202026_Updated_11.05.26.pdf), [WFP 26/06/2026](https://reliefweb.int/report/afghanistan/food-security-under-pressure-impacts-middle-east-crisis-and-pakistan-conflict-afghanistan-june-2026), [OCHA 28/04/2026](https://reliefweb.int/report/afghanistan/afghanistan-situation-update-4-humanitarian-impact-afghanistan-pakistan-military-escalation-28-april-2026), [NPR 03/04/2026](https://www.npr.org/2026/04/03/g-s1-116299/pakistan-says-a-new-round-of-peace-talks-with-afghanistan-is-underway-in-china), [Reuters 02/04/2026](https://www.aol.com/articles/pakistan-says-talks-afghanistan-end-071917568.html), [UNAMA 29/06/2026](https://unama.unmissions.org/en/news/unama-statement-on-civilian-casualties))",
+      "vulnerability": "People have little coping capacity as Afghanistan is experiencing a weak economy, is subject to international sanctions, and has suffered major cuts in international aid, including a complete halt in USAID support. At the beginning of 2026, an estimated 17.5 million people needed humanitarian aid; up until 2025, 85% of the population lived below the poverty line of USD 1 a day.\r\nPeople in border areas are experiencing the consequences of clashes and tensions between the two governments. Between January–March 2026, cross-border attacks by Pakistani forces killed and injured over 750 Afghan civilians, most from air strikes in eastern and southern Afghanistan.\r\nAfghanistan–Pakistan transit trade has suffered one of its steepest declines, plunging to just 11,592 containers worth USD 367 million in the outgoing fiscal year from nearly 89,000 containers valued at USD 5 billion before the Taliban returned to power, as Kabul’s growing reliance on Iranian routes and Pakistan’s border curbs reshaped the decades-old trade corridor. Continued conflict and border closures are likely to further restrict trade and humanitarian supply flows over the next three to six months, compounding food insecurity in affected provinces.\r\nCommunities in bordering areas are dealing with a scarcity of food and essential services. People are often forced to implement potentially harmful coping mechanisms, such as child marriage in exchange for food and money.\r\nPakistan continues to serve as Afghanistan's primary overland transit route for international humanitarian assistance, and the conflict escalation further restricts access for humanitarian aid. Only until 13 July, Pakistani customs authorities issued gate passes for 26 containers carrying food and essential relief supplies after completing customs formalities. The latest clearance does not signal a reopening of the crossing but provides a limited humanitarian exemption to facilitate UN relief operations. ([PRIO 28/05/2026](https://www.prio.org/comments/1887), [OCHA accessed 17/07/2026](https://www.unocha.org/afghanistan), [UN 13/05/2026](https://news.un.org/en/story/2026/05/1167500), [Dawn 19/07/2026](https://www.dawn.com/news/2016605), [AnewZ 14/07/2026](https://anewz.tv/region/south-asia/21822/pakistan-allows-un-aid-convoy-into-afghanistan/news))",
+      "exposure": "",
+      "triggers": [
+        {
+          "id": "T1",
+          "acaps_trigger_id": "R1062 - T0667",
+          "title": "Lethal militant attack in a major Pakistani urban centre.",
+          "description": "A confirmed TTP attack targeting Pakistani security forces or government installations in cities such as Karachi, Peshawar, or Islamabad is likely to trigger further Pakistani airstrikes or ground operations in Afghan border provinces. Historically, such events have served as the primary political trigger for Pakistani retaliatory airstrikes and ground operations in Afghan border provinces like Paktia and Paktika. The 28 June attack was carried out by Pakistan, according to Pakistani authorities, in retaliation for an alleged TTP attack on security personnel in Karachi days earlier.",
+          "completion_rate": null,
+          "sources": []
+        },
+        {
+          "id": "T2",
+          "acaps_trigger_id": "R1062 - T0668",
+          "title": "Cross-border hostilities",
+          "description": "Clashes between army forces in bordering areas and the closure of borders will limit movement, constrain access of humanitarian aid, interrupt livelihoods and trade between communities. In past border closures food security and livelihoods have been significantly impacted.",
+          "completion_rate": null,
+          "sources": []
+        }
+      ],
+      "sources": [
+        {
+          "text": "cfr.org",
+          "url": "https://www.cfr.org/articles/why-are-the-afghan-taliban-and-pakistan-in-an-open-war"
+        },
+        {
+          "text": "theguardian.com",
+          "url": "https://www.theguardian.com/world/2026/jun/29/pakistan-deadly-airstrikes-afghanistan-border"
+        },
+        {
+          "text": "hrw.org",
+          "url": "https://www.hrw.org/news/2026/07/15/pakistani-strikes-in-afghanistan-raise-civilian-casualty-concerns"
+        },
+        {
+          "text": "unama.unmissions.org",
+          "url": "https://unama.unmissions.org/sites/default/files/2026-05/English%20-%20UNAMA%20HRS%20paper%20on%20cross-border%20civilian%20casualties%20-%20Jan-Mar%202026_Updated_11.05.26.pdf"
+        },
+        {
+          "text": "reliefweb.int",
+          "url": "https://reliefweb.int/report/afghanistan/food-security-under-pressure-impacts-middle-east-crisis-and-pakistan-conflict-afghanistan-june-2026"
+        },
+        {
+          "text": "reliefweb.int",
+          "url": "https://reliefweb.int/report/afghanistan/afghanistan-situation-update-4-humanitarian-impact-afghanistan-pakistan-military-escalation-28-april-2026"
+        }
+      ],
+      "materialised": null,
+      "expected_exposure": ">500,000",
+      "expected_impact": "Populations along the Durand Line will experience high protection risks. Civilian casualties and injuries from cross-border air strikes and ground attacks, particularly in border-adjacent provinces (Khost, Kunar, Nangarhar, and Paktika), will likely occur. There is also a high risk of damage to civilian infrastructure, homes, markets, and health facilities, reducing safe access to essential services.\r\nAn estimated 21.9 million people are in need across Afghanistan in 2026, including 15 million in need of protection and 4.2 million in need of shelter and site management support. This figure may not account for the estimated 500,000 conflict-displaced people.\r\nThe conflict is likely to impede access to services, deteriorate the livelihoods of people, particularly returnees recently reported from Pakistan and Iran. There were over 2.5 million returnees from Iran and Pakistan in 2025, adding pressure on overstretched local resources, services, and livelihoods. \r\nForced displacement is expected to persist and is likely to increase, causing a deterioration of humanitarian needs in provinces along the Durand Line. In April 2026 alone, over 9,000 families were forced to leave their homes given the rocket attacks conducted by Pakistani forces on areas near the Durand Line in Afghanistan’s Kunar province.\r\nThe provinces of Kunar, Laghman, Nangarhar, Nuristan, Paktia, and Paktika are projected to remain in Stressed (IPC Phase 2) food security conditions or deteriorate to Crisis (IPC Phase 3) during the lean season. Paktika has been among the most affected provinces, experiencing repeated cross-border shelling that has damaged civilian infrastructure and displaced communities, reducing access to health services and agricultural livelihoods. The situation is partly caused by the prolonged closure of key Durand Line crossings, impeding the trade and import of food and directly affecting food security and livelihoods in Afghanistan. Growing uncertainty around commodity movements through Iran because of the volatile Middle East conflict is also driving up logistics costs and reducing the availability of essential goods in local markets. Further conflict escalation along the Durand Line is likely to  delay any reopening of border crossings and halt the limited humanitarian convoys currently permitted through, further reducing the availability of essential goods and deepening food insecurity.\r\nThe direct impact of conflict escalation on civilian protection and humanitarian access is expected to be the primary driver of increased need. Casualties, displacement, and restricted humanitarian access caused by persistent air strikes and border closures are likely to push additional populations into IPC 3 before food insecurity peaks. Up to 2.3 million additional people could become food-insecure as a result of a prolonged border closure with Pakistan and further conflict escalation. At the same time, food assistance currently reaches only 2.7% of the population because of governmental restrictions and funding shortfalls.\r\nBy October 2026, the depletion of household harvest stocks and the seasonal decline in agricultural labour will increase market dependence just as conflict-driven border closures at Torkham are expected to drive prices upwards through the lean season peak from December–January. The situation is compounded by high unemployment and declining remittance inflows. ([FEWS NET 13/07/2026](https://reliefweb.int/report/afghanistan/afghanistan-food-security-outlook-despite-favorable-harvest-needs-are-expected-rise-harvest-stocks-deplete-june-2026-january-2027), [OCHA 20/05/2026](https://reliefweb.int/report/afghanistan/afghanistan-conflict-displacement-and-returnee-influx-contingency-plan-2026-may-2026), [News on Air 03/04/2026](https://newsonair.gov.in/afghanistan-over-9000-families-forcibly-displaced-near-durand-line-due-to-pak-rocket-attacks/), [IPC 16/12/2025](https://www.ipcinfo.org/ipc-country-analysis/details-map/en/c/1159816/?iso3=AFG), [OCHA 03/08/2026](https://reliefweb.int/report/afghanistan/afghanistan-humanitarian-needs-and-response-plan-2026-response-overview-1-january-31-may-2026), [WFP 26/06/2026](https://reliefweb.int/report/afghanistan/food-security-under-pressure-impacts-middle-east-crisis-and-pakistan-conflict-afghanistan-june-2026))",
+      "priority_needs": [
+        "Food security",
+        "Protection",
+        "Humanitarian access"
+      ],
+      "rationale_update": "UPDATE 07/10/2026\r\nProtection risks for communities in border areas increased in September as clashes and cross-border strikes between Pakistan and Afghanistan resumed after a temporary decline. Repeated Pakistani airstrikes and Afghan military operations have heightened the risk of civilian casualties, damage to homes, and displacement, particularly in eastern Afghanistan. Pakistan said its strikes on 21 September killed 28 fighters, while Afghan officials reported civilian casualties; the UN confirmed three civilian deaths. On 27 September, Afghan forces reported killing 28 fighters and capturing 32 in Nuristan province after they crossed from Pakistan. Further Pakistani strikes on 1 October targeted locations in Afghanistan, including Kunar and Helmand provinces. Pakistan reported 22 militants killed and weapons depots destroyed, while Taliban authorities reported 9–10 civilian deaths, including women and children, and damage to homes. The conflicting accounts highlight the risks to civilians in affected areas, where renewed hostilities could cause further casualties, displacement, and disrupted access to essential services. ([AJ 27/09/2026](https://www.aljazeera.com/news/2026/9/27/afghanistan-says-28-fighters-killed-as-islamabad-kabul-trade-accusations), [BBC 01/10/202](https://www.bbc.com/news/articles/cw4grg92lmr5o), [DW 03/10/2026](https://www.dw.com/en/pakistan-vs-afghanistan-from-allies-and-neighbors-to-war/a-79532115))"
+    },
+    {
+      "risk_id": "R1067",
+      "title": "Escalating clashes between Interim Taliban Authority forces and armed opposition groups in Badakhshan deteriorates food security and increases protection risks",
+      "risk_type": "New emerging risk",
+      "country_iso": "AFG",
+      "country": "Afghanistan",
+      "probability_acaps": "High",
+      "probability_assumed_number": 0.75,
+      "impact_acaps": 4,
+      "level": "High",
+      "status": "Active",
+      "trend": "Stable",
+      "horizon_months": 6,
+      "rationale": "Persistent tension in Badakhshan, driven by disputes over mining resources, ethnic differences, contested territorial control, and grievances over Interim Taliban Authority (ITA) governance, risk creating recurrent instability and protection risks for communities.\r\nArmed opposition to the ITA has been building in the province over the course of 2026. ACLED recorded 22 anti-ITA armed-opposition events in Badakhshan between January–July 2026, up from just four between June–December 2025. While the recent surrender of Fateh-aligned fighters has eased the immediate risk of renewed clashes, the ITA's broader efforts to consolidate control over powerful opposition commanders and curb their influence are likely to generate resentment among these groups, increasing the risk of further infighting.\r\nACLED forecasts at least 34 violent events nationwide in September 2026, of which 19 (roughly 56%) are projected to occur in Badakhshan alone, meaning a 17% rise in violence against civilians compared to the previous month's average. This indicates Badakhshan province is becoming a potential point for national conflict risk.\r\nThe province has valuable mineral deposits, including gold and lapis lazuli, and has long been contested. Recent clashes were triggered by the ITA suspension of gold mining activities in parts of the province to disarm fighters of opposition groups.\r\nClashes have occurred across multiple districts in 2026, including a brief seizure of the Yaftal-e Sufla district headquarters and Afghanistan Freedom Front clashes with ITA forces in Zebak in July. Repeated fighting over district centres risks triggering intermittent displacement as families flee active front lines and may expose residents to crossfire, checkpoint violence, and casualties. Badakhshan’s current context indicates a risk of rising displacement and protection needs, reduced humanitarian access to respond to them, and a deteriorating food security outlook. ([ACLED 20/08/2026](https://acleddata.com/expert-comment/taliban-losing-control-northern-afghanistan), [Hasht-e Subh 26/08/2026](https://8am.media/eng/badakhshan-health-centers-mothers-children/), [Amu TV 20/05/2026](https://amu.tv/240020/#google_vignette), [ACLED 13/08/2026](https://acleddata.com/report/five-years-seizing-power-afghanistan-internal-tensions-test-talibans-vulnerabilities), [Afghanistan International 17/08/2026](https://www.afintl.com/en/202608171939), [ACLED accessed 27/08/2026](https://acleddata.com/platform/trends), [FEWS NET 25/06/2026](https://reliefweb.int/report/afghanistan/afghanistan-seasonal-monitor-el-nino-conditions-expected-be-key-driver-202627-agricultural-season-june-25-2026), [TCA 25/08/2026](https://timesca.com/badakhshan-fighting-raises-risks-for-tajikistan-and-uzbekistan/), [SWJ 07/08/2026](https://smallwarsjournal.com/2026/08/07/badakhshan-and-the-first-signs-of-a-localized-anti-taliban-insurgency-in-afghanistan/))",
+      "vulnerability": "The entire Badakhshan province is currently experiencing Crisis (IPC Phase 3) food insecurity levels according to FEWS NET, but IPC assessments place it in Emergency (IPC Phase 4) through the current period.\r\nThe wheat harvest is still in its early stages as harvesting begins later at higher elevations. The delay in harvest impedes households’ access to harvest-related food and income and keeps them reliant on market purchases in the meantime. Staple food prices are elevated by the high cost of transport to these remote areas, while household income is further constrained by below-average labour opportunities. Poor households in the province are already reporting food consumption gaps and depleting assets; intensified conflict would likely accelerate this depletion by disrupting markets, movement, and livelihoods, pushing more households towards potentially harmful coping strategies.\r\nAbove-average precipitation – in the form of increased snowfall at higher elevations and increased rain and snow at lower elevations, particularly between October–April – is expected, and this is plausibly positive for the harvest, improving water availability after several drought-affected seasons. On the other hand, favourable weather conditions may fail to translate into higher production if farmers are unable to access fertiliser before and during the autumn planting period amid rising prices.\r\nThere is limited information about health in the province, although communities have reported shortages of medicines and adequate facilities; there are also reports of substance use in place of unavailable medicines. In July 2026, the Health Cluster reported reaching around 5,300 people in the province. Badakhshan's mountainous terrain also imposes deep access constraints on humanitarian response, meaning any increase in clashes is likely to further restrict access to affected populations.\r\nRecently, the province experienced floods in Shughnan and Maimai districts. Floods damaged schools, 42,800 hectares of cultivated agricultural land, and other critical infrastructure, including bridges and water mills, as well as killing livestock. Flash floods may have displaced explosive ordnance or exposed previous landmines. ([FEWSNET 25/06/2026[(https://reliefweb.int/report/afghanistan/afghanistan-seasonal-monitor-el-nino-conditions-expected-be-key-driver-202627-agricultural-season-june-25-2026), [FEWSNET 13/07/2026](https://reliefweb.int/report/afghanistan/afghanistan-food-security-outlook-despite-favorable-harvest-needs-are-expected-rise-harvest-stocks-deplete-june-2026-january-2027), [FAO 05/08/2026](https://digital-media.fao.org/archive/Afghanistan---Urgent-call-for-assistance--Protecting-the-2027-wheat-harvest-2A6XC5LOEMDU.html), [IPC 16/12/2025](https://www.ipcinfo.org/fileadmin/user_upload/ipcinfo/docs/IPC_Afghanistan_Acute_Food_Insecurity_Sept2025_Sept2026_Report.pdf), [UNICEF 03/08/2026](https://reliefweb.int/report/afghanistan/unicef-afghanistan-flash-update-2-central-eastern-and-northern-regions-flash-floods-29-july-2026), [Health Cluster/ WHO 23/08/2026](https://reliefweb.int/report/afghanistan/afghanistan-health-cluster-dashboard-humanitarian-response-services-july-2026), [Zantimes 19/09/2023](https://zantimes.com/2023/09/19/when-opium-is-the-only-pain-relief-available-to-the-poor-of-badakhshan/), [AmuTV 14/09/2025](https://amu.tv/199539/))",
+      "exposure": "",
+      "triggers": [
+        {
+          "id": "T1",
+          "acaps_trigger_id": "R1067 - T0671",
+          "title": "Expanded ITA disarmament order or offensive in the north of Afghanistan",
+          "description": "Further efforts by the ITA to disarm opposition groups and consolidate control over local commanders could trigger armed resistance and renewed clashes in Badakhshan, particularly in areas where armed groups retain influence.",
+          "completion_rate": 60,
+          "sources": [
+            {
+              "text": "thediplomat.com",
+              "url": "https://thediplomat.com/2026/08/is-badakhshan-becoming-the-epicenter-of-anti-taliban-resistance/"
+            }
+          ]
+        },
+        {
+          "id": "T2",
+          "acaps_trigger_id": "R1067 - T0672",
+          "title": "Armed group offensives could restrict and attacks in districts centres",
+          "description": "Renewed attacks or attempts by armed groups to seize district centres could disrupt movement, displace civilians, and restrict humanitarian access to affected communities.",
+          "completion_rate": 30,
+          "sources": [
+            {
+              "text": "acleddata.com",
+              "url": "https://acleddata.com/report/five-years-seizing-power-afghanistan-internal-tensions-test-talibans-vulnerabilities"
+            },
+            {
+              "text": "arabnews.com",
+              "url": "https://www.arabnews.com/opinion/the-key-challenges-the-taliban-face-in-badakhshan-2656168"
+            },
+            {
+              "text": "zantimes.com",
+              "url": "https://zantimes.com/2026/04/20/even-breathing-in-nature-is-forbidden-for-women/"
+            }
+          ]
+        },
+        {
+          "id": "T3",
+          "acaps_trigger_id": "R1067 - T0673",
+          "title": "Cross border conflicts.",
+          "description": "Cross border interest because of proximity with China, and cross border conflicts with Pakistan, could increase the presence of armed actors and affect local communities. Badakhshan is considered a key route for drug trafficking because of its geography and long border with Tajikistan.",
+          "completion_rate": 40,
+          "sources": [
+            {
+              "text": "arabnews.com",
+              "url": "https://www.arabnews.com/opinion/the-key-challenges-the-taliban-face-in-badakhshan-2656168"
+            },
+            {
+              "text": "afintl.com",
+              "url": "https://www.afintl.com/en/202608269265"
+            }
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "text": "acleddata.com",
+          "url": "https://acleddata.com/expert-comment/taliban-losing-control-northern-afghanistan"
+        },
+        {
+          "text": "8am.media",
+          "url": "https://8am.media/eng/badakhshan-health-centers-mothers-children/"
+        },
+        {
+          "text": "amu.tv",
+          "url": "https://amu.tv/240020/#google_vignette"
+        },
+        {
+          "text": "acleddata.com",
+          "url": "https://acleddata.com/report/five-years-seizing-power-afghanistan-internal-tensions-test-talibans-vulnerabilities"
+        },
+        {
+          "text": "afintl.com",
+          "url": "https://www.afintl.com/en/202608171939"
+        },
+        {
+          "text": "acleddata.com",
+          "url": "https://acleddata.com/platform/trends"
+        }
+      ],
+      "materialised": null,
+      "expected_exposure": "20,000-100,000",
+      "expected_impact": "Intensified conflict would directly affect communities' protection, with people likely exposed to crossfire, checkpoint violence, and the risk of casualties. Repeated fighting over district centres could trigger short- and medium-term displacement as families flee active front lines, restricting mobility and disrupting livelihoods in turn.\r\nGold mining disputes between armed groups have disrupted local livelihoods. The ITA has suspended mining in contested areas to cut off income for opposition armed groups, in the process also stripping income from mining-dependent communities, which are not necessarily tied to armed groups. Badakhshan's mines department head reported around 650–700 mining companies, with thousands of people working manually. Thousands of miners are specifically deployed in areas such as Shiwa. Further escalation could mean lost income for miners caught between Taliban control efforts and dissident commanders. Health access, already limited, would likely deteriorate further; communities have already reported shortages of medicines and adequate facilities, as well as substance use in place of unavailable medicines. Escalating conflict increases the risk of health facilities being damaged, occupied, or forced to suspend services and could disrupt the already-limited supply of medicines to clinics.\r\nThis livelihood pressure is set against a difficult seasonal outlook. Above-average precipitation expected between October 2026 and April 2027 could damage the upcoming harvest, further eroding food security just as the lean season approaches. Food prices are already rising, and further disruption to markets, movement, and livelihoods could push households towards potentially harmful coping strategies, such as early marriage and skipping meals.\r\nThe current context in Badakhshan points to a compounding risk: rising displacement and protection needs, reduced humanitarian access to respond to them, and a deteriorating health and food security outlook. ([ACLED 20/08/2026](https://acleddata.com/expert-comment/taliban-losing-control-northern-afghanistan), [8am Media 26/08/2026](https://8am.media/eng/badakhshan-health-centers-mothers-children/), [AMUtv 20/05/2026](https://amu.tv/240020/#google_vignette), [ACLED 13/08/2026](https://acleddata.com/report/five-years-seizing-power-afghanistan-internal-tensions-test-talibans-vulnerabilities), [Afintl 16/08/2026](https://www.afintl.com/en/202608171939), [Zantimes 19/09/2023](https://zantimes.com/2023/09/19/when-opium-is-the-only-pain-relief-available-to-the-poor-of-badakhshan/), [The Diplomat 23/01/2026](https://thediplomat.com/2026/01/afghanistans-secret-gold-rush-risks-poisoning-its-waters/), [AmuTV 14/09/2025](https://amu.tv/199539/), [FEWSNET 13/07/2026](https://reliefweb.int/report/afghanistan/afghanistan-food-security-outlook-despite-favorable-harvest-needs-are-expected-rise-harvest-stocks-deplete-june-2026-january-2027)).",
+      "priority_needs": [
+        "Protection",
+        "Health",
+        "Food security"
+      ],
+      "rationale_update": "UPDATE 06/10/2026\r\nClashes between armed groups and Taliban forces continued in Badakhshan province in September. Between 29 August and 25 September, battles increased by 68% (eight events) and organised violence by 31% (11 events) compared with the previous year’s average. On 30 September, the Afghanistan Freedom Front reported Taliban attacks in Zebak district, following repeated clashes in recent weeks. On 29 September, the Taliban Defence Ministry declared its operation over in Kamdesh district, Nuristan province, claiming 41 people killed and 62 detained. Continued fighting could expose rural communities to casualties, movement restrictions, forced recruitment, and disruptions to education and livelihoods, although these impacts remain unverified. Humanitarian needs are compounded by food insecurity: an estimated 671,800 people (at least 40% of Badakhshan’s population) face Crisis (IPC Phase 3) or worse. Below-average harvests and above-national-average prices for rice, sugar, and cooking oil are likely to further constrain food access. Limited vaccination coverage and access barriers in remote areas also increase vulnerability to measles outbreaks. ([ACLED accessed 01/10/2026](https://acleddata.com/platform/trends), [AmuTv 27/09/2026](https://amu.tv/253227/), [Afintl 30/09/2026](https://www.afintl.com/en/202609302275), [FEWS NET 02/09/2026](https://reliefweb.int/report/afghanistan/afghanistan-key-message-update-july-2026-january-2027-favorable-harvest-temporarily-improves-food-access-despite-lingering-drought-impacts), [KT 29/09/2026](https://thekabultribune.com/en/0011343), [Data for Afghanistan 29/09/2026](https://reliefweb.int/report/afghanistan/data-afghanistan-afghanistan-food-prices-food-insecurity-report-august-2026))"
+    },
+    {
+      "risk_id": "R1066",
+      "title": "Escalating insecurity across the Lake Chad Basin increases displacement, protection risks, and humanitarian access constraints",
+      "risk_type": "Marked deterioration in an existing crisis",
+      "country_iso": "TCD, NER, CMR, NGA",
+      "country": "Chad, Niger, Cameroon, Nigeria",
+      "probability_acaps": "Very High",
+      "probability_assumed_number": 0.95,
+      "impact_acaps": 4,
+      "level": "High",
+      "status": "Active",
+      "trend": "Deteriorated",
+      "horizon_months": 6,
+      "rationale": "Violence involving Boko Haram and Islamic State West Africa Province (ISWAP) is rising after five years of declining lethality in the Lake Chad Basin. More than 300 clashes involving the two groups were recorded in the first quarter of 2026, 30% above the previous quarter, while militant Islamist-linked fatalities increased by 28% over the past year, reaching their highest level since 2015. Nigeria accounted for 87% of these fatalities, with Borno remaining the expected epicentre, followed by affected areas of Adamawa and Yobe.\r\nThe escalation is expected to be driven by two related developments. While regional forces have concentrated military operations against ISWAP, Boko Haram has regrouped and rebuilt its capacity to launch coordinated attacks against military bases. At the same time, the May killing of senior ISWAP leader Abu-Bilal Al Minuki is expected to trigger retaliatory attacks and greater competition between factions for territorial influence and legitimacy. ISWAP has overrun at least 16 Nigerian military bases over the past year, while its increasing use of improvised explosive devices and reconnaissance drones enhances its capacity to identify, isolate, and attack military positions, increasing the operational threat posed by the group.\r\nOver the next three to six months, there is a very high probability that intensified insurgent attacks and military counteroperations will increase civilian casualties, displacement, and humanitarian access constraints across the basin. Violence is expected to remain concentrated in Borno, with continued spillover into Adamawa and Yobe, where Boko Haram and ISWAP are likely to intensify attacks on civilians, military positions, and transport routes. Escalating violence in northeastern Nigeria is expected to generate additional refugee movements into Niger's Diffa region, while military pressure and cross-border armed group movements may contribute to increased attacks, abductions, and disruptions to fishing and trade in Cameroon’s Far North, as well as renewed displacement and protection risks in Chad’s Lac province. These cross-border displacement dynamics and parallel insecurity are expected to reverse recent stabilisation gains and generate additional humanitarian needs across the Lake Chad Basin. ([ICG 09/07/2026](https://www.crisisgroup.org/oth/chad-cuba-horn-africa-pakistan/horizon-july-december-2026), [OCHA 07/07/2026](https://reliefweb.int/report/nigeria/lake-chad-basin-humanitarian-overview-2026-29-june-2026), [OCHA 29/04/2026](https://www.unocha.org/publications/report/nigeria/lake-chad-basin-humanitarian-overview-29-april-2026), [RFI 23/06/2026](https://www.rfi.fr/fr/afrique/20260623-aux-confins-nord-du-cameroun-une-commune-enclav%C3%A9e-sous-une-pression-jihadiste-constante), [AJ 18/05/2026](https://www.aljazeera.com/news/2026/5/18/how-iswap-and-boko-haram-are-reshaping-the-lake-chad-basin), [UNHCR 02/07/2026](https://reliefweb.int/report/cameroon/lake-chad-basin-regional-protection-and-displacement-crisis-humanitarian-priorities-and-funding-needs-across-cameroon-chad-niger-and-nigeria-june-december-2026), [UNHCR 03/07/2026](https://reliefweb.int/report/cameroon/unhcr-warns-lake-chad-basin-tipping-point-violence-and-displacement-surge), [ACLED 19/05/2026](https://acleddata.com/expert-comment/violence-involving-boko-haram-and-islamic-state-west-africa-province-rising), [ACSS 06/04/2026](https://africacenter.org/spotlight/2026a-mig-widening-militant-islamist-threat/))",
+      "vulnerability": "The Lake Chad Basin already faces severe humanitarian vulnerabilities after more than a decade of conflict, displacement, and chronic underdevelopment. Across Cameroon, Chad, Niger, and Nigeria, more than 3.5 million people are forcibly displaced, and 8.2 million require humanitarian assistance. Recurrent violence, weak state presence in remote border areas, and limited access to basic services have reduced communities’ ability to cope with additional shocks. Protection risks remain particularly acute for women, children, displaced populations, and communities living in isolated border and island areas.\r\nMany households depend on fishing, livestock herding, cross-border trade, and small-scale agriculture for their livelihoods. Repeated attacks, extortion, movement restrictions, and insecurity along transport routes have disrupted these activities, reducing incomes and increasing food insecurity. In several areas, communities face limited access to education, healthcare, and protection services, while repeated displacement has eroded traditional support networks and coping mechanisms.\r\nHumanitarian responders maintain a significant presence across the basin, but insecurity, logistical constraints, underfunding, and access restrictions continue to limit the scale and reach of assistance. A continued deterioration of security conditions would further strain already-overstretched services, reduce humanitarian access, and weaken the coping capacity of conflict-affected communities and host populations. ([OCHA 07/07/2026](https://reliefweb.int/report/nigeria/lake-chad-basin-humanitarian-overview-2026-29-june-2026), [OCHA 29/04/2026](https://www.unocha.org/publications/report/nigeria/lake-chad-basin-humanitarian-overview-29-april-2026), [UNHCR 03/07/2026](https://reliefweb.int/report/cameroon/unhcr-warns-lake-chad-basin-tipping-point-violence-and-displacement-surge))",
+      "exposure": "",
+      "triggers": [
+        {
+          "id": "T1",
+          "acaps_trigger_id": "R1066 - T0669",
+          "title": "Retaliatory violence following the killing of senior ISWAP leader Abu-Bilal al-Minuki",
+          "description": "The reported killing of senior ISWAP leader Abu-Bilal al-Minuki by US and Nigerian forces on 15 May 2026 could trigger retaliatory attacks by ISWAP, while intensifying competition with JAS/Boko Haram for territorial influence and operational relevance. Escalating attacks against military positions, civilians, and strategic infrastructure—particularly in Borno State—could increase displacement and humanitarian needs, while military pressure and cross-border armed group movements may generate spillover effects into Niger’s Diffa region, Cameroon’s Far North, and Chad’s Lac Province.",
+          "completion_rate": 50,
+          "sources": []
+        },
+        {
+          "id": "T2",
+          "acaps_trigger_id": "R1066 - T0670",
+          "title": "Expansion of military counteroffensives and emergency security measures",
+          "description": "Nigerian and regional security forces may intensify military operations, including cross-border operations and emergency security measures, in response to rising insurgent activity. Expanded military deployments, movement restrictions, and operations around Lake Chad and border areas could increase civilian displacement, disrupt livelihoods, and further constrain humanitarian access, particularly if armed groups respond with additional attacks or shift operations across borders",
+          "completion_rate": 40,
+          "sources": []
+        }
+      ],
+      "sources": [
+        {
+          "text": "crisisgroup.org",
+          "url": "https://www.crisisgroup.org/oth/chad-cuba-horn-africa-pakistan/horizon-july-december-2026"
+        },
+        {
+          "text": "reliefweb.int",
+          "url": "https://reliefweb.int/report/nigeria/lake-chad-basin-humanitarian-overview-2026-29-june-2026"
+        },
+        {
+          "text": "unocha.org",
+          "url": "https://www.unocha.org/publications/report/nigeria/lake-chad-basin-humanitarian-overview-29-april-2026"
+        },
+        {
+          "text": "rfi.fr",
+          "url": "https://www.rfi.fr/fr/afrique/20260623-aux-confins-nord-du-cameroun-une-commune-enclav%C3%A9e-sous-une-pression-jihadiste-constante"
+        },
+        {
+          "text": "aljazeera.com",
+          "url": "https://www.aljazeera.com/news/2026/5/18/how-iswap-and-boko-haram-are-reshaping-the-lake-chad-basin"
+        },
+        {
+          "text": "reliefweb.int",
+          "url": "https://reliefweb.int/report/cameroon/lake-chad-basin-regional-protection-and-displacement-crisis-humanitarian-priorities-and-funding-needs-across-cameroon-chad-niger-and-nigeria-june-december-2026"
+        }
+      ],
+      "materialised": null,
+      "expected_exposure": "100,000-250,000",
+      "expected_impact": "Borno state is expected to remain the epicentre of the crisis, with intensified attacks by ISWAP and Boko Haram likely to generate additional displacement, civilian casualties, and humanitarian access restrictions. Spillover into Adamawa and Yobe may further disrupt transport corridors, markets, and access to health and education services in affected communities. In Niger’s Diffa region, the main humanitarian impact is expected to result from additional refugee arrivals fleeing violence in northeastern Nigeria, increasing pressure on host communities, protection services, and humanitarian assistance. In Cameroon’s Far North, renewed attacks, abductions, and restrictions on fishing and cross-border trade may further erode livelihoods and increase protection risks in border communities. In Chad’s Lac province, renewed attacks and military operations may trigger secondary displacement, restrict civilian movement, and increase pressure on already-overstretched basic services. Across the basin, increased insecurity is expected to further constrain humanitarian access, particularly along transport routes and in remote border and island communities. Additional displacement and livelihood disruptions are likely to increase humanitarian needs and place further pressure on civic authorities and humanitarian responders across the four countries. ([OCHA 07/07/2026](https://reliefweb.int/report/nigeria/lake-chad-basin-humanitarian-overview-2026-29-june-2026), [OCHA 29/04/2026](https://www.unocha.org/publications/report/nigeria/lake-chad-basin-humanitarian-overview-29-april-2026), [UNHCR 03/07/2026](https://reliefweb.int/report/cameroon/unhcr-warns-lake-chad-basin-tipping-point-violence-and-displacement-surge), [ICG 09/07/2026](https://www.crisisgroup.org/oth/chad-cuba-horn-africa-pakistan/horizon-july-december-2026), [AJ 18/05/2026](https://www.aljazeera.com/news/2026/5/18/how-iswap-and-boko-haram-are-reshaping-the-lake-chad-basin))",
+      "priority_needs": [
+        "Protection",
+        "Food security",
+        "Livelihoods"
+      ],
+      "rationale_update": "UPDATE 30/09/2026\r\nThe risk continued to increase in the second half of September, with persistent armed group activity generating new displacement and protection concerns in Cameroon's Far North region. On 17 September, armed assailants killed at least 15 civilians in Madegoua, near Makary commune in Logone et Chari division. While no group claimed responsibility, a security analyst assessed that Islamic State West Africa Province was likely responsible. The attack prompted several hundred people from around ten nearby villages to flee towards Kousseri, Mora, and Waza, where new arrivals faced inadequate food and shelter and increased pressure on local health services. Insecurity remained persistent elsewhere in Far North region during September, including attempted attacks by Islamic State West Africa Province on security positions near Fotokol and continued Boko Haram abductions. These developments reinforce the risk of further displacement and protection needs in border communities and demonstrate that sustained armed group activity is translating into humanitarian impacts despite continued military operations.([Internazionale 17/09/2026](https://www.internazionale.it/ultime-notizie-reuters/2026/09/17/militants-kill-15-in-overnight-cameroon-raid-village-sources-say), [AJ 22/09/2026](https://www.aljazeera.com/amp/news/2026/9/22/hundreds-flee-homes-in-far-north-cameroon-after-armed-group-raid-kills-15))\r\n\r\nUPDATE 13/09/2026\r\nThe risk deteriorated in August 2026 as sustained Boko Haram and Islamic State West Africa Province activity across the Lake Chad Basin continued to challenge security forces and disrupt civilian movement. In Borno, repeated attacks and insurgent logistics activity prompted intensified military operations, while 204 conflict-related incidents and 108 deaths were recorded in Cameroon’s Far North between 1 July and 25 August. Continued insecurity across border areas is increasing protection risks and constraining livelihoods and humanitarian access, reversing fragile stabilisation gains. ([The Guardian Nigeria 30/08/2026](https://guardian.ng/business-services/maritime/troops-foil-iswap-attack-on-borno-community-neutralise-27-terrorists/), [Africa Monitoring 08/09/2026](https://africamonitoring.com/news/security/524), [ACLED 19/05/2026](https://acleddata.com/expert-comment/violence-involving-boko-haram-and-islamic-state-west-africa-province-rising), [Critical Threats 13/08/2026](https://www.criticalthreats.org/analysis/aussom-shabaab-somalia-puntland-fgs-somalia-iswap-boko-nigeria-africa-file-august-13-2026), [ISS 03/08/2026](https://issafrica.org/iss-today/boko-haram-s-cameroonian-commanders-are-extending-the-group-s-reach))."
     }
   ],
+  "n": 28,
+  "filter": "Active",
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }

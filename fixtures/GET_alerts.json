@@ -5,29 +5,41 @@
       "crisis_id": "TCD005",
       "crisis_name": "Displacement from Sudan to Chad",
       "risk_id": "R1043",
+      "risk_link_confirmed": true,
       "month_from": "Mar2026",
       "month_to": "Apr2026",
       "metric": "index",
       "before": 6.1,
       "after": 6.9,
       "delta": 0.8,
+      "direction": "deterioration",
       "rank_this_month": 1,
+      "rank_by_abs_delta": 2,
       "n_crises_this_month": 123,
       "components": {
         "human_impact": [
           6.04,
           7.57
         ],
-        "people_in_need": [
-          7.04,
-          7.11
-        ],
         "conditions": [
           6.52,
           7.55
+        ],
+        "people_in_need": [
+          7.04,
+          7.11
         ]
       },
+      "access": [
+        null,
+        null
+      ],
+      "category": [
+        "High",
+        "High"
+      ],
       "reliability": "Very High",
+      "last_updated": "2026-04-29",
       "rule_hit": "index delta >= 0.5",
       "adm1": [
         "Ennedi Est",
@@ -39,9 +51,288 @@
         "SDN001"
       ],
       "pulse_id": null,
-      "status": "proposed"
+      "status": "proposed",
+      "note": null,
+      "detected_at": "2026-11-07T22:14:21+00:00"
+    },
+    {
+      "id": "S-0003",
+      "crisis_id": "TZA003",
+      "crisis_name": "Drought and floods in Tanzania",
+      "risk_id": null,
+      "risk_link_confirmed": false,
+      "month_from": "Mar2026",
+      "month_to": "Apr2026",
+      "metric": "index",
+      "before": 4.9,
+      "after": 5.5,
+      "delta": 0.6,
+      "direction": "deterioration",
+      "rank_this_month": 2,
+      "rank_by_abs_delta": 3,
+      "n_crises_this_month": 123,
+      "components": {
+        "human_impact": [
+          4.31,
+          4.45
+        ],
+        "conditions": [
+          5.31,
+          6.35
+        ],
+        "people_in_need": [
+          4.61,
+          6.71
+        ]
+      },
+      "access": [
+        null,
+        null
+      ],
+      "category": [
+        "Medium",
+        "Medium"
+      ],
+      "reliability": "High",
+      "last_updated": "2026-04-29",
+      "rule_hit": "index delta >= 0.5",
+      "adm1": [
+        "Dodoma",
+        "Arusha",
+        "Singida",
+        "Simiyu",
+        "Mara",
+        "Kilimanjaro",
+        "Tanga",
+        "Mbeya"
+      ],
+      "connected_crises": [
+        "MWI002",
+        "NAM002",
+        "SWZ001",
+        "ZMB002",
+        "ZWE001",
+        "MDG002"
+      ],
+      "pulse_id": null,
+      "status": "proposed",
+      "note": null,
+      "detected_at": "2026-11-07T22:14:21+00:00"
+    },
+    {
+      "id": "S-0005",
+      "crisis_id": "PAK007",
+      "crisis_name": "Displacement from Afghanistan to Pakistan",
+      "risk_id": null,
+      "risk_link_confirmed": false,
+      "month_from": "Mar2026",
+      "month_to": "Apr2026",
+      "metric": "index",
+      "before": 7.3,
+      "after": 6.4,
+      "delta": -0.9,
+      "direction": "improvement",
+      "rank_this_month": 1,
+      "rank_by_abs_delta": 1,
+      "n_crises_this_month": 123,
+      "components": {
+        "human_impact": [
+          7.78,
+          7.72
+        ],
+        "conditions": [
+          7.79,
+          6.25
+        ],
+        "people_in_need": [
+          8.37,
+          7.46
+        ]
+      },
+      "access": [
+        null,
+        null
+      ],
+      "category": [
+        "High",
+        "High"
+      ],
+      "reliability": "High",
+      "last_updated": "2026-04-29",
+      "rule_hit": "index delta <= -0.5 (improvement)",
+      "adm1": [
+        "Baluchistan",
+        "Khyber-Pakhtunkhwa",
+        "Islamabad"
+      ],
+      "connected_crises": [],
+      "pulse_id": null,
+      "status": "proposed",
+      "note": null,
+      "detected_at": "2026-11-07T22:14:21+00:00"
+    },
+    {
+      "id": "S-0007",
+      "crisis_id": "LKA007",
+      "crisis_name": "Cyclone Ditwah in Sri lanka",
+      "risk_id": null,
+      "risk_link_confirmed": false,
+      "month_from": "Mar2026",
+      "month_to": "Apr2026",
+      "metric": "human_impact",
+      "before": 6.02,
+      "after": 7.77,
+      "delta": 1.75,
+      "direction": "deterioration",
+      "rank_this_month": 1,
+      "rank_by_abs_delta": 2,
+      "n_crises_this_month": 123,
+      "components": {
+        "human_impact": [
+          6.02,
+          7.77
+        ],
+        "conditions": [
+          6.47,
+          6.47
+        ],
+        "people_in_need": [
+          6.93,
+          6.93
+        ]
+      },
+      "access": [
+        null,
+        null
+      ],
+      "category": [
+        "High",
+        "High"
+      ],
+      "reliability": "Very High",
+      "last_updated": "2026-04-29",
+      "rule_hit": "human_impact delta >= 1.0",
+      "adm1": [
+        "Ampara",
+        "Anuradhapura",
+        "Badulla",
+        "Batticaloa",
+        "Colombo",
+        "Galle",
+        "Gampaha",
+        "Hambantota",
+        "Jaffna",
+        "Kalutara",
+        "Kandy",
+        "Kegalle",
+        "Kilinochchi",
+        "Kurunegala",
+        "Mannar",
+        "Matale",
+        "Matara",
+        "Moneragala",
+        "Mullaitivu",
+        "Nuwara Eliya",
+        "Polonnaruwa",
+        "Puttalam",
+        "Ratnapura",
+        "Trincomalee",
+        "Vavuniya"
+      ],
+      "connected_crises": [],
+      "pulse_id": null,
+      "status": "proposed",
+      "note": null,
+      "detected_at": "2026-11-07T22:14:21+00:00"
+    },
+    {
+      "id": "S-0011",
+      "crisis_id": "IRN005",
+      "crisis_name": "Conflict in Iran",
+      "risk_id": null,
+      "risk_link_confirmed": false,
+      "month_from": "Mar2026",
+      "month_to": "Apr2026",
+      "metric": "people_in_need",
+      "before": 9.0,
+      "after": 10.0,
+      "delta": 1.0,
+      "direction": "deterioration",
+      "rank_this_month": 1,
+      "rank_by_abs_delta": 1,
+      "n_crises_this_month": 123,
+      "components": {
+        "human_impact": [
+          7.76,
+          7.79
+        ],
+        "conditions": [
+          7.5,
+          8.0
+        ],
+        "people_in_need": [
+          9.0,
+          10.0
+        ]
+      },
+      "access": [
+        null,
+        null
+      ],
+      "category": [
+        "High",
+        "High"
+      ],
+      "reliability": "High",
+      "last_updated": "2026-04-29",
+      "rule_hit": "people_in_need delta >= 1.0",
+      "adm1": [
+        "Alborz",
+        "Bushehr",
+        "East Azarbaijan",
+        "Fars",
+        "Hamadan",
+        "Hormozgan",
+        "Ilam",
+        "Kermanshah",
+        "Khuzestan",
+        "Lorestan",
+        "Qom",
+        "Tehran",
+        "West Azarbaijan",
+        "Zanjan",
+        "Ardebil",
+        "Chahar Mahall and Bakhtiari",
+        "Gilan",
+        "Kordestan",
+        "Kohgiluyeh and Buyer Ahmad",
+        "Golestan",
+        "Kerman",
+        "Markazi",
+        "Mazandaran",
+        "North Khorasan",
+        "Qazvin",
+        "Razavi Khorasan",
+        "Sistan and Baluchestan",
+        "Semnan",
+        "Yazd",
+        "South Khorasan"
+      ],
+      "connected_crises": [],
+      "pulse_id": null,
+      "status": "proposed",
+      "note": null,
+      "detected_at": "2026-11-07T22:14:21+00:00"
     }
   ],
+  "n": 9,
+  "rules": {
+    "index": 0.5,
+    "human_impact": 1.0,
+    "conditions": 1.0,
+    "people_in_need": 1.0,
+    "access": 1.0
+  },
   "served_from": "live",
-  "generated_at": "2026-11-07T12:00:00Z"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }

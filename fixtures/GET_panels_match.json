@@ -5,7 +5,7 @@
   "experts": [
     {
       "expert_id": "X-syn-06",
-      "pseudonym": "low-wadi-3b",
+      "pseudonym": "dry-oryx",
       "theme_tags": [
         "conflict",
         "displacement"
@@ -14,29 +14,15 @@
         "TCD"
       ],
       "affiliation_tag": "un",
-      "region": "Sila",
+      "region": "Wadi Fira",
       "match": 1.0,
-      "languages": [
-        "fr",
-        "en"
-      ],
-      "years_experience": 15,
-      "track_record": {
-        "reported": true,
-        "n_resolved": 12,
-        "mean_brier": 0.135,
-        "hit_rate": 0.9167,
-        "moved_before_acaps": 4,
-        "reliability_weight": 1.4893,
-        "on_theme_share": 0.5833
-      },
       "synthetic": true
     },
     {
-      "expert_id": "X-syn-01",
-      "pseudonym": "quiet-ibis-8f",
+      "expert_id": "X-b6762193",
+      "pseudonym": "still-baobab",
       "theme_tags": [
-        "conflict",
+        "displacement",
         "access"
       ],
       "geo_tags": [
@@ -45,26 +31,26 @@
       "affiliation_tag": "ngo",
       "region": "Ouaddai",
       "match": 0.6667,
-      "languages": [
-        "fr",
-        "ar",
-        "en"
+      "synthetic": true
+    },
+    {
+      "expert_id": "X-syn-01",
+      "pseudonym": "long-ibis",
+      "theme_tags": [
+        "conflict",
+        "access"
       ],
-      "years_experience": 11,
-      "track_record": {
-        "reported": true,
-        "n_resolved": 15,
-        "mean_brier": 0.1019,
-        "hit_rate": 0.9333,
-        "moved_before_acaps": 7,
-        "reliability_weight": 1.7331,
-        "on_theme_share": 0.6
-      },
+      "geo_tags": [
+        "TCD"
+      ],
+      "affiliation_tag": "ngo",
+      "region": "Ouaddaï",
+      "match": 0.6667,
       "synthetic": true
     },
     {
       "expert_id": "X-syn-02",
-      "pseudonym": "low-heron-52",
+      "pseudonym": "tall-ibis",
       "theme_tags": [
         "conflict",
         "political"
@@ -73,27 +59,13 @@
         "TCD"
       ],
       "affiliation_tag": "un",
-      "region": "Ouaddai",
+      "region": "Ouaddaï",
       "match": 0.6667,
-      "languages": [
-        "fr",
-        "en"
-      ],
-      "years_experience": 7,
-      "track_record": {
-        "reported": true,
-        "n_resolved": 15,
-        "mean_brier": 0.2047,
-        "hit_rate": 0.7333,
-        "moved_before_acaps": 7,
-        "reliability_weight": 1.1487,
-        "on_theme_share": 0.6
-      },
       "synthetic": true
     },
     {
       "expert_id": "X-syn-03",
-      "pseudonym": "wide-harmattan-48",
+      "pseudonym": "dry-dune",
       "theme_tags": [
         "displacement",
         "food"
@@ -104,25 +76,11 @@
       "affiliation_tag": "ngo",
       "region": "Wadi Fira",
       "match": 0.6667,
-      "languages": [
-        "fr",
-        "ar"
-      ],
-      "years_experience": 9,
-      "track_record": {
-        "reported": true,
-        "n_resolved": 13,
-        "mean_brier": 0.1831,
-        "hit_rate": 0.6923,
-        "moved_before_acaps": 2,
-        "reliability_weight": 1.2363,
-        "on_theme_share": 0.7692
-      },
       "synthetic": true
     },
     {
       "expert_id": "X-syn-04",
-      "pseudonym": "open-harmattan-cc",
+      "pseudonym": "low-wadi",
       "theme_tags": [
         "conflict"
       ],
@@ -132,24 +90,11 @@
       "affiliation_tag": "research",
       "region": "Wadi Fira",
       "match": 0.6667,
-      "languages": [
-        "en"
-      ],
-      "years_experience": 4,
-      "track_record": {
-        "reported": true,
-        "n_resolved": 10,
-        "mean_brier": 0.1959,
-        "hit_rate": 0.7,
-        "moved_before_acaps": 1,
-        "reliability_weight": 1.1829,
-        "on_theme_share": 0.6
-      },
       "synthetic": true
     },
     {
       "expert_id": "X-syn-08",
-      "pseudonym": "long-oryx-1d",
+      "pseudonym": "wide-dune",
       "theme_tags": [
         "conflict",
         "access"
@@ -160,54 +105,11 @@
       "affiliation_tag": "research",
       "region": "Ennedi-Est",
       "match": 0.6667,
-      "languages": [
-        "fr",
-        "en"
-      ],
-      "years_experience": 8,
-      "track_record": {
-        "reported": true,
-        "n_resolved": 14,
-        "mean_brier": 0.1335,
-        "hit_rate": 0.8571,
-        "moved_before_acaps": 3,
-        "reliability_weight": 1.4989,
-        "on_theme_share": 0.7143
-      },
-      "synthetic": true
-    },
-    {
-      "expert_id": "X-afg-01",
-      "pseudonym": "long-kite-3e",
-      "theme_tags": [
-        "conflict",
-        "food"
-      ],
-      "geo_tags": [
-        "AFG"
-      ],
-      "affiliation_tag": "ngo",
-      "region": "Afghanistan",
-      "match": 0.3333,
-      "languages": [
-        "ps",
-        "fa"
-      ],
-      "years_experience": 17,
-      "track_record": {
-        "reported": true,
-        "n_resolved": 9,
-        "mean_brier": 0.2781,
-        "hit_rate": 0.5556,
-        "moved_before_acaps": 2,
-        "reliability_weight": 0.9257,
-        "on_theme_share": 0.5556
-      },
       "synthetic": true
     },
     {
       "expert_id": "X-afg-02",
-      "pseudonym": "tall-wadi-75",
+      "pseudonym": "far-wadi",
       "theme_tags": [
         "displacement"
       ],
@@ -217,20 +119,6 @@
       "affiliation_tag": "un",
       "region": "Afghanistan",
       "match": 0.3333,
-      "languages": [
-        "ps",
-        "fa"
-      ],
-      "years_experience": 4,
-      "track_record": {
-        "reported": true,
-        "n_resolved": 14,
-        "mean_brier": 0.1647,
-        "hit_rate": 0.7857,
-        "moved_before_acaps": 5,
-        "reliability_weight": 1.3222,
-        "on_theme_share": 0.5
-      },
       "synthetic": true
     }
   ],
@@ -255,12 +143,12 @@
       "Afghanistan",
       "Ennedi-Est",
       "Ouaddai",
-      "Sila",
+      "Ouaddaï",
       "Wadi Fira"
     ],
     "ok": true
   },
-  "n_approved_available": 80,
+  "n_approved_available": 89,
   "served_from": "live",
-  "generated_at": "2026-11-07T14:55:42+00:00"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }

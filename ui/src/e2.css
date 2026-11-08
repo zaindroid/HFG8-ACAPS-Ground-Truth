@@ -1,0 +1,484 @@
+/* E2 "situation room, light": navy shell, sand canvas, white panels, the ACAPS section
+   colours (navy, blue, teal, purple) for meaning, peach for anything that needs attention.
+   Loaded last; it restyles through the shared tokens first and only then by selector. */
+
+:root {
+  --e2-navy: #0e2a47;
+  --e2-navy-2: #133658;
+  --e2-navy-3: #1b4470;
+  --e2-blue: #1b5d8f;
+  --e2-teal: #1592b0;
+  --e2-teal-soft: #e3f3f8;
+  --e2-teal-ink: #135f74;
+  --e2-purple: #6a2a82;
+  --e2-purple-soft: #f2ecf6;
+  --e2-peach: #e39a5b;
+  --e2-peach-soft: #fbe7d6;
+  --e2-peach-ink: #7a3a0c;
+  --e2-sand: #f6f4f1;
+  --e2-line: #e7e2dc;
+  --e2-side-w: 248px;
+
+  --accent: var(--e2-blue);
+  --accent-soft: var(--e2-teal-soft);
+  --muted: #5a6670;
+  --border: var(--e2-line);
+  --good: #1e6b4a;
+  --warning: var(--e2-peach-ink);
+  --radius: 10px;
+  color: #1f2a33;
+  background: var(--e2-sand);
+}
+body {
+  background: var(--e2-sand);
+}
+h1,
+h2,
+h3 {
+  color: var(--e2-navy);
+}
+h1 {
+  letter-spacing: -0.3px;
+}
+
+/* Sidebar shell */
+.e2-side {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--e2-side-w);
+  z-index: 20;
+  background: var(--e2-navy);
+  color: #fff;
+  padding: 22px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+}
+.e2-side ~ main,
+.e2-side ~ .workspace,
+.e2-side ~ footer {
+  margin-left: var(--e2-side-w) !important;
+  width: auto !important;
+  --workspace-inset: max(28px, calc((100vw - var(--e2-side-w) - 1240px) / 2));
+}
+.e2-side ~ main.workspace {
+  padding: 26px var(--workspace-inset) 48px;
+  max-width: none;
+}
+.e2-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.2px;
+  line-height: 1.2;
+}
+.e2-brand small {
+  display: block;
+  font-weight: 500;
+  font-size: 11px;
+  color: #8fa9bf;
+  letter-spacing: 0;
+}
+.e2-brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 3px solid #2fb3d1;
+  display: grid;
+  place-items: center;
+  color: #2fb3d1;
+  flex: none;
+}
+.e2-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+}
+.e2-nav a,
+.e2-more summary {
+  color: #c4d3e0;
+  text-decoration: none;
+  padding: 9px 12px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+  cursor: pointer;
+}
+.e2-nav a:hover,
+.e2-more summary:hover {
+  color: #fff;
+  background: var(--e2-navy-2);
+}
+.e2-nav a[aria-current="page"] {
+  color: #fff;
+  font-weight: 600;
+  background: var(--e2-navy-3);
+}
+.e2-count {
+  background: #2fb3d1;
+  color: var(--e2-navy);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 1px 7px;
+}
+.e2-more summary {
+  list-style: none;
+}
+.e2-more summary::-webkit-details-marker {
+  display: none;
+}
+.e2-more summary::after {
+  content: "+";
+  color: #8fa9bf;
+}
+.e2-more[open] summary::after {
+  content: "−";
+}
+.e2-more a {
+  padding-left: 22px;
+  font-size: 13px;
+}
+.e2-side a:focus-visible,
+.e2-side summary:focus-visible,
+.e2-side button:focus-visible {
+  outline: 3px solid #2fb3d1;
+  outline-offset: 2px;
+}
+.e2-risks > p {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8fa9bf;
+  padding: 0 12px 6px;
+}
+.e2-risks a {
+  display: block;
+  color: #c4d3e0;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-left: 3px solid transparent;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.e2-risks a span {
+  display: block;
+  color: #8fa9bf;
+  font-size: 12px;
+}
+.e2-risks a.is-due {
+  color: #fff;
+  background: var(--e2-navy-2);
+  border-left-color: var(--e2-peach);
+}
+.e2-risks a.is-due span {
+  color: #f0c39b;
+}
+.e2-user {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 10px;
+  align-items: center;
+  padding: 12px 8px 0;
+  border-top: 1px solid #23476a;
+}
+.e2-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #2fb3d1;
+  color: var(--e2-navy);
+  font-weight: 700;
+  font-size: 12px;
+  display: grid;
+  place-items: center;
+}
+.e2-user-name {
+  font-size: 13px;
+  line-height: 1.3;
+}
+.e2-user-name small {
+  display: block;
+  color: #8fa9bf;
+  font-size: 12px;
+}
+.e2-signout {
+  grid-column: 1 / -1;
+  background: var(--e2-navy);
+  color: #c4d3e0;
+  border: 1px solid #23476a;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 13px;
+}
+.e2-signout:hover {
+  color: #fff;
+  border-color: #8fa9bf;
+}
+
+/* Page title */
+.workspace-title {
+  border-bottom: 0;
+  padding-bottom: 6px;
+}
+.workspace-title h1 {
+  font-size: 26px;
+}
+.workspace-title p {
+  color: var(--muted);
+}
+
+/* Panels: white, borderless, soft corners, on sand */
+.workspace-panel,
+.card,
+.journey-overview > a,
+.public-hero aside,
+.decision-journey,
+.ledger-list,
+.scan-card,
+.thanks-card {
+  background: #fff;
+  border-color: transparent;
+  border-radius: 10px;
+}
+.workspace-panel {
+  border: 0;
+  box-shadow: none;
+}
+.panel-heading h2 {
+  font-size: 15px;
+  color: var(--e2-navy);
+}
+
+/* Buttons: navy primary, quiet secondary */
+button {
+  border-color: #d8d2ca;
+}
+button:hover {
+  border-color: var(--e2-blue);
+}
+.primary,
+button.primary,
+a.primary,
+.seal-button {
+  background: var(--e2-navy);
+  border-color: var(--e2-navy);
+  color: #fff;
+}
+.primary:hover,
+.seal-button:hover {
+  background: var(--e2-navy-3);
+  border-color: var(--e2-navy-3);
+}
+button:focus-visible,
+a:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[role="slider"]:focus-visible {
+  outline-color: var(--e2-teal);
+}
+
+/* Tables */
+.workspace th {
+  color: var(--muted);
+  font-weight: 600;
+}
+.workspace tr:hover td {
+  background: #faf8f5;
+}
+
+/* Public pages keep a top bar but take the same palette */
+.public-header {
+  background: var(--e2-navy);
+  border-bottom: 0;
+}
+.public-header,
+.public-header a,
+.public-header .sealed-wordmark {
+  color: #fff;
+}
+.public-header .sealed-wordmark span {
+  color: #8fa9bf;
+}
+.public-header nav a {
+  color: #c4d3e0;
+}
+.public-header nav a:hover {
+  color: #fff;
+}
+.prototype-banner {
+  background: var(--e2-peach-soft);
+  color: var(--e2-peach-ink);
+}
+.public-home {
+  background: var(--e2-sand);
+}
+.public-footer {
+  background: var(--e2-navy);
+  color: #c4d3e0;
+}
+.public-footer a,
+.public-footer .sealed-wordmark-plain {
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .e2-side {
+    position: static;
+    width: auto;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+  .e2-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .e2-risks,
+  .e2-user .e2-user-name,
+  .e2-avatar {
+    display: none;
+  }
+  .e2-user {
+    margin-top: 0;
+    border-top: 0;
+    padding: 0;
+  }
+  .e2-side ~ main,
+  .e2-side ~ .workspace,
+  .e2-side ~ footer {
+    margin-left: 0 !important;
+  }
+}
+
+/* Step strip: the loop in the ACAPS section colours, current step navy */
+.decision-journey {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  gap: 4px;
+}
+.decision-journey a {
+  background: #fff;
+  color: var(--e2-navy);
+  border: 0;
+  border-top: 4px solid var(--e2-line);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.decision-journey a:nth-child(1) {
+  border-top-color: var(--e2-navy);
+}
+.decision-journey a:nth-child(2) {
+  border-top-color: var(--e2-blue);
+}
+.decision-journey a:nth-child(3) {
+  border-top-color: var(--e2-teal);
+}
+.decision-journey a:nth-child(4) {
+  border-top-color: var(--e2-purple);
+}
+.decision-journey a[aria-current="step"] {
+  background: var(--e2-navy);
+  color: #fff;
+}
+.decision-journey a[aria-current="step"] .journey-number {
+  background: #fff;
+  color: var(--e2-navy);
+  border-color: #fff;
+}
+.decision-journey svg {
+  color: currentColor;
+  opacity: 0.6;
+}
+
+/* Status figures: one colour per source, like the mock's top row */
+.decision-snapshot {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  gap: 14px;
+}
+.decision-snapshot > div {
+  background: #fff;
+  border: 0;
+  border-top: 4px solid var(--e2-navy);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+.decision-snapshot > div:nth-child(1) {
+  border-top-color: var(--e2-teal);
+}
+.decision-snapshot > div:nth-child(2) {
+  border-top-color: var(--e2-blue);
+}
+.decision-snapshot > div:nth-child(3) {
+  border-top-color: var(--e2-navy);
+}
+.decision-snapshot > div:nth-child(4) {
+  border-top-color: var(--e2-purple);
+}
+.decision-snapshot strong {
+  color: var(--e2-navy);
+}
+
+/* Overview cards on the Situation page */
+.journey-overview {
+  gap: 14px;
+  background: transparent;
+  border: 0;
+}
+.journey-overview > a {
+  border: 0;
+  border-top: 4px solid var(--e2-navy);
+}
+.journey-overview > a:nth-child(2) {
+  border-top-color: var(--e2-blue);
+}
+.journey-overview > a:nth-child(3) {
+  border-top-color: var(--e2-teal);
+}
+.journey-overview > a:nth-child(4) {
+  border-top-color: var(--e2-purple);
+}
+
+/* Attention and held states use peach */
+.risk-pill,
+.badge-high,
+[class*="needs-review"] {
+  background: var(--e2-peach-soft);
+  color: var(--e2-peach-ink);
+}
+
+/* Maps: sand land, teal for countries with risks, navy when chosen */
+.world-map {
+  background: #fbfaf8;
+}
+.map-country {
+  fill: #ebe5dd;
+}
+.map-country.active {
+  fill: var(--e2-teal);
+}
+.map-country.selected,
+.map-country.active:hover {
+  fill: var(--e2-navy);
+  stroke: var(--e2-navy);
+}
+.map-country:focus-visible {
+  stroke: var(--e2-navy);
+}
+.public-footer p,
+.public-footer span {
+  color: #c4d3e0;
+}

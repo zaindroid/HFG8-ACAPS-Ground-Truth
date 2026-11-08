@@ -3,7 +3,14 @@
   "month_to": "Nov2026",
   "n_crises": 122,
   "events": [],
-  "note": "Nov 2026 edition equals Oct 2026 for most crises (Last updated 2026-10-27); run again after ACAPS publishes the next edition",
+  "rules": {
+    "index": 0.5,
+    "human_impact": 1.0,
+    "conditions": 1.0,
+    "people_in_need": 1.0,
+    "access": 1.0
+  },
+  "note": "No crisis moved enough to trip a rule between these two editions.",
   "served_from": "live",
-  "generated_at": "2026-11-07T12:00:00Z"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }

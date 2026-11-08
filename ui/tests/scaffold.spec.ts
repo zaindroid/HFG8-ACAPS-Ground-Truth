@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import { test } from "./workspace-session";
+import { submitCard } from "./card-flow";
 
 test.beforeAll(async ({ request }) => {
   const response = await request.get("/api/health");
@@ -60,7 +61,7 @@ test("actual scaffold card stays blind, seals synthetic input and opens private 
   await page
     .getByRole("button", { name: "Pseudonym Nickname to peers" })
     .click();
-  await page.getByRole("button", { name: "Submit" }).click();
+  await submitCard(page);
   await expect(
     page.getByRole("heading", {
       name: "Submitted. You’ll get the group outcome.",

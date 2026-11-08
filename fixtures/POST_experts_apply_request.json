@@ -1,16 +1,21 @@
 {
   "geo_tags": [
-    "TCD",
-    "SDN"
+    "TCD"
   ],
   "theme_tags": [
-    "conflict",
-    "displacement"
+    "displacement",
+    "access"
   ],
-  "affiliation_tag": "think-tank",
+  "affiliation_tag": "ngo",
   "languages": [
     "fr",
     "en"
   ],
-  "channel": "email"
+  "channel": "email",
+  "region": "Ouaddai",
+  "identity": {
+    "name": "Applicant (synthetic)",
+    "email": "applicant@example.invalid",
+    "organisation": "Eastern Chad protection NGO (synthetic)"
+  }
 }

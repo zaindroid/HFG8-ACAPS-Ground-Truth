@@ -8,7 +8,7 @@ coverage and number agreement. A claim whose numbers do not match the data it ci
 from __future__ import annotations
 import uuid
 
-from . import data
+from . import data, store
 from .store import now
 
 # Which band to propose, given the panel's equal-weight mean. Boundaries are the midpoints between
@@ -208,8 +208,11 @@ def _rationale(risk: dict, pulse: dict, result: dict, proposed: str, mean: float
                 f" The weighted mean is {result['weighted_mean']:.2f}, shown as a secondary number only."
             )
         lines.append(sentence)
-    for rationale in (result.get("minority_rationales") or [])[:2]:
-        lines.append(f"Minority view, kept in: {rationale}")
+    # The minority is kept in the draft as a direction and a subject, never as its own sentence:
+    # the draft is published, and a quoted line from a panel of eight names its author to the
+    # colleagues who sat on it. The sentences themselves stay in the verification queue.
+    for item in (result.get("disagreement") or [])[:2]:
+        lines.append(f"Disagreement, kept in: {item['summary']}")
     for theme in (result.get("missing_themes") or [])[:3]:
         lines.append(
             f"Raised by {theme['count']}: {theme['theme']} ({theme['corroboration']})."
@@ -249,10 +252,14 @@ def honesty_box(result: dict, draft: dict, decision: dict) -> dict:
     spread = result.get("spread") or {}
     claims_total = len(draft.get("claims") or [])
     supported = sum(1 for s in draft.get("skeptic") or [] if s["verdict"] == "supported")
-    queued = sum(
-        1 for theme in draft.get("missing_checks") or []
-        if theme["status"] in ("not checked", "single-source", "uncorroborated")
-    )
+    # The real queue length when the round produced one, and the draft's own count of unchecked
+    # themes otherwise. Reporting the second when the first exists would understate it.
+    queued = result.get("verification_queue_count")
+    if queued is None:
+        queued = sum(
+            1 for theme in draft.get("missing_checks") or []
+            if theme["status"] in ("not checked", "single-source", "uncorroborated")
+        )
     gaps = [note["text"] for note in result.get("integrity_notes") or [] if note["kind"] == "coverage_gap"]
     rejected = decision.get("action") == "reject"
     return {
@@ -276,4 +283,12 @@ def honesty_box(result: dict, draft: dict, decision: dict) -> dict:
         },
         "panel_view_rejected": rejected,
         "analyst_rationale": decision.get("note") if rejected else None,
+        # Share of this round's answers that someone else entered on the expert's behalf and the
+        # expert then confirmed. A panel partly filled in by phone is a different thing from one
+        # that answered on its own, and the public record says which it was.
+        "relayed_share": result.get("relayed_share", 0.0),
+        "corrections": result.get("corrections", 0),
+        # The standing line, on every entry. It is the limit of what the mask protects, and it
+        # belongs beside the group view rather than in a footnote nobody opens.
+        "reidentification_note": store.REIDENTIFICATION_NOTE,
     }

@@ -1,0 +1,145 @@
+{
+  "risk_id": "R1043",
+  "events": [
+    {
+      "seq": 0,
+      "risk_id": "R1043",
+      "kind": "alert_raised",
+      "at": "2026-11-08T08:55:07+00:00",
+      "data": {
+        "alert_id": "S-0001",
+        "crisis_id": "TCD005",
+        "month_from": "Mar2026",
+        "month_to": "Apr2026",
+        "metric": "index",
+        "rule": "index_rule",
+        "direction": "deterioration",
+        "old_value": 6.1,
+        "new_value": 6.9,
+        "edition_sha256": "4931ef7b542c82d0c3a5966cbb1f116ffe41d834fe3e1c5404bd1b959d4c0e0f"
+      },
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "hash": "87f02d6c0c56b240999a07792b036b2779d4e1b7b09304457ef06fa8a7b2503c"
+    },
+    {
+      "seq": 1,
+      "risk_id": "R1043",
+      "kind": "question_approved",
+      "at": "2026-11-08T08:55:07+00:00",
+      "data": {
+        "pulse_id": "P-0001",
+        "reason": "alert",
+        "question_sha256": "7b55fbcc90c395c9daf4233e745dcd7c80f8d29a743ae714c7a668b3143e7c93"
+      },
+      "prev_hash": "87f02d6c0c56b240999a07792b036b2779d4e1b7b09304457ef06fa8a7b2503c",
+      "hash": "ca87b89c0458417c307a525f875887bd2be914d2d9b6f5478d0f884f9e8cd0d9"
+    },
+    {
+      "seq": 2,
+      "risk_id": "R1043",
+      "kind": "panel_invited",
+      "at": "2026-11-08T08:55:07+00:00",
+      "data": {
+        "pulse_id": "P-0001",
+        "n_invited": 16
+      },
+      "prev_hash": "ca87b89c0458417c307a525f875887bd2be914d2d9b6f5478d0f884f9e8cd0d9",
+      "hash": "03f260173c9421e2bf1f21728698f26fed2fd5ae33a123c03e73eb4e43a9fe6d"
+    },
+    {
+      "seq": 3,
+      "risk_id": "R1043",
+      "kind": "answers_sealed",
+      "at": "2026-11-08T08:55:07+00:00",
+      "data": {
+        "pulse_id": "P-0001",
+        "n_answers": 8,
+        "commitment_root": "5f4763833677742ecd6b0b86157e60ad28b37152606e9249c65c4d5fe33fd5f9"
+      },
+      "prev_hash": "03f260173c9421e2bf1f21728698f26fed2fd5ae33a123c03e73eb4e43a9fe6d",
+      "hash": "a2689271d704ab3b8c7ca23f5ea35505dc803a812a4e7213aeef53d743c89efe"
+    },
+    {
+      "seq": 4,
+      "risk_id": "R1043",
+      "kind": "revealed",
+      "at": "2026-11-08T08:55:07+00:00",
+      "data": {
+        "pulse_id": "P-0001",
+        "n_answers": 8,
+        "commitment_root": "5f4763833677742ecd6b0b86157e60ad28b37152606e9249c65c4d5fe33fd5f9",
+        "reason": "analyst_before_deadline",
+        "status": "revealed"
+      },
+      "prev_hash": "a2689271d704ab3b8c7ca23f5ea35505dc803a812a4e7213aeef53d743c89efe",
+      "hash": "cb3d58679f5d8cef4d7b4cc0b4fa8798e6f1a41f896fab2fa948725911e1be83"
+    },
+    {
+      "seq": 5,
+      "risk_id": "R1043",
+      "kind": "draft_created",
+      "at": "2026-11-08T08:55:07+00:00",
+      "data": {
+        "pulse_id": "P-0001",
+        "draft_id": "D-c648c618",
+        "draft_sha256": "e488990736a17e785f8308f9ba901512a29108c2b78306231129b550ba9fffa1"
+      },
+      "prev_hash": "cb3d58679f5d8cef4d7b4cc0b4fa8798e6f1a41f896fab2fa948725911e1be83",
+      "hash": "4d08c23d808e1427ef9dfa0c1a1a00a9c29277df73981fc044ee6e81eaf8c98c"
+    },
+    {
+      "seq": 6,
+      "risk_id": "R1043",
+      "kind": "decision_recorded",
+      "at": "2026-11-08T08:55:07+00:00",
+      "data": {
+        "pulse_id": "P-0001",
+        "draft_id": "D-c648c618",
+        "action": "accept",
+        "rationale_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "prev_hash": "4d08c23d808e1427ef9dfa0c1a1a00a9c29277df73981fc044ee6e81eaf8c98c",
+      "hash": "004cfed15bf8500116818ee332fb6b9081595cac137f43fcfdb5935a5e376d78"
+    },
+    {
+      "seq": 7,
+      "risk_id": "R1043",
+      "kind": "published",
+      "at": "2026-11-08T08:55:07+00:00",
+      "data": {
+        "pulse_id": "P-0001",
+        "decision": "accepted",
+        "verify_hash": "05d3951e68ff9091fb47ea2700f153fac3606fd36f2d0811f87be8f696311ef6",
+        "entry_sha256": "ff3cf0b3f9657452cec23234af2d174310ae8ba7debcbd590beb1c327ed148ce"
+      },
+      "prev_hash": "004cfed15bf8500116818ee332fb6b9081595cac137f43fcfdb5935a5e376d78",
+      "hash": "03c869efe12962d16c5a538702d4df074b0860c41ee54ab25bb4e60bd525ecda"
+    },
+    {
+      "seq": 8,
+      "risk_id": "R1043",
+      "kind": "outcome_resolved",
+      "at": "2026-11-08T08:55:07+00:00",
+      "data": {
+        "outcome": "materialised",
+        "n": 1,
+        "commitment_root": "5f4763833677742ecd6b0b86157e60ad28b37152606e9249c65c4d5fe33fd5f9"
+      },
+      "prev_hash": "03c869efe12962d16c5a538702d4df074b0860c41ee54ab25bb4e60bd525ecda",
+      "hash": "510b5d4a1470a4f5743b4524ffcc1748cabf03c6716ca68703e056cbb6ded173"
+    }
+  ],
+  "head": "510b5d4a1470a4f5743b4524ffcc1748cabf03c6716ca68703e056cbb6ded173",
+  "verify": {
+    "intact": true,
+    "broken_at": null,
+    "length": 9
+  },
+  "genesis": "0000000000000000000000000000000000000000000000000000000000000000",
+  "hash_rule": "sha256 over canonical JSON (sorted keys, no spaces) of every field but hash",
+  "enabled": true,
+  "guarantees": "Any later change to a recorded step, or removal of one, breaks the chain and is detectable by anyone holding a published head",
+  "does_not": "Proving the source data was right, only which edition and rule were used; it holds no names, contact details, pseudonyms, expert ids or free text, only counts, ids, enums and SHA-256 fingerprints",
+  "served_from": "live",
+  "generated_at": "2026-11-08T08:55:07+00:00"
+}

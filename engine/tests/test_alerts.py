@@ -89,7 +89,9 @@ def test_an_approved_alert_becomes_a_pulse_carrying_its_own_numbers(seeded):
     assert evidence, "the pulse must carry the event's numbers as its evidence"
     headline = evidence[0]
     assert headline["baseline"] == 6.1 and headline["value"] == 6.9
-    assert "rank 1 of 123" in headline["note"]
+    # The rank has to name its direction. "rank 1 of 123" alone reads as the largest move of the
+    # month, and PAK007 moved further; a jury that checks would find it.
+    assert "rank 1 by deterioration among 123 crises compared" in headline["note"]
     assert "Very High" in headline["note"], "the edition's reliability belongs next to the event"
 
     again = client.post(f"/api/alerts/{event['id']}/pulse")

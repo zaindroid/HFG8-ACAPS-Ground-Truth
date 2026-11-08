@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "v": 1,
+  "kid": "888c362a68b33c3a",
+  "suite": "ML-KEM-768 + X25519, HKDF-SHA256, AES-256-GCM",
+  "ml_kem_768_pub": "pzFoqAZgWBZ6l3kk/dbB6YMD9LBnBEae67WejpwzdmEPWFc98XM0iOHMK5fNPxUnprt/XwCqW8ZimtrDHXAudBIC0cFL6peGy1FEJMgkpfgPhRcm5xMWYqQE2DKX0Rk4ERp8QDOfndOQ8oQGsNfCeIC5X5hLbFUYZTY/VrOdNufDl2seopx9JQMMKfqFe1lMzce/uYgbVip1Q0qR9maRFvFnWaBRUGFzHlBnn+uKjIdIHoxR+4htlHG/zugY/uRNJXdKP7po/FaJ6OBrXMxf/EM7/yaN7OswMMieD7lgmhE93VlyNCutjBEO4vBw8SK0GXNAdmlLtheFODqBIzKQwtFVapt2KWSPo/rJ3SNBdQnJpNlsOFKnnbSgyduKxLBlvzanvGI96pg3z6pMZARIrYJoSzml05kDQdJXTRQgd+uKW6V2DJWIC3KHLXoOckVoFNQZzWot7uky3plTR0omoXyEyJoKK1ZVpZcmVGihibSzceMbh/lfmbnMmuBGsOyqOgQCLjFxjuHEOgFtmcWFg9tQlifBcEVTO6ajKTGBbTNYk9Mlb/uY77ECexvC5hwW6/xzbIylVrZQEDJChwFKesyTrZZF3ZeGbQsAwEJcMSWXjKW8okQmxaRbLVJALTwumyQEcUej4juuqtTOeNKYham4j4GR8DYNBZvNZnSk1rdCOXFzw9DKjNF1jzyU9IFhBaZzo2h2aWkjI2J4KAgz84suKMvN0RI69QUolbfHiMVLecm2iCVRarcN8ZFoU2tif0ZuRiZMCbKGjwQ7rAFD2BaKWAUy51zMuBBfotJV40qL39hM2JeKpZpxWAkv4mClrWIvSSBJFBG1WNJ4qMebwzQGMUxZYVl4GBK4TlFXv4c04mEaF5TOmlQ+9NUGdxZLbSRXRrGEy8HJ2WV093mOghEFAroYK6NeVzR1QgKc8xWwgdAYJXlwvVaV18cGMTMOTRApxcGTX/E5auCRXTsJOybFD9ecZMYc/DZU6bOu0vddqNcR1uZ87Qkb+ntSwHdCT+R8rgY8SnJorlm3oQoPjLmVnPxgMfmonABDKzcsKYAqx8YS/ZMM2ZlF38WcGYi461p/TGtoyRwUwzI1fkt5okLEbKtKYUY1ipSN/DkCXpQ+FJFLJidx42cE/UbCF/vNJSDNrUifzbaV2TRDSRkWceSDx+C/ibNWu3kSfZzAj4J7kCaczoXAdBzAarambtWPKcF34pVqKxC1NTMomJPEk6C0S/Op5zi4TTivylRWJZkMDqJsemGHECeSmwZNSGWm5pYHxECKLoOgnBcyMufHgqVve3B0wDJGIJJn+NBErUFDm3CZ8Zg9X8psMioNHHpUD6HPGxuP2MMqekZ6grA/+tC9nWs9EVq7eQyg+fE1N0JZQ1FvAxOQJ7GVDukpLXgRlHAf3+E32xWUYjgIDEtAgYYYooF7P6BzjqAhwkyuqSduhzAzI3QghpWc6lMYE2OZ9YOvbqhFA2Yi3ukh4IsXFQubCFudaEmabKgd1YEq63Vgt5dqeZEnEYwS44EZI5OXJkRev15z4yqPGClMZ08Qv9TjX+dTSF37eGNLc0NjwGc=",
+  "x25519_pub": "SZR0F9V9xm+C0SMb+8OPvhbt/umMdTtNHiaxFbMYtgI=",
+  "aad": "sealed-signals/e2e/v1|<route>|<token>",
+  "routes": {
+    "draft": "POST /e/answer",
+    "confirm": "POST /e/confirm",
+    "correct": "PUT /e/answer"
+  },
+  "served_from": "live",
+  "generated_at": "2026-11-07T22:14:24+00:00"
+}

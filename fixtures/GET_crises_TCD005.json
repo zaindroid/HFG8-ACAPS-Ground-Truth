@@ -20,77 +20,45 @@
   "linked_risks": [
     "R1043"
   ],
+  "suggested_risks": [
+    "R1066"
+  ],
   "series": [
     {
-      "month": "Aug2025",
-      "index": 6.2
-    },
-    {
-      "month": "Sep2025",
-      "index": 6.2
-    },
-    {
-      "month": "Oct2025",
-      "index": 6.2
-    },
-    {
-      "month": "Nov2025",
-      "index": 6.2
-    },
-    {
-      "month": "Dec2025",
-      "index": 6.2
-    },
-    {
-      "month": "Jan2026",
-      "index": 6.2
-    },
-    {
-      "month": "Feb2026",
-      "index": 6.1
-    },
-    {
       "month": "Mar2026",
-      "index": 6.1
+      "index": 6.1,
+      "category": "High"
     },
     {
       "month": "Apr2026",
-      "index": 6.9
-    },
-    {
-      "month": "May2026",
-      "index": 6.9
-    },
-    {
-      "month": "Jun2026",
-      "index": 7.0
-    },
-    {
-      "month": "Jul2026",
-      "index": 7.1
-    },
-    {
-      "month": "Aug2026",
-      "index": 7.1
-    },
-    {
-      "month": "Sep2026",
-      "index": 7.1
+      "index": 6.9,
+      "category": "High"
     },
     {
       "month": "Oct2026",
-      "index": 7.1
+      "index": 7.1,
+      "category": "High"
     },
     {
       "month": "Nov2026",
-      "index": 7.1
+      "index": 7.1,
+      "category": "High"
     }
   ],
   "access": {
-    "Mar2026": 2.0,
-    "Jul2026": 3.0,
     "Nov2026": 3.0
   },
+  "latest": {
+    "crisis_id": "TCD005",
+    "month": "Nov2026",
+    "index": 7.1,
+    "category": "High",
+    "human_impact": 7.577888320551717,
+    "conditions": 7.582545022923913,
+    "people_in_need": 7.165090045847826,
+    "reliability": "Very High",
+    "last_updated": "2026-10-27"
+  },
   "served_from": "live",
-  "generated_at": "2026-11-07T12:00:00Z"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }

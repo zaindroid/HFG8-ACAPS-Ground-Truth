@@ -1,0 +1,11 @@
+{
+  "enabled": false,
+  "disclosure": "We would like to check how well your confidence matches your accuracy. If you join, we will send you at most two short questions a month, on their own and never inside a panel question. Each is about something ACAPS already has a record of, and we ask how sure you are on a scale from 50 to 100 %. After 20 questions we write you one paragraph in plain words -- for example, 'when you said 90 % you were right about 7 times in 10'. You see it before anyone at ACAPS does, and the committee sees it only if you then say yes a second time. It is never used as a weight on your answers, never shown to other experts, and never a reason to approve or remove anyone. Reply STOP to this message at any time and we stop computing it.",
+  "disclosure_version": "2026-11-07.1",
+  "min_items": 20,
+  "confidence_prompt": "How sure are you that this is right, 50 to 100 %?",
+  "never": "Never without consent. Never a weight. Never to the committee before the expert. Never a reason to approve or remove anyone.",
+  "not_built": "Fictitious references, response-time and edit-count measures and test-retest traps are deliberately not built: a participant would recognise any of them as deception if we explained it afterwards.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T22:14:26+00:00"
+}

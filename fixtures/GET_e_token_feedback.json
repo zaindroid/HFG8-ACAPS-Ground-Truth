@@ -1,16 +1,48 @@
 {
   "pulse_id": "P-0001",
-  "revealed_at": "2026-11-09T09:00:00Z",
-  "n_text": "most of the panel answered",
-  "group_mean": 0.69,
+  "reveal_status": "revealed",
+  "revealed_at": "2026-11-07T22:14:23+00:00",
+  "n_text": "about half the panel answered",
+  "n": 8,
+  "group_mean": 0.6517,
+  "spread": {
+    "min": 0.3,
+    "max": 0.85,
+    "iqr": 0.28
+  },
+  "disagreement": [
+    {
+      "position": "lower",
+      "n": 2,
+      "summary": "Two experts put the chance below the panel mean; their notes are about access and conflict.",
+      "written_from": "themes",
+      "distance_from_mean": 0.3517
+    },
+    {
+      "position": "higher",
+      "n": 1,
+      "summary": "One expert puts the chance above the panel mean; the subject of their note is not summarised here, because in a panel of eight it would name them.",
+      "written_from": "themes",
+      "distance_from_mean": 0.1983
+    }
+  ],
+  "number_note": "3 estimates were exact percentages and 3 were one of the five words; for those the mean uses the band midpoint, which is an assumption.",
   "your_answer": {
     "likelihood_word": "likely",
-    "probability": null
+    "probability": 0.85,
+    "probability_source": "exact",
+    "stance": "estimate",
+    "version": 1
   },
+  "your_answer_note": null,
   "acaps_band": "High",
-  "analyst_decision": "kept High",
-  "attribution": null,
+  "acaps_level": "High",
+  "acaps_band_shown": true,
+  "analyst_decision": "not decided yet",
+  "analyst_rationale": null,
+  "attribution": "long-ibis",
   "outcome_report_pending": true,
+  "reidentification_note": "In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering.",
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }

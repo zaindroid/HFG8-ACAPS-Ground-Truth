@@ -190,3 +190,175 @@
   display: block;
   line-height: 1.6;
 }
+
+/* Trust and privacy page (MASTER_PROMPT 6c, 6d). The guarantee and the limit sit side by side on
+   purpose: a mechanism shown without its limit is the failure mode this page exists to prevent. */
+.mechanism-grid,
+.pattern-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+}
+.mechanism,
+.pattern-report {
+  border: 1px solid var(--line, #d9dce3);
+  border-radius: 10px;
+  padding: 16px 18px;
+  background: var(--surface, #fff);
+}
+.mechanism > header,
+.pattern-report > header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.mechanism > header > h3 {
+  flex: 1 1 auto;
+  margin: 2px 0 0;
+}
+.mechanism h3,
+.pattern-report h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+.mechanism-number {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #1f2430;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.mechanism-build,
+.mechanism-shows {
+  margin: 0;
+  max-width: none;
+  font-size: 0.83rem;
+  color: var(--muted, #5b6170);
+}
+.mechanism-shows {
+  margin-top: 10px;
+  font-style: italic;
+}
+.flag-on,
+.flag-off {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.flag-on {
+  background: #e6f4ea;
+  color: #1b5e20;
+}
+.flag-off {
+  background: #eceef2;
+  color: #4a5160;
+}
+.guarantee {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 0;
+}
+.guarantee dt {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted, #5b6170);
+}
+.guarantee dd {
+  margin: 2px 0 0;
+  max-width: none;
+  font-size: 0.9rem;
+}
+.guarantee div:last-child dd {
+  color: #7a3b1d;
+}
+.trust-figures,
+.pattern-figures {
+  display: grid;
+  gap: 12px 24px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin: 4px 0 14px;
+}
+.trust-figures dt,
+.pattern-figures dt {
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted, #5b6170);
+}
+.trust-figures dd,
+.pattern-figures dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.registry-lock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: none;
+  padding: 10px 14px;
+  margin: 0 0 14px;
+  border-radius: 8px;
+  background: #f3f5f9;
+  font-weight: 600;
+}
+.trust-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+.trust-table caption {
+  text-align: left;
+  padding-bottom: 10px;
+  color: var(--muted, #5b6170);
+  font-size: 0.85rem;
+}
+.trust-table th,
+.trust-table td {
+  text-align: left;
+  padding: 8px 12px 8px 0;
+  border-bottom: 1px solid var(--line, #e3e6ec);
+  vertical-align: top;
+}
+.trust-table .mono,
+.trust-figures .mono {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 0.82em;
+}
+.pattern-report ul {
+  margin: 0 0 14px;
+  padding-left: 18px;
+}
+.pattern-report li {
+  margin-bottom: 6px;
+}
+.pattern-quiet {
+  margin: 0 0 14px;
+  max-width: none;
+  color: var(--muted, #5b6170);
+  font-style: italic;
+}
+.pattern-report > header span {
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  color: var(--muted, #5b6170);
+}
+.panel-note {
+  max-width: none;
+  font-size: 0.87rem;
+  color: var(--muted, #5b6170);
+}

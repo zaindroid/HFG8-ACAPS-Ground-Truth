@@ -1,0 +1,20 @@
+{
+  "day": "2026-11-07",
+  "merkle_root": "a2b5caa6c26dfc75cc6513b591c2b127ae80691131032df6d166d04b3b15b80d",
+  "n_commitments": 58,
+  "submitted_at": "2026-11-07T22:14:26+00:00",
+  "status": "pending",
+  "receipt": null,
+  "log": "https://rekor.sigstore.dev",
+  "entry_uuid": null,
+  "log_index": null,
+  "integrated_at": null,
+  "anchored_at": null,
+  "verify_url": null,
+  "note": "The public log was not reachable from this host. The root stands; the public timestamp does not exist yet.",
+  "means": "Sent to the public log, no inclusion proof yet. A pending root proves nothing on its own.",
+  "guarantees": "Independent proof the commitments existed by that time, once the status reads anchored",
+  "does_not": "Who answered, or whether an answer is right; nothing but the root is logged. A pending root proves nothing yet",
+  "served_from": "live",
+  "generated_at": "2026-11-07T22:14:26+00:00"
+}

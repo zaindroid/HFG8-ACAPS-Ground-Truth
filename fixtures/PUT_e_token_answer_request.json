@@ -1,0 +1,19 @@
+{
+  "mask": "anonymous",
+  "stance": "estimate",
+  "likelihood_word": "even",
+  "probability": 0.55,
+  "confidence": "fairly sure",
+  "panel_share_yes": 0.65,
+  "source_tag": "saw",
+  "round": 1,
+  "trigger_pick": "T2",
+  "missing": "Camp capacity in Ouaddai is past the planned site figures, but the registration backlog explains part of the jump.",
+  "against": "Registration could stay flat if the border stays quiet.",
+  "changed_mind": false,
+  "probe_answers": {
+    "evidence_seen": "Two sites reported new arrivals last Thursday.",
+    "exposure_sanity": "250,000-500,000"
+  },
+  "edit_key": "c15985667f10"
+}

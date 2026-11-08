@@ -16,6 +16,8 @@ export type Shift = Omit<
   | "reliability"
   | "adm1"
   | "connected_crises"
+  | "note"
+  | "access"
 > & {
   pulse_id: string | null;
   status: string;
@@ -26,6 +28,10 @@ export type Shift = Omit<
   reliability?: string;
   adm1?: string[];
   connected_crises?: string[];
+  // Both are null on a freshly run event and filled in later: a dismissal writes the note, and
+  // access is absent for crises the access edition does not cover.
+  note?: string | null;
+  access?: (number | null)[];
 };
 export type Crisis = typeof crisis;
 type Run = {

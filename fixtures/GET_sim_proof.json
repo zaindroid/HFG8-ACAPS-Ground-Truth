@@ -1,29 +1,47 @@
 {
-  "n_resolved": 104,
-  "scenarios": {
-    "mixed_accuracy": {
-      "mean": 0.17,
-      "weighted_mean": 0.15,
-      "acaps_band_mapped": 0.21
-    },
-    "shared_bias": {
-      "mean": 0.24,
-      "weighted_mean": 0.24,
-      "acaps_band_mapped": 0.21
-    },
-    "correlated_errors": {
-      "mean": 0.2,
-      "weighted_mean": 0.19,
-      "acaps_band_mapped": 0.21
-    },
-    "no_advantage": {
-      "mean": 0.25,
-      "weighted_mean": 0.25,
-      "acaps_band_mapped": 0.21
-    }
+  "risk_id": "R1043",
+  "pulse_id": "P-0001",
+  "n": 8,
+  "panel_mean": 0.6517,
+  "acaps_probability": "High",
+  "acaps_assumed_number": null,
+  "proposed": "High",
+  "decision": "accepted",
+  "verify_hash": "9844210850d3b9d58a4e50caefc60bf337c70445aca3e843e28cda0d15278090",
+  "verify_valid": true,
+  "integrity_notes": 1,
+  "alert_replay": {
+    "months": [
+      "Mar2026",
+      "Apr2026"
+    ],
+    "n_crises": 123,
+    "rank_1": "TCD005",
+    "delta": 0.8
   },
-  "resampling_spread": "see sensitivity.json",
-  "assumptions": "Synthetic experts; ACAPS Probability bands mapped .1/.3/.5/.7/.9 by assumption; software and sensitivity test, no claim about real experts, no timing claim.",
+  "scores_written": 5,
+  "reach": {
+    "messages_composed": 6,
+    "channels": [
+      "call",
+      "email",
+      "signal",
+      "sms",
+      "whatsapp"
+    ],
+    "refused_by_a_cadence_or_consent_rule": 10,
+    "loop_closed_to": 8,
+    "transport": "recorded -- no provider is configured in this build"
+  },
+  "seconds": 2.73,
+  "offline": true,
+  "synthetic_panel": true,
+  "assumptions": [
+    "Probability band to number is this build's assumption, not an ACAPS mapping.",
+    "Experts are synthetic; their answers are not evidence about Chad.",
+    "Sealing proves timing and consistency, not confidentiality from the operator.",
+    "A single round is a sensitivity test, not proof that the method works."
+  ],
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T22:14:24+00:00"
 }

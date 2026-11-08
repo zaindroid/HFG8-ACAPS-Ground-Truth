@@ -52,10 +52,13 @@ export function Radar() {
     setError("");
     const jobs = mock
       ? Promise.all([
-          import("../../fixtures/GET_risks.json").then((m) =>
-            sampleDataEnabled()
-              ? { ...m.default, risks: sampleRisks }
-              : m.default,
+          import("../../fixtures/GET_risks.json").then(
+            (m): { risks: Risk[] } =>
+              sampleDataEnabled()
+                ? { ...m.default, risks: sampleRisks }
+                : // The fixture's rows are real export rows; `typeof` reads their blanks as
+                  // literal nulls, which Risk deliberately widens.
+                  m.default,
           ),
           import("../../fixtures/GET_radar_status.json").then((m) => m.default),
         ])

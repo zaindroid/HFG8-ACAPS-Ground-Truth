@@ -1,0 +1,29 @@
+{
+  "roots": [
+    {
+      "day": "2026-11-07",
+      "merkle_root": "a2b5caa6c26dfc75cc6513b591c2b127ae80691131032df6d166d04b3b15b80d",
+      "n_commitments": 58,
+      "submitted_at": null,
+      "status": "pending",
+      "receipt": null,
+      "log": null,
+      "entry_uuid": null,
+      "log_index": null,
+      "integrated_at": null,
+      "anchored_at": null,
+      "verify_url": null,
+      "note": "",
+      "means": "Computed from this day's commitments and not submitted yet, so it proves nothing outside this service.",
+      "guarantees": "Independent proof the commitments existed by that time, once the status reads anchored",
+      "does_not": "Who answered, or whether an answer is right; nothing but the root is logged. A pending root proves nothing yet"
+    }
+  ],
+  "enabled": true,
+  "guarantees": "Independent proof the commitments existed by that time, once the status reads anchored",
+  "does_not": "Anything else; no tokens, no chain logic, no cost. A pending root proves nothing yet",
+  "served_from": "live",
+  "generated_at": "2026-11-07T22:14:24+00:00",
+  "log": "https://rekor.sigstore.dev",
+  "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAELlFuT67x5xZ6gzJpm9JKqzrsljXH\n4jx+MCSx6mQnkUtY1lIpQbqA1yXIWKtg0PLvL2k9HMKb4TyF7cxKO6i9mw==\n-----END PUBLIC KEY-----\n"
+}

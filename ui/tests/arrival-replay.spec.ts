@@ -1,6 +1,10 @@
 import { test } from "./workspace-session";
 import { expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import result from "../../fixtures/GET_pulses_result.json" with { type: "json" };
+// Read from the fixture, never retyped: every hard-coded percentage in these specs has gone
+// stale at least once -- 69 %, then 66 %, now 65 %.
+const meanPercent = `${Math.round(result.mean * 100)}%`;
 
 test("saved decisions do not preload responses on a fresh desk visit", async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem("sealed-signals-demo-decision-v1", JSON.stringify({ action: "accept", probability: "High", note: "Previously reviewed", at: "2026-11-07T09:00:00Z" })));
@@ -58,7 +62,7 @@ test("arrivals replay incrementally, pause, reveal and return without changing t
   await page.getByRole("button", { name: "Resume arrivals" }).click();
   await expect(tray.locator(".filled")).toHaveCount(8, { timeout: 8000 });
   await expect(page.locator(".map-marker")).toHaveCount(2);
-  await expect(page.getByRole("region", { name: "Simulation forecast", exact: true }).locator(".arrival-forecast-value strong")).toHaveText("69%");
+  await expect(page.getByRole("region", { name: "Simulation forecast", exact: true }).locator(".arrival-forecast-value strong")).toHaveText(meanPercent);
   await expect(page.locator(".arrival-acaps-reference strong")).toHaveText("High");
   await expect(page.locator(".arrival-reference-marker")).toHaveCount(1);
   await expect(tray.locator(".response-completion")).toHaveText("100% received");
@@ -74,7 +78,7 @@ test("arrivals replay incrementally, pause, reveal and return without changing t
     .click();
   await expect(
     page.getByRole("region", { name: "Decision at a glance" }),
-  ).toContainText("69%");
+  ).toContainText(meanPercent);
   const analysis = page.getByRole("region", { name: "Analysis walkthrough" });
   await expect(
     analysis.getByRole("heading", { name: "From answers to a decision" }),
@@ -106,7 +110,7 @@ test("arrivals replay incrementally, pause, reveal and return without changing t
   await analysis.getByRole("button", { name: "Continue to decision" }).click();
   await expect(
     page.getByRole("region", { name: "Decision at a glance" }),
-  ).toContainText("69%");
+  ).toContainText(meanPercent);
   await expect(tray.locator(".filled")).toHaveCount(8);
   await expect(page.locator(".response-card")).toHaveCount(0);
   await expect(
@@ -117,7 +121,7 @@ test("arrivals replay incrementally, pause, reveal and return without changing t
   ).toBeVisible();
   await expect(
     page.locator("#current-draft .draft-plain-summary"),
-  ).toContainText("69%");
+  ).toContainText(meanPercent);
   await expect(page.locator(".draft-wording")).not.toHaveAttribute("open", "");
   await expect(page.locator(".draft-verification")).not.toHaveAttribute(
     "open",

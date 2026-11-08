@@ -1,0 +1,77 @@
+{
+  "pulse_id": "P-0001",
+  "entries": [
+    {
+      "id": "VQ-001",
+      "pulse_id": "P-0001",
+      "kind": "missing",
+      "text": "Seasonal access after the rains will decide whether any of this can be reached.",
+      "source_tag": "read",
+      "corroboration": "not checked",
+      "author": {
+        "mask": "pseudonym",
+        "pseudonym": "dry-kite"
+      },
+      "status": "to_verify"
+    },
+    {
+      "id": "VQ-002",
+      "pulse_id": "P-0001",
+      "kind": "missing",
+      "text": "Border raids have slowed since mid-September.",
+      "source_tag": "saw",
+      "corroboration": "not checked",
+      "author": {
+        "mask": "pseudonym",
+        "pseudonym": "dry-oryx"
+      },
+      "status": "to_verify"
+    },
+    {
+      "id": "VQ-003",
+      "pulse_id": "P-0001",
+      "kind": "against",
+      "text": "The pressure is displacement, not attacks; registration could stay flat while the border stays quiet.",
+      "source_tag": "saw",
+      "corroboration": "not checked",
+      "author": {
+        "mask": "pseudonym",
+        "pseudonym": "dry-oryx"
+      },
+      "status": "to_verify"
+    },
+    {
+      "id": "VQ-004",
+      "pulse_id": "P-0001",
+      "kind": "missing",
+      "text": "Market prices in Abeche would tell you about absorption capacity, and nobody is tracking them.",
+      "source_tag": null,
+      "corroboration": "not checked",
+      "author": {
+        "mask": "known",
+        "pseudonym": null
+      },
+      "status": "to_verify"
+    },
+    {
+      "id": "VQ-005",
+      "pulse_id": "P-0001",
+      "kind": "missing",
+      "text": "Nothing I have seen this week would move me either way.",
+      "source_tag": "heard",
+      "corroboration": "not checked",
+      "author": {
+        "mask": "pseudonym",
+        "pseudonym": "wide-dune"
+      },
+      "status": "to_verify"
+    }
+  ],
+  "n_entries": 5,
+  "read_by": "alex@acaps.invalid",
+  "why": "checking the Adre claim before the draft",
+  "means": "These lines were written by one person each. They are the most worth checking and the most likely to identify their author in a panel of eight, which is why they are here and not in the published result.",
+  "corroboration_note": "Absence from the checked databases is not evidence of falsity.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T22:14:23+00:00"
+}

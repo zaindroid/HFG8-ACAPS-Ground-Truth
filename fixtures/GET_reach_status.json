@@ -1,0 +1,109 @@
+{
+  "channels": [
+    {
+      "channel": "email",
+      "name": "Email",
+      "flag": null,
+      "enabled": true,
+      "built": "Plain text under 2 KB, personal sender name, one link per likelihood word; a plain reply in the analyst's own thread is parsed instead",
+      "reply": "tap a word, or reply in plain words",
+      "falls_back_to": null,
+      "off_note": null,
+      "transport": "recorded"
+    },
+    {
+      "channel": "whatsapp",
+      "name": "WhatsApp",
+      "flag": null,
+      "enabled": true,
+      "built": "Message with the link and a reply template; voice notes accepted and transcribed, then confirmed back in one line",
+      "reply": "tap the link, reply, or send a voice note",
+      "falls_back_to": null,
+      "off_note": null,
+      "transport": "recorded"
+    },
+    {
+      "channel": "signal",
+      "name": "Signal",
+      "flag": null,
+      "enabled": true,
+      "built": "Same message as WhatsApp; chosen by experts who prefer it",
+      "reply": "tap the link, reply, or send a voice note",
+      "falls_back_to": null,
+      "off_note": null,
+      "transport": "recorded"
+    },
+    {
+      "channel": "sms",
+      "name": "SMS",
+      "flag": null,
+      "enabled": true,
+      "built": "One message with the link and the numeric reply form",
+      "reply": "reply \"4 likely\", or tap the link",
+      "falls_back_to": null,
+      "off_note": null,
+      "transport": "recorded"
+    },
+    {
+      "channel": "teams",
+      "name": "Microsoft Teams",
+      "flag": "FF_TEAMS",
+      "enabled": false,
+      "built": "Direct message as an adaptive card; only where the agency permits the integration, which is an agreement and not a code change",
+      "reply": "answer in the card",
+      "falls_back_to": "email",
+      "off_note": "FF_TEAMS is off: Teams needs an app registration inside the agency's own tenant, which no hackathon build can have. Falls back to email.",
+      "transport": "recorded"
+    },
+    {
+      "channel": "call",
+      "name": "Scheduled call",
+      "flag": null,
+      "enabled": true,
+      "built": "An ICS invite to the expert and the analyst; the analyst takes the answer and enters it as relayed, and it counts only once the expert confirms it",
+      "reply": "speak to the analyst, then confirm by link or reply",
+      "falls_back_to": null,
+      "off_note": null,
+      "transport": "recorded"
+    },
+    {
+      "channel": "ivr",
+      "name": "Phone keypad (IVR)",
+      "flag": "FF_IVR",
+      "enabled": false,
+      "built": "Keypad answers and a missed-call trigger",
+      "reply": "press 1 to 5",
+      "falls_back_to": "sms",
+      "off_note": "FF_IVR is off: it needs a telephony account, and the tariffs have to be verified with a local partner before anyone says the word free. Falls back to SMS.",
+      "transport": "recorded"
+    }
+  ],
+  "cadence": {
+    "one_pulse_every_days": 7,
+    "reminder_after_hours": 24,
+    "max_reminders_per_pulse": 1,
+    "pause_by_one_word_days": 30,
+    "stop": "immediate and logged",
+    "send_hour": "the expert's own preferred hour in their own time zone",
+    "friday_afternoon": "avoided unless the alert is escalating",
+    "reminder_wording": "never carries a count of who has answered"
+  },
+  "contacts": {
+    "n_contacts": 8,
+    "by_status": {
+      "active": 6,
+      "paused": 1,
+      "stopped": 1
+    },
+    "consented": 8,
+    "charter_version": "2026-11-07.1",
+    "reachable": 6
+  },
+  "charter": "What we ask: one question about a risk you already follow, at most once a week. How long: under a minute. What we store: your answer, the time you sent it, and the name and organisation you gave us. Who sees what: you choose per answer whether ACAPS sees your name, your peers see a nickname, or no identity is kept at all. Public pages only ever show group figures. How to stop: reply STOP and we stop, or PAUSE for a month.",
+  "charter_version": "2026-11-07.1",
+  "transport_note": "No message left this machine. Every channel composes the real body and records it in the outbox; `transport: recorded` says so on each one. Replace Reach.deliver with a provider to send for real.",
+  "guarantees": "One pulse per expert per seven days across every panel. STOP honoured immediately and logged. No message body carries the ACAPS rating, a severity number or a place name finer than the crisis title. A reminder never carries a count of who has answered.",
+  "does_not": "Send anything. No gateway or mailbox is configured in this build, so every message is composed in full and recorded in the outbox.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T22:14:26+00:00"
+}

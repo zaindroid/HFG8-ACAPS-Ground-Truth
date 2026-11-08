@@ -343,20 +343,34 @@ export function CommitteeScoring() {
         <div className="table-wrap">
           <table>
             <thead>
+              {/* Panels, not people: v3.4 scores the forecast, and a per-expert
+                  leaderboard is the thing it deliberately removed. */}
               <tr>
-                <th>Panel / risk</th>
-                <th>Resolved forecasts</th>
-                <th>Panel Brier score</th>
-                <th>ACAPS band Brier score</th>
+                <th>Panel</th>
+                <th>Risk</th>
+                <th>Resolved</th>
+                <th>Panel Brier</th>
+                <th>ACAPS band Brier</th>
               </tr>
             </thead>
             <tbody>
-              {value.panels.map((item) => (
-                <tr key={item.panel_id}>
-                  <td>{item.panel_id} / {item.risk_id}</td>
-                  <td>{item.n_resolved}</td>
-                  <td>{item.panel_brier?.toFixed(2) ?? "Not yet scored"}</td>
-                  <td>{item.acaps_band_brier?.toFixed(2) ?? "Not yet scored"}</td>
+              {value.panels.map((panel) => (
+                <tr key={panel.panel_id}>
+                  <td>{panel.panel_id}</td>
+                  {/* A panel can be asked about more than one risk, so the engine reports the
+                      list. One row per panel, with the risks it was asked about. */}
+                  <td>{panel.risk_ids.join(", ")}</td>
+                  <td>{panel.n_resolved}</td>
+                  <td>
+                    {panel.panel_brier === null
+                      ? panel.status
+                      : panel.panel_brier.toFixed(2)}
+                  </td>
+                  <td>
+                    {panel.acaps_band_brier === null
+                      ? "—"
+                      : panel.acaps_band_brier.toFixed(2)}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -365,7 +379,9 @@ export function CommitteeScoring() {
             {mock && sampleDataEnabled()
               ? "These are synthetic sample forecast scores."
               : "These values are supplied by the backend."}{" "}
-            Panel-level only. Individual reports belong to the separate, consent-gated calibration programme.
+            Equal-weight mean remains primary. Secondary weights start equal,
+            shrink toward a prior and are capped at twice the median; the
+            backend must implement those rules.
           </p>
         </div>
       )}

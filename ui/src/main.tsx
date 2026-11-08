@@ -6,7 +6,11 @@ import "@fontsource/inter/600.css";
 import { mock } from "./api";
 import { hydrateInsights } from "./base-rates";
 import { ExpertCard } from "./ExpertCard";
+import { ExpertCard as DemoExpertCard } from "./DemoExpertCard";
 import { DemoCase } from "./DemoCase";
+import { ScanCard, ScanResultView } from "./CountryScan";
+import { ThankYou } from "./ThankYou";
+import { TrustOverview } from "./TrustOverview";
 import { LiveWorkspace, Frame } from "./LiveWorkspace";
 import { PublicHome, LoginRequired, WorkspaceHome } from "./Entry";
 import { hasWorkspaceSession } from "./workspace-session";
@@ -20,10 +24,10 @@ const Calibration = lazy(() =>
   import("./Extras").then((m) => ({ default: m.Calibration })),
 );
 const Radar = lazy(() => import("./Radar").then((m) => ({ default: m.Radar })));
+// MASTER_PROMPT 6c/6d: the hardening stack has to be visible with its own wording, so it gets a
+// page rather than a footnote. Lazy, because it reads five endpoints and nothing else needs them.
+const Trust = lazy(() => import("./Trust").then((m) => ({ default: m.Trust })));
 import { Apply, Committee } from "./Gateway";
-const Reach = lazy(() => import("./Reach").then(m=>({default:m.Reach})));
-const ContactPreferences = lazy(() => import("./Reach").then(m=>({default:m.ContactPreferences})));
-const CalibrationProgramme = lazy(() => import("./Programme").then(m=>({default:m.CalibrationProgramme})));
 import "./theme.css";
 import "./styles.css";
 import "./workspace.css";
@@ -40,6 +44,7 @@ import "./draft-summary.css";
 import "./panel-visuals.css";
 import "./desk-flow.css";
 import "./desk-layout.css";
+import "./e2.css";
 
 class Boundary extends React.Component<
   { children: React.ReactNode },
@@ -70,24 +75,28 @@ function Router() {
   if (path === "/") return <PublicHome />;
   if (path === "/login") return <PublicHome />;
   // V3 expert invitations remain no-login links. Team tools use the demo entry gate.
+  const thanks = /^\/e\/([^/]+)\/feedback\/?$/.exec(path);
+  if (thanks) return <ThankYou token={thanks[1]} />;
   const expert = /^\/e\/([^/]+)\/?$/.exec(path);
-  if (expert) return <ExpertCard token={expert[1]} />;
+  if (expert) return expert[1].startsWith("demo-") ? <DemoExpertCard token={expert[1]} /> : <ExpertCard token={expert[1]} />;
+  // Country scan: "the three biggest risks in <country>", also a no-login link.
+  const scanLink = /^\/s\/([^/]+)\/?$/.exec(path);
+  if (scanLink) return <ScanCard token={scanLink[1]} />;
   const calibration = /^\/me\/([^/]+)\/calibration\/?$/.exec(path);
-  const preferences = /^\/preferences\/([^/]+)\/?$/.exec(path);
-  if(preferences) return <ContactPreferences id={preferences[1]}/>;
-  const programme = /^\/c\/([^/]+)\/?$/.exec(path);
-  if(programme) return <CalibrationProgramme token={programme[1]}/>;
   if (calibration) return <Calibration token={calibration[1]} />;
   if (!hasWorkspaceSession()) return <LoginRequired />;
   if (/^\/(countries|analysis|topics|search)(\/|$)/.test(path))
     return <WorkspaceRedirect />;
   if (path === "/workspace") return mock ? <DemoCase /> : <WorkspaceHome />;
   if (path === "/alerts") return <Alerts />;
-  if (path === "/reach") return <Reach />;
+  const scanResult = /^\/scans\/([^/]+)\/?$/.exec(path);
+  if (scanResult) return <ScanResultView scanId={scanResult[1]} />;
   if (path === "/radar") return <Radar />;
+  if (path === "/audit") return <LiveWorkspace page="ledger" />;
+  if (path === "/engine-desk") return <LiveWorkspace page="desk" />;
   if (path === "/expert")
     return mock ? (
-      <ExpertCard token="demo" />
+      <DemoExpertCard token="demo" />
     ) : (
       <Frame
         title="Expert card"
@@ -122,6 +131,9 @@ function Router() {
   if (path === "/stage") return <Stage />;
   if (path === "/apply") return <Apply />;
   if (path === "/committee") return <Committee />;
+  if (path === "/trust") return <TrustOverview />;
+  if (path === "/trust/details") return <Trust />;
+  if (path === "/trust") return <Trust />;
   return (
     <Frame
       title="Page not found"

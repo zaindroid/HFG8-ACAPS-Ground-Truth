@@ -1,6 +1,12 @@
 import { expect } from "@playwright/test";
 import { reachSubmit } from "./expert-flow";
 import { test } from "./workspace-session";
+import result from "../../fixtures/GET_pulses_result.json" with { type: "json" };
+import { submitCard } from "./card-flow";
+// Read from the fixture, never retyped: the last set of hard-coded percentages in
+// these specs still said 69 % long after the engine had stopped producing it.
+const meanPercent = `${Math.round(result.mean * 100)}%`;
+const meanTwoDp = result.mean.toFixed(2);
 test("expert card fits, supports keyboard sliders and seals selected mask", async ({
   page,
 }, info) => {
@@ -28,7 +34,7 @@ test("expert card fits, supports keyboard sliders and seals selected mask", asyn
     fullPage: true,
   });
   await reachSubmit(page);
-  await page.getByRole("button", { name: "Submit" }).click();
+  await submitCard(page);
   await expect(
     page.getByRole("heading", {
       name: "Submitted. You’ll get the group outcome.",
@@ -36,6 +42,11 @@ test("expert card fits, supports keyboard sliders and seals selected mask", asyn
   ).toBeVisible();
   await expect(
     page.getByText("Fixture receipt · not a live seal"),
+  ).toBeVisible();
+  // Fixture mode still runs the browser encryption against the fixture key, so this line only
+  // appears when both the draft and the confirmation were actually sealed on the device.
+  await expect(
+    page.getByText("Encrypted on this device with post-quantum cryptography."),
   ).toBeVisible();
   await expect(page.getByText("pseudonym", { exact: true })).toBeVisible();
 });
@@ -47,7 +58,7 @@ test("round two and empty invitation render meaningful states", async ({
     page.getByRole("heading", { name: "How the panel answered" }),
   ).toBeVisible();
   await expect(
-    page.getByText("8 synthetic answers · Equal-weight mean 69%"),
+    page.getByText(`8 synthetic answers · Equal-weight mean ${meanPercent}`),
   ).toBeVisible();
   await page.getByLabel("I changed my mind after seeing the panel").check();
   await page.goto("/e/empty");

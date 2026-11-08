@@ -41,8 +41,11 @@
 > registered token (data/acaps-api/README.md). `risk-list/` is published history (stale, no R1043); `crises/`,
 > `countries/`, and the **monthly `inform-severity-index/<MonYYYY>/` and `humanitarian-access/<MonYYYY>/` editions are
 > current (Nov 2026)**. Crisis TCD005 "Displacement from Sudan to Chad" (Ennedi Est, Wadi Fira, Ouaddaï, Sila; connected
-> to SDN001) jumped 6.1 → 6.9 in April 2026, the largest move of 123 crises that month: R1043's own story, in ACAPS's own
-> numbers. Changes: (1) the alert engine (section 6b) is primary, deterministic, built on these editions; external feeds
+> to SDN001) jumped 6.1 → 6.9 in April 2026, the largest **deterioration** of 123 crises that month: R1043's own story,
+> in ACAPS's own numbers. (Not the largest move in absolute terms — PAK007 fell 7.3 → 6.4, −0.9 — but that one improved,
+> and a panel is not asked about a crisis getting better. The engine ranks within a metric *and* a direction, and records
+> the absolute ordering separately as `rank_by_abs_delta`; the fixtures already give both TCD005 and PAK007
+> `rank_this_month: 1`.) Changes: (1) the alert engine (section 6b) is primary, deterministic, built on these editions; external feeds
 > (ACLED, UNHCR, GDELT) are a later note. (2) The Radar shows the live editions with source badges. (3) The demo opens
 > with the engine diffing the current month live. (4) The agent loop stays behind `FF_AGENTS`; alerts never use a model.
 > Cached editions are in `data/acaps-api/` so everything runs offline; a token (`ACAPS_API_TOKEN`) makes it live.
@@ -69,7 +72,7 @@
 > 12. Card: no countdown in the product (jury exercise only); "outside my expertise" and "not enough evidence" options;
 >     round 2 optional and asynchronous; wording "rating hidden until after submission".
 > 13. Doorbell: analyst-triggered is primary; automated indicator mapping is phase 2 as a per-risk menu.
-> 14. Pitch: OpenTimestamps, ML-KEM/ML-DSA and the hardware notary are out of the 3 minutes; one privacy-engineering
+> 14. Pitch: the public timestamp, ML-KEM/ML-DSA and the hardware notary are out of the 3 minutes; one privacy-engineering
 >     page in the repo. "Ready for a supervised pilot of this workflow", not "pilot-ready Monday".
 > Innovation framing: "distinctive for this challenge": a one-minute masked expert loop that publishes its own
 > limitations and misses, with hidden-rating first rounds, descriptive integrity notes and a decision-oriented ledger.
@@ -180,6 +183,39 @@ Design hypotheses, not evidence; every channel below is marked "assumed, to veri
 Three design consequences, all already in v3.4: the question horizon is six months because that is the readers' planning
 horizon (Aisha, Pierre); alerts and pulses are filtered by the countries a person covers (Jose); every ledger entry
 lists what fed into it and what is not known (Emily).
+
+## 0c. The jury sheet (handed out Saturday evening; every lane reads this)
+
+Scores 1 to 10 per criterion; total = A Concept ×4 (40 %) + B Prototype ×2 (20 %) + C Technology feasibility ×1.5
+(future-proof, ethics, security, legal side of AI) + D Product potential ×1.5 + E Business feasibility ×0.5 + F Wow
+×0.5. The sheet's own challenge check: "the brief's must-haves are easy to use, expert-controlled anonymity and public
+anonymity; weigh them under A and B." Consequences: the live demo is inside the three minutes (B is 20 % and asks "does
+it work"); the three must-haves are named in the jury's words on slide 2 and shown working in the demo (card, mask
+picker, ledger); ethics, security and legal are labelled on slide 3; slide 6 carries one sentence of business model.
+Full mapping and the Q&A answers: docs/sealed-signals/judging-checklist.md. Lane B: the mask picker and the ledger's
+"never an individual" line must be visible without explanation. Lane A: `make demo` runs the full loop in under
+75 seconds.
+
+## 0d. Repository standard (enforced at every merge)
+
+1. Root files: `CLAUDE.md` (project context), `README.md` (problem, five-step solution, the must-haves by the
+   organisers' name with code paths, architecture, technology table, run, evidence, real vs synthetic, what we do not
+   claim, pilot), `AGENTS.md` (file map and the test or command behind each claim), `SUBMISSION.md`, `CHANGELOG.md`.
+   Every code path in them stays true; if a module moves, update the table in the same commit.
+2. Evidence: `scripts/capture_evidence.sh` writes `docs/evidence/make-check.txt`, `make-demo.txt`, `tree.txt`; Lane B
+   adds `docs/evidence/screens/` (three screens at 375 px and 1920 px) and `phones.md` (measured time and taps);
+   Lane A adds `sensitivity.png`. Regenerated from a clean clone at the Sunday freeze.
+3. Tests are named by the behaviour they prove (`test_link_click_never_commits`, `test_reveal_refused_before_deadline`,
+   `test_public_ledger_never_returns_individual`, `test_replay_apr2026_tcd005_rank1`, `test_blind_token_reuse_rejected`,
+   `test_pattern_sentence_never_names_pseudonym`).
+4. Every module has a top docstring saying what it does, what it guarantees and what it does not, in the trust-design
+   wording. Every feature flag is documented in `engine/engine/hardening/flags.py` with its fallback.
+5. No dead code, no TODO, no placeholder text on the submitted branch. Unfinished work is deleted or moved behind a
+   flag that is documented as off.
+6. The organisers' files stay unchanged (`docs/challenge/`, `data/`, `references/`, `notebooks/`); ours sit beside them.
+7. Submission: `demo` contains `main`'s history. Sunday 10:30 freeze: all lanes merged into `demo`, `make check` green,
+   evidence captured, README tables true, tag `v1.0`. One pull request `demo` → `main` with `SUBMISSION.md` as the
+   description, merged before 11:30; the submission form links to `main`.
 
 ## 1a. Who can learn what (replaces every "sealed" or "nothing leaves the device" claim)
 
@@ -299,7 +335,9 @@ Edition       dataset ("inform-severity-index"|"humanitarian-access"), month ("N
 SeverityPoint crisis_id, month, index, category, human_impact, conditions, people_in_need, reliability, last_updated
 RiskCrisisLink risk_id, crisis_id, how ("iso3+driver"|"analyst"), confirmed_by, confirmed_at
 ShiftEvent    id, crisis_id, risk_id|null, month_from, month_to, metric ("index"|"human_impact"|"people_in_need"|"access"|"category"),
-              before, after, delta, rank_this_month (1 = largest move), n_crises_this_month, rule_hit (str), pulse_id|null, status ("proposed"|"pulsed"|"dismissed")
+              before, after, delta, rank_this_month (1 = largest move of this metric in this direction),
+              rank_by_abs_delta (1 = largest |delta| of this metric, either direction), n_crises_this_month,
+              rule_hit (str), pulse_id|null, status ("proposed"|"pulsed"|"dismissed")
 QuestionContract  risk_id, event (one sentence), location, horizon_deadline (date), resolution_source, adjudication_rule,
               frozen_at   # must exist before a pulse can be scored
 Credential    token_id (nullifier), issued_for_panel, spent_on_pulse|null, scheme ("rsa-blind-rfc9474"|"semaphore"|"hmac")
@@ -435,16 +473,20 @@ per crisis; `crises/` for names, drivers, admin-1 areas, connected crises. Cache
 1. **Link** each active risk (CSV, e.g. R1043) to a crisis: same iso3 and a driver keyword match (displacement / conflict /
    flood / drought) against `crises[].drivers`; the analyst confirms once (`POST /risks/{id}/link`). R1043 ↔ TCD005.
 2. **Diff** the latest two editions for every crisis: delta of index, Human Impact, People in need, access, and category
-   change. Rank by |delta| across all crises that month; record `rank_this_month` and `n_crises_this_month`.
+   change. Rank **within a metric and a direction** — a 0.8 rise in the index and a 0.9 fall are not competing for the
+   same first place, and neither is an index move competing with a component move. Record `rank_this_month` (1 = largest
+   in that metric and direction), `rank_by_abs_delta` (the absolute ordering, kept so the other reading is still
+   available) and `n_crises_this_month`.
 3. **Rules** (visible and editable on the desk, per risk): index Δ ≥ 0.5, or a component Δ ≥ 1.0, or a category change, or
    access Δ ≥ 1. A hit produces a ShiftEvent with the numbers, the crisis, the linked risk and the rule that fired.
 4. **Propose, never fire**: events appear on the desk's Alerts page; the analyst approves (creates the pulse with the
    event as evidence), or dismisses with a note. Reliability of the edition is shown next to the event.
-5. **Replay**: `POST /alerts/replay {Mar2026, Apr2026}` reproduces the real April event: TCD005 6.1 → 6.9 (+0.8, rank 1 of
-   123; Human Impact 6.0 → 7.6), linked to R1043. This is the demo's opening fact.
+5. **Replay**: `POST /alerts/replay {Mar2026, Apr2026}` reproduces the real April event: TCD005 6.1 → 6.9 (+0.8, the
+   largest deterioration of 123 crises; Human Impact 6.0 → 7.6), linked to R1043. This is the demo's opening fact. Say
+   "deterioration" on stage, never "largest move": PAK007 moved further and a jury that checks will find it.
 
-Tests: the Mar→Apr 2026 cached editions must yield TCD005 as rank 1 with delta 0.8; a month with no moves yields no
-events; a dismissed event never pulses; the same edition diffed twice yields no duplicate events.
+Tests: the Mar→Apr 2026 cached editions must yield TCD005 as rank 1 with delta 0.8 and PAK007 as rank 1 with delta -0.9,
+each in its own direction, and TCD005 second on `rank_by_abs_delta`; a month with no moves yields no events; a dismissed event never pulses; the same edition diffed twice yields no duplicate events.
 
 ## 6c. Hardening stack (Lane A or a parallel agent; every item built, flagged, and visible)
 
@@ -454,7 +496,7 @@ events; a dismissed event never pulses; the same edition diffed twice yields no 
 | 2 | **Post-quantum outcome attestations** (`FF_PQ`) | ML-DSA-65 (`dilithium-py`) signs each resolved ledger entry (risk_id, outcome, resolved_at, round commitment root); public key published on the ledger; `verify` checks hash and signature | Ledger row: "attested, ML-DSA-65, verify" | The outcome record was issued by ACAPS's committee key and not altered since | Truth of the outcome; anything about who answered |
 | 3 | **Blind-signed single-use credentials** (`FF_BLIND`, default on) | RSA blind signatures (RFC 9474, `cryptography`): on approval the committee signs a blinded token per pulse allowance; the expert unblinds client-side and spends one token per answer; server verifies signature and rejects reuse (nullifier) | Expert card for the `anonymous` mask: "answered with a one-time vetted credential"; committee view: tokens issued / spent, never linked | A vetted panel member answered, unlinkable to the approval by ACAPS | Protection against timing or network-metadata correlation; re-identification by distinctive wording |
 | 4 | **Zero-knowledge group membership** (`FF_ZK`, default off until stable) | Semaphore v4 group per panel; the card generates a proof in the browser ("member of panel P answered pulse Q", nullifier per pulse); server verifies | Round view: "proof verified" per answer | Membership without identity, double-answer prevention | Reputation portability; not required for the pilot design |
-| 5 | **Timestamp anchoring** (`FF_ANCHOR`, default on, degrades to "pending") | Daily Merkle root of all commitments submitted to OpenTimestamps (Bitcoin calendar servers); receipt stored; ledger shows "anchored / pending" | Ledger: anchor status per day; Verify shows the root and receipt | Independent proof the commitments existed by that time | Anything else; no tokens, no chain logic, no cost |
+| 5 | **Timestamp anchoring** (`FF_ANCHOR`, default on, degrades to "pending") | Daily Merkle root of all commitments signed (P-256 key derived from `COMMITTEE_KEY`) and entered into Sigstore Rekor, a public append-only transparency log; entry, signed timestamp and inclusion proof stored; ledger shows "anchored / pending" | Ledger: timestamp status per day; Verify shows the root, the log index and a link to the public entry | Independent proof the commitments existed by that time | Who answered, or whether an answer is right; only the root is logged |
 | 6 | **Registry access log** | Every read of the identity map is logged (who, when, why) and shown to the committee | Committee view: access log | ACAPS access is defined and visible | Prevention of access by an authorised admin |
 
 Rules for all six: deterministic fallbacks so the demo never blocks (pending anchor, software signer, HMAC credential when
@@ -504,11 +546,16 @@ The analyst's address book is the registry. The expert's first contact is a ques
   when five answers are in, so fast responders are not privileged; late responders stay blind until they submit; under
   five at the deadline: "insufficient panel", the analyst is told, answers are kept for the record and nothing is
   revealed. The analyst sees who has not answered and may write a personal message; the system never sends a third.
-- **Closing the loop** (automatic, in the expert's language and channel): within 24 h of the reveal, "Most of the panel
-  answered; the group view is around 0.7; you said 0.8; ACAPS rates this High; the analyst kept High." Attribution ("your
-  note on Adré was added to the triggers") only when the analyst explicitly recorded it. On resolution, the outcome
-  report. Yearly, a private thank-you with early access to the global risk analysis. No ranking anywhere. This feedback
-  message is where the expert first sees ACAPS's band; the card never shows it.
+- **Closing the loop: what your minute changed** (built: `engine/engine/impact.py`, page `/e/:token/feedback`). After the
+  reveal and again on resolution, every expert who answered receives a thank-you built from the record only: that the
+  panel's input counted; what the analyst decided and changed (the decision note); which decision it informed, for
+  whom, by when; ACAPS's own expected-exposure figure for the risk ("more than 500,000 people", Risk List) and the
+  crisis's INFORM severity with its month; reach only when ACAPS reports it (`POST /pulses/{id}/reach`); a line the
+  analyst wrote (`POST /pulses/{id}/thanks`, never generated); on resolution, what happened and, for a miss, what is now
+  monitored because of it. Never: a personal score, the expert's own answer beside the result (shown only if they ask,
+  `show_mine=true`), a ranking, or a claim about lives saved; INFORM's "people in need" is a 0-10 sub-score and is never
+  printed as a headcount. "Stop outcome reports" is one tap or one word (`POST /e/{token}/reports-off`), separate
+  from STOP. Anonymous answers receive the same group message through their own link.
 - **Honesty box** records the channel mix and the share of relayed answers.
 - **Language**: English and French parsed in the MVP; numbers are language-agnostic; free text is kept in the original
   and translated for the analyst with the original attached.
@@ -517,6 +564,46 @@ Routes: `GET/POST /reach/contacts`, `POST /reach/contacts/import`, `POST /reach/
 `GET /reach/pulses/{id}/delivery` (sent / delivered / answered per channel, counts only), `POST /reach/calls/schedule`,
 `POST /inbound/{channel}`, `POST /reach/preferences/{expert_id}` (expert-editable by reply or link; the analyst can only
 suggest, and a suggestion is marked until the expert confirms), `POST /reach/contacts/{id}/stop` (one-word opt-out).
+
+## 6f. Country scan: the brief's example question (built on feature/country-scan and feature/country-scan-ui)
+
+"What are the three biggest risks in Chad that might worsen humanitarian outcomes in the next six months?" A risk pulse
+asks how likely one frozen event is; a country scan asks the panel to rank what ACAPS should be watching in one
+country, and sets that ranking beside ACAPS's own order.
+
+- Candidates (at most 8): the country's active Risk List entries, then the ACAPS-tracked crises in the country that no
+  active risk covers (covered = an analyst-confirmed link, or a shared place word between crisis name and risk title,
+  the country name excluded). Chad: R1043, R1066, Complex crisis, Floods, Drought, CAR displacement, Lac province,
+  Tibesti. TCD005 is not offered twice because R1043 covers it.
+- Card `/s/:token`: the question, candidates as tap targets numbered in tap order (up to three), "outside my area",
+  "not enough evidence", an optional added risk with saw / read / heard, mask per answer with no default, confirmation
+  step, receipt with the commitment. Titles only: ACAPS's level and severity are hidden until the reveal, and the order
+  of candidates is shuffled per link (stable for that link) so list position does not anchor everyone the same way.
+- Same guarantees as a pulse: draft then confirm; salted SHA-256 commitment; correction until the deadline with the
+  earlier version kept; reveal at the deadline; under k_min: insufficient panel, nothing revealed; anonymous answers
+  store no expert id.
+- Aggregate: 3, 2 and 1 points for first, second and third pick; ties by number of top-three mentions, then ACAPS's
+  order. ACAPS's order: Risk List entries by level and impact, then crises by current INFORM severity. Reported: the
+  ranking with points, top-three count and first-choice count; overlap with ACAPS's top three; first-choice agreement;
+  abstentions (never counted); first choices by region only where a region has three or more voices; added risks as a
+  count and themes, their text in the access-logged verification queue.
+- Notes for the analyst, descriptive: a crisis without a Risk List entry in the panel's top three ("a candidate for the
+  analyst to consider, not a finding"); an item in ACAPS's top three that the panel ranked lower. Public view drops
+  the notes and never carries an individual.
+- Analyst view `/scans/:id`: four figures, a slopegraph of panel rank against ACAPS rank (moves into or out of the top
+  three drawn dashed), the notes, the added-risk count, Verify.
+- Routes: `POST /scans {iso3, window_hours | expires_at}`, `GET /scans`, `GET /scans/{id}`, `GET /s/{token}`,
+  `POST /s/{token}/answer`, `POST /s/{token}/confirm`, `POST /scans/{id}/reveal {reason}`,
+  `GET /scans/{id}/result?audience=public|analyst`, `GET /scans/{id}/verification-queue?who&why`,
+  `POST /scans/{id}/verify`, `GET /demo/scan-links`. Module `engine/engine/scan.py`; tests `engine/tests/test_scan.py`
+  (16); UI `ui/src/CountryScan.tsx`, `ui/src/scan.css`.
+- Seeded demo (synthetic): five of the six who rank put Floods in Chad in their top three, a crisis with no current
+  INFORM score and no Risk List entry; ACAPS's third, the complex crisis, makes two top threes. Four open links for the
+  room.
+
+No public scoreboard, by design. The organisers list a super-estimator scoreboard as a could-have; we score forecasts at
+panel level, send every expert the outcome report, and offer private, consent-gated calibration that the expert sees
+first. Recognition is the panel's record and the expert's own report, never a ranking of people.
 
 ## 6d. Pattern reports (panel-level) and the consent-gated calibration programme
 
@@ -707,17 +794,15 @@ Professional, minimal, modern. The jury should think "this already exists in pro
 - README: paragraph from section 0, architecture diagram, run instructions, what is synthetic vs live, limits, team.
 - Pitch rehearsed twice with the QR step (jury becomes the panel); fallback `make demo` pre-loads 8 synthetic answers.
 
-## 9a. The three minutes (Lane C owns demo-script.md; these beats are fixed)
+## 9a. The three minutes (Lane C owns demo-script.md; deck in pitch/sealed-signals-slides.html; six slides, fixed)
 
-0:00 the gap, in one sentence (section 0); 0:15 the alert engine diffs April 2026 live, TCD005 rank 1 of 123, the analyst
-approves the pulse; 0:40 the pulse leaves the Reach module as an email, a WhatsApp message and an SMS at once (delivery
-counts only); the jury scans the QR and answers on the one-screen card (60-second exercise timer, product has none);
-1:45 reveal at the deadline: four columns, spread, unattributed disagreement, coverage gap; 2:10 cited draft, Skeptic
-marks, analyst accepts with "what decision, for whom, by when"; 2:30 ledger entry with the honesty box; one click on
-Verify: "matches: these answers existed at this time and were not changed; it proves timing, not truth"; 2:45 the
-outcome report that every expert receives; 2:50 "easier to contribute to, easier to scrutinise, easier to trace; ready
-for a supervised pilot of this workflow". Crypto gets the Verify click and nothing else; the stack is on the repo page
-and in Q&A. Personas slide directly after the spine line.
+0:00 slide 1, the problem (20 s) · 0:20 slide 2, the solution and the three must-haves in the jury's words (25 s) ·
+0:45 live demo from the product (75 s): approve the April alert, send the pulse, the jury scans and answers on the card,
+reveal, draft with Skeptic marks, accept with "what decision, for whom, by when", ledger, one click on Verify · 2:00
+slide 3, how it is built, ethics, security and legal badges (20 s) · 2:20 slide 4, the card against six biases and the
+agent loop (20 s) · 2:40 slide 5, why people can trust it (10 s) · 2:50 slide 6, it runs, it is different, opportunity
+and model (10 s) · close on the spine line. Fallback slides B if the demo fails. Q&A answers in judging-checklist.md.
+Nothing is said on stage about a path that is off.
 
 ## 10. Lanes
 
@@ -735,7 +820,7 @@ Milestones: API with seeded data Sat 10:00 · full loop Sat 18:00 · proof.png S
 Build section 6c items 1, 2, 3, 5, 6 first, then 4; then section 6d. Keep every fallback working with the flag off.
 Deliver `docs/sealed-signals/privacy-engineering.md` updated with what is now built and the test evidence.
 
-### Lane A3 — Reach agent (parallel; folders engine/reach/, engine/inbound/, engine/tests/reach/)
+### Lane A3 — Reach agent (parallel; folders engine/engine/reach/, engine/engine/inbound/, engine/tests/reach/)
 Build section 6e: consent-first first contact with the charter and STOP, contacts, channels with the magic link in every
 message (email one-link-per-word with confirmation screen first), inbound parsers (email, WhatsApp, SMS, voice with
 confirmation), Teams and IVR behind their flags with fixture transports, call scheduling, relayed answers with expert

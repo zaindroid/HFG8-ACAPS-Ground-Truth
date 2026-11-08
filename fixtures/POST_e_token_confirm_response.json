@@ -1,9 +1,41 @@
 {
-  "committed_at": "2026-11-07T09:03:12Z",
-  "commitment": "3f9c1b2a6d7e4e0b5c8a9d1f2e3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d",
+  "committed_at": "2026-11-07T22:14:23+00:00",
+  "commitment": "9d6d97420c16ffadbfe0732ae1a88b8d0d416a99780fb5b0e291263379d267e0",
   "version": 1,
-  "correction_allowed_until": "2026-11-09T09:00:00Z",
+  "mask": "anonymous",
+  "pseudonym": null,
+  "correction_allowed_until": "2026-11-08T22:14:23+00:00",
+  "edit_key": "c15985667f10",
+  "edit_key_note": "Keep this with your link if you may want to change your answer. It is the only handle on an answer with no identity kept, and we store only its hash.",
   "message": "Thanks. You'll hear how the panel saw it after the deadline.",
+  "sealing_note": "The commitment proves when you answered and that you have not changed it. It does not hide your answer from the operator of this service.",
+  "acaps_band_shown": false,
+  "band_note": "ACAPS's own rating is in the message you get after the deadline, not here.",
+  "credential": {
+    "spent": true,
+    "unlinkable": true,
+    "scheme": "rsa-blind-rfc9474",
+    "line": "Answered with a one-time vetted credential. The committee can check it was issued to an approved expert and cannot tell which one."
+  },
+  "zk": null,
+  "anchor": {
+    "day": "2026-11-07",
+    "merkle_root": "0975ef234133b32af68a65907a61fc6dd3fc8255c70e27b7bb237193d8ce820a",
+    "n_commitments": 54,
+    "submitted_at": null,
+    "status": "pending",
+    "receipt": null,
+    "log": null,
+    "entry_uuid": null,
+    "log_index": null,
+    "integrated_at": null,
+    "anchored_at": null,
+    "verify_url": null,
+    "note": "",
+    "means": "Computed from this day's commitments and not submitted yet, so it proves nothing outside this service.",
+    "guarantees": "Independent proof the commitments existed by that time, once the status reads anchored",
+    "does_not": "Who answered, or whether an answer is right; nothing but the root is logged. A pending root proves nothing yet"
+  },
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }

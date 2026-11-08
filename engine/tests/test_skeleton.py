@@ -1,6 +1,8 @@
 """Smoke test: the loop runs end to end against the seeded synthetic panel."""
 from __future__ import annotations
 
+from helpers import reveal_now
+
 
 def test_health_and_risk_routes(seeded):
     client, _ = seeded
@@ -12,8 +14,11 @@ def test_health_and_risk_routes(seeded):
 def test_full_loop(seeded):
     client, pulse_id = seeded
 
-    revealed = client.post(f"/api/pulses/{pulse_id}/reveal").json()
+    # The seeded round's deadline is 24 hours out, so this is the recorded analyst override and
+    # the result says so (helpers.reveal_now).
+    revealed = reveal_now(client, pulse_id).json()
     assert revealed["n"] >= 5
+    assert revealed["revealed_reason"] == "analyst_before_deadline"
 
     drafted = client.post(f"/api/pulses/{pulse_id}/draft").json()
     assert drafted["status"] == "draft"

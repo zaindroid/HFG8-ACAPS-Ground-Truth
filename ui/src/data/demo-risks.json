@@ -17,7 +17,11 @@
       }
     ],
     "served_from": "synthetic-ui-example",
-    "generated_at": "2026-11-07T09:00:00Z"
+    "generated_at": "2026-11-07T09:00:00Z",
+    "risk_type": "New emerging risk",
+    "probability_assumed_number": 0.5,
+    "trend": "Deteriorated",
+    "materialised": "Impact"
   },
   {
     "risk_id": "R0369",
@@ -37,7 +41,11 @@
       }
     ],
     "served_from": "synthetic-ui-example",
-    "generated_at": "2026-11-07T09:00:00Z"
+    "generated_at": "2026-11-07T09:00:00Z",
+    "risk_type": "New emerging risk",
+    "probability_assumed_number": 0.5,
+    "trend": null,
+    "materialised": null
   },
   {
     "risk_id": "R0954",
@@ -57,7 +65,11 @@
       }
     ],
     "served_from": "synthetic-ui-example",
-    "generated_at": "2026-11-07T09:00:00Z"
+    "generated_at": "2026-11-07T09:00:00Z",
+    "risk_type": "Marked deterioration in an existing crisis",
+    "probability_assumed_number": 0.5,
+    "trend": "Deteriorated",
+    "materialised": "Hazard"
   },
   {
     "risk_id": "R0525",
@@ -77,7 +89,11 @@
       }
     ],
     "served_from": "synthetic-ui-example",
-    "generated_at": "2026-11-07T09:00:00Z"
+    "generated_at": "2026-11-07T09:00:00Z",
+    "risk_type": "New emerging risk",
+    "probability_assumed_number": 0.25,
+    "trend": null,
+    "materialised": null
   },
   {
     "risk_id": "R0105",
@@ -97,6 +113,10 @@
       }
     ],
     "served_from": "synthetic-ui-example",
-    "generated_at": "2026-11-07T09:00:00Z"
+    "generated_at": "2026-11-07T09:00:00Z",
+    "risk_type": null,
+    "probability_assumed_number": 0.75,
+    "trend": null,
+    "materialised": null
   }
 ]

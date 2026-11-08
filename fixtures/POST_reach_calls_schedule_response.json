@@ -1,0 +1,10 @@
+{
+  "pulse_id": "P-0001",
+  "expert_id": "X-syn-06",
+  "starts_at": "2026-11-09T10:00:00+00:00",
+  "ics": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sealed Signals//Reach//EN\r\nBEGIN:VEVENT\r\nUID:P-0001-X-syn-06@sealed-signals\r\nDTSTART:20261109T100000Z\r\nDURATION:PT10M\r\nSUMMARY:One question about a risk you follow\r\nDESCRIPTION:A ten-minute call with Alex, ACAPS Risk Radar. Your answer is entered for you and counts once you confirm it.\r\nEND:VEVENT\r\nEND:VCALENDAR",
+  "transport": "recorded",
+  "note": "The answer from this call is entered as relayed and does not count until the expert confirms it at POST /api/e/{token}/relayed-confirm.",
+  "served_from": "live",
+  "generated_at": "2026-11-07T22:14:26+00:00"
+}

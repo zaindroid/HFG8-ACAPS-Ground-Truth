@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { reachSubmit } from "./expert-flow";
 import AxeBuilder from "@axe-core/playwright";
+import { submitCard } from "./card-flow";
 
 test("public entry exposes research and Login opens the workspace without credentials", async ({
   page,
@@ -9,6 +10,14 @@ test("public entry exposes research and Login opens the workspace without creden
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "One question.Independent judgement.",
   );
+  // ACAPS is credited as the data source, never imitated: one outbound link, in the footer, and
+  // a banner saying what this is. No reproduction of their navigation.
+  await expect(
+    page.getByRole("link", { name: "Official ACAPS website" }),
+  ).toHaveAttribute("href", "https://www.acaps.org/en/");
+  await expect(
+    page.getByRole("complementary", { name: "Prototype notice" }),
+  ).toContainText("Not an ACAPS service");
   await expect(
     page.getByRole("link", { name: "Countries", exact: true }),
   ).toHaveCount(0);
@@ -124,13 +133,13 @@ test("expert invitations stay no-login, accept abstentions and explain limits", 
   ).toBeVisible();
   await expect(page.locator(".timer")).toHaveCount(0);
   await expect(
-    page.getByText("Distinctive wording can be recognised", { exact: false }),
+    page.getByText("may identify its author to colleagues", { exact: false }),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Outside my expertise", exact: true })
     .click();
   await expect(page.getByRole("slider")).toHaveCount(0);
-  await page.getByRole("button", { name: "Submit", exact: true }).click();
+  await submitCard(page);
   await expect(
     page.getByRole("heading", {
       name: "Submitted. You’ll get the group outcome.",

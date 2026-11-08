@@ -26,10 +26,10 @@ export function PortalHeader() {
       <div className="portal-navigation">
         <nav aria-label="Main navigation">
           {[
-            ["/workspace", "Cases"],
+            ["/workspace", "Case"],
             ["/alerts", "Signals"],
-            ["/desk", "Analyst case"],
-            ["/ledger", "Ledger"],
+            ["/audit", "Public ledger"],
+            ["/trust", "Trust"],
           ].map(([href, label]) => (
             <a
               key={href}
@@ -50,6 +50,7 @@ export function PortalHeader() {
             <div>
               {[
                 ["/radar", "Radar"],
+                ["/engine-desk", "Live engine desk"],
                 ["/reach", "Contact panel"],
                 ["/expert", "Expert card preview"],
                 ["/calibration", "Calibration"],

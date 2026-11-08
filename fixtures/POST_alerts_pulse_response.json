@@ -3,29 +3,41 @@
   "crisis_id": "TCD005",
   "crisis_name": "Displacement from Sudan to Chad",
   "risk_id": "R1043",
+  "risk_link_confirmed": true,
   "month_from": "Mar2026",
   "month_to": "Apr2026",
   "metric": "index",
   "before": 6.1,
   "after": 6.9,
   "delta": 0.8,
+  "direction": "deterioration",
   "rank_this_month": 1,
+  "rank_by_abs_delta": 2,
   "n_crises_this_month": 123,
   "components": {
     "human_impact": [
       6.04,
       7.57
     ],
-    "people_in_need": [
-      7.04,
-      7.11
-    ],
     "conditions": [
       6.52,
       7.55
+    ],
+    "people_in_need": [
+      7.04,
+      7.11
     ]
   },
+  "access": [
+    null,
+    null
+  ],
+  "category": [
+    "High",
+    "High"
+  ],
   "reliability": "Very High",
+  "last_updated": "2026-04-29",
   "rule_hit": "index delta >= 0.5",
   "adm1": [
     "Ennedi Est",
@@ -38,6 +50,85 @@
   ],
   "pulse_id": "P-0001",
   "status": "pulsed",
+  "note": null,
+  "detected_at": "2026-11-07T22:14:26+00:00",
+  "pulse": {
+    "id": "P-0001",
+    "risk_id": "R1043",
+    "panel_id": "PAN-TCD",
+    "fired_at": "2026-11-07T22:14:26+00:00",
+    "reason": "doorbell",
+    "round": 1,
+    "evidence": [
+      {
+        "source": "ACAPS INFORM Severity",
+        "dataset": "inform-severity-index",
+        "crisis_id": "TCD005",
+        "metric": "index",
+        "month_from": "Mar2026",
+        "month_to": "Apr2026",
+        "before": 6.1,
+        "after": 6.9,
+        "delta": 0.8,
+        "rank_this_month": 1,
+        "n_crises_this_month": 123,
+        "indicator": "index:TCD005",
+        "value": 6.9,
+        "baseline": 6.1,
+        "z": null,
+        "url": "https://api.acaps.org/api/v1/inform-severity-index/",
+        "note": "Displacement from Sudan to Chad: index 6.1 to 6.9 between Mar2026 and Apr2026 (index delta >= 0.5; rank 1 by deterioration among 123 crises compared this month; reliability Very High)"
+      },
+      {
+        "source": "ACAPS human impact",
+        "dataset": "inform-severity-index",
+        "crisis_id": "TCD005",
+        "metric": "human_impact",
+        "month_from": "Mar2026",
+        "month_to": "Apr2026",
+        "before": 6.04,
+        "after": 7.57,
+        "delta": 1.53,
+        "indicator": "human_impact:TCD005",
+        "value": 7.57,
+        "baseline": 6.04,
+        "z": null,
+        "url": "https://api.acaps.org/api/v1/inform-severity-index/",
+        "note": "human impact 6.04 to 7.57"
+      },
+      {
+        "source": "ACAPS conditions",
+        "dataset": "inform-severity-index",
+        "crisis_id": "TCD005",
+        "metric": "conditions",
+        "month_from": "Mar2026",
+        "month_to": "Apr2026",
+        "before": 6.52,
+        "after": 7.55,
+        "delta": 1.03,
+        "indicator": "conditions:TCD005",
+        "value": 7.55,
+        "baseline": 6.52,
+        "z": null,
+        "url": "https://api.acaps.org/api/v1/inform-severity-index/",
+        "note": "conditions 6.52 to 7.55"
+      }
+    ],
+    "question": {
+      "event": "the level of concern on this risk changes",
+      "location": "Chad",
+      "threshold": null,
+      "deadline": "2027-05-06",
+      "text": "Is the level of concern on this risk still right by 6 May 2027, and what are we missing?",
+      "source": "open_question",
+      "note": "No question contract is frozen for this risk, so this round cannot be scored against an outcome. Freeze one with POST /api/risks/{risk_id}/contract."
+    },
+    "asked_by": "Alex, ACAPS Risk Radar",
+    "expires_at": "2026-11-08T22:14:26+00:00",
+    "reveal_status": "open",
+    "n_answers": 0,
+    "alert_id": "S-0001"
+  },
   "served_from": "live",
-  "generated_at": "2026-11-07T12:00:00Z"
+  "generated_at": "2026-11-07T22:14:26+00:00"
 }

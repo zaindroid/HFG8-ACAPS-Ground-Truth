@@ -1,11 +1,9 @@
 import { ResponseProgress } from "./ResponseProgress";
-import { scrollToDeskSection } from "./desk-navigation";
 import { DeskContext, ContextSection } from "./DeskContext";
 import { EvidenceLine } from "./Evidence";
 import { PanelVisuals } from "./PanelVisuals";
 import { Journey, DecisionSnapshot } from "./Journey";
 import { LedgerRecord, LedgerColumns } from "./LedgerRecord";
-import { RevealOverview } from "./RevealOverview";
 import {
   DecisionUseFields,
   emptyDecisionUse,
@@ -262,8 +260,10 @@ export function GroupChart({
           Secondary weighted mean: {percent(result.weighted_mean)}.
         </p>
         <h3>Minority reasons</h3>
-        {result.disagreement?.length ? (
-          result.disagreement.map((item, i) => <p key={i}>{item.summary}</p>)
+        {result.disagreement.length ? (
+          result.disagreement.map((reason: { summary?: string } | string, i: number) => (
+            <p key={i}>{typeof reason === "string" ? reason : reason.summary}</p>
+          ))
         ) : (
           <p>No minority reasons supplied.</p>
         )}
@@ -363,8 +363,6 @@ export function Verification({ draft }: { draft: Draft }) {
   );
 }
 function LiveDesk() {
-  const [clock, setClock] = useState(Date.now());
-  useEffect(() => { const timer=setInterval(()=>setClock(Date.now()),1000); return()=>clearInterval(timer); }, []);
   const [risks, setRisks] = useState<Risk[]>([]),
     [selected, setSelected] = useState(
       new URLSearchParams(location.search).get("risk_id") || "",
@@ -372,6 +370,15 @@ function LiveDesk() {
   const [pulse, setPulse] = useState<Pulse | null>(null),
     [group, setGroup] = useState<Result | null>(null),
     [draft, setDraft] = useState<Draft | null>(null);
+  // The round opens at pulse.expires_at, fixed when the pulse was sent. The desk says which
+  // side of it we are on, because the engine refuses a plain reveal before it and an analyst
+  // needs to know the button is an override rather than the deadline firing.
+  const deadline = pulse?.expires_at ? new Date(pulse.expires_at) : null;
+  const deadlinePassed = !!deadline && deadline.getTime() <= Date.now();
+  const deadlineLabel = deadline
+    ? deadline.toLocaleString("en-GB", { timeZone: "UTC", hour12: false }) +
+      " UTC"
+    : "the deadline on the card";
   const [error, setError] = useState(""),
     [busy, setBusy] = useState("Loading risks"),
     [message, setMessage] = useState(""),
@@ -389,8 +396,6 @@ function LiveDesk() {
   const [outcome, setOutcome] = useState("materialised"),
     [resolvedAt, setResolvedAt] = useState(""),
     [confirmResolve, setConfirmResolve] = useState(false);
-  const deadline = pulse?.expires_at ? Date.parse(pulse.expires_at) : NaN;
-  const deadlinePassed = Number.isFinite(deadline) && clock >= deadline;
   async function run(label: string, task: () => Promise<void>) {
     setBusy(label);
     setError("");
@@ -642,6 +647,11 @@ function LiveDesk() {
                       {pulse.id} · Round {pulse.round} · {pulse.n_answers}{" "}
                       sealed answers
                     </p>
+                    <p className="panel-caption">
+                      {deadlinePassed
+                        ? `The deadline passed at ${deadlineLabel}. Answers open together.`
+                        : `Answers open together at ${deadlineLabel}. Revealing before then is recorded as an analyst override.`}
+                    </p>
                     {group && validResult(group) ? (
                       <ResponseProgress
                         total={group.n}
@@ -656,16 +666,24 @@ function LiveDesk() {
                       />
                     )}
                     <div className="panel-actions">
-                      {group && validResult(group) && (
-                        <button className="primary" onClick={() => scrollToDeskSection("reveal-overview")}>Review panel</button>
-                      )}
                       <button
-                        className={group ? "" : "primary"}
-                        disabled={!!busy || !deadlinePassed || !!group || pulse.reveal_status === "insufficient_panel"}
+                        className="primary"
+                        disabled={!!busy || pulse.n_answers < 5 || !!group}
+                        title={
+                          deadlinePassed
+                            ? "The deadline has passed."
+                            : "Before the deadline. The reveal is recorded as an analyst override."
+                        }
                         onClick={() =>
                           void run("Revealing round", async () => {
-                            const value = await endpoint.reveal(pulse.id);
-                            if (value.reveal_status === "insufficient_panel") { setPulse({...pulse,reveal_status:"insufficient_panel"}); setMessage("Insufficient panel at the deadline. Answers remain sealed."); return; }
+                            // The engine fixes the reveal at pulse.expires_at and refuses a
+                            // plain reveal before it, so a desk that sent no override simply
+                            // returned 409 and the demo stopped at the reveal. An analyst can
+                            // still open a round early; it goes through as a recorded override.
+                            const value = await endpoint.reveal(
+                              pulse.id,
+                              !deadlinePassed,
+                            );
                             if (value.pulse_id !== pulse.id)
                               throw new Error(
                                 "The API returned a result for a different pulse. Refresh the selected pulse.",
@@ -678,7 +696,9 @@ function LiveDesk() {
                           })
                         }
                       >
-                        {deadlinePassed ? "Reveal (deadline passed)" : Number.isFinite(deadline) ? `Opens at ${new Date(deadline).toLocaleString("en-GB")}` : "Deadline unavailable"}
+                        {deadlinePassed
+                          ? "Reveal (deadline passed)"
+                          : "Reveal now (before the deadline)"}
                       </button>
                       <button
                         disabled={!!busy}
@@ -710,7 +730,6 @@ function LiveDesk() {
                         Refresh result
                       </button>
                     </div>
-                    {pulse.reveal_status === "insufficient_panel" && <p role="status">Insufficient panel: fewer than five responses at the deadline. Nothing is revealed.</p>}
                     <p className="panel-caption">
                       At least five answers are required to reveal.
                     </p>
@@ -725,7 +744,6 @@ function LiveDesk() {
               <Section title="Panel coverage" className="coverage-panel">
                 <PanelVisuals riskId={selected} />
               </Section>
-              {group && validResult(group) && <RevealOverview result={group} rationale={note} onRationale={setNote} />}
               <Section
                 title="Expert forecast versus ACAPS"
                 className="forecast-panel"
@@ -742,7 +760,7 @@ function LiveDesk() {
                   </div>
                 )}
               </Section>
-              <Section id="live-decision" title="Draft update" className="decision-panel">
+              <Section title="Draft update" className="decision-panel">
                 {!draft ? (
                   <button
                     disabled={!!busy || !group || !pulse}
@@ -751,7 +769,6 @@ function LiveDesk() {
                         const value = await endpoint.draft(pulse!.id);
                         setDraft(value);
                         setProbability(value.proposed_probability);
-                        scrollToDeskSection("live-decision");
                       })
                     }
                   >
@@ -982,7 +999,7 @@ function LiveDesk() {
                     title="Published evidence"
                     className="evidence-panel"
                   >
-                    {pulse?.evidence.length ? (
+                    {pulse?.evidence?.length ? (
                       pulse.evidence.map((e, i) => (
                         <EvidenceLine key={i} value={e} />
                       ))

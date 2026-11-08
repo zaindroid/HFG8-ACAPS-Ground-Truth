@@ -39,6 +39,21 @@ async function readJson(req) {
   return JSON.parse(body || "{}");
 }
 function activeInvitation(token) { return state.invitations.find((item) => item.token === token && Date.parse(item.expiresAt) > Date.now()); }
+function publicEngineRoute(pathname, method) {
+  if (method === "GET" && (pathname === "/api/answer-key" || pathname === "/api/anchors" || /^\/api\/ledger(?:\/[^/]+)?(?:\/attestation)?$/.test(pathname))) return true;
+  return /^\/api\/e\/[^/]+(?:\/(?:answer|confirm|feedback))?$/.test(pathname)
+    && ((method === "GET" && !/\/(?:answer|confirm)$/.test(pathname)) || (method === "POST" && /\/(?:answer|confirm)$/.test(pathname)));
+}
+function proxyEngine(req, res, pathname) {
+  if (!authorized(req) && !publicEngineRoute(pathname, req.method)) return json(res, 401, { error: "Analyst access code required" });
+  const upstream = http.request({ hostname: "127.0.0.1", port: Number(process.env.ENGINE_PORT || 18000), path: req.url, method: req.method,
+    headers: { ...req.headers, host: "127.0.0.1", connection: "close" } }, (response) => {
+    res.writeHead(response.statusCode || 502, headers({ ...response.headers, "Cache-Control": "no-store" }));
+    response.pipe(res);
+  });
+  upstream.on("error", () => { if (!res.headersSent) json(res, 502, { error: "The trust engine is unavailable" }); else res.destroy(); });
+  req.pipe(upstream);
+}
 const mime = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".woff2": "font/woff2", ".woff": "font/woff", ".ico": "image/x-icon" };
 function staticFile(res, pathname) {
   const candidate = resolve(dist, `.${pathname}`);
@@ -62,7 +77,7 @@ const server = http.createServer(async (req, res) => {
     }
     if (pathname === "/api/demo/state" && req.method === "GET") {
       if (!authorized(req)) return json(res, 401, { error: "Demo access code required" });
-      const invitations = state.invitations.filter((item) => item.riskId === "R1043" && Date.parse(item.expiresAt) > Date.now());
+      const invitations = state.invitations.filter((item) => item.riskId === "R1043" && expertIds.has(item.expertId) && Date.parse(item.expiresAt) > Date.now());
       const confirmedCount = invitations.filter((item) => !!state.answers[item.token]).length;
       return json(res, 200, { invitations, confirmedCount });
     }
@@ -76,7 +91,7 @@ const server = http.createServer(async (req, res) => {
         state.invitations.push({ token: `demo-${randomUUID()}`, riskId: "R1043", expertId, issuedAt: issuedAt.toISOString(), expiresAt: expiresAt.toISOString() });
       }
       persist();
-      return json(res, 200, { invitations: state.invitations.filter((item) => item.riskId === "R1043" && Date.parse(item.expiresAt) > Date.now()) });
+      return json(res, 200, { invitations: state.invitations.filter((item) => item.riskId === "R1043" && expertIds.has(item.expertId) && Date.parse(item.expiresAt) > Date.now()) });
     }
     const invitationMatch = /^\/api\/demo\/invitations\/(demo-[a-f0-9-]+)$/.exec(pathname);
     if (invitationMatch && req.method === "GET") {
@@ -96,7 +111,7 @@ const server = http.createServer(async (req, res) => {
       persist();
       return json(res, 200, { committed_at: committedAt, commitment, version, correction_allowed_until: invitation.expiresAt, message: "Answer confirmed in the shared demo. No independent timestamp is connected.", served_from: "demo", generated_at: committedAt });
     }
-    if (pathname.startsWith("/api/")) return json(res, 404, { error: "Not found" });
+    if (pathname.startsWith("/api/")) return proxyEngine(req, res, pathname);
     return staticFile(res, pathname);
   } catch (error) { return json(res, 400, { error: error instanceof Error ? error.message : "Request failed" }); }
 });

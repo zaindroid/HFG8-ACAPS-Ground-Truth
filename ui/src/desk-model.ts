@@ -1,5 +1,7 @@
 import risk from "../../fixtures/GET_risks_R1043.json";
-import pulse from "../../fixtures/POST_pulses_response.json";
+// The demo round, not the pulse that POST /pulses happened to create when the fixtures were
+// regenerated. The desk opens on this one.
+import pulse from "../../fixtures/GET_pulses_demo.json";
 import resultFixture from "../../fixtures/GET_pulses_result.json";
 import draftFixture from "../../fixtures/POST_pulses_draft_response.json";
 import boardFixture from "../../fixtures/GET_committee_scoring.json";

@@ -46,6 +46,14 @@ COLUMNS = {
     "Current vulnerability / Coping capacities": "vulnerability",
     "Expected exposure": "exposure",
     "What materialised?": "materialised",
+    # ACAPS's own narrative columns. They are what the probe questions of the expert card are
+    # built from (engine/probes.py): a question that asks "is this still true where you work?"
+    # has to quote something ACAPS actually wrote, or it is us asking about our own paraphrase.
+    "Current vulnerability / Coping capacities": "vulnerability",
+    "Expected exposure": "expected_exposure",
+    "Expected impact": "expected_impact",
+    "Expected priority needs": "priority_needs",
+    "Rationale update": "rationale_update",
 }
 
 
@@ -145,6 +153,13 @@ def _row_to_risk(row: pd.Series) -> dict:
             {"text": f"ACAPS Risk List, {_clean(row.get('country'))}", "url": "https://www.acaps.org/en/countries"}
         ],
         "materialised": _clean(row.get("materialised")) or None,
+        "rationale": _clean(row.get("rationale")) or None,
+        "vulnerability": _clean(row.get("vulnerability")) or None,
+        "expected_exposure": _clean(row.get("expected_exposure")) or None,
+        "expected_impact": _clean(row.get("expected_impact")) or None,
+        "priority_needs": [part.strip() for part in
+                           _clean(row.get("priority_needs")).split(",") if part.strip()],
+        "rationale_update": _clean(row.get("rationale_update")) or None,
     }
 
 

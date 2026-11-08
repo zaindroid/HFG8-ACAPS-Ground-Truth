@@ -1,6 +1,25 @@
-// An illustrative arrival sequence, never sent to the API or linked to roster identities.
-// Its final mean (69%) and range (30–90%) match the walkthrough's group result.
-export const arrivalEstimates = [0.73, 0.9, 0.58, 0.78, 0.3, 0.56, 0.79, 0.88];
+import result from "../../fixtures/GET_pulses_result.json";
+
+// An illustrative arrival order, never sent to the API or linked to roster identities. The shape
+// below is the order answers come in; the values are fitted to the round it illustrates, so its
+// final mean and range are the round's own. They used to be typed in, and the comment claiming
+// they matched the group result stopped being true the moment the engine's mean moved.
+const shape = [0.73, 0.9, 0.58, 0.78, 0.3, 0.56, 0.79, 0.88];
+export const arrivalEstimates = (() => {
+  const low = Math.min(...shape);
+  const high = Math.max(...shape);
+  // Map the shape onto the round's spread, then shift it so the mean lands on the round's mean.
+  const stretched = shape.map(
+    (value) =>
+      result.spread.min +
+      ((value - low) / (high - low)) * (result.spread.max - result.spread.min),
+  );
+  const drift =
+    result.mean - stretched.reduce((sum, v) => sum + v, 0) / stretched.length;
+  return stretched.map(
+    (value) => Math.round(Math.min(1, Math.max(0, value + drift)) * 100) / 100,
+  );
+})();
 
 export function ArrivalForecast({
   count,

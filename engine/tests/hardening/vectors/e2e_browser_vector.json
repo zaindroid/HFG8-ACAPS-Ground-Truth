@@ -1,0 +1,24 @@
+{
+  "note": "Sealed by ui/src/e2e.ts (@noble/post-quantum ML-KEM-768, @noble/curves X25519, @noble/hashes HKDF-SHA256, WebCrypto AES-256-GCM); opened in Python by test_e2e.py.",
+  "committee_key": "test-committee-key",
+  "kid": "12e946d4e8949e7c",
+  "token": "vector-token",
+  "route": "draft",
+  "body": {
+    "mask": "pseudonym",
+    "stance": "estimate",
+    "likelihood_word": "likely",
+    "probability": 0.62,
+    "missing": "Grenzübergang offen? -- non-ASCII on purpose"
+  },
+  "envelope": {
+    "e2e": {
+      "v": 1,
+      "kid": "12e946d4e8949e7c",
+      "kem_ct": "Q5i7JIY9oWGg1hcdOsv+nNDMUC44Bvq0YUGEY10SYgkg79jhHJUSYW6MMUQT2HxWCGqoudw6uAlsXCOeFI/UjwI1XWi7YmDgrNLDYAqFSl1TjfkJ9QCd2AZiJFhgR6Y6P2wclvbHpBSuiog9R042eRlk4egfowPY1jaj+8l8ytqw74VUNnKELiiXNGV3/KgKsitShAX45zrLUawpO9IrqqYmF0r0u34zuMY6N10jBnTj2Ma7gsGmO2bUn3SfY5n5Nx9lpXIRaBDeJ9SAeBDo97F/xdN/tsCfiKthVj7ukMfbL39KPb+yVQnXtB4WCCY//pkm4M4dBMQIP1CNbBUWVU20AQaNgvPi4uGzKXOeaoUCEnqk7Dwv71SGiHATdSJYrRYS3tdgjsulFNbwj8aISH438tyHBqvMr67DdwfUplRUqz4wK3/Hj8vlfbhGmH+9r/Zwg6yiSdRyU8dQ1lI1mXdEobVbC0izc8iTCNgBjYgOkmEMqXEc05ApvFmh49Df2WB6RO3NfY0Qz2P8EVwaNv4dhFaVAsMCTkQGEPVWn4jZ4LZWHLeIzR/NsG304j3D70JkPYzM+8MTd926xReu6fwI9V9Dt3vQEf0IaOa3FCyUoi/36eOKeKh0Izq31X0U2QJmW98XETqAOFbGio9sc0hYEsnPkzyWCA015rszN2DQz1QHae26g551sHJSdXt0Mlepq4GWCLnstiSvv79wQJFpRT69e6cRtYLt1ITQis5jinYDh4O4nhCWZ6VrbnEqsvMR2jsUqICExzgP28KprX32pk+bvCvBu5H9rhbU/g8K7syNMmBfJa0+K0s+Ywg/dV47a+DXkMzl/QxQTuKH5nTzH9+gQVlWG+5TQe+ed616ywD//6h2YMpuBkixyrF0gvGicLU1LALPKPEzZvaauvJrkeL5ySkNe2YzNQnIgZZrNEcRkFb8HBVzvsMxjYT69eeDBSFek8rLT8U8q3in80BdyoWKjm1d87Dpjt36wJAT1UUqGNOFGpsrAfLFMO5qt3msbp0dlnSwmTlXuuVhpaNA0nxwSkuDIt+lyrGkSp5Wi08axBJ8NG4wYGYSjg9N7+89y8jOAFlV1cz2G6uC8AhXPC1eIiSY7ncDEpC7AnE9KwnIj0wYDOKQyEJhv00zEzd5/l7AlGRCtcS6+GL2w5mo0B/9FK4gwDl2dQZ5T48GcTO/Y5AOXDvIOKbsHAzaFdbEs+hpC2Wl4PGq2oO/SpEnAkAC9Rm0TDAwoX6C124NZ36+YJbLv4QlXcOqbuvTqaYONWgn5H3dOFcfm7aAh7JrlQEeS/gnLZ/CWoZnFGsd0W0mscxknvvlgCkIXgKsbIC+8j8JFQK2rTGvKmPSxR/UlO/+ttwQoJA+D4a9Sa8QEIykiCAe+IEkxRW1eehFmrLQiqAn5Gp8mQiOK/cSfftAJOoTr1cGtDwtWsQVKd4=",
+      "x25519_pub": "0WDvDsPpbgtSdDhXev9yQSwuxMv+9+ZVa7pzOp9B9UQ=",
+      "nonce": "iMEehX/xasMIP8iM",
+      "ct": "h9QZgiiimLgdocUlGILECElyY3VBshWn+eVnrEfp5sZaPC3GLaAFgOMiGJp+cm5ySfxkWn2FBlUz+qmIYrFiuffZPheBUjWMfFf/obp21asCa/GB0YeTuXKl7Ra5rESJbHujiIkvF4jHi7/60y03ImDcxcKS5/n4geMMR/UI+nJiPh0y+ikTOcp4xMvcKg4kHFjCpKAn8wgE2UTPBBA8Yg=="
+    }
+  }
+}

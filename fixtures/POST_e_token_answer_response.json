@@ -1,8 +1,13 @@
 {
-  "confirm_token": "cf-7d2e4a",
-  "summary": "likely (65 to 90 %) · nickname to peers · note: militia movements near Adré",
+  "confirm_token": "cf-a3b59f",
+  "summary": "70 % (likely) · no identity kept · fairly sure · note: Camp capacity in Ouaddai is already past what the sites were · against: Registration could stay flat if the border stays quiet. · trigger: T2",
   "committed": false,
   "message": "Nothing is recorded until you confirm.",
+  "probability_used": 0.7,
+  "probability_source": "exact",
+  "number_note": "Your exact percentage is what the panel mean will use.",
+  "confirm_at": "/api/e/bfb91e11c7a84d44/confirm",
+  "expires_at": "2026-11-08T22:14:23+00:00",
   "served_from": "live",
-  "generated_at": "2026-11-07T09:00:00Z"
+  "generated_at": "2026-11-07T22:14:23+00:00"
 }
