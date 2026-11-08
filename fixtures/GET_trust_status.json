@@ -7,7 +7,8 @@
     "FF_E2E": true,
     "FF_CALIBRATION": false,
     "FF_TEAMS": false,
-    "FF_IVR": false
+    "FF_IVR": false,
+    "FF_CHAIN": true
   },
   "mechanisms": [
     {
@@ -86,6 +87,17 @@
       "where_it_shows": "Expert card: the line under the receipt",
       "guarantees": "The answer is readable only by the engine; a CDN, proxy or tunnel in between cannot read it or alter it undetected",
       "does_not": "Hiding the answer from the operator of the engine; protecting a compromised device or browser"
+    },
+    {
+      "number": 8,
+      "id": "process_chain",
+      "name": "Process chain",
+      "flag": "FF_CHAIN",
+      "enabled": true,
+      "build": "Every step of a risk's process (alert raised, question approved, panel invited, answers sealed, revealed, draft created, decision recorded, published, outcome resolved) is an event in an append-only SHA-256 hash chain per risk; each day's chain heads are extra leaves in that day's anchored Merkle root",
+      "where_it_shows": "GET /api/risks/{risk_id}/chain: the events and the verify result",
+      "guarantees": "Any later change to a recorded step, or removal of one, breaks the chain and is detectable by anyone holding a published head",
+      "does_not": "Proving the source data was right, only which edition and rule were used; it holds no names, contact details, pseudonyms, expert ids or free text, only counts, ids, enums and SHA-256 fingerprints"
     }
   ],
   "registry": {
@@ -152,6 +164,10 @@
     "disclosure_version": "2026-11-07.1",
     "min_items": 20,
     "means": "Counts only. A report belongs to the expert, and reaches the committee only if that expert says yes a second time."
+  },
+  "chain": {
+    "risks": 1,
+    "events": 9
   },
   "served_from": "live",
   "generated_at": "2026-11-07T22:14:24+00:00"

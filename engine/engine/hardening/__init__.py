@@ -11,6 +11,7 @@ from dataclasses import dataclass, field
 from . import anchors as anchors_mod
 from . import attest as attest_mod
 from . import calibration as calibration_mod
+from . import chain as chain_mod
 from . import credentials as credentials_mod
 from . import flags, keys, patterns, registry as registry_mod, zk as zk_mod
 
@@ -25,6 +26,7 @@ class Hardening:
     anchors: anchors_mod.Anchors = field(default_factory=anchors_mod.Anchors)
     membership: zk_mod.Membership = field(default_factory=zk_mod.Membership)
     calibration: calibration_mod.Programme = field(default_factory=calibration_mod.Programme)
+    chain: chain_mod.Chain = field(default_factory=chain_mod.Chain)
 
     def status(self) -> dict:
         return {
@@ -41,6 +43,8 @@ class Hardening:
                                        if r.status != "anchored")},
             "zk": self.membership.status(),
             "calibration": self.calibration.counts(),
+            "chain": {"risks": len(self.chain.events),
+                      "events": sum(len(c) for c in self.chain.events.values())},
         }
 
     def reset(self) -> None:
@@ -50,6 +54,7 @@ class Hardening:
         self.anchors.reset()
         self.membership.reset()
         self.calibration.enrolments.clear()
+        self.chain.reset()
 
 
 def new() -> Hardening:

@@ -146,12 +146,14 @@ class Root:
     anchored_at: str | None = None
     note: str = ""
     leaves: frozenset[str] = frozenset()
+    n_chain_heads: int = 0
 
     def as_dict(self) -> dict:
         mechanism = flags.mechanism("anchoring") or {}
         return {
             "day": self.day, "merkle_root": self.merkle_root,
-            "n_commitments": self.n_commitments, "submitted_at": self.submitted_at,
+            "n_commitments": self.n_commitments, "n_chain_heads": self.n_chain_heads,
+            "submitted_at": self.submitted_at,
             "status": self.status, "receipt": self.receipt, "log": self.log,
             "entry_uuid": self.entry_uuid, "log_index": self.log_index,
             "integrated_at": self.integrated_at, "anchored_at": self.anchored_at,
@@ -205,13 +207,20 @@ class Anchors:
     roots: dict[str, Root] = field(default_factory=dict)
     log: RekorLog = field(default_factory=RekorLog)
 
-    def record(self, day: str, commitments: list[str]) -> Root:
-        """Compute (or recompute) the day's root. Submission is a separate, explicit step."""
-        root = Root(day=day, merkle_root=merkle_root(commitments),
-                    n_commitments=len(commitments), leaves=frozenset(commitments))
+    def record(self, day: str, commitments: list[str],
+               chain_heads: list[str] | tuple[str, ...] = ()) -> Root:
+        """Compute (or recompute) the day's root. Submission is a separate, explicit step.
+
+        `chain_heads` are the process-chain heads for the day (chain.py, one per risk). They are
+        extra leaves beside the answer commitments, so one public log entry covers both."""
+        leaves = list(commitments) + [h for h in chain_heads if h not in commitments]
+        root = Root(day=day, merkle_root=merkle_root(leaves),
+                    n_commitments=len(commitments), leaves=frozenset(leaves),
+                    n_chain_heads=len(leaves) - len(commitments))
         existing = self.roots.get(day)
         if existing and existing.merkle_root == root.merkle_root:
             existing.n_commitments = root.n_commitments
+            existing.n_chain_heads = root.n_chain_heads
             return existing
         if existing and existing.status == "anchored":
             # The anchored root stands for the set it was built from; a later answer gets its own.

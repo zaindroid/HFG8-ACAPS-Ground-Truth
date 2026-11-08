@@ -361,7 +361,7 @@ def test_every_mechanism_states_a_guarantee_and_a_limit():
         assert mechanism["guarantees"].strip()
         assert mechanism["does_not"].strip()
         assert mechanism["name"].strip()
-    assert len(flags.mechanisms()) == 7
+    assert len(flags.mechanisms()) == 8
 
 
 def test_the_linkage_note_describes_the_path_the_tokens_actually_took():

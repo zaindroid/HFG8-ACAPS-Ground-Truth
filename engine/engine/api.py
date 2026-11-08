@@ -33,7 +33,7 @@ from . import hardening as hardening_mod
 from .hardening import (anchors as anchor_lib, calibration as calibration_lib,
                         flags as ff, patterns as pattern_lib)
 from . import impact as impact_lib
-from .hardening import e2e as e2e_lib
+from .hardening import chain as chain_lib, e2e as e2e_lib
 from . import scan as scan_lib
 from . import store
 from .store import Expert, Store, TooFew, now, pseudonym_for, round_verify_hash
@@ -94,6 +94,7 @@ async def deadline_watch(tick: float = 15.0) -> None:
                     result = STORE.reveal(pulse["id"], risk, "deadline")
                 except store.TooEarly:
                     continue
+                _chain_reveal(pulse, result, "deadline")
                 if result.get("reveal_status") == "insufficient_panel":
                     await publish("round_insufficient",
                                   {"pulse_id": pulse["id"], "n": result["n"]})
@@ -337,6 +338,7 @@ async def alert_to_pulse(alert_id: str, body: dict = Body(default_factory=dict))
     if not risk:
         raise HTTPException(404, f"no risk {risk_id} in the export")
 
+    _chain_alert(risk_id, event)
     pulse = _build_pulse(risk, "doorbell", body.get("question"), _alert_evidence(event))
     pulse["alert_id"] = alert_id
     event["status"] = "pulsed"
@@ -736,6 +738,10 @@ def _build_pulse(risk: dict, reason: str, question: str | dict | None, evidence:
         "n_answers": 0,
     }
     STORE.pulses[pulse_id] = pulse
+    _chain(risk["risk_id"], "question_approved", {
+        "pulse_id": pulse_id, "reason": reason,
+        "question_sha256": chain_lib.fingerprint(pulse["question"]),
+    })
     return pulse
 
 
@@ -1276,6 +1282,7 @@ async def reveal(pulse_id: str, body: dict = Body(default_factory=dict)):
             "why": "The reveal time is fixed when the pulse is sent, so no one can open a round "
                    "early because they like the answers that arrived first.",
         }) from exc
+    _chain_reveal(pulse, result, reason)
     if result.get("reveal_status") == "insufficient_panel":
         await publish("round_insufficient", {"pulse_id": pulse_id, "n": result["n"]})
         logging_conf.log(log, "info", "insufficient panel", pulse_id=pulse_id, n=result["n"])
@@ -1370,6 +1377,10 @@ def make_draft(pulse_id: str):
     risk = data.get_risk(pulse["risk_id"]) or {}
     built = draft_builder.build(risk, pulse, found)
     STORE.drafts[built["id"]] = built
+    _chain(pulse["risk_id"], "draft_created", {
+        "pulse_id": pulse_id, "draft_id": built["id"],
+        "draft_sha256": chain_lib.fingerprint(built),
+    })
     return envelope(built)
 
 
@@ -1423,6 +1434,14 @@ async def decide(draft_id: str, body: dict = Body(default_factory=dict)):
         },
     }
     STORE.ledger = [e for e in STORE.ledger if e["pulse_id"] != entry["pulse_id"]] + [entry]
+    _chain(found["risk_id"], "decision_recorded", {
+        "pulse_id": found["pulse_id"], "draft_id": draft_id, "action": action,
+        "rationale_sha256": chain_lib.fingerprint(body.get("note") or ""),
+    })
+    _chain(found["risk_id"], "published", {
+        "pulse_id": found["pulse_id"], "decision": found["status"],
+        "verify_hash": entry["verify_hash"], "entry_sha256": chain_lib.fingerprint(entry),
+    })
     await publish("draft_decided", {"draft_id": draft_id, "action": action})
     logging_conf.log(log, "info", "draft decided", draft_id=draft_id, action=action)
     return envelope({**found, "ledger_entry": entry})
@@ -1529,6 +1548,10 @@ async def resolve(risk_id: str, body: dict = Body(default_factory=dict)):
     for entry in entries:
         entry["attestation"] = {key: attestation[key] for key in
                                 ("scheme", "key_id", "signature", "commitment_root")}
+    _chain(entries[0]["risk_id"], "outcome_resolved", {
+        "outcome": outcome, "n": len(entries),
+        "commitment_root": commitment_root or None,
+    })
     await publish("risk_resolved", {"risk_id": risk_id, "outcome": outcome})
     return envelope({"scores_written": written, "weights_updated": written,
                      "outcome": outcome, "resolved_at": resolved_at,
@@ -1749,9 +1772,68 @@ def _commitments_by_day() -> dict[str, list[str]]:
 
 def _record_day_roots() -> None:
     """Keep the daily Merkle roots in step with the sealed commitments. Cheap, and it means the
-    ledger can always show a root for the day a round was sealed, submitted or not."""
-    for day, commitments in _commitments_by_day().items():
-        HARD.anchors.record(day, commitments)
+    ledger can always show a root for the day a round was sealed, submitted or not. Each risk's
+    process-chain head for the day is an extra leaf (mechanism 8)."""
+    by_day = _commitments_by_day()
+    use_chain = ff.enabled("FF_CHAIN")
+    for day in sorted(set(by_day) | (HARD.chain.days() if use_chain else set())):
+        heads = sorted(HARD.chain.heads_for_day(day).values()) if use_chain else []
+        HARD.anchors.record(day, by_day.get(day, []), heads)
+
+
+# -- mechanism 8: the process chain ---------------------------------------------
+def _chain(risk_id: str, kind: str, data: dict) -> dict | None:
+    """Append one step to the risk's chain and refresh the day's root. Only ids, enums, counts
+    and fingerprints go in; chain.check_data refuses anything else."""
+    if not ff.enabled("FF_CHAIN"):
+        return None
+    event = HARD.chain.append(risk_id, kind, data)
+    _record_day_roots()
+    return event
+
+
+def _edition_sha256(crisis_id: str, month_from: str, month_to: str) -> str:
+    """Fingerprint of the two edition rows the alert rule read, so the chain names exactly which
+    data the alert came from without copying it."""
+    return chain_lib.fingerprint({
+        month_from: acaps.edition(acaps.INFORM, month_from).get(crisis_id),
+        month_to: acaps.edition(acaps.INFORM, month_to).get(crisis_id),
+    })
+
+
+def _number(value):
+    return value if isinstance(value, (int, float)) and not isinstance(value, bool) else None
+
+
+def _chain_alert(risk_id: str, event: dict) -> dict | None:
+    return _chain(risk_id, "alert_raised", {
+        "alert_id": event.get("id"), "crisis_id": event["crisis_id"],
+        "month_from": event["month_from"], "month_to": event["month_to"],
+        "metric": event["metric"], "rule": f"{event['metric']}_rule",
+        "direction": event.get("direction"),
+        "old_value": _number(event.get("before")), "new_value": _number(event.get("after")),
+        "edition_sha256": _edition_sha256(event["crisis_id"], event["month_from"],
+                                          event["month_to"]),
+    })
+
+
+def _chain_invited(pulse: dict) -> dict | None:
+    n = sum(1 for (pid, _) in STORE.tokens.values() if pid == pulse["id"])
+    return _chain(pulse["risk_id"], "panel_invited", {"pulse_id": pulse["id"], "n_invited": n})
+
+
+def _chain_sealed(pulse: dict, kind: str = "answers_sealed", **extra) -> dict | None:
+    answers = STORE.answers.get(pulse["id"], [])
+    return _chain(pulse["risk_id"], kind, {
+        "pulse_id": pulse["id"], "n_answers": len(answers),
+        "commitment_root": anchor_lib.merkle_root([a.commitment for a in answers]) or None,
+        **extra,
+    })
+
+
+def _chain_reveal(pulse: dict, result: dict, reason: str) -> dict | None:
+    return _chain_sealed(pulse, "revealed", reason=reason,
+                         status=result.get("reveal_status") or "revealed")
 
 
 def _anchor_url(root: dict | None) -> str | None:
@@ -1774,6 +1856,26 @@ def _expert_by_pseudonym(pseudonym: str) -> str | None:
 def _acaps_probability(risk_id: str) -> float | None:
     risk = data.get_risk(risk_id) or {}
     return risk.get("probability_assumed_number")
+
+
+@api.get("/risks/{risk_id}/chain", tags=["trust"])
+def risk_chain(risk_id: str):
+    """Mechanism 8. Every recorded step of this risk's process, and whether the chain checks."""
+    mechanism = ff.mechanism("process_chain") or {}
+    events = HARD.chain.get(risk_id)
+    if not events and not data.get_risk(risk_id):
+        raise HTTPException(404, f"no risk {risk_id}")
+    return envelope({
+        "risk_id": risk_id,
+        "events": events,
+        "head": HARD.chain.head(risk_id),
+        "verify": HARD.chain.verify(risk_id),
+        "genesis": chain_lib.GENESIS,
+        "hash_rule": "sha256 over canonical JSON (sorted keys, no spaces) of every field but hash",
+        "enabled": ff.enabled("FF_CHAIN"),
+        "guarantees": mechanism.get("guarantees"),
+        "does_not": mechanism.get("does_not"),
+    })
 
 
 @api.get("/trust/status", tags=["trust"])
