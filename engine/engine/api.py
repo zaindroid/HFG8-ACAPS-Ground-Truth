@@ -171,6 +171,40 @@ app.add_middleware(
 )
 
 
+# -- demo redirect -------------------------------------------------------------
+# A submitted URL cannot be changed once it is submitted, but what it points at can. Setting
+# DEMO_REDIRECT_URL sends visitors somewhere else without a rebuild: change the variable, restart,
+# done. Unset or empty -- the default, and what the tests run under -- and this does nothing.
+#
+# Three rules it must not break. The platform healthcheck polls /health and /ready, so a redirect
+# there would mark a healthy container unhealthy and take the app down. /version has to keep
+# reporting the commit, because the README tells a reader to check it. And /api must keep
+# answering, so anything already pointed at this engine goes on working.
+REDIRECT_EXEMPT = ("/health", "/ready", "/version", "/openapi.json", "/docs", "/redoc")
+
+
+@app.middleware("http")
+async def demo_redirect(request: Request, call_next):
+    target = os.environ.get("DEMO_REDIRECT_URL", "").strip()
+    path = request.url.path
+    if (
+        target
+        and request.method in ("GET", "HEAD")
+        and path not in REDIRECT_EXEMPT
+        and not path.startswith("/api")
+        and not path.startswith("/assets")
+    ):
+        query = f"?{request.url.query}" if request.url.query else ""
+        # 302 and no-store, never 301: a permanent redirect is cached by the browser and would
+        # outlive the variable that set it, stranding anyone who visited while it was on.
+        response = RedirectResponse(
+            f"{target.rstrip('/')}{path}{query}", status_code=302,
+        )
+        response.headers["cache-control"] = "no-store"
+        return response
+    return await call_next(request)
+
+
 def fixture(name: str) -> dict:
     path = FIX / name
     if not path.exists():
