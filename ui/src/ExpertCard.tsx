@@ -291,6 +291,11 @@ export function ExpertCard({ token }: { token: string }) {
                 </p>
               )}
               <p className="help">{receipt.band_note}</p>
+              <p className="help">
+                <a href={`/e/${encodeURIComponent(token)}/feedback`}>
+                  After the deadline, see what your answer changed
+                </a>
+              </p>
               {receipt.correction_allowed_until && (
                 <p className="help">
                   You can change your answer until{" "}
