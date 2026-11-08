@@ -3,12 +3,38 @@ import { reachSubmit } from "./expert-flow";
 import AxeBuilder from "@axe-core/playwright";
 import { submitCard } from "./card-flow";
 
-test("public entry exposes research and Login opens the workspace without credentials", async ({
+test("public entry states the stack from the engine, including the mechanism it has not built, and Login opens the workspace without credentials", async ({
   page,
 }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "One question.Independent judgement.",
+  );
+  // The engine's account of the stack sits in one fold below the tour.
+  await page.getByText("Under the hood", { exact: false }).click();
+  // The landing page renders /trust/status rather than a written-out copy of it, so the first
+  // screen cannot claim more than the engine does. The test that proves it is the card for the
+  // one mechanism we did not finish: it has to appear, say its flag is off, and say why.
+  const cards = page.locator(".stack-grid article");
+  await expect(cards).toHaveCount(6);
+  const membership = cards.filter({
+    hasText: "Zero-knowledge group membership",
+  });
+  await expect(membership).toContainText("FF_ZK off");
+  await expect(membership).toContainText(
+    "the Groth16 proof check itself is NOT implemented in this build",
+  );
+  await expect(membership).toContainText(
+    "needs the proof verifier this build does not have",
+  );
+  // The daily root moved from one public log to another after this page was written, and the
+  // page followed without being edited, because it prints what the engine says. If it ever
+  // stops doing that, this is the assertion that goes red.
+  await expect(cards.filter({ hasText: "Public timestamp" })).toContainText(
+    "entered into Sigstore Rekor",
+  );
+  await expect(page.locator(".stack-rows")).toContainText(
+    "0 anchored, 1 pending",
   );
   // ACAPS is credited as the data source, never imitated: one outbound link, in the footer, and
   // a banner saying what this is. No reproduction of their navigation.

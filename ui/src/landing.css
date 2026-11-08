@@ -412,3 +412,31 @@ main.public-home.landing {
     margin: 0 16px;
   }
 }
+
+/* The engine's own account of the stack, folded away: there for anyone who wants it */
+.landing-under-hood {
+  max-width: 1116px;
+  margin: 0 auto 32px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 0 24px;
+}
+.landing-under-hood > summary {
+  cursor: pointer;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #0e2a47;
+}
+.landing-under-hood[open] {
+  padding-bottom: 24px;
+}
+.landing-under-hood .public-stack {
+  padding: 16px 0 0;
+}
+@media (max-width: 520px) {
+  .landing-under-hood {
+    margin: 0 16px 32px;
+  }
+}

@@ -16,6 +16,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import "./landing.css";
+import { getTrustStatus } from "./api";
+import type { TrustStatus } from "./service";
 import { Frame } from "./LiveWorkspace";
 import { DemoSamples } from "./DemoSamples";
 import { startDemoSession, workspaceDestination } from "./workspace-session";
@@ -120,6 +122,170 @@ function PortalFooter() {
   );
 }
 
+function useTrustStatus() {
+  const [status, setStatus] = useState<TrustStatus | null>(null);
+  const [unreachable, setUnreachable] = useState(false);
+  useEffect(() => {
+    let live = true;
+    getTrustStatus()
+      .then((value) => {
+        if (live) setStatus(value);
+      })
+      .catch(() => {
+        if (live) setUnreachable(true);
+      });
+    return () => {
+      live = false;
+    };
+  }, []);
+  return { status, unreachable };
+}
+
+function StackReadout({
+  status,
+  unreachable,
+}: {
+  status: TrustStatus | null;
+  unreachable: boolean;
+}) {
+  // Every value on this panel is a string the engine chose. Naming a primitive here instead
+  // would have gone stale the day the daily root moved from one public log to another, and the
+  // page would have kept saying the old one in a confident typeface.
+  const anchoring = status?.mechanisms.find(
+    (mechanism) => mechanism.id === "anchoring",
+  );
+  const rows = status
+    ? [
+        {
+          label: "Identity map",
+          value: status.registry.suite,
+          meta: `${status.registry.n_identities} identities, ${status.registry.access_log_count} attributed reads logged`,
+        },
+        {
+          label: "Outcome attestations",
+          value: status.attestation_key.scheme,
+          meta: `committee key ${status.attestation_key.key_id}`,
+        },
+        {
+          label: "Answer credentials",
+          value: status.credentials.scheme,
+          meta: `${status.credentials.n_issued} issued, ${status.credentials.n_spent} spent, reuse refused by nullifier`,
+        },
+        {
+          label: anchoring ? anchoring.name : "Public timestamp",
+          value: `${status.anchors.anchored} anchored, ${status.anchors.pending} pending`,
+          meta: anchoring
+            ? anchoring.guarantees
+            : "A root proves nothing until the log returns its inclusion proof",
+        },
+        {
+          label: "Membership proof",
+          value: status.zk.scheme,
+          meta: status.zk.proof_verifier,
+        },
+      ]
+    : [];
+  return (
+    <div className="stack-readout">
+      <p className="stack-readout-head">Read from the running engine</p>
+      {unreachable ? (
+        <p className="stack-note" role="status">
+          Every line of this panel is read from the engine at /trust/status. It
+          is not answering, so the panel shows nothing rather than a number from
+          an earlier run.
+        </p>
+      ) : status ? (
+        <dl className="stack-rows">
+          {rows.map((row) => (
+            <div key={row.label}>
+              <dt>{row.label}</dt>
+              <dd>{row.value}</dd>
+              <dd className="stack-meta">{row.meta}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : (
+        <p className="stack-note" role="status">
+          Reading the stack from the engine.
+        </p>
+      )}
+    </div>
+  );
+}
+
+function StackGrid({
+  status,
+  unreachable,
+}: {
+  status: TrustStatus | null;
+  unreachable: boolean;
+}) {
+  const built = status?.mechanisms ?? [];
+  const on = built.filter((mechanism) => mechanism.enabled).length;
+  return (
+    <section className="public-stack">
+      <div className="public-section-heading">
+        <div>
+          <p>The stack</p>
+          <h2>Every mechanism, with what it does not do.</h2>
+        </div>
+      </div>
+      {unreachable ? (
+        <p className="stack-note" role="status">
+          These cards are the engine&rsquo;s own words about its mechanisms. It
+          is not answering, so none are shown.
+        </p>
+      ) : built.length === 0 ? (
+        <p className="stack-note" role="status">
+          Reading the mechanisms from the engine.
+        </p>
+      ) : (
+        <>
+          <p className="stack-count">
+            {built.length} built, {on} switched on. The flag state and both
+            sentences on every card come from the engine, so this page cannot
+            promise more than the mechanism itself does.
+          </p>
+          <div className="stack-grid">
+            {built.map((mechanism) => (
+              <article key={mechanism.id}>
+                <p className="stack-card-head">
+                  <span>
+                    {mechanism.number} &middot; {mechanism.name}
+                  </span>
+                  <span
+                    className={
+                      mechanism.enabled ? "stack-flag on" : "stack-flag off"
+                    }
+                  >
+                    {mechanism.flag
+                      ? `${mechanism.flag} ${mechanism.enabled ? "on" : "off"}`
+                      : "always on"}
+                  </span>
+                </p>
+                <p className="stack-build">{mechanism.build}</p>
+                <p className="stack-claim">
+                  <strong>Guarantees</strong> {mechanism.guarantees}
+                </p>
+                <p className="stack-claim not">
+                  <strong>Does not</strong> {mechanism.does_not}
+                </p>
+              </article>
+            ))}
+          </div>
+          {/* Card 3 states the guarantee blind signatures make. On this build most tokens were
+              blinded by the server on the demo path, which is weaker, and the engine says so in
+              one sentence: it belongs next to the card, not on a page nobody reaches. */}
+          <p className="stack-footnote">
+            <strong>On this build&rsquo;s credentials.</strong>{" "}
+            {status?.credentials.linkage_note}
+          </p>
+        </>
+      )}
+    </section>
+  );
+}
+
 const loop: [LucideIcon, string, string][] = [
   [Bell, "Alert", "ACAPS severity jumps"],
   [Send, "Ask", "8 matched experts"],
@@ -199,6 +365,7 @@ export function PublicHome() {
   useEffect(() => {
     document.title = "Sealed Signals · Expert validation for risk analysis";
   }, []);
+  const { status, unreachable } = useTrustStatus();
   return (
     <>
       <a className="skip-link" href="#public-content">
@@ -285,6 +452,14 @@ export function PublicHome() {
             <span>names in anything published</span>
           </div>
         </section>
+
+        <details className="landing-under-hood">
+          <summary>
+            Under the hood: every mechanism, as the engine reports it
+          </summary>
+          <StackReadout status={status} unreachable={unreachable} />
+          <StackGrid status={status} unreachable={unreachable} />
+        </details>
 
         <section className="public-workspace-entry">
           <div>
