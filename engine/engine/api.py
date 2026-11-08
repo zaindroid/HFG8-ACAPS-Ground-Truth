@@ -1739,9 +1739,9 @@ def _anchor_url(root: dict | None) -> str | None:
     """The link the ledger offers as a supplied proof. Only once the root is actually anchored:
     a pending submission has a receipt but nothing to show anyone, and a link beside the words
     "external anchor supplied" would be a claim the root has not earned."""
-    if not root or root.get("status") != "anchored" or not root.get("calendar"):
+    if not root or root.get("status") != "anchored":
         return None
-    return f"{root['calendar']}/timestamp/{root['merkle_root']}"
+    return root.get("verify_url")
 
 
 def _expert_by_pseudonym(pseudonym: str) -> str | None:
@@ -1858,13 +1858,22 @@ def ledger_attestation(risk_id: str):
     })
 
 
+def _anchor_public_key() -> str | None:
+    """The key that signs each logged root, so anyone can check the entries are ours."""
+    try:
+        return anchor_lib.public_key_pem().decode()
+    except RuntimeError:
+        return None
+
+
 @api.get("/anchors", tags=["trust"])
 def anchors_list():
     """Mechanism 5. Daily commitment roots, with status anchored or pending, and the receipt."""
     _record_day_roots()
     return envelope({
         "roots": HARD.anchors.all(),
-        "calendars": list(anchor_lib.CALENDARS),
+        "log": anchor_lib.LOG_URL,
+        "public_key_pem": _anchor_public_key(),
         "enabled": ff.enabled("FF_ANCHOR"),
         "guarantees": (ff.mechanism("anchoring") or {}).get("guarantees"),
         "does_not": (ff.mechanism("anchoring") or {}).get("does_not"),
@@ -1884,7 +1893,7 @@ def anchor_submit(day: str):
 
 @api.post("/anchors/{day}/upgrade", tags=["trust"])
 def anchor_upgrade(day: str):
-    """Ask the calendar whether the root has made it into a block yet. Usually: not yet."""
+    """Ask the public log for the entry again, to pick up an inclusion proof it did not return yet."""
     try:
         root = HARD.anchors.upgrade(day)
     except KeyError as exc:

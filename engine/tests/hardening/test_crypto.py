@@ -1,11 +1,12 @@
 """MASTER_PROMPT section 6c tests, one per line of the table.
 
 These check the mechanisms themselves, not the routes: a round trip, a signature that fails on a
-flipped byte, a credential that cannot be spent twice, an anchor that only reads `anchored` when a
-calendar says so, and a registry read that lands in the log. test_routes.py checks the product
+flipped byte, a credential that cannot be spent twice, an anchor that only reads `anchored` when the
+public log returns an inclusion proof, and a registry read that lands in the log. test_routes.py checks the product
 surface on top of them.
 """
 from __future__ import annotations
+import hashlib
 import base64
 import os
 
@@ -237,20 +238,29 @@ def test_a_proof_against_an_unknown_group_is_rejected(monkeypatch):
     assert membership.verify(bad, "P-0001")["accepted"] is False
 
 
-# -- 5. timestamp anchoring ----------------------------------------------------
-class FakeCalendar:
-    """Stands in for an OpenTimestamps calendar: accepts a digest, confirms only when told to."""
+# -- 5. public timestamp (Sigstore Rekor) -------------------------------------
+def _entry(index: int, proof: bool) -> dict:
+    verification = {"signedEntryTimestamp": "c2V0"}
+    if proof:
+        verification["inclusionProof"] = {"logIndex": index, "rootHash": "ab" * 32,
+                                          "treeSize": index + 1, "hashes": []}
+    return {"logIndex": index, "integratedTime": 1794096000, "logID": "c0d23d6a",
+            "body": "e30=", "verification": verification}
 
-    def __init__(self) -> None:
-        self.confirmed = False
+
+class FakeLog:
+    """Stands in for Rekor: logs a root, returns the inclusion proof only when told to."""
+
+    def __init__(self, proof: bool = False) -> None:
+        self.proof = proof
         self.submitted: list[str] = []
 
-    def submit(self, digest: bytes):
-        self.submitted.append(digest.hex())
-        return "https://calendar.test", b"pending-proof-bytes"
+    def submit(self, root_hex: str):
+        self.submitted.append(root_hex)
+        return "24296fb2" + root_hex[:8], _entry(1234567, self.proof)
 
-    def upgrade(self, digest: bytes):
-        return ("https://calendar.test", b"confirmed-proof-bytes") if self.confirmed else None
+    def fetch(self, uuid: str):
+        return uuid, _entry(1234567, self.proof)
 
 
 def test_merkle_root_is_stable_and_order_independent():
@@ -260,58 +270,81 @@ def test_merkle_root_is_stable_and_order_independent():
     assert anchors_mod.merkle_root([]) == ""
 
 
+def test_the_logged_entry_carries_only_the_root_and_a_valid_signature():
+    from cryptography.hazmat.primitives import hashes, serialization
+    from cryptography.hazmat.primitives.asymmetric import ec
+
+    root = "ab" * 32
+    entry = anchors_mod.hashedrekord(root)
+    spec = entry["spec"]
+    assert entry["kind"] == "hashedrekord"
+    assert spec["data"]["hash"]["value"] == hashlib.sha256(bytes.fromhex(root)).hexdigest()
+    public = serialization.load_pem_public_key(
+        base64.b64decode(spec["signature"]["publicKey"]["content"]))
+    public.verify(base64.b64decode(spec["signature"]["content"]), bytes.fromhex(root),
+                  ec.ECDSA(hashes.SHA256()))
+    # Same committee secret, same key: past entries stay checkable after a restart.
+    assert anchors_mod.public_key_pem() == anchors_mod.public_key_pem()
+
+
 def test_anchor_goes_pending_then_anchored():
     store = anchors_mod.Anchors()
-    store.calendar = FakeCalendar()
+    store.log = FakeLog(proof=False)
     store.record("2026-11-07", ["aa" * 32, "bb" * 32])
 
     submitted = store.submit("2026-11-07")
     assert submitted.status == "pending"
-    assert submitted.receipt, "a submission must keep its receipt"
+    assert submitted.log_index == 1234567 and submitted.entry_uuid
     assert "becomes anchored" in submitted.note
+    assert submitted.verify_url() is None
 
-    still_pending = store.upgrade("2026-11-07")
-    assert still_pending.status == "pending"
-
-    store.calendar.confirmed = True
+    store.log.proof = True
     anchored = store.upgrade("2026-11-07")
     assert anchored.status == "anchored"
-    assert anchored.anchored_at
+    assert anchored.anchored_at and anchored.integrated_at
+    assert anchored.receipt, "the signed timestamp and proof must be kept"
+    assert anchored.verify_url() == "https://search.sigstore.dev/?logIndex=1234567"
     assert "existed by that time" in anchored.as_dict()["guarantees"]
+
+
+def test_an_entry_returned_with_its_proof_is_anchored_at_once():
+    store = anchors_mod.Anchors()
+    store.log = FakeLog(proof=True)
+    store.record("2026-11-07", ["aa" * 32])
+    assert store.submit("2026-11-07").status == "anchored"
 
 
 def test_a_pending_root_says_it_proves_nothing_yet():
     store = anchors_mod.Anchors()
-    store.calendar = FakeCalendar()
+    store.log = FakeLog()
     store.record("2026-11-07", ["aa" * 32])
     assert "proves nothing" in store.submit("2026-11-07").as_dict()["means"]
 
 
-def test_an_unreachable_calendar_does_not_invent_an_anchor():
+def test_an_unreachable_log_does_not_invent_an_anchor():
     class Dead:
-        def submit(self, digest):
+        def submit(self, root_hex):
             return None
 
-        def upgrade(self, digest):
+        def fetch(self, uuid):
             return None
 
     store = anchors_mod.Anchors()
-    store.calendar = Dead()
+    store.log = Dead()
     store.record("2026-11-07", ["aa" * 32])
     root = store.submit("2026-11-07")
-    assert root.status == "pending" and root.receipt is None
-    assert "No calendar was reachable" in root.note
+    assert root.status == "pending" and root.receipt is None and root.log_index is None
+    assert "not reachable" in root.note
 
 
 def test_the_flag_off_computes_the_root_and_never_submits(monkeypatch):
     monkeypatch.setenv("FF_ANCHOR", "0")
     store = anchors_mod.Anchors()
-    store.calendar = FakeCalendar()
+    store.log = FakeLog()
     store.record("2026-11-07", ["aa" * 32])
     root = store.submit("2026-11-07")
     assert root.merkle_root and root.status == "pending"
-    assert store.calendar.submitted == []
-
+    assert store.log.submitted == []
 
 def test_a_receipt_is_only_returned_for_a_commitment_in_that_root():
     store = anchors_mod.Anchors()

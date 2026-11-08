@@ -51,11 +51,11 @@ Lane C verifies every citation above before it goes on a slide.
 | Aggregates only above n = 5 | Yes | A disclosure rule that keeps individual answers out of public views | An anonymity guarantee |
 | Blind-signed single-use credentials (RSA blind signatures, RFC 9474; one token per answer, reuse rejected) | Yes, `FF_BLIND` | A vetted panel member answered, unlinkable by ACAPS to the approval | Timing or network-metadata correlation; re-identification by distinctive wording |
 | Zero-knowledge group membership (Semaphore v4, proof generated in the browser, nullifier per pulse) | Yes, `FF_ZK` (off until stable) | "A vetted member of this panel answered" without saying which; no double answers | Reputation portability |
-| Timestamp anchoring of daily commitment roots (OpenTimestamps) | Yes, `FF_ANCHOR`, shows pending until confirmed | Independent proof the commitments existed by that time | Anything else; no tokens, no chain logic, no cost |
+| Public timestamp of daily commitment roots (Sigstore Rekor transparency log) | Yes, `FF_ANCHOR`, shows pending until the log returns an inclusion proof | Independent proof the commitments existed by that time | Who answered, or whether an answer is right; only the root is logged |
 | Post-quantum: ML-KEM-768 (hybrid with X25519) for key establishment, AES-256-GCM for the identity registry at rest; ML-DSA-65 signatures on outcome attestations | Yes, `FF_PQ` | Long-horizon confidentiality of the identity map; outcome records provably issued by the committee key and unaltered | Confidentiality from an administrator who holds the key; truth of the outcome |
 
 We do not run a blockchain. We use two ideas from that world and say precisely what each proves: the sealed envelope
-you can check later (commitments), and a public timestamp (anchoring of daily roots on Bitcoin via OpenTimestamps).
+you can check later (commitments), and a public timestamp (each daily root entered into Sigstore Rekor, an append-only transparency log anyone can check).
 
 Pattern reports are about panels, not people: convergence after reveal, spread over time, abstention share, source mix,
 coverage gaps, and affiliation-level sentences at n ≥ 3. The committee never receives a sentence about an individual.

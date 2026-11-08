@@ -96,13 +96,15 @@ MECHANISMS = (
         "reputation portability; not required for the pilot design",
     ),
     Mechanism(
-        5, "anchoring", "Timestamp anchoring", "FF_ANCHOR",
-        "A daily Merkle root of that day's commitments is submitted to an OpenTimestamps calendar; "
-        "the receipt is stored and the status stays pending until the calendar returns a "
-        "Bitcoin-confirmed proof",
-        "Ledger: anchor status per day; Verify shows the root and the receipt",
+        5, "anchoring", "Public timestamp", "FF_ANCHOR",
+        "A daily Merkle root of that day's commitments is signed and entered into Sigstore Rekor, "
+        "a public append-only transparency log; the entry, signed timestamp and inclusion proof "
+        "are stored, and the status stays pending until the log returns the proof",
+        "Ledger: timestamp status per day; Verify shows the root, the log index and a link to "
+        "the public entry",
         "Independent proof the commitments existed by that time, once the status reads anchored",
-        "Anything else; no tokens, no chain logic, no cost. A pending root proves nothing yet",
+        "Who answered, or whether an answer is right; nothing but the root is logged. A pending "
+        "root proves nothing yet",
     ),
     Mechanism(
         6, "access_log", "Registry access log", None,

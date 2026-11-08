@@ -8,13 +8,7 @@ import type {
 } from "./v2-types";
 import type fullRisk from "../../fixtures/GET_risks_R1043.json";
 import type resultFixture from "../../fixtures/GET_pulses_result.json";
-import type {
-  Card,
-  Answer,
-  AnswerDraft,
-  SealReceipt,
-  Mask,
-} from "./api";
+import type { Card, Answer, AnswerDraft, SealReceipt, Mask } from "./api";
 import type feedbackFixture from "../../fixtures/GET_e_token_feedback.json";
 export type Risk = Omit<
   typeof fullRisk,
@@ -167,7 +161,12 @@ export type TrustStatus = {
     guarantees: string;
     does_not: string;
   };
-  attestation_key: { scheme: string; key_id: string; public_key: string | null; note: string };
+  attestation_key: {
+    scheme: string;
+    key_id: string;
+    public_key: string | null;
+    note: string;
+  };
   credentials: CredentialStatus;
   anchors: { days: number; anchored: number; pending: number };
   zk: {
@@ -199,7 +198,11 @@ export type AnchorRoot = {
   submitted_at: string | null;
   anchored_at: string | null;
   receipt: string | null;
-  calendar: string | null;
+  log: string | null;
+  entry_uuid: string | null;
+  log_index: number | null;
+  integrated_at: string | null;
+  verify_url: string | null;
   note: string;
   means: string;
 };
@@ -227,7 +230,12 @@ export type PatternReport = {
   never: string;
   note: string;
 };
-export type AccessEntry = { who: string; why: string; expert_id: string; at: string };
+export type AccessEntry = {
+  who: string;
+  why: string;
+  expert_id: string;
+  at: string;
+};
 export type CredentialStatus = {
   scheme: string;
   n_batches: number;
@@ -362,24 +370,35 @@ export const endpoint = {
     api<{
       n_sent: number;
       n_refused: number;
-      sent: { expert_id: string; channel: string; transport: string; body: string }[];
+      sent: {
+        expert_id: string;
+        channel: string;
+        transport: string;
+        body: string;
+      }[];
       refused: { expert_id: string; why: string }[];
       transport_note: string;
     }>(`/reach/pulses/${encodeURIComponent(pulseId)}/send`, body),
   reachDelivery: (pulseId: string) =>
     api<{
       pulse_id: string;
-      channels: { channel: string; sent: number; answered: number; transport: string }[];
+      channels: {
+        channel: string;
+        sent: number;
+        answered: number;
+        transport: string;
+      }[];
       sent: number;
       answered: number;
       relayed: number;
       transport_note: string;
     }>(`/reach/pulses/${encodeURIComponent(pulseId)}/delivery`),
   closeTheLoop: (pulseId: string) =>
-    api<{ n_sent: number; sent: { expert_id: string; body: string }[]; note: string }>(
-      `/reach/pulses/${encodeURIComponent(pulseId)}/close-the-loop`,
-      {},
-    ),
+    api<{
+      n_sent: number;
+      sent: { expert_id: string; body: string }[];
+      note: string;
+    }>(`/reach/pulses/${encodeURIComponent(pulseId)}/close-the-loop`, {}),
   contract: (id: string, body: QuestionContract) =>
     api<QuestionContract>(`/risks/${encodeURIComponent(id)}/contract`, body),
   outcomeReport: (id: string) =>

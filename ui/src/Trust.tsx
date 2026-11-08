@@ -26,7 +26,13 @@ type Loaded = {
   never: string;
 };
 
-function Guarantee({ guarantees, does_not }: { guarantees: string; does_not: string }) {
+function Guarantee({
+  guarantees,
+  does_not,
+}: {
+  guarantees: string;
+  does_not: string;
+}) {
   return (
     <dl className="guarantee">
       <div>
@@ -52,12 +58,17 @@ function MechanismCard({ mechanism }: { mechanism: Mechanism }) {
           title={mechanism.flag || "always on"}
         >
           {mechanism.enabled ? <Check size={14} /> : <Minus size={14} />}
-          {mechanism.flag ? `${mechanism.flag} ${mechanism.enabled ? "on" : "off"}` : "always on"}
+          {mechanism.flag
+            ? `${mechanism.flag} ${mechanism.enabled ? "on" : "off"}`
+            : "always on"}
         </span>
       </header>
       {/* Outside the header: inside it the flag chip squeezed this line into a narrow column. */}
       <p className="mechanism-build">{mechanism.build}</p>
-      <Guarantee guarantees={mechanism.guarantees} does_not={mechanism.does_not} />
+      <Guarantee
+        guarantees={mechanism.guarantees}
+        does_not={mechanism.does_not}
+      />
       <p className="mechanism-shows">Shown in: {mechanism.where_it_shows}</p>
     </article>
   );
@@ -124,15 +135,16 @@ export function Trust() {
               ))}
             </div>
             <p className="panel-note">
-              We do not run a blockchain. We use two ideas from that world and say what each
-              proves: the sealed envelope you can check later, and a public timestamp on a daily
-              root.
+              We do not run a blockchain. We use two ideas from that world and
+              say what each proves: the sealed envelope you can check later, and
+              a public timestamp on a daily root.
             </p>
           </Section>
 
           <Section title="Identity registry">
             <p className="registry-lock">
-              <LockKeyhole size={16} aria-hidden="true" /> {state.trust.registry.lock_line}
+              <LockKeyhole size={16} aria-hidden="true" />{" "}
+              {state.trust.registry.lock_line}
             </p>
             <dl className="trust-figures">
               <div>
@@ -141,7 +153,9 @@ export function Trust() {
               </div>
               <div>
                 <dt>Key id</dt>
-                <dd className="mono">{state.trust.registry.key_id || "none"}</dd>
+                <dd className="mono">
+                  {state.trust.registry.key_id || "none"}
+                </dd>
               </div>
               <div>
                 <dt>Key holder</dt>
@@ -164,8 +178,8 @@ export function Trust() {
             ) : (
               <table className="trust-table">
                 <caption>
-                  Every read of the identity map, with who asked and why. The log is the control;
-                  it does not prevent an authorised read.
+                  Every read of the identity map, with who asked and why. The
+                  log is the control; it does not prevent an authorised read.
                 </caption>
                 <thead>
                   <tr>
@@ -211,14 +225,17 @@ export function Trust() {
             <p className="panel-note">{state.trust.credentials.linkage_note}</p>
           </Section>
 
-          <Section title="Anchors">
+          <Section title="Public timestamp">
             {state.anchors.length === 0 ? (
-              <p>No commitments sealed yet, so there is no daily root to anchor.</p>
+              <p>
+                No commitments sealed yet, so there is no daily root to anchor.
+              </p>
             ) : (
               <table className="trust-table">
                 <caption>
-                  One Merkle root per day over that day&rsquo;s sealed commitments. A pending root
-                  proves nothing on its own.
+                  One fingerprint per day over that day&rsquo;s sealed answers,
+                  entered into the Sigstore public log. A pending root proves
+                  nothing on its own.
                 </caption>
                 <thead>
                   <tr>
@@ -227,20 +244,40 @@ export function Trust() {
                     <th scope="col">Commitments</th>
                     <th scope="col">Status</th>
                     <th scope="col">What it means</th>
+                    <th scope="col">Public entry</th>
                   </tr>
                 </thead>
                 <tbody>
                   {state.anchors.map((root) => (
                     <tr key={root.day}>
                       <td>{root.day}</td>
-                      <td className="mono">{root.merkle_root.slice(0, 16)}&hellip;</td>
+                      <td className="mono">
+                        {root.merkle_root.slice(0, 16)}&hellip;
+                      </td>
                       <td>{root.n_commitments}</td>
                       <td>
-                        <span className={root.status === "anchored" ? "flag-on" : "flag-off"}>
+                        <span
+                          className={
+                            root.status === "anchored" ? "flag-on" : "flag-off"
+                          }
+                        >
                           {root.status}
                         </span>
                       </td>
                       <td>{root.means}</td>
+                      <td>
+                        {root.verify_url ? (
+                          <a
+                            href={root.verify_url}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            Log index {root.log_index}
+                          </a>
+                        ) : (
+                          "None yet"
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -266,8 +303,8 @@ export function Trust() {
             <p className="panel-note">{state.never}</p>
             {state.patterns.length === 0 ? (
               <p>
-                No report has opened yet. A report needs at least three revealed rounds on the
-                same panel.
+                No report has opened yet. A report needs at least three revealed
+                rounds on the same panel.
               </p>
             ) : (
               <div className="pattern-grid">
@@ -276,8 +313,8 @@ export function Trust() {
                     <header>
                       <h3>{report.panel_id}</h3>
                       <span>
-                        {report.n_pulses_revealed} revealed ·{" "}
-                        {report.n_experts} members
+                        {report.n_pulses_revealed} revealed · {report.n_experts}{" "}
+                        members
                       </span>
                     </header>
                     {report.sentences.length === 0 ? (
@@ -310,7 +347,8 @@ export function Trust() {
                 Below the floor, so no report:{" "}
                 {state.waiting
                   .map(
-                    (row) => `${row.panel_id} (${row.n_pulses_revealed} revealed)`,
+                    (row) =>
+                      `${row.panel_id} (${row.n_pulses_revealed} revealed)`,
                   )
                   .join(", ")}
                 .
@@ -320,9 +358,9 @@ export function Trust() {
 
           <Section title="Zero-knowledge membership">
             <p className="panel-note">
-              <strong>Proof verifier: {state.trust.zk.proof_verifier}.</strong> The group and the
-              per-pulse nullifier are built and enforced; the Groth16 check is not, which is why
-              the flag ships off.
+              <strong>Proof verifier: {state.trust.zk.proof_verifier}.</strong>{" "}
+              The group and the per-pulse nullifier are built and enforced; the
+              Groth16 check is not, which is why the flag ships off.
             </p>
             <dl className="trust-figures">
               <div>
@@ -345,7 +383,9 @@ export function Trust() {
           </Section>
         </>
       )}
-      {!state && !error && <p role="status">Reading the trust status&hellip;</p>}
+      {!state && !error && (
+        <p role="status">Reading the trust status&hellip;</p>
+      )}
     </Frame>
   );
 }
