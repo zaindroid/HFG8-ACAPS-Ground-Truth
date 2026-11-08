@@ -213,7 +213,7 @@ h1{font-size:120px;font-weight:600;line-height:1;letter-spacing:-2px}
   <div class="node t" data-s="3"><h3>Reach</h3><p>Sends the question where the expert already is. One magic link in every message. No sign-up.</p><span class="tech">email</span> <span class="tech">WhatsApp</span> <span class="tech">Signal</span> <span class="tech">SMS</span> <span class="tech">Teams</span> <span class="tech">voice</span><i class="arrow"></i></div>
   <div class="node a" data-s="4"><h3>Expert answers</h3><p>One screen, one tap, mask per answer, confirm before anything is recorded.</p><span class="tech">SHA-256 commit</span> <span class="tech">blind credential</span><i class="arrow"></i></div>
   <div class="node t" data-s="5"><h3>Reveal and check</h3><p>Opened together at the deadline. Mean, spread, unattributed disagreement. Cited draft, every number checked.</p><span class="tech">equal-weight mean</span> <span class="tech">SP experiment</span> <span class="tech">Skeptic, Judge</span><i class="arrow"></i></div>
-  <div class="node a" data-s="6"><h3>Decide and record</h3><p>Accept, edit or reject. Ledger with the honesty box. Scored at panel level when the risk resolves.</p><span class="tech">Verify</span> <span class="tech">ML-DSA-65 attestation</span> <span class="tech">OpenTimestamps</span></div>
+  <div class="node a" data-s="6"><h3>Decide and record</h3><p>Accept, edit or reject. Ledger with the honesty box. Scored at panel level when the risk resolves.</p><span class="tech">Verify</span> <span class="tech">ML-DSA-65 attestation</span> <span class="tech">public transparency log</span></div>
  </div>
  <div style="display:flex;gap:20px;margin-top:30px;align-items:center" data-s="6">
   <span class="legend"><span class="lt">arithmetic</span><span class="la">a person decides</span></span>
@@ -288,7 +288,7 @@ h1{font-size:120px;font-weight:600;line-height:1;letter-spacing:-2px}
   <div class="prom" data-s="3"><div class="ico big"><svg viewBox="0 0 24 24"><path d="M3 7c3-2 6-2 9 0 3-2 6-2 9 0v5c0 4-3 7-9 9-6-2-9-5-9-9z"/><path d="M8 12h2M14 12h2"/></svg></div><div><h4>Names protected, limits stated</h4><p>Hidden from peers and the public; ACAPS access is defined and logged. Not anonymous from ACAPS, and we say so.</p></div></div>
   <div class="prom" data-s="3"><div class="ico big"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l2.5 2.5L16 9"/></svg></div><div><h4>Anyone can check the record</h4><p>One click recomputes the seal. The public page keeps the misses, including when the analyst overruled a panel that was right.</p></div></div>
  </div>
- <div class="foot"><span>Under the hood: SHA-256 commitments, blind-signed credentials, OpenTimestamps anchoring, ML-KEM-768 and ML-DSA-65, access log. Detail in the Q&A slides.</span><span>5</span></div>
+ <div class="foot"><span>Under the hood: SHA-256 commitments, blind-signed credentials, public timestamp log, ML-KEM-768 and ML-DSA-65, access log. Detail in the Q&A slides.</span><span>5</span></div>
 </section>
 <section class="slide" id="s6">
  <div class="line" data-s="0">It runs, it is different, and it is ready for a supervised pilot.</div>
@@ -487,7 +487,7 @@ h1{font-size:120px;font-weight:600;line-height:1;letter-spacing:-2px}
     <b>R1043, eastern Chad</b><br>Committed 7 Nov 09:00. Group 0.69, spread 0.3 to 0.9. ACAPS band High. Decision: kept High.
     <div style="border:1.5px solid var(--line);border-radius:10px;padding:12px 16px;margin:12px 0;font-size:15px;line-height:1.45"><b>Honesty box</b> 8 experts, agreement 0.75, no access expert on the panel, claims 2 corroborated and 2 queued, relayed 0, panel record 3 of 4 with one miss.</div>
     <span class="btn">Verify: matches</span> <span class="sub" style="font-size:15px">round root 9c4e…b1 recomputed from 8 commitments</span>
-    <div style="margin-top:12px;font-size:14px"><span class="tech">commitment SHA-256, salted, 09:00:14</span> <span class="tech">attested ML-DSA-65, key c1</span> <span class="tech">anchored OpenTimestamps, pending</span></div>
+    <div style="margin-top:12px;font-size:14px"><span class="tech">commitment SHA-256, salted, 09:00:14</span> <span class="tech">attested ML-DSA-65, key c1</span> <span class="tech">public log, pending</span></div>
     <div style="margin-top:16px;border-top:1.5px solid var(--line);padding-top:12px;font-size:15px"><b>Registry status</b> identity map encrypted: ML-KEM-768 hybrid key establishment, AES-256-GCM at rest. Access log: 3 reads this month, each with a reason.</div>
     <div style="margin-top:12px;font-size:15px"><b>Credentials</b> 64 one-time tokens issued, 41 spent, 0 reused. <b>ZK membership</b> flag off, proof path tested.</div>
    </div>
@@ -497,7 +497,7 @@ h1{font-size:120px;font-weight:600;line-height:1;letter-spacing:-2px}
    <div class="mech"><h3>Masks, HMAC pseudonyms</h3><p><b>Proves</b> confidentiality from peers and public, with logged ACAPS access. <b>Not</b> anonymity from ACAPS; we say pseudonymised.</p></div>
    <div class="mech"><h3>Blind-signed credentials, RFC 9474</h3><p><b>Proves</b> a vetted member answered, unlinkable to the approval; reuse rejected. <b>Not</b> timing correlation.</p></div>
    <div class="mech"><h3>Zero-knowledge membership, Semaphore v4</h3><p><b>Proves</b> "a member of this panel answered once". Built, flag off until stable.</p></div>
-   <div class="mech"><h3>Timestamp anchoring, OpenTimestamps</h3><p><b>Proves</b> independently that the daily root existed by then. <b>Not</b> a blockchain product; no tokens, no cost.</p></div>
+   <div class="mech"><h3>Public timestamp, Sigstore Rekor</h3><p><b>Proves</b> independently that the daily root existed by then. <b>Only</b> the fingerprint is logged; no answers, no names, no cost.</p></div>
    <div class="mech"><h3>Post-quantum: ML-KEM-768, ML-DSA-65</h3><p><b>Proves</b> long-horizon confidentiality of the identity map; outcome records issued by the committee key. <b>Not</b> secrecy from an admin with the key.</p></div>
   </div>
  </div>
@@ -577,7 +577,7 @@ h1{font-size:120px;font-weight:600;line-height:1;letter-spacing:-2px}
     <div style="border:1.5px solid var(--line);border-radius:10px;padding:12px 16px;margin:14px 0;font-size:15px;line-height:1.45"><b>Honesty box</b><br>8 experts. Agreement 0.75. No humanitarian-access expert on the panel. Claims: 2 corroborated, 2 in the verification queue. Relayed answers: 0. Panel record so far: 3 of 4, one miss. In a panel of eight a distinctive reason may identify its author to colleagues; experts were told this before answering.</div>
     <span class="btn">Verify: matches</span>
     <p class="sub" style="font-size:15px;margin-top:8px">Recomputed the round's commitment hash. These answers existed at this time and were not changed since. Proves timing, not truth.</p>
-    <div style="margin-top:14px;font-size:14px"><span class="tech">attested, ML-DSA-65</span> <span class="tech">anchored, OpenTimestamps, pending</span> <span class="tech">outcome: open</span></div>
+    <div style="margin-top:14px;font-size:14px"><span class="tech">attested, ML-DSA-65</span> <span class="tech">public log, pending</span> <span class="tech">outcome: open</span></div>
     <div style="margin-top:18px;border-top:1.5px solid var(--line);padding-top:12px;font-size:15px"><b>R1018, Niger</b> Group 0.42, ACAPS Medium, <b>panel view rejected</b>: analyst rationale on record. Outcome: materialised. A miss, on the page.</div>
    </div>
   </div>
@@ -644,7 +644,7 @@ h1{font-size:120px;font-weight:600;line-height:1;letter-spacing:-2px}
     <b>R1043, eastern Chad</b><br>Committed 7 Nov 09:00. Group 0.69, spread 0.3 to 0.9. ACAPS band High. Decision: kept High. What decision: preparedness budget, Ouaddaï. For whom: UNHCR Chad. By when: 15 Dec.
     <div style="border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;margin:10px 0;font-size:14px;line-height:1.45"><b>Honesty box</b> 8 experts, agreement 0.75, no access expert on the panel, claims 2 corroborated and 2 queued, relayed 0, panel record 3 of 4 with one miss.</div>
     <span class="btn">Verify: matches</span> <span class="sub" style="font-size:14px">existed at this time, unchanged since; timing, not truth</span>
-    <div style="margin-top:10px;font-size:13px"><span class="tech">commitment SHA-256, salted</span> <span class="tech">attested ML-DSA-65</span> <span class="tech">anchored OpenTimestamps</span></div>
+    <div style="margin-top:10px;font-size:13px"><span class="tech">commitment SHA-256, salted</span> <span class="tech">attested ML-DSA-65</span> <span class="tech">public log entry</span></div>
     <div style="margin-top:12px;border-top:1.5px solid var(--line);padding-top:10px;font-size:14px"><b>R1018, Niger</b> group 0.42, ACAPS Medium, <b>panel view rejected</b>, rationale on record. Outcome: materialised. <b>A miss, on the page.</b></div>
     <div style="margin-top:12px;border-top:1.5px solid var(--line);padding-top:10px;font-size:14px"><b>Registry</b> identity map: ML-KEM-768 hybrid key establishment, AES-256-GCM at rest, key with the committee. 3 reads this month, each with a reason, visible to the committee.</div>
    </div>

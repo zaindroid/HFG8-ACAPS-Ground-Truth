@@ -1,27 +1,32 @@
-"""Mechanism 5: timestamp anchoring of the daily commitment root (OpenTimestamps).
+"""Mechanism 5: a public timestamp for the daily commitment root (Sigstore Rekor).
 
-One Merkle root per UTC day over that day's answer commitments, submitted to an OpenTimestamps
-calendar over plain HTTPS -- the calendar protocol is a POST of 32 raw bytes to /digest, so this
-needs no bitcoin library and costs nothing.
+One Merkle root per UTC day over that day's answer commitments. The root is signed with a P-256 key
+derived from COMMITTEE_KEY and entered into Rekor, Sigstore's public, append-only transparency log
+(run under the Linux Foundation's OpenSSF). Nothing but the 32-byte root goes in: no answer, no
+name, no pseudonym.
 
-The status is honest by construction. A fresh submission is `pending`: the calendar has the digest
-but no Bitcoin block contains it yet, so it proves nothing. It becomes `anchored` only when
-GET /timestamp/<digest> returns an upgraded proof, which happens after the next block, typically in
-tens of minutes to hours. We never print "anchored" off the back of a submission receipt.
+What the entry buys: Rekor returns a log index, the time it integrated the entry, a signed entry
+timestamp and an inclusion proof against its signed tree head. From then on anyone can check, with
+no account and without trusting this service, that this exact root was in a public log by that
+time -- so an answer revealed later either hashes back into it or was changed.
+
+The status is honest by construction. `anchored` means Rekor returned an inclusion proof for the
+entry. A submission that got a log index but no proof stays `pending` until GET on the entry returns
+one. An unreachable log is reported as such; nothing is invented.
 """
 from __future__ import annotations
 import base64
 import hashlib
+import json
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
-from . import flags
+from . import flags, keys
 
-CALENDARS = (
-    "https://a.pool.opentimestamps.org",
-    "https://b.pool.opentimestamps.org",
-)
-TIMEOUT_SECONDS = 4.0
+LOG_URL = "https://rekor.sigstore.dev"
+SEARCH_URL = "https://search.sigstore.dev"
+TIMEOUT_SECONDS = 6.0
+KEY_LABEL = "anchoring/rekor/p256/v1"
 
 
 def _now() -> str:
@@ -46,36 +51,84 @@ def merkle_root(leaves: list[str]) -> str:
     return level[0].hex()
 
 
-class Calendar:
-    """The OpenTimestamps calendar, over httpx. Swapped for a fake in the tests."""
+def signing_key():
+    """The P-256 key that signs each root before it is logged. Derived from the committee secret,
+    so its public key -- and therefore every past entry -- stays checkable after a restart."""
+    from cryptography.hazmat.primitives.asymmetric import ec
 
-    def submit(self, digest: bytes) -> tuple[str, bytes] | None:
+    order = int("FFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551", 16)
+    scalar = int.from_bytes(keys.seed(KEY_LABEL, 48), "big") % (order - 1) + 1
+    return ec.derive_private_key(scalar, ec.SECP256R1())
+
+
+def public_key_pem() -> bytes:
+    from cryptography.hazmat.primitives import serialization
+
+    return signing_key().public_key().public_bytes(
+        serialization.Encoding.PEM, serialization.PublicFormat.SubjectPublicKeyInfo)
+
+
+def hashedrekord(root_hex: str) -> dict:
+    """A Rekor `hashedrekord` entry for the root. The logged artifact is the 32 raw root bytes; its
+    SHA-256 is what Rekor records, and the ECDSA signature over it is what Rekor checks."""
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.asymmetric import ec
+
+    artifact = bytes.fromhex(root_hex)
+    signature = signing_key().sign(artifact, ec.ECDSA(hashes.SHA256()))
+    return {
+        "apiVersion": "0.0.1",
+        "kind": "hashedrekord",
+        "spec": {
+            "data": {"hash": {"algorithm": "sha256",
+                              "value": hashlib.sha256(artifact).hexdigest()}},
+            "signature": {
+                "content": base64.b64encode(signature).decode(),
+                "publicKey": {"content": base64.b64encode(public_key_pem()).decode()},
+            },
+        },
+    }
+
+
+class RekorLog:
+    """Sigstore Rekor over httpx. Swapped for a fake in the tests.
+
+    Both calls return (uuid, entry) or None. `entry` is Rekor's own JSON for the log entry:
+    logIndex, integratedTime, logID, body and verification (signedEntryTimestamp, inclusionProof).
+    """
+
+    def submit(self, root_hex: str) -> tuple[str, dict] | None:
         import httpx
 
-        for base in CALENDARS:
-            try:
-                response = httpx.post(f"{base}/digest", content=digest,
-                                      headers={"Accept": "application/vnd.opentimestamps.v1"},
-                                      timeout=TIMEOUT_SECONDS)
-                if response.status_code == 200 and response.content:
-                    return base, response.content
-            except Exception:
-                continue
+        try:
+            response = httpx.post(f"{LOG_URL}/api/v1/log/entries", json=hashedrekord(root_hex),
+                                  timeout=TIMEOUT_SECONDS)
+        except Exception:
+            return None
+        if response.status_code == 201:
+            return _first(response.json())
+        if response.status_code == 409:
+            # Already logged: Rekor points at the existing entry, which is the one we want.
+            location = response.headers.get("location", "")
+            uuid = location.rstrip("/").rsplit("/", 1)[-1]
+            return self.fetch(uuid) if uuid else None
         return None
 
-    def upgrade(self, digest: bytes) -> tuple[str, bytes] | None:
+    def fetch(self, uuid: str) -> tuple[str, dict] | None:
         import httpx
 
-        for base in CALENDARS:
-            try:
-                response = httpx.get(f"{base}/timestamp/{digest.hex()}",
-                                     headers={"Accept": "application/vnd.opentimestamps.v1"},
-                                     timeout=TIMEOUT_SECONDS)
-                if response.status_code == 200 and response.content:
-                    return base, response.content
-            except Exception:
-                continue
+        try:
+            response = httpx.get(f"{LOG_URL}/api/v1/log/entries/{uuid}", timeout=TIMEOUT_SECONDS)
+        except Exception:
+            return None
+        return _first(response.json()) if response.status_code == 200 else None
+
+
+def _first(payload: dict) -> tuple[str, dict] | None:
+    if not isinstance(payload, dict) or not payload:
         return None
+    uuid, entry = next(iter(payload.items()))
+    return uuid, entry
 
 
 @dataclass
@@ -86,7 +139,10 @@ class Root:
     submitted_at: str | None = None
     status: str = "pending"
     receipt: str | None = None
-    calendar: str | None = None
+    log: str | None = None
+    entry_uuid: str | None = None
+    log_index: int | None = None
+    integrated_at: str | None = None
     anchored_at: str | None = None
     note: str = ""
     leaves: frozenset[str] = frozenset()
@@ -96,13 +152,17 @@ class Root:
         return {
             "day": self.day, "merkle_root": self.merkle_root,
             "n_commitments": self.n_commitments, "submitted_at": self.submitted_at,
-            "status": self.status, "receipt": self.receipt, "calendar": self.calendar,
-            "anchored_at": self.anchored_at,
+            "status": self.status, "receipt": self.receipt, "log": self.log,
+            "entry_uuid": self.entry_uuid, "log_index": self.log_index,
+            "integrated_at": self.integrated_at, "anchored_at": self.anchored_at,
+            "verify_url": self.verify_url(),
             "note": self.note,
             "means": (
-                "A Bitcoin-backed proof that these commitments existed by this time."
+                "An entry in Sigstore's public transparency log: anyone can check that this root "
+                "existed by the time Rekor integrated it."
                 if self.status == "anchored"
-                else "Submitted, not yet confirmed. A pending root proves nothing on its own."
+                else "Sent to the public log, no inclusion proof yet. A pending root proves "
+                     "nothing on its own."
                 if self.submitted_at
                 else "Computed from this day's commitments and not submitted yet, so it proves "
                      "nothing outside this service."
@@ -111,11 +171,39 @@ class Root:
             "does_not": mechanism.get("does_not"),
         }
 
+    def verify_url(self) -> str | None:
+        """Only once anchored: a link beside a pending root would claim what it has not earned."""
+        if self.status != "anchored" or self.log_index is None:
+            return None
+        return f"{SEARCH_URL}/?logIndex={self.log_index}"
+
+    def take(self, uuid: str, entry: dict) -> None:
+        """Copy what Rekor returned onto the root, and decide the status from it alone."""
+        self.log = LOG_URL
+        self.entry_uuid = uuid
+        self.log_index = entry.get("logIndex")
+        when = entry.get("integratedTime")
+        if isinstance(when, int):
+            self.integrated_at = datetime.fromtimestamp(when, timezone.utc).isoformat(
+                timespec="seconds")
+        verification = entry.get("verification") or {}
+        self.receipt = base64.b64encode(
+            json.dumps(verification, sort_keys=True).encode()).decode() if verification else None
+        if verification.get("inclusionProof"):
+            self.status = "anchored"
+            self.anchored_at = self.anchored_at or _now()
+            self.note = (f"In the public log at index {self.log_index}, with an inclusion proof "
+                         "and a signed entry timestamp.")
+        else:
+            self.status = "pending"
+            self.note = ("The log accepted the entry but returned no inclusion proof yet; it "
+                         "becomes anchored when one is returned.")
+
 
 @dataclass
 class Anchors:
     roots: dict[str, Root] = field(default_factory=dict)
-    calendar: Calendar = field(default_factory=Calendar)
+    log: RekorLog = field(default_factory=RekorLog)
 
     def record(self, day: str, commitments: list[str]) -> Root:
         """Compute (or recompute) the day's root. Submission is a separate, explicit step."""
@@ -144,19 +232,14 @@ class Anchors:
             root.status = "pending"
             root.note = "FF_ANCHOR is off: the root is computed and shown, never submitted."
             return root
-        result = self.calendar.submit(bytes.fromhex(root.merkle_root))
+        result = self.log.submit(root.merkle_root)
         root.submitted_at = _now()
         if result is None:
             root.status = "pending"
-            root.note = ("No calendar was reachable from this host. The root stands; the external "
-                         "timestamp does not exist yet.")
+            root.note = ("The public log was not reachable from this host. The root stands; the "
+                         "public timestamp does not exist yet.")
             return root
-        base, receipt = result
-        root.calendar = base
-        root.receipt = base64.b64encode(receipt).decode()
-        root.status = "pending"
-        root.note = ("A calendar holds this digest. It becomes anchored when the proof is upgraded "
-                     "after the next Bitcoin block.")
+        root.take(*result)
         return root
 
     def upgrade(self, day: str) -> Root:
@@ -167,17 +250,13 @@ class Anchors:
             return root
         if not flags.enabled("FF_ANCHOR"):
             return root
-        result = self.calendar.upgrade(bytes.fromhex(root.merkle_root))
+        if not root.entry_uuid:
+            return self.submit(day)
+        result = self.log.fetch(root.entry_uuid)
         if result is None:
-            root.note = ("Not confirmed yet. OpenTimestamps upgrades after the next Bitcoin block, "
-                         "so this normally takes tens of minutes to a few hours.")
+            root.note = "The public log did not return the entry this time; try again shortly."
             return root
-        base, receipt = result
-        root.calendar = base
-        root.receipt = base64.b64encode(receipt).decode()
-        root.status = "anchored"
-        root.anchored_at = _now()
-        root.note = "Upgraded: the calendar returned a confirmed proof for this root."
+        root.take(*result)
         return root
 
     def all(self) -> list[dict]:
@@ -200,4 +279,4 @@ class Anchors:
 
     def reset(self) -> None:
         self.roots.clear()
-        self.calendar = Calendar()
+        self.log = RekorLog()

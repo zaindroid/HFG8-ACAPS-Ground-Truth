@@ -15,12 +15,16 @@
     "submitted_at": null,
     "status": "pending",
     "receipt": null,
-    "calendar": null,
+    "log": null,
+    "entry_uuid": null,
+    "log_index": null,
+    "integrated_at": null,
     "anchored_at": null,
+    "verify_url": null,
     "note": "",
     "means": "Computed from this day's commitments and not submitted yet, so it proves nothing outside this service.",
     "guarantees": "Independent proof the commitments existed by that time, once the status reads anchored",
-    "does_not": "Anything else; no tokens, no chain logic, no cost. A pending root proves nothing yet"
+    "does_not": "Who answered, or whether an answer is right; nothing but the root is logged. A pending root proves nothing yet"
   },
   "anchor_means": "Computed from this day's commitments and not submitted yet, so it proves nothing outside this service.",
   "note": "Three separate checks, three separate meanings. The hash proves the set is unchanged. The signature proves who issued the outcome record. The anchor proves timing, and only once its status reads anchored.",

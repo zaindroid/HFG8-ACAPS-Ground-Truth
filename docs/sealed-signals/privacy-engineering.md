@@ -21,7 +21,7 @@ and the UI render them from there rather than keeping a second copy. `GET /api/t
 | 2 | ML-DSA-65 signature over each resolved outcome record | `FF_PQ`, on | `hardening/attest.py` | `::test_attestation_verifies_and_fails_on_a_flipped_byte`, `::test_attestation_fails_when_the_record_is_edited`, `::test_attestation_public_key_is_stable_across_instances` |
 | 3 | RSA blind signatures, RFC 9474 RSABSSA-SHA384-PSS-Deterministic | `FF_BLIND`, on | `hardening/credentials.py` | `::test_blind_signature_verifies_as_standard_rsa_pss`, `::test_a_credential_cannot_be_spent_twice`, `::test_the_issuer_cannot_match_a_spent_token_to_an_approval` |
 | 4 | Semaphore-shaped group membership | `FF_ZK`, **off** | `hardening/zk.py` | `::test_nullifier_rejects_a_second_answer`, `::test_the_verdict_never_claims_the_proof_was_checked` — see section 5 |
-| 5 | OpenTimestamps anchoring of the daily commitment root | `FF_ANCHOR`, on | `hardening/anchors.py` | `::test_anchor_goes_pending_then_anchored`, `::test_an_unreachable_calendar_does_not_invent_an_anchor`, `::test_a_receipt_is_only_returned_for_a_commitment_in_that_root` |
+| 5 | Sigstore Rekor public timestamp of the daily commitment root | `FF_ANCHOR`, on | `hardening/anchors.py` | `::test_anchor_goes_pending_then_anchored`, `::test_an_unreachable_log_does_not_invent_an_anchor`, `::test_the_logged_entry_carries_only_the_root_and_a_valid_signature`, `::test_a_receipt_is_only_returned_for_a_commitment_in_that_root` |
 | 6 | Registry access log | always on | `hardening/registry.py` | `::test_a_registry_read_appears_in_the_log`, `::test_an_unattributed_read_is_refused`, `::test_counting_identities_is_not_a_read` |
 
 Notes that matter more than the table:
@@ -36,11 +36,11 @@ Notes that matter more than the table:
   names the token it later accepts. With `count` the server runs the client side itself for the demo, so it held
   the token id for an instant. That batch is marked `unlinkable: false`, and the committee view says which mix it
   is looking at rather than printing the unlinkability sentence over tokens that have not earned it.
-* **An anchor is pending until a calendar says otherwise.** A submission receipt is not a proof. The status reads
-  `anchored` only after `GET /timestamp/<digest>` returns an upgraded proof, which needs the next Bitcoin block.
-  Submission was tested against the live `a.pool.opentimestamps.org` calendar and the receipt is stored; the
-  pending-to-anchored transition is tested with an injected calendar, because waiting for a block in a test suite
-  is not a test.
+* **An anchor is pending until the log returns a proof.** The status reads `anchored` only when Rekor returns an
+  inclusion proof for the entry, either with the submission or on a later `GET /api/v1/log/entries/<uuid>`. Only the
+  signed 32-byte root is logged. The entry format (a `hashedrekord` whose ECDSA P-256 signature verifies against the
+  root) is tested locally; the pending-to-anchored transition is tested with an injected log, because a test suite
+  should not depend on a public service being up.
 * **The fallbacks are real code, not a skipped branch.** `FF_PQ` off encrypts with a data key stored beside the
   ciphertext and signs with an HMAC; `FF_BLIND` off issues a single-use HMAC token. Each says in its own payload
   which path ran. The flag-off fallbacks have their own tests.

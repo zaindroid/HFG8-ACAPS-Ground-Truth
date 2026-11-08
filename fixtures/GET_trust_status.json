@@ -56,13 +56,13 @@
     {
       "number": 5,
       "id": "anchoring",
-      "name": "Timestamp anchoring",
+      "name": "Public timestamp",
       "flag": "FF_ANCHOR",
       "enabled": true,
-      "build": "A daily Merkle root of that day's commitments is submitted to an OpenTimestamps calendar; the receipt is stored and the status stays pending until the calendar returns a Bitcoin-confirmed proof",
-      "where_it_shows": "Ledger: anchor status per day; Verify shows the root and the receipt",
+      "build": "A daily Merkle root of that day's commitments is signed and entered into Sigstore Rekor, a public append-only transparency log; the entry, signed timestamp and inclusion proof are stored, and the status stays pending until the log returns the proof",
+      "where_it_shows": "Ledger: timestamp status per day; Verify shows the root, the log index and a link to the public entry",
       "guarantees": "Independent proof the commitments existed by that time, once the status reads anchored",
-      "does_not": "Anything else; no tokens, no chain logic, no cost. A pending root proves nothing yet"
+      "does_not": "Who answered, or whether an answer is right; nothing but the root is logged. A pending root proves nothing yet"
     },
     {
       "number": 6,
