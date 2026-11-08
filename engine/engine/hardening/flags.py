@@ -14,6 +14,7 @@ DEFAULTS = {
     "FF_ZK": False,      # zero-knowledge group membership: off until stable (see zk.py)
     "FF_ANCHOR": True,   # timestamp anchoring, degrades to "pending"
     "FF_E2E": True,      # the expert card encrypts its answer to the engine (see e2e.py)
+    "FF_CHAIN": True,    # hash-chained record of every step of the risk process (see chain.py)
     # The consent-gated calibration programme (section 6d). Off, and off is the point: it is
     # the only thing here that measures a person, and it does not run until an expert has read
     # the disclosure and said yes.
@@ -124,6 +125,19 @@ MECHANISMS = (
         "it or alter it undetected",
         "Hiding the answer from the operator of the engine; protecting a compromised device or "
         "browser",
+    ),
+    Mechanism(
+        8, "process_chain", "Process chain", "FF_CHAIN",
+        "Every step of a risk's process (alert raised, question approved, panel invited, answers "
+        "sealed, revealed, draft created, decision recorded, published, outcome resolved) is an "
+        "event in an append-only SHA-256 hash chain per risk; each day's chain heads are extra "
+        "leaves in that day's anchored Merkle root",
+        "GET /api/risks/{risk_id}/chain: the events and the verify result",
+        "Any later change to a recorded step, or removal of one, breaks the chain and is "
+        "detectable by anyone holding a published head",
+        "Proving the source data was right, only which edition and rule were used; it holds no "
+        "names, contact details, pseudonyms, expert ids or free text, only counts, ids, enums "
+        "and SHA-256 fingerprints",
     ),
 )
 

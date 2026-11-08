@@ -181,7 +181,7 @@ def _demo_evidence(risk: dict) -> list[dict]:
     The seeded round used to carry the trigger rates alone, which left the desk with nothing to
     draw and the demo with no answer to that question."""
     from . import alerts as alert_engine
-    from .api import _alert_evidence, _trigger_evidence
+    from .api import _alert_evidence, _chain_alert, _trigger_evidence
 
     evidence: list[dict] = []
     try:
@@ -192,6 +192,8 @@ def _demo_evidence(risk: dict) -> list[dict]:
                       if e["crisis_id"] == DEMO_CRISIS and e["metric"] == "index"), None)
         if event:
             evidence = _alert_evidence(event)
+            # The first step of the demo risk's process chain (mechanism 8).
+            _chain_alert(risk["risk_id"], event)
     except Exception:                                                     # noqa: BLE001
         # The cached editions are in the repository, so this does not normally fail. If it ever
         # does, the round still goes out with the risk's own triggers rather than no evidence.
@@ -232,9 +234,11 @@ def seed_demo(store: Store, settings, risk_id: str = DEMO_RISK, seal: bool = Tru
 
     Returns the pulse id. Idempotent enough for a restart: a second call rebuilds from empty.
     """
-    from .api import _build_pulse   # imported here to avoid a circular import
+    from .api import HARD, _build_pulse, _chain   # imported here to avoid a circular import
+    from .hardening import anchors as anchor_lib
 
     store.reset()
+    HARD.chain.drop(risk_id)
     seed_experts(store)
     seed_roster(store)
     # Past forecasts first: the board, the weights and the calibration reports all read
@@ -277,6 +281,18 @@ def seed_demo(store: Store, settings, risk_id: str = DEMO_RISK, seal: bool = Tru
             status="approved", region="The Hague", years_experience=0, synthetic=True,
         ))
         store.issue_token(pulse_id, guest.id)
+
+    # Mechanism 8: the rest of the demo risk's process chain. Counts and the commitment root only.
+    _chain(risk_id, "panel_invited", {
+        "pulse_id": pulse_id,
+        "n_invited": sum(1 for (pid, _) in store.tokens.values() if pid == pulse_id),
+    })
+    answers = store.answers.get(pulse_id, [])
+    if answers:
+        _chain(risk_id, "answers_sealed", {
+            "pulse_id": pulse_id, "n_answers": len(answers),
+            "commitment_root": anchor_lib.merkle_root([a.commitment for a in answers]),
+        })
     return pulse_id
 
 
