@@ -7,12 +7,7 @@ export type DemoInvitation = {
 };
 export const sharedDemo = import.meta.env.VITE_DEMO_SHARED === "1";
 const accessKey = "sealed-signals-shared-access-v1";
-export function demoAccessHeaders() { return { "X-Demo-Code": sessionStorage.getItem(accessKey) || "" }; }
-export async function loginSharedDemo(code: string) {
-  const response = await fetch("/api/demo/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code }) });
-  if (!response.ok) throw new Error("That demo access code is not valid.");
-  sessionStorage.setItem(accessKey, code);
-}
+export function demoAccessHeaders() { return {}; }
 export function clearSharedDemoAccess() { sessionStorage.removeItem(accessKey); }
 const key = "sealed-signals-demo-invitations-v1";
 const answersKey = "sealed-signals-demo-confirmed-v1";
@@ -29,7 +24,7 @@ export function getDemoInvitation(token: string) {
 export async function loadDemoState(riskId: string): Promise<{ invitations: DemoInvitation[]; confirmedCount: number }> {
   if (!sharedDemo) return { invitations: invitationsForRisk(riskId), confirmedCount: countDemoAnswers(riskId) };
   const response = await fetch("/api/demo/state", { headers: demoAccessHeaders(), cache: "no-store" });
-  if (!response.ok) throw new Error("Shared demo state is unavailable. Sign in again.");
+  if (!response.ok) throw new Error("Shared demo state is unavailable. Retry shortly.");
   const value = await response.json() as { invitations: DemoInvitation[]; confirmedCount: number };
   return { invitations: value.invitations.filter((item) => item.riskId === riskId), confirmedCount: value.confirmedCount };
 }

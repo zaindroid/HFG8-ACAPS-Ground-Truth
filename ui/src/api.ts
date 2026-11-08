@@ -7,6 +7,7 @@ import draftFixture from "../../fixtures/POST_e_token_answer_response.json";
 import confirmFixture from "../../fixtures/POST_e_token_confirm_response.json";
 import answerKeyFixture from "../../fixtures/GET_answer_key.json";
 import { seal, type AnswerKey, type Route } from "./e2e";
+import { sharedDemo } from "./demo-invitations";
 export type Mask = "known" | "pseudonym" | "anonymous";
 /** The confirmation screen's payload. Nothing is committed when this comes back: that is the
  *  point of the two steps, and it is why a link click cannot answer for anybody. */
@@ -69,7 +70,7 @@ export type Answer = {
 };
 export const mock = import.meta.env.VITE_MOCK === "1";
 export async function getCard(token: string): Promise<Card> {
-  if (!mock) return endpoint.card(token);
+  if (!mock || sharedDemo) return endpoint.card(token);
   await new Promise((resolve) => setTimeout(resolve, 200));
   if (token === "empty")
     throw new Error(
@@ -104,7 +105,7 @@ let answerKey: Promise<AnswerKey | null> | null = null;
 function getAnswerKey(): Promise<AnswerKey | null> {
   if (!answerKey)
     answerKey = (
-      mock
+      mock && !sharedDemo
         ? Promise.resolve(structuredClone(answerKeyFixture) as AnswerKey)
         : endpoint.answerKey()
     )
@@ -133,7 +134,7 @@ export async function draftAnswer(
 ): Promise<AnswerDraft> {
   const sent = await outgoing(answer, token, "draft");
   draftEncrypted = sent.encrypted;
-  if (!mock) return endpoint.answer(token, sent.body);
+  if (!mock || sharedDemo) return endpoint.answer(token, sent.body);
   await new Promise((resolve) => setTimeout(resolve, 200));
   return structuredClone(draftFixture);
 }
@@ -144,7 +145,7 @@ export async function confirmAnswer(
 ): Promise<SealReceipt> {
   const sent = await outgoing({ confirm_token: confirmToken }, token, "confirm");
   const sealed_on_device = draftEncrypted && sent.encrypted;
-  if (!mock)
+  if (!mock || sharedDemo)
     return { ...(await endpoint.confirm(token, sent.body)), sealed_on_device };
   await new Promise((resolve) => setTimeout(resolve, 200));
   return { ...structuredClone(confirmFixture), sealed_on_device };

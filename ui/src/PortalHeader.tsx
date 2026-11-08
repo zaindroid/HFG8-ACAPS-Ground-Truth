@@ -20,7 +20,7 @@ export function PortalHeader() {
             location.assign("/");
           }}
         >
-          Log out
+          Home
         </button>
       </div>
       <div className="portal-navigation">

@@ -8,12 +8,15 @@ import { hydrateInsights } from "./base-rates";
 import { ExpertCard } from "./ExpertCard";
 import { ExpertCard as DemoExpertCard } from "./DemoExpertCard";
 import { DemoCase } from "./DemoCase";
+import { LiveSeatCard } from "./LiveSeatCard";
+import { isLiveSeatToken } from "./live-panel";
 import { ScanCard, ScanResultView } from "./CountryScan";
 import { ThankYou } from "./ThankYou";
 import { TrustOverview } from "./TrustOverview";
 import { LiveWorkspace, Frame } from "./LiveWorkspace";
 import { PublicHome, LoginRequired, WorkspaceHome } from "./Entry";
 import { hasWorkspaceSession } from "./workspace-session";
+import { sharedDemo } from "./demo-invitations";
 const Alerts = lazy(() =>
   import("./Alerts").then((m) => ({ default: m.Alerts })),
 );
@@ -78,13 +81,16 @@ function Router() {
   const thanks = /^\/e\/([^/]+)\/feedback\/?$/.exec(path);
   if (thanks) return <ThankYou token={thanks[1]} />;
   const expert = /^\/e\/([^/]+)\/?$/.exec(path);
+  // A live seat is a public link like any other expert invitation, but it is claimed rather
+  // than addressed, so it has its own card.
+  if (expert && isLiveSeatToken(expert[1])) return <LiveSeatCard token={expert[1]} />;
   if (expert) return expert[1].startsWith("demo-") ? <DemoExpertCard token={expert[1]} /> : <ExpertCard token={expert[1]} />;
   // Country scan: "the three biggest risks in <country>", also a no-login link.
   const scanLink = /^\/s\/([^/]+)\/?$/.exec(path);
   if (scanLink) return <ScanCard token={scanLink[1]} />;
   const calibration = /^\/me\/([^/]+)\/calibration\/?$/.exec(path);
   if (calibration) return <Calibration token={calibration[1]} />;
-  if (!hasWorkspaceSession()) return <LoginRequired />;
+  if (!sharedDemo && !hasWorkspaceSession()) return <LoginRequired />;
   if (/^\/(countries|analysis|topics|search)(\/|$)/.test(path))
     return <WorkspaceRedirect />;
   if (path === "/workspace") return mock ? <DemoCase /> : <WorkspaceHome />;

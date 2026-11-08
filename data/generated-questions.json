@@ -1,8 +1,8 @@
 {
-  "_about": "Questions written by a model from the R1043 record and each expert's own profile, then read by a person before being committed. The engine prefers this file over a live call, and a live call over the deterministic bank. Every place and actor named here appears in the risk record itself (Adre, Tina, Abeche, Ouaddai, Wadi Fira, Sila, Ennedi Est, Darfur, RSF, SAF); nothing is invented, because a question naming a road that does not exist is worse than a generic one.",
+  "_about": "Questions written by a model from the R1043 record and each expert's own profile, then read by a person before being committed. Two per expert, because the card asks two: the core plus two follow-ups is the whole minute, and a pool larger than that means the two the rules pick are not the two anybody reviewed. The first is a decomposition or a conditional, the second is one of the debiasing roles, so every card carries one of the mitigations ACAPS's bias brief names. Every place and actor named here appears in the risk record itself (Adre, Tina, Abeche, Ouaddai, Wadi Fira, Sila, Ennedi Est, Darfur, RSF, SAF); nothing is invented, because a question naming a road that does not exist is worse than a generic one. No question states a count, a share or a threshold the model chose: a question asks which way something goes, not whether it clears a line nobody tracks.",
   "_generated_for": "R1043 - Escalating cross-border insecurity linked to the Sudan conflict, eastern Chad",
   "_deadline_used": "7 May 2027",
-  "_band_history_used": "46 resolved risks in the same ACAPS probability band, 83% materialised",
+  "_band_history_used": "46 resolved risks in the same ACAPS probability band, 83% materialised -- used to decide that a base-rate confrontation belongs on a card, never quoted to the expert: in round 1 the share would tell them the band they are answering blind to",
   "sets": {
     "R1043:X-syn-01": [
       {
@@ -35,37 +35,6 @@
         ],
         "generated": true,
         "role": "decomposition"
-      },
-      {
-        "id": "access_conditional",
-        "kind": "choice",
-        "question": "If the Adre crossing closed for more than two weeks, where does your estimate go?",
-        "help": "Assume it closes within the next two months.",
-        "options": [
-          {
-            "value": "much_higher",
-            "label": "Much higher"
-          },
-          {
-            "value": "higher",
-            "label": "Higher"
-          },
-          {
-            "value": "unchanged",
-            "label": "Unchanged, already assumed"
-          },
-          {
-            "value": "lower",
-            "label": "Lower, it would freeze movement"
-          },
-          {
-            "value": "cannot_say",
-            "label": "Cannot say",
-            "dk": true
-          }
-        ],
-        "generated": true,
-        "role": "conditional"
       },
       {
         "id": "premortem_ouaddai",
@@ -110,24 +79,6 @@
         "role": "decomposition"
       },
       {
-        "id": "proxy_discriminator",
-        "kind": "text",
-        "question": "What would tell apart renewed proxy mobilisation from ordinary cross-border crime?",
-        "help": "The observable difference, in one line.",
-        "limit": 240,
-        "generated": true,
-        "role": "observable"
-      },
-      {
-        "id": "observable_week_02",
-        "kind": "text",
-        "question": "Name one thing checkable within seven days that would move your estimate.",
-        "help": "Something an analyst could go and look at.",
-        "limit": 240,
-        "generated": true,
-        "role": "observable"
-      },
-      {
         "id": "premortem_X_syn_02",
         "kind": "text",
         "role": "premortem",
@@ -170,51 +121,16 @@
         "role": "decomposition"
       },
       {
-        "id": "next_wave_different",
-        "kind": "text",
-        "question": "Arrivals from Darfur have continued through 2026. What would make the next wave different?",
-        "help": "One line on what changes, not on how many.",
-        "limit": 240,
-        "generated": true,
-        "role": "conditional"
-      },
-      {
         "id": "base_rate_03",
         "kind": "text",
-        "question": "Of 46 resolved risks in this band, 83% happened. What makes this one different?",
-        "help": "If nothing does, say so. That is an answer.",
+        "question": "Think of how situations like this one have gone before. What makes this one different?",
+        "help": "The record is one input; you may be seeing what it cannot.",
         "limit": 240,
         "generated": true,
         "role": "base_rate"
       }
     ],
     "R1043:X-syn-04": [
-      {
-        "id": "escalation_or_reporting",
-        "kind": "choice",
-        "question": "Recorded incidents near the border have risen. Escalation, or better reporting?",
-        "options": [
-          {
-            "value": "escalation",
-            "label": "Real escalation"
-          },
-          {
-            "value": "reporting",
-            "label": "Mostly better reporting"
-          },
-          {
-            "value": "both",
-            "label": "Both, about equally"
-          },
-          {
-            "value": "cannot_say",
-            "label": "Cannot say",
-            "dk": true
-          }
-        ],
-        "generated": true,
-        "role": "provenance"
-      },
       {
         "id": "weakest_link_04",
         "kind": "choice",
@@ -285,15 +201,6 @@
         "role": "decomposition"
       },
       {
-        "id": "market_month",
-        "kind": "text",
-        "question": "If the border closed for a month, what changes in Abeche market first?",
-        "help": "The first price or supply you would watch.",
-        "limit": 240,
-        "generated": true,
-        "role": "conditional"
-      },
-      {
         "id": "premortem_05",
         "kind": "text",
         "question": "It is 7 May 2027 and this did not happen. What stopped it?",
@@ -336,41 +243,10 @@
         "role": "decomposition"
       },
       {
-        "id": "open_presence_conditional",
-        "kind": "choice",
-        "question": "If RSF-aligned fighters operated openly inside Chadian territory, where does your estimate go?",
-        "help": "Assume it happens within two months.",
-        "options": [
-          {
-            "value": "much_higher",
-            "label": "Much higher"
-          },
-          {
-            "value": "higher",
-            "label": "Higher"
-          },
-          {
-            "value": "unchanged",
-            "label": "Unchanged, already assumed"
-          },
-          {
-            "value": "lower",
-            "label": "Lower"
-          },
-          {
-            "value": "cannot_say",
-            "label": "Cannot say",
-            "dk": true
-          }
-        ],
-        "generated": true,
-        "role": "conditional"
-      },
-      {
         "id": "minority_06",
         "kind": "text",
-        "question": "You expect to land apart from this panel. What do they not know?",
-        "help": "The gap between your estimate and your guess at theirs is why this is asked.",
+        "question": "What do you see in Sila that colleagues working elsewhere on this would not?",
+        "help": "One line. Local detail is more use here than a general judgement.",
         "limit": 240,
         "generated": true,
         "role": "minority"
@@ -407,24 +283,6 @@
         ],
         "generated": true,
         "role": "decomposition"
-      },
-      {
-        "id": "economic_transmission",
-        "kind": "text",
-        "question": "What price moves first if the eastern border tightens, and roughly how far?",
-        "help": "The one that moves before the headline indicators do.",
-        "limit": 240,
-        "generated": true,
-        "role": "conditional"
-      },
-      {
-        "id": "observable_week_07",
-        "kind": "text",
-        "question": "Name one thing checkable within seven days that would move your estimate.",
-        "help": "Something an analyst could go and look at.",
-        "limit": 240,
-        "generated": true,
-        "role": "observable"
       },
       {
         "id": "premortem_X_syn_07",
@@ -467,37 +325,6 @@
         ],
         "generated": true,
         "role": "decomposition"
-      },
-      {
-        "id": "infrastructure_conditional",
-        "kind": "choice",
-        "question": "If Chadian airports or border facilities were struck, where does your estimate go?",
-        "help": "Assume it happens within two months.",
-        "options": [
-          {
-            "value": "much_higher",
-            "label": "Much higher"
-          },
-          {
-            "value": "higher",
-            "label": "Higher"
-          },
-          {
-            "value": "unchanged",
-            "label": "Unchanged, already assumed"
-          },
-          {
-            "value": "lower",
-            "label": "Lower"
-          },
-          {
-            "value": "cannot_say",
-            "label": "Cannot say",
-            "dk": true
-          }
-        ],
-        "generated": true,
-        "role": "conditional"
       },
       {
         "id": "surprise_08",

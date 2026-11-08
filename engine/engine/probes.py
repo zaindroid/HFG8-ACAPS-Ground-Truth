@@ -169,7 +169,11 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
             "options": [{"value": "much_higher", "label": "Much higher"},
                         {"value": "higher", "label": "Higher"},
                         {"value": "unchanged", "label": "Unchanged, already priced in"},
-                        {"value": "lower", "label": "Lower"}],
+                        {"value": "lower", "label": "Lower"},
+                        # Reaching this probe used to need a reviewed set to be missing a
+                        # conditional, which no set was, so the one choice question on the card
+                        # with no way out of guessing was never served. It is now.
+                        {"value": "cannot_say", "label": "Cannot say", "dk": True}],
         })
 
     if base:
@@ -274,21 +278,36 @@ def build_bank(risk: dict, expert: dict) -> list[dict]:
                         {"value": "cannot_say", "label": "Cannot say", "dk": True}],
         })
 
+    # Asked without saying why. The earlier wording -- "you expect to land apart from this
+    # panel", with help explaining that the gap between their two numbers is what triggered it --
+    # told the expert they were being measured against their own previous answer, which invites
+    # them to manage the answer rather than give it. The question works the same way unannounced.
     bank.append({
         "id": "minority_why",
-            "role": MINORITY,
+        "role": MINORITY,
         "kind": "text",
-        "question": "You expect to land apart from this panel. What do they not know?",
-        "help": "The gap between your estimate and your guess at theirs is why this is asked.",
+        "question": "What do you know about this that colleagues working elsewhere would not?",
+        "help": "One line. Local detail is more use here than a general judgement.",
         "limit": TEXT_LIMIT,
     })
     return bank
 
 
 # --- where a card's questions come from -----------------------------------------------
-# Three sources, in order. A reviewed set wins because a person has read it. A live model
-# call comes next, and only when LLM_BASE_URL is set. The deterministic bank is last and
-# always available, so the card never depends on a network the venue may not have.
+# The first question on a card is the frozen core and is not written by a model: it is the one
+# quantity the group view aggregates, and it cannot vary between experts or between rounds.
+# Everything after it is written for this expert and this risk, and that is the part a model is
+# for -- a generic follow-up is a wasted question.
+#
+# Three sources, in order:
+#   1. a live model call, for this risk and this expert, when LLM_BASE_URL is set
+#   2. the committed set in data/generated-questions.json, written the same way and read by a
+#      person, which is what answers before a model is configured and when a call fails
+#   3. the deterministic bank, which is always available
+#
+# The order used to put the committed set first. It is a starting point, not the destination:
+# leaving it in front meant a configured model was never called for the one risk the file covers,
+# which is the demo risk, which is the only one anybody would see.
 
 REVIEWED = Path(__file__).resolve().parents[2] / "data" / "generated-questions.json"
 
@@ -308,9 +327,6 @@ def _reviewed_for(risk_id: str, expert_id: str) -> list[dict]:
 
 
 def bank_for(risk: dict, expert: dict, evidence: list[dict] | None = None) -> list[dict]:
-    reviewed = _reviewed_for(risk.get("risk_id", ""), expert.get("id", ""))
-    if reviewed:
-        return reviewed
     try:
         from . import question_gen
         written = question_gen.generate(risk, expert, evidence)
@@ -319,7 +335,23 @@ def bank_for(risk: dict, expert: dict, evidence: list[dict] | None = None) -> li
     except Exception:
         # A generator failure must never cost the expert their card.
         pass
+    reviewed = _reviewed_for(risk.get("risk_id", ""), expert.get("id", ""))
+    if reviewed:
+        return reviewed
     return build_bank(risk, expert)
+
+
+def questions_source(risk: dict, expert: dict) -> str:
+    """Which of the three sources a card's follow-ups came from, for the UI to state.
+
+    The README's claim is that the demo says which path ran rather than implying a model wrote
+    something a fixture did. This is how a screen can say it.
+    """
+    from . import question_gen
+
+    if question_gen.enabled():
+        return "model"
+    return "reviewed" if _reviewed_for(risk.get("risk_id", ""), expert.get("id", "")) else "bank"
 
 
 def _rotate_options(probe: dict, seed: int) -> dict:
@@ -407,7 +439,10 @@ def card_flow(risk: dict, expert: dict, evidence: list[dict] | None = None) -> d
 
     bank = [_rotate_options(probe, seed) for probe in chosen]
     return {
-        "max_steps": 3,
+        # The frozen core, then PROBE_SLOTS follow-ups and no more. This is the cap on how many
+        # written questions an expert is ever asked, whether they came from a reviewed set, a
+        # live model call or the bank: the pool may be larger, the walk is not.
+        "max_steps": 1 + PROBE_SLOTS,
         "bank": {probe["id"]: probe for probe in bank},
         "rules": rules,
         "debiasing_roles": list(DEBIASING),

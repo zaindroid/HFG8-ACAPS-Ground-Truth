@@ -849,6 +849,48 @@ def _expert_profile(expert_id: str) -> dict:
             "geo_tags": expert.geo_tags, "region": expert.region}
 
 
+@api.post("/questions/followups", tags=["pulses"])
+def generate_followups(body: dict = Body(...)) -> dict:
+    """The follow-up questions for one risk and one expertise, written when they are needed.
+
+    Why a route of its own. A card issued to a named expert carries its follow-ups already, from
+    GET /e/{token}. A seat on the live panel has no expert behind it until somebody takes it, so
+    there is nobody to generate for when the pulse is created; the analyst asks for the two
+    questions when the seats go up, reads them, and they are then served to whoever scans. The
+    model still runs analyst-side, which is the point of the rule.
+
+    Only the first question on a card is fixed. These two are not: they are written for this
+    risk and this expertise, because a follow-up that would read the same for any expert on any
+    risk is a wasted question. When no model is configured the committed set answers, and the
+    response says which of the two it was, so no screen can imply a model wrote a fixture.
+    """
+    risk_id = str(body.get("risk_id") or "").strip()
+    risk = data.get_risk(risk_id)
+    if not risk:
+        raise HTTPException(404, "No such risk")
+    supplied = body.get("expert") or {}
+    if not isinstance(supplied, dict):
+        raise HTTPException(422, "expert must be an object")
+    themes = [str(tag)[:40] for tag in (supplied.get("theme_tags") or [])[:6] if str(tag).strip()]
+    expert = {
+        "id": str(supplied.get("id") or "seat")[:48],
+        "theme_tags": themes,
+        "geo_tags": [str(tag)[:8] for tag in (supplied.get("geo_tags") or [])[:4]],
+        "region": str(supplied.get("region") or "")[:80],
+        "affiliation_tag": str(supplied.get("affiliation_tag") or "")[:40],
+    }
+    evidence = (STORE.latest_evidence_for(risk_id) if hasattr(STORE, "latest_evidence_for")
+                else None)
+    questions = probe_lib.bank_for(risk, expert, evidence)[:probe_lib.PROBE_SLOTS]
+    return envelope({
+        "risk_id": risk_id,
+        "questions": questions,
+        "source": probe_lib.questions_source(risk, expert),
+        "max_asked": probe_lib.PROBE_SLOTS,
+        "note": "The scored first question is fixed and is not written here.",
+    })
+
+
 def _mask_options() -> list[dict]:
     return [
         {"id": "known", "label": "named to ACAPS"},
@@ -1000,8 +1042,29 @@ def _open_round(token: str, round_wanted: int = 1) -> tuple[str, str, dict]:
     if not pulse:
         raise HTTPException(404, f"no pulse {pulse_id}")
     if pulse_id in STORE.results and round_wanted == 1:
-        raise HTTPException(409, "round 1 is closed on this pulse; this link now opens round 2")
+        raise _refused(
+            409, "round_closed",
+            "Answers on this question are closed and the panel has seen the result. Open your "
+            "link again for the follow-up question.",
+            "round 1 is closed on this pulse; this link now opens round 2",
+        )
     return pulse_id, expert_id, pulse
+
+
+def _refused(status: int, reason: str, line: str, message: str, **extra) -> HTTPException:
+    """A refusal an expert can act on, with the engine's own account of it kept separate.
+
+    The expert card used to turn every 409 on this path into one sentence: "This action
+    conflicts with the current round. Refresh before trying again." Three things were wrong
+    with that. It is written in the engine's vocabulary -- rounds, pulses, conflicts -- which
+    the person holding the link has no model of. Refreshing fixes none of the three things that
+    actually cause it. And it hides the only useful fact in the most common case, which is that
+    their answer is already in and can still be changed before the deadline.
+
+    So a refusal carries `line`, which is what a person reads, and `message`, which is what a
+    developer reads; `reason` is the code a screen can branch on without parsing prose.
+    """
+    return HTTPException(status, {"reason": reason, "line": line, "message": message, **extra})
 
 
 def _opened(body: dict, token: str, route: str) -> dict:
@@ -1030,10 +1093,21 @@ def answer(token: str, body: dict = Body(default_factory=dict)):
     pulse_id, expert_id, pulse = _open_round(token, int(body.get("round", 1)))
     risk = data.get_risk(pulse["risk_id"]) or {}
     if STORE.answered(pulse_id, expert_id):
-        raise HTTPException(409, "an answer from this link is already committed; use "
-                                 "PUT /api/e/{token}/answer to change it before the deadline")
+        raise _refused(
+            409, "already_answered",
+            "Your answer on this question is already in. You can change it until the deadline, "
+            "from the same link.",
+            "an answer from this link is already committed; use PUT /api/e/{token}/answer to "
+            "change it before the deadline",
+            correction_allowed_until=pulse.get("expires_at"),
+        )
     if store.past(pulse.get("expires_at") or ""):
-        raise HTTPException(409, f"this round closed at {pulse.get('expires_at')}")
+        raise _refused(
+            409, "closed",
+            "This question has closed, so it can no longer take an answer.",
+            f"this round closed at {pulse.get('expires_at')}",
+            closed_at=pulse.get("expires_at"),
+        )
     submitted = body.get("probe_answers") or {}
     if not isinstance(submitted, dict):
         raise HTTPException(422, "probe_answers must be an object keyed by probe id")
@@ -1071,11 +1145,21 @@ async def confirm(token: str, body: dict = Body(default_factory=dict)):
     confirm_token = (body.get("confirm_token") or "").strip()
     pending = STORE.pending.get(confirm_token)
     if not pending:
-        raise HTTPException(409, "this confirmation has expired or was already used; open your "
-                                 "link again to answer")
+        raise _refused(
+            409, "confirmation_used",
+            "This confirmation has already been used, or it has been sitting too long. Open "
+            "your link again and the question will be waiting.",
+            "this confirmation has expired or was already used; open your link again to answer",
+        )
     if STORE.answered(pulse_id, expert_id):
-        raise HTTPException(409, "an answer from this link is already committed; use "
-                                 "PUT /api/e/{token}/answer to change it before the deadline")
+        raise _refused(
+            409, "already_answered",
+            "Your answer on this question is already in. You can change it until the deadline, "
+            "from the same link.",
+            "an answer from this link is already committed; use PUT /api/e/{token}/answer to "
+            "change it before the deadline",
+            correction_allowed_until=pulse.get("expires_at"),
+        )
     mask = pending["answer"]["mask"]
     credential_result = _spend_credential(body, pulse_id, expert_id, mask)
     zk_result = _check_zk(body, pulse_id)
@@ -1126,8 +1210,14 @@ def correct_answer(token: str, body: dict = Body(default_factory=dict)):
     pulse_id, expert_id = resolved
     pulse = STORE.pulses.get(pulse_id) or {}
     if store.past(pulse.get("expires_at") or ""):
-        raise HTTPException(409, f"the deadline passed at {pulse.get('expires_at')}; this answer "
-                                 "can no longer be changed")
+        raise _refused(
+            409, "closed",
+            "The deadline has passed, so this answer can no longer be changed. What you "
+            "confirmed stands as your answer.",
+            f"the deadline passed at {pulse.get('expires_at')}; this answer can no longer be "
+            "changed",
+            closed_at=pulse.get("expires_at"),
+        )
     found = STORE.find_answer(pulse_id, expert_id, body.get("edit_key"))
     if not found:
         raise HTTPException(404, "no committed answer found for this link. An answer with no "
@@ -1746,6 +1836,32 @@ async def events(request: Request):
 
 
 # -- demo helpers --------------------------------------------------------------
+@api.post("/demo/interactive-panel", status_code=201, tags=["desk"])
+def demo_interactive_panel(body: dict = Body(default_factory=dict)):
+    """Open one fresh, unsealed synthetic round for the shared analyst walkthrough."""
+    risk_id = body.get("risk_id") or "R1043"
+    if risk_id != "R1043":
+        raise HTTPException(422, "the interactive demo supports the Chad case")
+    risk = data.get_risk(risk_id)
+    if not risk:
+        raise HTTPException(404, f"no risk {risk_id}")
+    selected = panels_match(risk_id)["experts"]
+    if len(selected) != 8:
+        raise HTTPException(409, "the demo panel needs eight approved experts")
+    expires_at = (datetime.now(timezone.utc) + timedelta(hours=24)).isoformat(timespec="seconds")
+    pulse = _build_pulse(risk, "analyst", None, _trigger_evidence(risk), expires_at,
+                         "ACAPS analyst · interactive demo")
+    invitations = []
+    for expert in selected:
+        token = STORE.issue_token(pulse["id"], expert["expert_id"])
+        invitations.append({"token": token, "riskId": risk_id,
+                            "expertId": expert["expert_id"],
+                            "issuedAt": pulse["fired_at"], "expiresAt": expires_at})
+    _chain_invited(pulse)
+    return envelope({"pulse_id": pulse["id"], "invitations": invitations,
+                     "synthetic": True, "transport": "recorded",
+                     "note": "Personal links are ready; no message was sent."})
+
 @api.get("/demo/links", tags=["desk"])
 def demo_links():
     """The magic links for the seeded synthetic panel, so the desk can open a card on stage."""

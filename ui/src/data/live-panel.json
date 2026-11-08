@@ -1,0 +1,158 @@
+{
+  "_about": "The live demo panel for R0602. Five directory answers are fixed here so the analyst screen can play them in without anyone having to answer, and three seats are left open for people in the room, who join by scanning a QR code. Both the browser and the shared demo server read this one file, so a seat label or a fixed answer is never defined twice. The five profiles are synthetic, like every other expert in this prototype.",
+  "risk_id": "R0602",
+  "panel_id": "PAN-SSD-LIVE",
+  "n_seats": 8,
+  "question": {
+    "text": "Will the number of people displaced from Upper Nile state increase by 30 June 2027?",
+    "event": "An increase in the number of people displaced from Upper Nile state",
+    "location": "Upper Nile state, South Sudan",
+    "threshold": "More people displaced out of the state than at the start of the window",
+    "deadline": "2027-06-30"
+  },
+  "evidence_to_check": [
+    "Movement on the river and road routes out of Nasir county",
+    "Registration pace at the sites receiving people in neighbouring states"
+  ],
+  "source_url": "https://www.acaps.org/en/countries/south-sudan",
+  "directory": [
+    {
+      "expert_id": "X-ssd-01",
+      "pseudonym": "long-heron",
+      "theme_tags": ["displacement", "protection"],
+      "geo_tags": ["SSD"],
+      "affiliation_tag": "ngo",
+      "region": "Upper Nile",
+      "match": 1.0,
+      "synthetic": true,
+      "answer": {
+        "probability": 0.7,
+        "stance": "estimate",
+        "confidence": 3,
+        "mask": "pseudonym",
+        "missing": "Movement is already happening along the river and is not in any count yet."
+      }
+    },
+    {
+      "expert_id": "X-ssd-02",
+      "pseudonym": "still-reed",
+      "theme_tags": ["conflict", "displacement"],
+      "geo_tags": ["SSD"],
+      "affiliation_tag": "un",
+      "region": "Jonglei",
+      "match": 0.6667,
+      "synthetic": true,
+      "answer": {
+        "probability": 0.55,
+        "stance": "estimate",
+        "confidence": 3,
+        "mask": "pseudonym",
+        "missing": "Which routes stay usable in the wet season decides most of this."
+      }
+    },
+    {
+      "expert_id": "X-ssd-03",
+      "pseudonym": "wide-acacia",
+      "theme_tags": ["access", "logistics"],
+      "geo_tags": ["SSD"],
+      "affiliation_tag": "ngo",
+      "region": "Malakal",
+      "match": 0.6667,
+      "synthetic": true,
+      "answer": {
+        "probability": 0.8,
+        "stance": "estimate",
+        "confidence": 5,
+        "mask": "known",
+        "missing": "Host sites near Malakal are already past the capacity they were planned for."
+      }
+    },
+    {
+      "expert_id": "X-ssd-04",
+      "pseudonym": "low-papyrus",
+      "theme_tags": ["food", "displacement"],
+      "geo_tags": ["SSD"],
+      "affiliation_tag": "research",
+      "region": "Fangak",
+      "match": 0.6667,
+      "synthetic": true,
+      "answer": {
+        "probability": 0.45,
+        "stance": "estimate",
+        "confidence": 1,
+        "mask": "anonymous",
+        "missing": "People have moved back before when the fighting paused, and that is not counted either."
+      }
+    },
+    {
+      "expert_id": "X-ssd-05",
+      "pseudonym": "far-ibis",
+      "theme_tags": ["political", "conflict"],
+      "geo_tags": ["SSD"],
+      "affiliation_tag": "un",
+      "region": "Juba",
+      "match": 0.6667,
+      "synthetic": true,
+      "answer": {
+        "probability": 0.6,
+        "stance": "estimate",
+        "confidence": 3,
+        "mask": "pseudonym",
+        "missing": "Whether the talks hold through the dry season is the part nobody can read yet."
+      }
+    }
+  ],
+  "seats": [
+    {
+      "token": "demo-live-seat-1",
+      "label": "Seat 1",
+      "expertise": "Protection and displacement policy",
+      "affiliation": "International NGO",
+      "region": "The Hague, Netherlands",
+      "theme_tags": ["protection", "displacement"]
+    },
+    {
+      "token": "demo-live-seat-2",
+      "label": "Seat 2",
+      "expertise": "Humanitarian logistics and supply corridors",
+      "affiliation": "UN agency",
+      "region": "Rotterdam, Netherlands",
+      "theme_tags": ["access", "logistics"]
+    },
+    {
+      "token": "demo-live-seat-3",
+      "label": "Seat 3",
+      "expertise": "Public health in displacement settings",
+      "affiliation": "Research institute",
+      "region": "Amsterdam, Netherlands",
+      "theme_tags": ["health", "displacement"]
+    }
+  ],
+  "_questions_about": "Two questions, written by a model from the risk record and read by a person before being committed. Both ask about direction and sequence rather than a figure: a question that invents a threshold nobody tracks cannot be answered honestly, and the answer cannot be scored later.",
+  "questions": [
+    {
+      "id": "upper_nile_first_sign",
+      "kind": "choice",
+      "question": "Which of these would show first that this is turning?",
+      "help": "The earliest visible change, not the most serious one.",
+      "options": [
+        { "value": "routes_closing", "label": "River and road routes out of Nasir closing" },
+        { "value": "fighting_spreads", "label": "Fighting spreading past Nasir county" },
+        { "value": "host_sites_filling", "label": "Receiving sites filling in neighbouring states" },
+        { "value": "access_lost", "label": "Aid agencies losing access to the county" },
+        { "value": "cannot_say", "label": "Cannot say", "dk": true }
+      ],
+      "generated": true,
+      "role": "decomposition"
+    },
+    {
+      "id": "upper_nile_premortem",
+      "kind": "text",
+      "question": "It is 30 June 2027 and this did not happen. What held it back?",
+      "help": "One line, written as though you already knew.",
+      "limit": 240,
+      "generated": true,
+      "role": "premortem"
+    }
+  ]
+}

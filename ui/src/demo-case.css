@@ -9,3 +9,38 @@
 .portal-header{--accent:#00577a;--accent-soft:#eaf5f8;--border:#d7e3e9}
 .dc-envelopes span.waiting{background:#fff;color:#9aabb3;border-color:#d7e3e9}
 .dc-verify{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:9px 12px;border:1px solid #a9cad5;background:#eaf5f8;color:#00577a;font-size:12px;font-weight:750}
+
+/* The live round's arrival feed. Each response is an event, so it gets a row that appears when
+   it lands rather than a counter that jumps. No value is shown here: the row says that
+   somebody answered, not what they said. */
+.dc-feed{display:grid;gap:8px;min-height:315px;margin:18px 0 0;padding:0;list-style:none}
+.dc-feed li{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:13px;padding:12px 14px;border:1px solid var(--dc-line);background:#fff;animation:dc-arrive .45s ease-out both}
+.dc-feed li>span:nth-child(2){display:grid;gap:3px;min-width:0}
+.dc-feed strong{font-size:13px;letter-spacing:-.01em}
+.dc-feed small{color:var(--dc-muted);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dc-feed-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--dc-pale);color:var(--dc-blue)}
+.dc-feed-state{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;color:#247050;font-size:11px;font-weight:750}
+.dc-feed-live{border-left:3px solid var(--dc-cyan);background:#f7fcfd}
+.dc-feed-live .dc-feed-mark{background:#d9f0f5}
+.dc-feed-waiting{border-style:dashed;background:#fbfdfe;animation:none}
+.dc-feed-waiting .dc-feed-mark{background:#f0f4f6;color:#9aabb3}
+.dc-feed-waiting strong{color:#7e919a;font-weight:600}
+@keyframes dc-arrive{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.dc-feed li{animation:none}}
+.dc-live-note{margin:26px 0 0;color:var(--dc-muted);font-size:12px;line-height:1.55}
+.dc-insights{margin-top:26px}.dc-insights-heading{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:14px}.dc-insights-heading h2{margin:7px 0 0;font-size:24px;letter-spacing:-.035em}.dc-insights-heading>span{color:var(--dc-muted);font-size:12px}.dc-insights-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.dc-insight-card{min-width:0;padding:22px 23px;display:flex;flex-direction:column}.dc-insight-card h3{margin:8px 0 20px;font-size:17px;letter-spacing:-.025em}.dc-region-list,.dc-topic-list,.dc-concern-list,.dc-dissent-list{display:grid;gap:13px}.dc-region,.dc-topic{display:grid;grid-template-columns:minmax(90px,1fr) minmax(65px,.7fr) 56px;align-items:center;gap:10px}.dc-region>div:first-child,.dc-topic>div:first-child{display:grid;gap:2px;min-width:0}.dc-region strong,.dc-topic strong,.dc-concern-list strong{font-size:12px;line-height:1.35}.dc-region small,.dc-topic small{color:var(--dc-muted);font-size:10px}.dc-region b{color:var(--dc-blue);font-size:15px;text-align:right}.dc-region-track,.dc-topic-track{height:8px;background:#e8f1f4;overflow:hidden}.dc-region-track i,.dc-topic-track i{display:block;height:100%;background:var(--dc-cyan)}.dc-topic-track{background:#dce8ed}.dc-topic-track i{background:#357e90}.dc-topic>span:last-child{font-size:11px;font-weight:700;text-align:right;color:var(--dc-blue)}.dc-insight-muted{color:var(--dc-muted)!important;font-size:11px!important;font-weight:500!important}.dc-concern-list>div{display:grid;grid-template-columns:8px minmax(0,1fr) auto;align-items:start;gap:8px;padding-bottom:11px;border-bottom:1px solid var(--dc-line)}.dc-concern-list>div>span:last-child{color:var(--dc-muted);font-size:11px;white-space:nowrap}.dc-concern-dot{width:7px;height:7px;margin-top:5px;border-radius:50%;background:var(--dc-cyan)}.dc-dissent-list p{display:flex;gap:9px;margin:0;color:var(--dc-ink);font-size:12px;line-height:1.5}.dc-dissent-list p span{flex:none;width:8px;height:8px;margin-top:5px;border-radius:50%}.dc-high{background:#008db0}.dc-low{background:#b97b4b}.dc-insight-foot{margin:auto 0 0;padding-top:20px;color:var(--dc-muted);font-size:11px;line-height:1.45}
+@media(max-width:1100px){.dc-insights-grid{grid-template-columns:1fr 1fr}.dc-concerns{grid-column:1/-1}}@media(max-width:720px){.dc-insights-grid{grid-template-columns:1fr}.dc-concerns{grid-column:auto}.dc-insights-heading{align-items:start;flex-direction:column}.dc-region,.dc-topic{grid-template-columns:minmax(90px,1fr) minmax(65px,.7fr) 56px}}
+
+/* Numbers that step. Each arrival remounts the figures, so the change is something the room
+   sees land rather than a value that was already different when they looked back. */
+.dc-feed-compact{min-height:0;max-height:252px;overflow-y:auto;margin-top:22px;padding-top:18px;border-top:1px solid var(--dc-line)}
+.dc-feed-compact li{padding:9px 12px}
+.dc-result-hero>strong,.dc-metric>strong,.dc-facts strong,.dc-result-hero b{animation:dc-step .5s ease-out both}
+.dc-distribution{animation:dc-fade .5s ease-out both}
+@keyframes dc-step{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes dc-fade{from{opacity:.45}to{opacity:1}}
+.dc-panel-primary .dc-pill svg{flex:none}
+.dr-roster-moving{background:#e3f4f8;box-shadow:inset 3px 0 var(--dc-cyan)}
+@media(prefers-reduced-motion:reduce){
+  .dc-result-hero>strong,.dc-metric>strong,.dc-facts strong,.dc-result-hero b,.dc-distribution{animation:none}
+}

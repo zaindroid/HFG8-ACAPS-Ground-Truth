@@ -56,7 +56,7 @@ export function TrustOverview() {
         <ol>{loaded.chain.events.map((event) => <li key={event.seq}><span className="to-node">{event.seq + 1}</span><div><strong>{names[event.kind] || event.kind.replaceAll("_", " ")}</strong><small>{new Date(event.at).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" })}</small></div></li>)}</ol>
       </section>
       <div className="to-next"><a href="/audit">Explore public ledger <ArrowRight size={16}/></a><a href="/trust/details">Technical details <ArrowRight size={16}/></a></div>
-      <p className="to-note">This is a hash-chained record and a public transparency log, not a blockchain. It shows when records were committed; it cannot prove that an expert’s claim is true. The interactive demo case uses separate synthetic answers.</p>
+      <p className="to-note">This is a hash-chained record and a public transparency log, not a blockchain. It shows when records were committed; it cannot prove that an expert’s claim is true. The interactive expert links use the engine; the sample reveal and demo decision are staged locally.</p>
     </>}
   </Frame>;
 }

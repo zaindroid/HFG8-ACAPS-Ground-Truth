@@ -1,51 +1,20 @@
 import { Journey, journey } from "./Journey";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ArrowRight, ArrowUpRight, LockKeyhole, ScanSearch, UsersRound, Scale, Fingerprint, ShieldCheck, Sparkles, Globe2, KeyRound } from "lucide-react";
 import { Frame } from "./LiveWorkspace";
 import { DemoSamples } from "./DemoSamples";
 import { startDemoSession, workspaceDestination } from "./workspace-session";
-import { loginSharedDemo, sharedDemo } from "./demo-invitations";
 import "./landing.css";
 
 function DemoLoginButton({
-  children = "Login",
+  children = "Open demo",
 }: {
   children?: React.ReactNode;
 }) {
-  const [error, setError] = useState("");
-  const [open, setOpen] = useState(() => sharedDemo && location.hash === "#access");
-  const [code, setCode] = useState("");
-  return (
-    <>
-      <button
-        className="public-login"
-        onClick={() => {
-          if (sharedDemo) { setOpen(true); return; }
-          try {
-            startDemoSession();
-            location.assign(
-              workspaceDestination(
-                new URLSearchParams(location.search).get("next"),
-              ),
-            );
-          } catch {
-            setError(
-              "Allow session storage for this site to open the demo workspace.",
-            );
-          }
-        }}
-      >
-        <LockKeyhole size={15} aria-hidden="true" />
-        {children}
-      </button>
-      {error && (
-        <p className="public-login-error" role="alert">
-          {error}
-        </p>
-      )}
-      {sharedDemo && open && <div className="lp-access-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}><form className="lp-access" onSubmit={async (event) => { event.preventDefault(); setError(""); try { await loginSharedDemo(code.trim()); startDemoSession(); location.assign(workspaceDestination(new URLSearchParams(location.search).get("next"))); } catch (failure) { setError((failure as Error).message); } }}><button type="button" className="lp-access-close" onClick={() => setOpen(false)} aria-label="Close">×</button><LockKeyhole size={24}/><h2>Open analyst demo</h2><p>Enter the access code shared with your team. Experts use their personal links without this code.</p><label>Demo access code<input autoFocus type="password" value={code} onChange={(event) => setCode(event.target.value)} required/></label>{error && <p role="alert" className="public-login-error">{error}</p>}<button className="lp-access-submit" type="submit">Continue <ArrowRight size={16}/></button></form></div>}
-    </>
-  );
+  return <button className="public-login" onClick={() => {
+    startDemoSession();
+    location.assign(workspaceDestination(new URLSearchParams(location.search).get("next")));
+  }}><ArrowRight size={15} aria-hidden="true" />{children}</button>;
 }
 function ProductLink({ to, children }: { to: string; children: React.ReactNode }) {
   return (
@@ -53,7 +22,6 @@ function ProductLink({ to, children }: { to: string; children: React.ReactNode }
       href={to}
       onClick={(event) => {
         event.preventDefault();
-        if (sharedDemo) { location.assign(`/?next=${encodeURIComponent(to)}#access`); return; }
         try {
           startDemoSession();
         } catch {

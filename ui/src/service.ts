@@ -258,9 +258,47 @@ export class ApiError extends Error {
   constructor(
     public status: number,
     message: string,
+    /** The engine's own code for the refusal, when it sent one, for a screen to branch on. */
+    public reason?: string,
   ) {
     super(message);
   }
+}
+/**
+ * The sentence to show for a refusal.
+ *
+ * The engine sends `line` for a person and `message` for a developer. Prefer `line`: the
+ * fallbacks below are written without knowing what happened, and a generic sentence about
+ * "the current round" was both internal vocabulary and, in the most common case, wrong about
+ * what the reader should do next.
+ */
+async function refusal(response: Response): Promise<{ line: string; reason?: string }> {
+  let detail: unknown = null;
+  try {
+    detail = (await response.json())?.detail ?? null;
+  } catch {
+    /* A refusal with no body, or one that is not JSON, falls through to the status wording. */
+  }
+  if (detail && typeof detail === "object") {
+    const body = detail as { line?: string; message?: string; reason?: string };
+    if (body.line) return { line: body.line, reason: body.reason };
+  }
+  const status = response.status;
+  return {
+    line:
+      status === 404 || status === 501
+        ? "This capability is not available on the connected API yet."
+        : status === 409
+          ? // Reached only when the engine sent no line of its own. It says what is true of
+            // every 409 on this path -- something about the question has already moved on --
+            // without guessing which, and without telling anyone to refresh.
+            "This question has already moved on, so it cannot take this. Open your link again to see where it stands."
+          : status === 410
+            ? "This invitation has expired. Ask your analyst for a new link."
+            : status === 403 || status === 401
+              ? "This invitation does not have access."
+              : `The API returned ${status}. Please retry.`,
+  };
 }
 export async function api<T>(
   path: string,
@@ -278,19 +316,10 @@ export async function api<T>(
       signal: signal || AbortSignal.timeout(15000),
       cache: "no-store",
     });
-    if (!response.ok)
-      throw new ApiError(
-        response.status,
-        response.status === 404 || response.status === 501
-          ? "This capability is not available on the connected API yet."
-          : response.status === 409
-            ? "This action conflicts with the current round. Refresh before trying again."
-            : response.status === 410
-              ? "This invitation has expired. Ask your analyst for a new link."
-              : response.status === 403 || response.status === 401
-                ? "This invitation does not have access."
-                : `The API returned ${response.status}. Please retry.`,
-      );
+    if (!response.ok) {
+      const { line, reason } = await refusal(response);
+      throw new ApiError(response.status, line, reason);
+    }
     return await response.json();
   } catch (error) {
     if (error instanceof ApiError) throw error;

@@ -21,6 +21,7 @@ import {
   type Answer,
   type AnswerDraft,
 } from "./api";
+import { sharedDemo } from "./demo-invitations";
 import { CopyButton } from "./LiveWorkspace";
 import { safeUrl, validResult } from "./service";
 import { en } from "./locales/en";
@@ -184,14 +185,14 @@ export function ExpertCard({ token }: { token: string }) {
       {location.pathname === "/expert" ? (
         <PortalHeader />
       ) : (
-        <header className={`site-header ${mock ? "expert-demo-header" : ""}`}>
-          <a className="brand" href={mock ? "/workspace" : "/"}>
+        <header className={`site-header ${mock && !sharedDemo ? "expert-demo-header" : ""}`}>
+          <a className="brand" href={mock && !sharedDemo ? "/workspace" : "/"}>
             <span className="brand-mark">
               <LockKeyhole size={19} />
             </span>
             Sealed Signals
           </a>
-          {mock ? (
+          {mock && !sharedDemo ? (
             <nav aria-label="Demo navigation">
               <a href="/workspace">All pages</a>
               <a href="/stage">Stage</a>
@@ -268,7 +269,7 @@ export function ExpertCard({ token }: { token: string }) {
               </p>
               <div className="receipt-box">
                 <span>
-                  {mock
+                  {mock && !sharedDemo
                     ? "Fixture receipt · not a live seal"
                     : "API commitment receipt"}
                 </span>

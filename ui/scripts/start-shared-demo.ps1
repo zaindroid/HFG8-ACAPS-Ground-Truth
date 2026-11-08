@@ -68,8 +68,6 @@ try {
     Write-Output "ngrok process: $($agent.Id)"
   }
   Write-Output "Public demo: $($tunnel.public_url)"
-  $codeFile = Join-Path $stateRoot 'access-code.txt'
-  if (Test-Path -LiteralPath $codeFile) { Write-Output "Analyst access code: $((Get-Content -LiteralPath $codeFile -Raw).Trim())" }
-  else { Write-Output 'Analyst access code: see the running server terminal' }
+  Write-Output 'Demo access: open to everyone, no password.'
   Write-Output 'Keep this computer awake during the demo. Guests may need to click Visit Site on the first ngrok visit.'
 } finally { Pop-Location }
