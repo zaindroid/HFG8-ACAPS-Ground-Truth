@@ -21,6 +21,9 @@ const Calibration = lazy(() =>
   import("./Extras").then((m) => ({ default: m.Calibration })),
 );
 const Radar = lazy(() => import("./Radar").then((m) => ({ default: m.Radar })));
+const AuditTrail = lazy(() =>
+  import("./AuditTrail").then((m) => ({ default: m.AuditTrail })),
+);
 const AskExperts = lazy(() =>
   import("./AskExperts").then((m) => ({ default: m.AskExperts })),
 );
@@ -93,6 +96,7 @@ function Router() {
   if (path === "/workspace") return <WorkspaceHome />;
   if (path === "/alerts") return <Alerts />;
   if (path === "/ask") return <AskExperts />;
+  if (path === "/audit") return <AuditTrail />;
   const scanResult = /^\/scans\/([^/]+)\/?$/.exec(path);
   if (scanResult) return <ScanResultView scanId={scanResult[1]} />;
   if (path === "/radar") return <Radar />;

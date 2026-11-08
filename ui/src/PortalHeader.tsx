@@ -10,6 +10,7 @@ const primary: [string, string][] = [
   ["/desk", "Analyst desk"],
   ["/expert", "Expert card"],
   ["/ledger", "Ledger"],
+  ["/audit", "Audit trail"],
   ["/radar", "Radar"],
   ["/trust", "Trust"],
 ];
