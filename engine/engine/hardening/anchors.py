@@ -212,11 +212,19 @@ class Anchors:
         """Compute (or recompute) the day's root. Submission is a separate, explicit step.
 
         `chain_heads` are the process-chain heads for the day (chain.py, one per risk). They are
-        extra leaves beside the answer commitments, so one public log entry covers both."""
-        leaves = list(commitments) + [h for h in chain_heads if h not in commitments]
+        extra leaves beside the answer commitments, so one public log entry covers both.
+
+        The leaves are deduplicated before they are hashed, and that is the whole point of this
+        line rather than a tidying habit: `leaves` is the set we publish and the set `verify()`
+        checks a commitment against, so a root hashed over a list that repeats a value could not
+        be rebuilt from the set we hand out. Two answers do collide on one commitment in the
+        seeded history, which is how this surfaced -- see the note in `_commitments_by_day`."""
+        distinct = list(dict.fromkeys(commitments))
+        heads = [h for h in dict.fromkeys(chain_heads) if h not in distinct]
+        leaves = distinct + heads
         root = Root(day=day, merkle_root=merkle_root(leaves),
-                    n_commitments=len(commitments), leaves=frozenset(leaves),
-                    n_chain_heads=len(leaves) - len(commitments))
+                    n_commitments=len(distinct), leaves=frozenset(leaves),
+                    n_chain_heads=len(heads))
         existing = self.roots.get(day)
         if existing and existing.merkle_root == root.merkle_root:
             existing.n_commitments = root.n_commitments

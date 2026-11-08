@@ -1763,6 +1763,13 @@ def demo_links():
 
 # -- hardening stack: sections 6c and 6d ---------------------------------------
 def _commitments_by_day() -> dict[str, list[str]]:
+    """The day's commitments, which may repeat a value.
+
+    A commitment is a hash of the answer and nothing about who gave it -- that is what lets an
+    anonymous answer be committed at all -- so two experts who seal the same answer in the same
+    second get the same commitment. The seeded history does exactly that. `Anchors.record`
+    therefore deduplicates before it hashes, and this function does not pretend the list is a
+    set."""
     days: dict[str, list[str]] = {}
     for answers in STORE.answers.values():
         for answer in answers:
