@@ -24,6 +24,7 @@ export function startDemoSession() {
 }
 export function endDemoSession() {
   sessionStorage.removeItem(workspaceSessionKey);
+  sessionStorage.removeItem("sealed-signals-shared-access-v1");
 }
 export function workspaceDestination(value: string | null) {
   if (

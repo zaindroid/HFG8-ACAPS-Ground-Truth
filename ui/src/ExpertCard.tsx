@@ -34,7 +34,7 @@ export function ExpertCard({token}:{token:string}) {
     if(exact!==""&&(!Number.isFinite(Number(exact))||Number(exact)<0||Number(exact)>100)){setError("Enter a percentage between 0 and 100.");return;}
     const answer:Answer={mask,stance,likelihood_word:stance==="estimate"&&exact===""?word:null,probability:stance==="estimate"&&exact!==""?Number(exact)/100:null,confidence:confidence?Number(confidence):null,source_tag:source,missing:note.trim(),against:against.trim(),trigger_pick:trigger||null,panel_share_yes:null,round,changed_mind:round===2&&changed==="revise"};
     setBusy(true);
-    try{ const draft=editing?{confirm_token:"correction",summary:`Replace your previous answer with ${stance==="estimate"?exact!==""?`${exact}%`:words.find(w=>w.id===word)?.label:stance.replaceAll("_"," ")}. Previous versions are retained.`,committed:false,message:"",served_from:"live",generated_at:new Date().toISOString()}:await prepareAnswer(token,answer);if(!draft.confirm_token)throw new Error("The API did not return a confirmation token. Your answer has not been confirmed.");setPending({draft,answer}); }
+    try{ const draft=editing&&!mock?{confirm_token:"correction",summary:`Replace your previous answer with ${stance==="estimate"?exact!==""?`${exact}%`:words.find(w=>w.id===word)?.label:stance.replaceAll("_"," ")}. Previous versions are retained.`,committed:false,message:"",served_from:"live",generated_at:new Date().toISOString()}:await prepareAnswer(token,answer);if(!draft.confirm_token)throw new Error("The API did not return a confirmation token. Your answer has not been confirmed.");setPending({draft,answer}); }
     catch(e){setError((e as Error).message);}finally{setBusy(false);}
   }
   async function confirm() {
@@ -62,9 +62,9 @@ export function ExpertCard({token}:{token:string}) {
         <details className="expert34-optional"><summary>Exact number or add a note <ChevronDown size={14} aria-hidden="true"/></summary>
           <label>Exact likelihood (%)<input type="number" min="0" max="100" step="any" value={exact} onChange={e=>{setExact(e.target.value);setWord(null);setStance("estimate");}}/></label>
           <label>How sure are you? (optional)<select value={confidence} onChange={e=>setConfidence(e.target.value)}><option value="">Not specified</option><option value="1">Not sure</option><option value="3">Fairly sure</option><option value="5">Sure</option></select></label>
+          <div role="group" aria-label="What is your note based on?" className="expert34-source"><span>What is your note based on?</span>{(["saw","read","heard"] as const).map(s=><button type="button" key={s} aria-pressed={source===s} onClick={()=>setSource(source===s?null:s)}>{s}</button>)}</div>
           <label>What are we missing?<textarea maxLength={240} value={note} onChange={e=>setNote(e.target.value)}/></label>
-          <label>Strongest reason this would NOT happen<textarea maxLength={240} value={against} onChange={e=>setAgainst(e.target.value)}/></label>
-          <div role="group" aria-label="Source of your note" className="expert34-source">{(["saw","read","heard"] as const).map(s=><button type="button" key={s} aria-pressed={source===s} onClick={()=>setSource(source===s?null:s)}>{s}</button>)}</div>
+          <label>Strongest reason this would not happen<textarea maxLength={240} value={against} onChange={e=>setAgainst(e.target.value)}/></label>
           <label>Which trigger would move your view most?<select value={trigger} onChange={e=>setTrigger(e.target.value)}><option value="">Not specified</option>{card.risk.triggers.map(t=><option key={t.id} value={t.id}>{t.title}</option>)}</select></label>
           {round===2&&<label>What changed your mind?<input maxLength={240} value={note} onChange={e=>setNote(e.target.value)}/></label>}
         </details>
@@ -78,3 +78,4 @@ export function ExpertCard({token}:{token:string}) {
     </form>}
   </main>;
 }
+

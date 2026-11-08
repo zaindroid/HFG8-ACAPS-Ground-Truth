@@ -9,6 +9,8 @@
     "test": "playwright test",
     "preview": "vite preview --host 0.0.0.0",
     "build:demo": "tsc --noEmit && vite build --mode mock",
+    "build:share": "tsc --noEmit && vite build --mode shared",
+    "serve:share": "node scripts/demo-server.mjs",
     "dev:mock": "vite --host 0.0.0.0 --mode mock",
     "dev:live": "vite --host 0.0.0.0 --mode live --port 5175 --strictPort",
     "test:live": "playwright test --config playwright.live.config.ts",

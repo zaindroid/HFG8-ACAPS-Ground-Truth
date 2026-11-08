@@ -1,0 +1,28 @@
+main#page-content:has(.signals-screen){--accent:#00577a;--accent-soft:#eaf5f8;--muted:#5d7480;--border:#d7e3e9;max-width:1440px;margin:0 auto;padding:30px 44px 70px;color:#092331}
+main#page-content:has(.signals-screen)>.workspace-title{margin:0 0 24px}
+main#page-content:has(.signals-screen)>.workspace-title h1{margin:0 0 5px;font-size:44px;letter-spacing:-.055em;line-height:1.1}
+main#page-content:has(.signals-screen)>.workspace-title p{font-size:14px}
+.signals-screen .decision-journey{border-radius:0;margin-bottom:24px}
+.signals-screen .decision-journey a[aria-current="step"]{background:#eaf5f8}
+.signals-screen .alerts-toolbar{margin:0 0 15px}
+.signals-screen .alerts-toolbar strong{font-size:18px;letter-spacing:-.025em}
+.signals-screen .alerts-toolbar p{font-size:12px}
+.signals-screen .alerts-toolbar button{border-radius:2px}
+.signals-screen .shift-list{margin:0 0 16px}
+.signals-screen .workspace button.shift-row,.signals-screen button.shift-row{border-radius:2px;padding:16px 20px}
+.signals-screen .shift-row.selected{border-color:#a6cbd7;box-shadow:inset 3px 0 #008db0;background:#f8fcfd}
+.signals-screen .alert-detail{border-radius:2px}
+.signals-screen .alert-detail-heading{padding:23px 28px}
+.signals-screen .alert-detail-heading h2{font-size:23px;letter-spacing:-.03em}
+.signals-screen .severity-change strong{color:#00577a}
+.signals-screen .crisis-trend{padding:23px 28px 14px}
+.signals-screen .trend-line{stroke:#008db0;stroke-width:4}
+.signals-screen .trend-marker{stroke:#008db0}
+.signals-screen .crisis-trend svg circle{fill:#00577a}
+.signals-screen .alert-decision{background:#eaf5f8}
+.signals-screen .alert-facts{background:#fbfdfe}
+.signals-screen .signal-history{margin-top:10px;color:#5d7480;font-size:12px}
+.signals-screen .signal-history summary{cursor:pointer;color:#00577a;font-weight:700}
+.signals-screen .signal-history .crisis-record{margin-top:8px}
+.signals-screen .alert-status:empty{display:none}
+@media(max-width:900px){main#page-content:has(.signals-screen){padding:25px 22px 55px}}

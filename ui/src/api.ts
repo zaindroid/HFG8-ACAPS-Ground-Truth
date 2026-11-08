@@ -5,6 +5,7 @@ import cardFixture from "../../fixtures/GET_e_token.json";
 import resultFixture from "../../fixtures/GET_pulses_result.json";
 import sealFixture from "../../fixtures/POST_e_token_answer_response.json";
 import confirmFixture from "../../fixtures/POST_e_token_confirm_response.json";
+import { getDemoInvitation, markDemoAnswered, sharedDemo, type DemoInvitation } from "./demo-invitations";
 export type PendingAnswer = typeof sealFixture;
 export type CommitmentReceipt = typeof confirmFixture;
 export type Mask = "known" | "pseudonym" | "anonymous";
@@ -47,6 +48,35 @@ export async function getCard(token: string): Promise<Card> {
     return { ...value, pulse: { ...value.pulse, evidence: value.pulse.evidence || [] } };
   }
   await new Promise((resolve) => setTimeout(resolve, 200));
+  if (token.startsWith("demo-")) {
+    let invitation: DemoInvitation | null = getDemoInvitation(token);
+    if (sharedDemo) {
+      const response = await fetch(`/api/demo/invitations/${encodeURIComponent(token)}`, { cache: "no-store" });
+      invitation = response.ok ? (await response.json() as { invitation: DemoInvitation }).invitation : null;
+    }
+    if (!invitation) throw new Error("This demo invitation is unavailable or expired. Ask the analyst for a new link.");
+    if (invitation.riskId !== "R1043") throw new Error("This demo risk does not have a complete question yet.");
+    return structuredClone({
+      ...cardFixture,
+      blind: true,
+      correction_allowed_until: invitation.expiresAt,
+      pulse: {
+        ...cardFixture.pulse,
+        asked_by: "ACAPS analyst · demo",
+        expires_at: invitation.expiresAt,
+        evidence: [],
+        question: {
+          ...cardFixture.pulse.question,
+          event: "Cross-border armed incursions from Sudan significantly worsen protection and humanitarian needs",
+          location: "Eastern Chad",
+          threshold: "Significant deterioration in protection and humanitarian needs",
+          deadline: "2027-05-07",
+          text: "Will cross-border armed incursions from Sudan significantly worsen protection and humanitarian needs in eastern Chad by 7 May 2027?",
+        },
+      },
+      group_view_if_round2: null,
+    });
+  }
   if (token === "empty")
     throw new Error(
       "This invitation has no active pulse. Ask your analyst for a new link.",
@@ -74,10 +104,28 @@ export async function prepareAnswer(
 ): Promise<PendingAnswer> {
   if (!mock) return endpoint.answer(token, answer);
   await new Promise((resolve) => setTimeout(resolve, 300));
-  // Fixture receipt only: this milestone does not implement cryptographic sealing.
-  return { ...structuredClone(sealFixture), summary: `${answer.stance === "estimate" ? answer.probability !== null ? `${Math.round(answer.probability*100)}% likelihood` : answer.likelihood_word?.replaceAll("_", " ") || "No estimate" : answer.stance.replaceAll("_", " ")} · ${answer.mask === "known" ? "named to ACAPS" : answer.mask === "pseudonym" ? "nickname to peers" : "no identity kept"}` };
+  const confirmToken = crypto.randomUUID();
+  sessionStorage.setItem(`ss-demo-pending-${token}`, JSON.stringify({ confirmToken, answer }));
+  return { ...structuredClone(sealFixture), confirm_token: confirmToken, summary: `${answer.stance === "estimate" ? answer.probability !== null ? `${Math.round(answer.probability*100)}% likelihood` : answer.likelihood_word?.replaceAll("_", " ") || "No estimate" : answer.stance.replaceAll("_", " ")} · ${answer.mask === "known" ? "named to ACAPS" : answer.mask === "pseudonym" ? "nickname to peers" : "no identity kept"}` };
 }
 export async function sealAnswer(token: string, confirmToken: string): Promise<CommitmentReceipt> {
   if (!mock) return endpoint.confirmAnswer(token, confirmToken);
-  return structuredClone(confirmFixture);
+  const raw = sessionStorage.getItem(`ss-demo-pending-${token}`);
+  if (!raw) throw new Error("The prepared answer is no longer available. Review and submit it again.");
+  const pending = JSON.parse(raw) as { confirmToken: string; answer: Answer };
+  if (pending.confirmToken !== confirmToken) throw new Error("The confirmation link does not match this answer.");
+  if (sharedDemo) {
+    const response = await fetch(`/api/demo/invitations/${encodeURIComponent(token)}/answer`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ answer: pending.answer }) });
+    const value = await response.json();
+    if (!response.ok) throw new Error(value.error || "The shared demo could not confirm this answer.");
+    sessionStorage.removeItem(`ss-demo-pending-${token}`);
+    return value as CommitmentReceipt;
+  }
+  const salt = crypto.randomUUID();
+  const payload = new TextEncoder().encode(JSON.stringify({ answer: pending.answer, salt }));
+  const digest = await crypto.subtle.digest("SHA-256", payload);
+  const commitment = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+  sessionStorage.removeItem(`ss-demo-pending-${token}`);
+  markDemoAnswered(token);
+  return { ...structuredClone(confirmFixture), committed_at: new Date().toISOString(), commitment, correction_allowed_until: getDemoInvitation(token)?.expiresAt || new Date(Date.now() + 14 * 86400000).toISOString(), message: "Answer confirmed. This demo fingerprint is local to your browser." };
 }

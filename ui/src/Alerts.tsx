@@ -5,6 +5,7 @@ import { Journey } from "./Journey";
 import { alertService, type Shift, type Crisis } from "./alerts-service";
 import { RiskLink } from "./RiskLink";
 import { crisisHistory } from "./base-rates";
+import "./signals.css";
 
 /** What the Risk List already records against this crisis, joined on crisis_id.
     Context for whether the shift is new ground or a repeat. */
@@ -248,14 +249,15 @@ export function Alerts() {
   }
   return (
     <Frame
-      title="Alerts"
-      subtitle="The numbers raise the question. People make the call."
+      title="Signals"
+      subtitle="Review monthly data changes before opening a case."
     >
+      <div className="signals-screen">
       <Journey active={0} />
       <div className="alerts-toolbar">
         <div>
-          <strong>Changes worth a closer look</strong>
-          <p>ACAPS monthly editions · ranked by change</p>
+          <strong>Monthly changes</strong>
+          <p>ACAPS severity index · largest change first</p>
         </div>
         <div>
           <button disabled={!!busy} onClick={() => void run(false)}>
@@ -349,10 +351,13 @@ export function Alerts() {
                   <p>
                     {event.month_from} → {event.month_to}
                   </p>
-                  <CrisisRecord
-                    id={event.crisis_id}
-                    connected={event.connected_crises}
-                  />
+                  <details className="signal-history">
+                    <summary>Risk history</summary>
+                    <CrisisRecord
+                      id={event.crisis_id}
+                      connected={event.connected_crises}
+                    />
+                  </details>
                 </div>
                 <div className="severity-change">
                   <strong>
@@ -444,7 +449,7 @@ export function Alerts() {
                         ? "This change was dismissed"
                         : "Does this change need expert judgement?"}
                   </strong>
-                  <p>Severity is an index, not a forecast probability.</p>
+                  <p>Review this change before requesting expert input.</p>
                 </div>
                 <div>
                   {event.status === "proposed" ? (
@@ -518,6 +523,7 @@ export function Alerts() {
           )}
         </>
       )}
+      </div>
     </Frame>
   );
 }

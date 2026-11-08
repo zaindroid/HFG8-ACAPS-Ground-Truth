@@ -6,6 +6,7 @@ import "@fontsource/inter/600.css";
 import { mock } from "./api";
 import { hydrateInsights } from "./base-rates";
 import { ExpertCard } from "./ExpertCard";
+import { DemoCase } from "./DemoCase";
 import { LiveWorkspace, Frame } from "./LiveWorkspace";
 import { PublicHome, LoginRequired, WorkspaceHome } from "./Entry";
 import { hasWorkspaceSession } from "./workspace-session";
@@ -40,9 +41,6 @@ import "./panel-visuals.css";
 import "./desk-flow.css";
 import "./desk-layout.css";
 
-const MockWorkspace = lazy(() =>
-  import("./Workspace").then((m) => ({ default: m.Workspace })),
-);
 class Boundary extends React.Component<
   { children: React.ReactNode },
   { error: boolean }
@@ -83,7 +81,7 @@ function Router() {
   if (!hasWorkspaceSession()) return <LoginRequired />;
   if (/^\/(countries|analysis|topics|search)(\/|$)/.test(path))
     return <WorkspaceRedirect />;
-  if (path === "/workspace") return <WorkspaceHome />;
+  if (path === "/workspace") return mock ? <DemoCase /> : <WorkspaceHome />;
   if (path === "/alerts") return <Alerts />;
   if (path === "/reach") return <Reach />;
   if (path === "/radar") return <Radar />;
@@ -118,7 +116,8 @@ function Router() {
     );
   if (path === "/desk" || path === "/ledger") {
     const page = path === "/desk" ? "desk" : "ledger";
-    return mock ? <MockWorkspace page={page} /> : <LiveWorkspace page={page} />;
+    const fromSignal = new URLSearchParams(location.search).get("risk_id") === "R1043";
+    return mock ? <DemoCase initial={page === "ledger" ? "record" : fromSignal ? "experts" : "signal"} /> : <LiveWorkspace page={page} />;
   }
   if (path === "/stage") return <Stage />;
   if (path === "/apply") return <Apply />;
