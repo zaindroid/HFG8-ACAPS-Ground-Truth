@@ -2686,7 +2686,10 @@ app.include_router(api, prefix="/api")
 def root():
     if not UI_DIST.exists():
         return RedirectResponse("/docs")
-    return FileResponse(UI_DIST / "index.html")
+    # Same rule as SinglePageApp._cache below: the page that names the hashed bundles must never be
+    # served from a cache, or a returning browser keeps showing the previous release.
+    return FileResponse(UI_DIST / "index.html",
+                        headers={"Cache-Control": "no-cache, must-revalidate"})
 
 
 if UI_DIST.exists():
