@@ -619,3 +619,71 @@ main.login-redirect {
   color: var(--muted);
   margin: 0;
 }
+
+/* "New in this version" on the public home page. Deliberately quieter than .portal-steps:
+   the numbered journey is the story, these are the safeguards under it, so they sit in
+   plain bordered cards rather than carrying the accent rule across the top. */
+.public-additions {
+  border-top: 1px solid var(--border);
+  padding: 56px 64px 72px;
+}
+.public-additions-lead {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 62ch;
+  margin: 20px 0 0;
+}
+.public-additions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 32px;
+}
+.public-additions-grid article {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 22px 22px 24px;
+  background: #fff;
+}
+.public-additions-grid svg {
+  color: var(--accent);
+  display: block;
+  margin-bottom: 14px;
+}
+.public-additions-grid h3 {
+  font-size: 16px;
+  line-height: 1.3;
+  font-weight: 500;
+  margin: 0 0 10px;
+}
+.public-additions-grid p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0;
+}
+.public-additions-note {
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 70ch;
+  margin: 28px 0 0;
+}
+@media (max-width: 1050px) {
+  .public-additions {
+    padding: 40px 32px;
+  }
+  .public-additions-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 650px) {
+  .public-additions {
+    padding: 40px 20px;
+  }
+  .public-additions-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

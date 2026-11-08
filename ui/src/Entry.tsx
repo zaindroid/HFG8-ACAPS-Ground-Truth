@@ -1,6 +1,16 @@
 import { Journey, journey } from "./Journey";
 import { useEffect, useState } from "react";
-import { ArrowRight, ArrowUpRight, LockKeyhole } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  EyeOff,
+  FileCheck2,
+  Fingerprint,
+  LockKeyhole,
+  MailCheck,
+  Scale,
+  UserRound,
+} from "lucide-react";
 import { Frame } from "./LiveWorkspace";
 import { DemoSamples } from "./DemoSamples";
 import { startDemoSession, workspaceDestination } from "./workspace-session";
@@ -190,6 +200,65 @@ export function PublicHome() {
               </p>
             </article>
           </div>
+        </section>
+
+        <section className="public-additions">
+          <div className="public-section-heading">
+            <div>
+              <p>New in this version</p>
+              <h2>The same purpose, with safeguards you can check.</h2>
+            </div>
+          </div>
+          <p className="public-additions-lead">
+            The point has not changed: better decisions for people living with
+            the risk, made with the experts closest to it. What is new is the
+            machinery that makes asking them safe, quick and open to scrutiny.
+          </p>
+          <div className="public-additions-grid">
+            {[
+              {
+                icon: Fingerprint,
+                title: "A record nobody can edit later",
+                text: "Each answer gets a digital fingerprint the moment it is confirmed. Anyone can press Verify on the public ledger and see that the published group view still matches the answers it came from.",
+              },
+              {
+                icon: UserRound,
+                title: "Experts choose how they appear",
+                text: "Answer by answer: under their name, under a nickname, or with no identity kept at all. Answers with no identity kept are stored without any link to a person and cannot be traced back afterwards.",
+              },
+              {
+                icon: MailCheck,
+                title: "No account, no password",
+                text: "One personal link reaches the expert, and that is the whole sign-up. Nothing to install and nothing to remember, on the phone they already use.",
+              },
+              {
+                icon: EyeOff,
+                title: "Built so nobody follows the crowd",
+                text: "The current rating stays hidden until after the expert answers, so it cannot pull them towards it. “Outside my area” and “not enough evidence” are real answers and are never scored, so nobody is pushed into a guess.",
+              },
+              {
+                icon: Scale,
+                title: "The disagreement is published too",
+                text: "The panel’s view is a plain average, shown with its full spread and the reasons of the people who disagreed, without names. Nothing is published from fewer than five answers.",
+              },
+              {
+                icon: FileCheck2,
+                title: "Every figure checked before a person decides",
+                text: "The draft update names a source for each claim, and any number that does not match the record it points at is flagged rather than quietly corrected. An analyst then accepts, edits or rejects it, with the reasons on the record.",
+              },
+            ].map(({ icon: Icon, title, text }) => (
+              <article key={title}>
+                <Icon size={21} aria-hidden="true" />
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+          <p className="public-additions-note">
+            The Chad alert above was found by plain arithmetic over ACAPS&rsquo;s
+            own monthly severity data, with no AI model anywhere in it. Expert
+            panels and their answers in this prototype are synthetic.
+          </p>
         </section>
 
         <section className="public-workspace-entry">
