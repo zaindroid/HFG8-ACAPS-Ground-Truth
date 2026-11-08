@@ -1,6 +1,21 @@
 import { Journey, journey } from "./Journey";
 import { useEffect, useState } from "react";
-import { ArrowRight, ArrowUpRight, LockKeyhole } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Bell,
+  Brain,
+  EyeOff,
+  Fingerprint,
+  Lock,
+  LockKeyhole,
+  LockOpen,
+  ScrollText,
+  Send,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
+import "./landing.css";
 import { Frame } from "./LiveWorkspace";
 import { DemoSamples } from "./DemoSamples";
 import { startDemoSession, workspaceDestination } from "./workspace-session";
@@ -41,7 +56,13 @@ function DemoLoginButton({
     </>
   );
 }
-function ProductLink({ to, children }: { to: string; children: React.ReactNode }) {
+function ProductLink({
+  to,
+  children,
+}: {
+  to: string;
+  children: React.ReactNode;
+}) {
   return (
     <a
       href={to}
@@ -99,6 +120,81 @@ function PortalFooter() {
   );
 }
 
+const loop: [LucideIcon, string, string][] = [
+  [Bell, "Alert", "ACAPS severity jumps"],
+  [Send, "Ask", "8 matched experts"],
+  [Lock, "Answer", "Sealed, rating hidden"],
+  [LockOpen, "Reveal", "Opened together"],
+  [ScrollText, "Record", "Analyst decides, on the record"],
+];
+const features: [LucideIcon, string, string, string][] = [
+  [
+    EyeOff,
+    "Sealed until the deadline",
+    "Nobody sees an answer early, not even ACAPS.",
+    "navy",
+  ],
+  [
+    Brain,
+    "Bias checks built in",
+    "Rating hidden, the opposite asked, rumours tagged.",
+    "blue",
+  ],
+  [
+    Users,
+    "The minority stays visible",
+    "Disagreement is shown, never averaged away.",
+    "teal",
+  ],
+  [
+    Fingerprint,
+    "A record nobody can edit",
+    "Public timestamp log; names under post-quantum encryption.",
+    "purple",
+  ],
+];
+// Eight sealed answers drop onto the scale, then open beside the ACAPS band. Positions are the
+// demo round's own answers (mean 69%); the animation stops for prefers-reduced-motion.
+const answers = [30, 45, 65, 75, 80, 82, 85, 90];
+function SealedPanel() {
+  return (
+    <figure
+      className="sealed-panel"
+      aria-label="Eight sealed expert answers open together: the panel says 69 percent, ACAPS rates the risk High."
+    >
+      <div className="sealed-top">
+        <span>Chad · cross-border insecurity</span>
+        <span className="sealed-chip">8 of 8 sealed</span>
+      </div>
+      <div className="sealed-scale" aria-hidden="true">
+        <div className="sealed-band">
+          <span>ACAPS High</span>
+        </div>
+        {answers.map((value, i) => (
+          <span
+            key={i}
+            className="sealed-dot"
+            style={{ left: `${value}%`, animationDelay: `${0.25 * i}s` }}
+          />
+        ))}
+        <div className="sealed-mean" style={{ left: "69%" }}>
+          <span>69%</span>
+        </div>
+        <div className="sealed-axis">
+          <span>0%</span>
+          <span>50%</span>
+          <span>100%</span>
+        </div>
+      </div>
+      <figcaption>
+        <span>
+          <b>Panel 69%</b> · ACAPS High · 2 disagree, kept in
+        </span>
+      </figcaption>
+    </figure>
+  );
+}
+
 export function PublicHome() {
   useEffect(() => {
     document.title = "Sealed Signals · Expert validation for risk analysis";
@@ -115,81 +211,78 @@ export function PublicHome() {
         Expert panels and their answers are synthetic.
       </aside>
       <PortalHeader />
-      <main id="public-content" className="public-home">
-        <section className="public-hero">
-          <div className="public-hero-copy">
+      <main id="public-content" className="public-home landing">
+        <section className="landing-hero">
+          <div className="landing-copy">
             <h1>
               One question.
               <br />
               Independent judgement.
             </h1>
-            <p>
-              When ACAPS severity data shifts, Sealed Signals asks a small panel
-              of humanitarian experts whether the analysis still holds. Answers
-              are sealed until the round opens, aggregated as a group view, and
-              published with their own limitations.
+            <p className="landing-lede">
+              When ACAPS data shifts, a small expert panel checks the analysis.
+              Answers stay sealed until the deadline.
             </p>
-            <ProductLink to="/workspace">
-              <span className="public-primary">
-                Open the workspace <ArrowRight size={18} aria-hidden="true" />
-              </span>
-            </ProductLink>
+            <div className="landing-actions">
+              <ProductLink to="/workspace">
+                <span className="public-primary">
+                  Open the workspace <ArrowRight size={18} aria-hidden="true" />
+                </span>
+              </ProductLink>
+              <a className="landing-secondary" href="/e/demo">
+                Try the expert card
+              </a>
+            </div>
           </div>
-          <div className="public-feature-static">
-            <p>Latest alert · Chad</p>
-            <h2>Displacement from Sudan to Chad</h2>
-            <p className="public-feature-figure">
-              <span className="num">6.1</span> &rarr;{" "}
-              <strong className="num">6.9</strong>
-            </p>
-            <p>
-              INFORM severity, March to April 2026. The largest deterioration of
-              123 crises that month, and the question that round put to the
-              panel.
-            </p>
+          <SealedPanel />
+        </section>
+
+        <section className="landing-loop" aria-labelledby="loop-title">
+          <h2 id="loop-title" className="landing-h2">
+            Five steps, one minute for each expert
+          </h2>
+          <ol className="landing-steps">
+            {loop.map(([Icon, label, line]) => (
+              <li key={label}>
+                <span className="landing-step-icon">
+                  <Icon size={22} aria-hidden="true" />
+                </span>
+                <strong>{label}</strong>
+                <span>{line}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="landing-features" aria-labelledby="features-title">
+          <h2 id="features-title" className="landing-h2">
+            Built so the panel can be trusted
+          </h2>
+          <div className="landing-tiles">
+            {features.map(([Icon, title, line, tone]) => (
+              <article key={title} className={`landing-tile tone-${tone}`}>
+                <span className="landing-tile-icon">
+                  <Icon size={26} aria-hidden="true" />
+                </span>
+                <h3>{title}</h3>
+                <p>{line}</p>
+              </article>
+            ))}
           </div>
         </section>
 
-        <section className="public-research">
-          <div className="public-section-heading">
-            <div>
-              <p>How it works</p>
-              <h2>From a signal to an accountable decision.</h2>
-            </div>
+        <section className="landing-numbers" aria-label="In numbers">
+          <div>
+            <strong>1 min</strong>
+            <span>per expert answer</span>
           </div>
-          <div className="portal-steps">
-            <article>
-              <p>1 · Spot the change</p>
-              <h3>The alert engine watches ACAPS&rsquo;s own monthly editions</h3>
-              <p>
-                Fixed numeric rules over the INFORM severity and access
-                editions. It proposes; it never opens a round by itself.
-              </p>
-            </article>
-            <article>
-              <p>2 · Hear the experts</p>
-              <h3>A small panel answers in about a minute</h3>
-              <p>
-                Each expert chooses a mask. The first round hides the current
-                rating so it cannot anchor an independent answer.
-              </p>
-            </article>
-            <article>
-              <p>3 · Make the call</p>
-              <h3>An analyst accepts, edits or rejects</h3>
-              <p>
-                Nothing publishes itself. Rejecting the panel requires a
-                rationale, and the rationale is published too.
-              </p>
-            </article>
-            <article>
-              <p>4 · Check the record</p>
-              <h3>The group view goes on a public ledger</h3>
-              <p>
-                With the spread, the coverage gaps, the unchecked claims and a
-                hash anyone can verify against the sealed answers.
-              </p>
-            </article>
+          <div>
+            <strong>5+</strong>
+            <span>experts before any result</span>
+          </div>
+          <div>
+            <strong>0</strong>
+            <span>names in anything published</span>
           </div>
         </section>
 
@@ -197,10 +290,7 @@ export function PublicHome() {
           <div>
             <LockKeyhole size={23} aria-hidden="true" />
             <h2>Sealed Signals workspace</h2>
-            <p>
-              Risk alerts, panel management, the analyst desk and the decision
-              ledger.
-            </p>
+            <p>Alerts, panels, the analyst desk and the public ledger.</p>
           </div>
           <DemoLoginButton />
         </section>
