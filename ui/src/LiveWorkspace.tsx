@@ -22,7 +22,7 @@ import {
   pendingClaims,
 } from "./Grounding";
 import { HonestyBox, IntegrityPanel, PanelMatch } from "./V2Panels";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowRight, Check, Copy, LockKeyhole, Radio } from "lucide-react";
 import {
   apiBase,
@@ -488,6 +488,39 @@ function LiveDesk() {
     };
   }, [pulse?.id]);
   const risk = risks.find((r) => r.risk_id === selected);
+  /* A link like /desk?risk_id=R1043&pulse_id=P-0007 used to seed the Pulse ID
+     box and stop there, so the link landed on an empty form and the round it
+     named had to be opened by hand. It now opens that pulse once the risk it
+     belongs to is selected, and pulls the result when the round is already
+     revealed, so the link arrives where it says it does. Runs once: the ref
+     guards against reopening a pulse the analyst has since closed. */
+  const deepLinked = useRef(false);
+  useEffect(() => {
+    if (deepLinked.current || !pulseId || pulse || !selected) return;
+    const wanted = new URLSearchParams(location.search).get("pulse_id");
+    if (wanted !== pulseId) return;
+    deepLinked.current = true;
+    let active = true;
+    void (async () => {
+      try {
+        const value = await endpoint.pulse(pulseId);
+        if (!active || value.risk_id !== selected) return;
+        setPulse(value);
+        const result = await endpoint.result(value.id).catch(() => null);
+        if (active && result && validResult(result) && result.pulse_id === value.id)
+          setGroup(result);
+      } catch {
+        if (active)
+          setMessage(
+            `Could not open ${pulseId} from the link. Open it by id to see why.`,
+          );
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [pulseId, pulse, selected]);
+
   function clearRound(value: Pulse) {
     if (value.risk_id !== selected)
       throw new Error(

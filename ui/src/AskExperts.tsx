@@ -421,7 +421,20 @@ export function AskExperts() {
                       </span>
                     )}
                   </div>
-                  <pre>{text}</pre>
+                  <div className="ask-msg-body">
+                    <pre>{text}</pre>
+                    {/* The same one-time link the message carries, as a code.
+                        A phone in the room is the fastest way onto a card, and
+                        an expert reached by voice has no link to tap at all. */}
+                    <QRCodeSVG
+                      className="ask-msg-qr"
+                      value={url}
+                      size={104}
+                      level="M"
+                      marginSize={2}
+                      title={`${persona?.name || e.pseudonym}: expert card`}
+                    />
+                  </div>
                   <div className="ask-msg-actions">
                     <a href={url} target="_blank" rel="noreferrer">
                       Open their card

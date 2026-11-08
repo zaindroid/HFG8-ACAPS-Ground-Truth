@@ -236,11 +236,37 @@
   max-height: 140px;
   overflow: auto;
 }
+/* The message and its code sit side by side: the code is the same link the
+   message carries, so it belongs beside the text, not under a separate step. */
+.ask-msg-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.ask-msg-body pre {
+  flex: 1;
+  min-width: 0;
+}
+.ask-msg-qr {
+  flex: none;
+  margin-top: 10px;
+  border: 1px solid var(--border, #dce4e0);
+  border-radius: 6px;
+  background: #fff;
+}
 .ask-msg-actions {
   display: flex;
   align-items: center;
   gap: 12px;
   font-size: 13px;
+}
+@media (max-width: 900px) {
+  .ask-msg-body {
+    flex-direction: column;
+  }
+  .ask-msg-qr {
+    align-self: center;
+  }
 }
 .ask-msg-actions button {
   display: inline-flex;
